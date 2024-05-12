@@ -1,0 +1,10 @@
+# Ignore directories
+data/
+settings/
+siku/
+
+# Ignore log files
+*.log
+
+# Ignore Python compiled bytecode files
+*.pyc
