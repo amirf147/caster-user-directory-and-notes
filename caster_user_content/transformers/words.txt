@@ -1,0 +1,5 @@
+text
+    <<<ANY>>>
+    shock -> enter
+    arch -> alpha
+    
