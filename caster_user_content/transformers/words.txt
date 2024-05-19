@@ -1,6 +1,20 @@
-text
+# I still don't think i'm doing this correctly...
+# For example, when i say the words press novakeen or if I just say
+# novakeen, it still seems to recognize it as the letter n.
+# I thought it was supposed to only recognize the word november after 
+# the change I made below
+
+# Changing "rules' specs" using simplified transformers:
+# https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
+
+# Changing the word shock for the enter key to just enter
+keyboard
     <<<ANY>>>
     shock -> enter
+
+# Modifications to the words for letters
+alphabet
+    <<<ANY>>>
     arch -> alpha
     brov -> (bravo|brav|brov)
     char -> (char|charlie)
@@ -9,4 +23,3 @@ text
     julia -> (julia|juliet)
     novakeen -> november
     prime -> (prime|papa|poppa)
-  
