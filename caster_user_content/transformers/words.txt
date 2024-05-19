@@ -2,4 +2,11 @@ text
     <<<ANY>>>
     shock -> enter
     arch -> alpha
+    brov -> (bravo|brav|brov)
+    char -> (char|charlie)
+    foxy -> (fox|foxtrot)
+    goof -> golf
+    julia -> (julia|juliet)
+    novakeen -> november
+    prime -> (prime|papa|poppa)
     
