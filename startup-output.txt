@@ -1,0 +1,52 @@
+i just deleted my caster user directory due to some error that i couldn't figure out and now this is the new output of the first time running it afterwards:
+================terminal output================================================================
+Default settings values added: 11
+Error saving toml file: [Errno 2] No such file or directory: 
+Caster User Directory:
+Reload shim is not set for BringRule. Rule cannot hot-reset, will only reset with engine.
+New transformer added: TextReplacerTransformer
+Default hook added and enabled: PrinterHook
+New hook added: FormattingHook
+New hook added: ShowStatusWindowOnErrorHook
+INFO:engine:Loading grammar g1
+The rule GrammarActivatorRule was set to active.
+INFO:engine:Loading grammar g2
+The rule HooksActivationRule was set to active.
+INFO:engine:Loading grammar g3
+INFO:engine:Loading grammar g4
+INFO:engine:Loading grammar g5
+INFO:engine:Loading grammar g6
+INFO:engine:Loading grammar g7
+INFO:engine:Loading grammar g8
+INFO:engine:Loading grammar g9
+INFO:engine:Loading grammar g10
+INFO:engine:Loading grammar g11
+INFO:engine:Loading grammar g12
+INFO:engine:Loading grammar g13
+INFO:engine:Loading grammar g14
+INFO:engine:Loading grammar g15
+INFO:engine:Loading grammar g16
+INFO:engine:Loading grammar g17
+INFO:engine:Loading grammar g18
+INFO:engine:Loading grammar g19
+INFO:engine:Loading grammar g20
+INFO:engine:Loading grammar g21
+INFO:engine:Loading grammar g22
+INFO:engine:Loading grammar g23
+INFO:engine:Loading grammar g24
+INFO:engine:Loading grammar g25
+INFO:engine:Loading grammar ccr-1
+
+*- Starting Caster v 1.7.0 -*
+INFO:engine:Listening...
+Keyboard: a 4
+INFO:engine:Loading grammar g26
+The rule DictationSinkRule was set to active.
+Caster: Microphone is sleeping
+Caster: Microphone is on
+Caster: Microphone is sleeping
+Terminate batch job (Y/N)? y
+================terminal output================================================================
+the error was that i was trying to disable all rules except for the ones that i was practicing modifying. after i disabled all rules and then  reenabled them all i wasn't able to do the caster sleep or the caster on commands anymore
+what i mean by disabling enabling them i just meant that i set the white list entries to false for all of them and then i set them all back to true
+now that i have deleted the user directory and allowed it to be recreated. now i'm trying to figure out what rules are needed to be enabled by the white list for the caster sleep and caster on commands to work
