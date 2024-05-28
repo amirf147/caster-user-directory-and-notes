@@ -5,7 +5,6 @@ sikuli/
 # Ignore these files in the settings directory
 settings/companion_config.toml
 settings/hooks.toml
-settings/rules.toml
 settings/settings.toml
 settings/sm_bringme.toml
 
