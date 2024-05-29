@@ -18,3 +18,17 @@ alphabet
     julia -> (julia|juliet)
     Novakeen -> november
     prime -> (prime|papa|poppa)
+
+keyboard
+    <<<ANY>>>
+    (tab | tabby) -> tab
+    (backspace | clear) -> backs
+    (delete | deli) -> delete
+    page (down | dunce) -> (page down | page dunce | lis)
+    page (up | sauce) -> (page up | page sauce | moss)
+    (home | lease wally | latch) -> (home | homer | lease wally)
+    (end | ross wally | ratch) -> (end | sequel | ross wally)
+
+punctuation
+    <<<ANY>>>
+    brax -> bracket
