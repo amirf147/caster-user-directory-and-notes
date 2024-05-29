@@ -1,11 +1,6 @@
 # Changing "rules' specs" using simplified transformers:
 # https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
 
-# Changing the word shock for the enter key to just enter
-keyboard
-    <<<ANY>>>
-    shock -> enter
-
 # Modifications to specs that are defined in the caster_alphabet
 # function in alphabet_support.py
 alphabet
@@ -19,6 +14,25 @@ alphabet
     Novakeen -> november
     prime -> (prime|papa|poppa)
 
+navigation
+    # special keystroke commands
+    <<<ANY>>>
+    (lease wally | latch) ->  (home | homer | lease wally)
+    (ross wally | ratch) -> (end | sequel | ross wally)
+    sauce wally -> topper
+    dunce wally -> bottom
+    bird -> blush
+    firch -> jump
+
+    # button_dictionary_500_no_prefix_no_modifier
+    <<<ANY>>>
+    tabby -> tab
+    clear -> backs
+    deli -> delete
+    shock -> enter
+    lease -> left
+    ross -> right
+    
 keyboard
     <<<ANY>>>
     (tab | tabby) -> tab
