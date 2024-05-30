@@ -46,3 +46,6 @@ keyboard
 punctuation
     <<<ANY>>>
     brax -> bracket
+    deckle -> colon
+    ace -> space
+    clamor -> exclamation [mark|point]

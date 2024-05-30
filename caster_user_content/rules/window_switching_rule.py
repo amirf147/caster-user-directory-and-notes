@@ -6,7 +6,8 @@ from castervoice.lib.merge.state.short import R
 
 class WindowSwitchingRule(MappingRule):
     mapping = {
-        "switch <n>": R(Key("w-%(n)d/3"))
+        "switch <n>": R(Key("w-%(n)d/3")),
+        "switchback": R(Key("a-tab")),
     }
     extras = [
         IntegerRef("n", 1, 9),
