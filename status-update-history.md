@@ -1,0 +1,2 @@
+## 12 May 2024
+I am still using and developing https://github.com/amirf147/kaldi-dragonfly-gammars for full handsfree computer control. I just created this repository to document/store my Caster user directory (https://caster.readthedocs.io/en/latest/readthedocs/User_Dir/Caster_User_Dir/) as I begin learning and using Caster. It may be that I eventually switch to just using Caster for my computer control needs.
