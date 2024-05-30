@@ -49,3 +49,7 @@ punctuation
     deckle -> colon
     ace -> space
     clamor -> exclamation [mark|point]
+    minus -> (minus | dash)
+    plus -> plus sign
+    questo -> question mark
+    (atty | at symbol) -> at [symbol]
