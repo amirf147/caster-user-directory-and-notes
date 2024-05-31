@@ -32,7 +32,13 @@ navigation
     shock -> enter
     lease -> left
     ross -> right
-    
+
+navigation ccr
+    <<<ANY>>>
+    stoosh -> copy
+    cut -> cuts
+    spark -> paste 
+
 keyboard
     <<<ANY>>>
     (tab | tabby) -> tab
@@ -47,9 +53,10 @@ punctuation
     <<<ANY>>>
     brax -> bracket
     deckle -> colon
+    questo -> question mark
     ace -> space
     clamor -> exclamation [mark|point]
     minus -> (minus | dash)
     plus -> plus sign
-    questo -> question mark
     (atty | at symbol) -> at [symbol]
+    (back | shin) tabby -> shin tab
