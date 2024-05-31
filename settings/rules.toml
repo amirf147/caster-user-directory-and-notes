@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "HardwareRule", "MouseAlternativesRule", "DouglasGridRule", "RainbowGridRule", "SudokuGridRule", "HMCRule", "HMCDirectoryRule", "HMCHistoryRule", "HMCLaunchRule", "HMCSettingsRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "LegionGridRule", "IERule", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "WindowSwitchingRule", "WordDeleteRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "HMCConfirmRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "HardwareRule", "MouseAlternativesRule", "DouglasGridRule", "RainbowGridRule", "SudokuGridRule", "HMCRule", "HMCDirectoryRule", "HMCHistoryRule", "HMCLaunchRule", "HMCSettingsRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "LegionGridRule", "IERule", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "WindowSwitchingRule", "WordDeleteRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "HMCConfirmRule", "ExcelRule", "VSCodeExtendedCcrRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -101,3 +101,4 @@ DictationSinkRule = true
 TextManipulation = true
 WordDeleteRule = true
 FirefoxExtendedRule = true
+VSCodeExtendedCcrRule = true

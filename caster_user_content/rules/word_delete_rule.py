@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Repeat
+from dragonfly import MappingRule, ShortIntegerRef, Repeat
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key
@@ -13,7 +13,7 @@ class WordDeleteRule(MergeRule):
         "dear [<n>]": R(Key("c-del:%(n)d")),
     }
     extras = [
-        IntegerRef("n", 1, 99),
+        ShortIntegerRef("n", 1, 99),
     ]
     defaults = {
         "n": 1

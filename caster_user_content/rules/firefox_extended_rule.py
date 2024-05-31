@@ -1,12 +1,9 @@
-from dragonfly import Repeat, Pause, Function, Choice, MappingRule, IntegerRef
+from dragonfly import MappingRule, ShortIntegerRef
 
-from castervoice.lib.actions import Key, Mouse, Text
+from castervoice.lib.actions import Key
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
-
-from castervoice.lib import github_automation
-from castervoice.lib.temporary import Store, Retrieve
 
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
@@ -15,7 +12,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-%(n)d")),
     }
     extras = [
-        IntegerRef("n", 1, 10),
+        ShortIntegerRef("n", 1, 10),
     ]
     defaults = {
         "n": 1
