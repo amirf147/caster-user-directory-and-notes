@@ -33,11 +33,15 @@ navigation
     lease -> left
     ross -> right
 
-navigation ccr
+    # keyboard shortcuts
     <<<ANY>>>
     stoosh -> copy
     cut -> cuts
     spark -> paste 
+
+    # text formatting
+    <<<ANY>>>     
+    dredge -> switchback
 
 keyboard
     <<<ANY>>>
