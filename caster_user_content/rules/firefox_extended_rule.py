@@ -15,7 +15,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-%(n)d")),
     }
     extras = [
-        IntegerRef("n", 1, 9),
+        IntegerRef("n", 1, 10),
     ]
     defaults = {
         "n": 1

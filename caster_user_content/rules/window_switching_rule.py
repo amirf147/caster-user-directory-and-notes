@@ -10,7 +10,7 @@ class WindowSwitchingRule(MappingRule):
         "switch minus [<n>]": R(Key("w-t/3, up:%(n)d, enter")),
     }
     extras = [
-        IntegerRef("n", 1, 9),
+        IntegerRef("n", 1, 10),
     ]
     defaults = {
         "n": 1
