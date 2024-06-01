@@ -62,5 +62,13 @@ punctuation
     clamor -> exclamation [mark|point]
     minus -> (minus | dash)
     plus -> plus sign
-    (atty | at symbol) -> at [symbol]
+    (atty | at symbol) -> at symbol
     (back | shin) tabby -> shin tab
+
+vscodeccr
+    <<<ANY>>>
+    terminal -> (shell | terminal)
+
+vscodenonccr
+    <<<ANY>>>
+    toggle word wrap -> word wrap
