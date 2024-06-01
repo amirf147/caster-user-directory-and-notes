@@ -15,12 +15,15 @@ class VSCodeExtendedCcrRule(MergeRule):
             R(Key("cs-i:%(n)d")),
         "pane decrease [<n>]":
             R(Key("cs-o:%(n)d")),
+        "pane <n03>":
+            R(Key("c-%(n03)d")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
+        ShortIntegerRef("n03", 0, 3)
     ]
     defaults = {
-        "n": 1
+        "n": 1,
     }
 
 def get_rule():

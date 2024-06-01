@@ -14,9 +14,6 @@ class FirefoxExtendedRule(MappingRule):
     extras = [
         ShortIntegerRef("n", 1, 10),
     ]
-    defaults = {
-        "n": 1
-    }
 
 def get_rule():
     return FirefoxExtendedRule, RuleDetails(name="fire fox extended", executable="firefox")
