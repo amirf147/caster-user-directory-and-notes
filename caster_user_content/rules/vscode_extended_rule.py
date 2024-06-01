@@ -17,6 +17,8 @@ class VSCodeExtendedCcrRule(MergeRule):
             R(Key("cs-o:%(n)d")),
         "pane <n03>":
             R(Key("c-%(n03)d")),
+        "line del [<n>]":
+            R(Key("cs-k:%(n)d"))
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

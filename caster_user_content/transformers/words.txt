@@ -37,7 +37,7 @@ navigation
     <<<ANY>>>
     stoosh -> copy
     cut -> cuts
-    spark -> paste 
+    spark -> puts 
 
     # text formatting
     <<<ANY>>>     
