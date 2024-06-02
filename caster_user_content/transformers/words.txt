@@ -43,6 +43,11 @@ navigation
     <<<ANY>>>     
     dredge -> switchback
 
+navigationnon
+    <<<ANY>>>
+    next tab -> page under
+    prior tab -> page over
+
 keyboard
     <<<ANY>>>
     (tab | tabby) -> tab
