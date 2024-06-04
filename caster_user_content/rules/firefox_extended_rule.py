@@ -1,18 +1,31 @@
-from dragonfly import MappingRule, ShortIntegerRef
-
+from dragonfly import MappingRule, IntegerRef, Choice
 from castervoice.lib.actions import Key
-
-from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
+from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
     mapping = {
         "page <n>":
             R(Key("c-%(n)d")),
+        "page [last | nine | minus | minus one]":
+            R(Key("c-9")),
+        "page minus <n_off_by_one>":
+            R(Key("c-9, c-pgup:%(n_off_by_one)s")),
     }
     extras = [
-        ShortIntegerRef("n", 1, 10),
+        IntegerRef("n", 1, 9),
+        Choice("n_off_by_one", {
+            "two": "1",
+            "three": "2",
+            "four": "3",
+            "five": "4",
+            "six": "5",
+            "seven": "6",
+            "eight": "7",
+            "nine": "8",
+            "ten": "9",
+        })
     ]
 
 def get_rule():

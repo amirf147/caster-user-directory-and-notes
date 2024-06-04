@@ -73,6 +73,9 @@ punctuation
 vscodeccr
     <<<ANY>>>
     terminal -> (shell | terminal)
+    copy line up -> same above
+    copy line down -> same below
+
 
 vscodenonccr
     <<<ANY>>>
