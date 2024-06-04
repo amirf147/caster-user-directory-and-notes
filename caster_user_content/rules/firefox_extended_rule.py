@@ -12,6 +12,10 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-9")),
         "page minus <n_off_by_one>":
             R(Key("c-9, c-pgup:%(n_off_by_one)s")),
+        "show pages":
+            R(Key("f1")),
+        "hide left":
+            R(Key("c-b:2")),
     }
     extras = [
         IntegerRef("n", 1, 9),
