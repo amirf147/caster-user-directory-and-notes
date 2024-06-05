@@ -23,13 +23,18 @@ class VSCodeExtendedCcrRule(MergeRule):
         # add selection to previous find match (user defined keybinding)
         "curse previous [<n>]":
             R(Key("ca-d:%(n)d")),
+
+        "selina [<n101>]":
+            R(Key("c-l:%(n101)d")),    
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
+        ShortIntegerRef("n101", 1, 101),
         ShortIntegerRef("n03", 0, 3)
     ]
     defaults = {
         "n": 1,
+        "n101": 1
     }
 
 def get_rule():
