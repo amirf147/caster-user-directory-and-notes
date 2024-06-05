@@ -9,6 +9,7 @@ settings/settings.toml
 
 # Ignore log files
 *.log
+log.txt
 
 # Ignore Python compiled bytecode files
 *.pyc
