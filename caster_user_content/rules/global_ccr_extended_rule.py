@@ -12,7 +12,8 @@ class GlobalCCRExtendedRule(MergeRule):
 
     mapping = {
         "flash": R(Key("f2")),
-        "go back [<n>]": R(Key("a-left:%(n)d"))
+        "go back [<n>]": R(Key("a-left:%(n)d")),
+        "[system | sys] tray": R(Key("w-b")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

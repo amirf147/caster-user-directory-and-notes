@@ -6,7 +6,6 @@ sikuli/
 settings/companion_config.toml
 settings/hooks.toml
 settings/settings.toml
-settings/sm_bringme.toml
 
 # Ignore log files
 *.log

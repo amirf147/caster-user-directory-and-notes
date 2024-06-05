@@ -1,0 +1,44 @@
+[website]
+"caster documentation" = "https://caster.readthedocs.io/en/latest/"
+"dragonfly documentation" = "https://dragonfly2.readthedocs.io/en/latest/"
+"dragonfly gitter" = "https://gitter.im/dictation-toolbox/dragonfly"
+"caster gitter" = "https://gitter.im/dictation-toolbox/Caster"
+"caster discord" = "https://discord.gg/9eAAsCJ"
+google = "https://www.google.com"
+
+[folder]
+"libraries | home" = "C:\\Users\\amirf"
+"my pictures" = "C:\\Users\\amirf\\Pictures"
+"my documents" = "C:\\Users\\amirf\\Documents"
+"caster source" = "C:\\Users\\amirf\\Documents\\Caster-master"
+"caster user" = "C:\\Users\\amirf\\AppData\\Local\\caster"
+"caster hooks" = "C:\\Users\\amirf\\AppData\\Local\\caster\\caster_user_content\\hooks"
+"caster transformers" = "C:\\Users\\amirf\\AppData\\Local\\caster\\caster_user_content\\transformers"
+"caster rules" = "C:\\Users\\amirf\\AppData\\Local\\caster\\caster_user_content\\rules"
+"caster data" = "C:\\Users\\amirf\\AppData\\Local\\caster\\data"
+"caster settings" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings"
+"sick you lee" = "C:\\Users\\amirf\\AppData\\Local\\caster\\sikuli"
+
+[program]
+notepads = "C:\\Users\\amirf\\AppData\\Local\\Microsoft\\WindowsApps\\Notepads.exe"
+code = "C:\\Users\\amirf\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+github = "C:\\Users\\amirf\\AppData\\Local\\GitHubDesktop\\GitHubDesktop.exe"
+firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
+teams = "C:\\Users\\amirf\\AppData\\Local\\Microsoft\\Teams\\Update.exe"
+carnac = "C:\\Users\\amirf\\AppData\\Local\\carnac\\Carnac.exe"
+element = "C:\\Users\\amirf\\AppData\\Local\\element-desktop\\Element.exe"
+
+
+[file]
+"caster settings file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\settings.toml"
+"caster rules file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\rules.toml"
+"caster bring me file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\sm_bringme.toml"
+"caster hooks file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\hooks.toml"
+"caster companion file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\companion_config.toml"
+"caster transformers file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\transformers.toml"
+"caster alias file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\data\\sm_aliases.toml"
+"caster chain aliases file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\data\\sm_chain_aliases.toml"
+"caster clipboard file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\data\\clipboard.json"
+"caster record from history file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\data\\sm_history.toml"
+"caster log file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\log.txt"
+"caster transformer file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\transformers\\words.txt"

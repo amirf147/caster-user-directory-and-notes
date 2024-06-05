@@ -75,8 +75,9 @@ vscodeccr
     terminal -> (shell | terminal)
     copy line up -> same above
     copy line down -> same below
-
+    next cursor -> curse it
 
 vscodenonccr
     <<<ANY>>>
     toggle word wrap -> word wrap
+    explorer -> show files

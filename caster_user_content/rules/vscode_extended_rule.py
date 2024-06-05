@@ -18,7 +18,11 @@ class VSCodeExtendedCcrRule(MergeRule):
         "pane <n03>":
             R(Key("c-%(n03)d")),
         "line del [<n>]":
-            R(Key("cs-k:%(n)d"))
+            R(Key("cs-k:%(n)d")),
+
+        # add selection to previous find match (user defined keybinding)
+        "curse previous [<n>]":
+            R(Key("ca-d:%(n)d")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
