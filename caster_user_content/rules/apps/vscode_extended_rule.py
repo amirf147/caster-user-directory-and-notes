@@ -25,7 +25,9 @@ class VSCodeExtendedCcrRule(MergeRule):
             R(Key("ca-d:%(n)d")),
 
         "selina [<n101>]":
-            R(Key("c-l:%(n101)d")),    
+            R(Key("c-l:%(n101)d")),
+        "hide left":
+            R(Key("c-b")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
