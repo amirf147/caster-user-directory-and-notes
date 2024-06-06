@@ -10,8 +10,8 @@ from castervoice.lib.merge.state.short import R
 class OBSStudioRule(MappingRule):
     pronunciation = "studio"
     mapping = {
-        "start recording": R(Key("c-r:%(n)d")),
-        "stop recording": R(Key("cs-r:%(n)d")),
+        "start recording": R(Key("c-r")),
+        "stop recording": R(Key("cs-r")),
     }
 
 def get_rule():
