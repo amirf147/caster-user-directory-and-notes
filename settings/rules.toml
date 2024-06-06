@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "HardwareRule", "MouseAlternativesRule", "DouglasGridRule", "RainbowGridRule", "SudokuGridRule", "HMCDirectoryRule", "HMCHistoryRule", "HMCLaunchRule", "HMCSettingsRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "LegionGridRule", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "WindowSwitchingRule", "WordDeleteRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "HMCConfirmRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "HMCRule", "ExplorerRule", "FileDialogRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "MouseAlternativesRule", "DouglasGridRule", "SudokuGridRule", "HMCLaunchRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "WindowSwitchingRule", "WordDeleteRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "ExplorerRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -105,3 +105,4 @@ VSCodeExtendedCcrRule = true
 GlobalCCRExtendedRule = true
 ExplorerRule = true
 FileDialogRule = true
+VLCRule = true
