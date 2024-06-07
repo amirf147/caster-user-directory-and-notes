@@ -18,12 +18,12 @@ class FileDialogRule(MappingRule):
             R(Key("a-f, w, t")),
         "(show | file | folder) properties":
             R(Key("a-enter")),
-        "dirrup":
-            R(Key("a-up")),
-        "go back":
-            R(Key("a-left")),
-        "go forward":
-            R(Key("a-right")),
+        "dirrup [<n>]":
+            R(Key("a-up:%(n)d")),
+        "go back [<n>]":
+            R(Key("a-left:%(n)d")),
+        "go forward [<n>]":
+            R(Key("a-right:%(n)d")),
         "search [<text>]":
             R(Key("a-d, tab:1") + Text("%(text)s")),
         "(navigation | nav | left) pane":
