@@ -17,8 +17,8 @@ alphabet
 navigation
     # special keystroke commands
     <<<ANY>>>
-    (lease wally | latch) ->  (home | homer | lease wally)
-    (ross wally | ratch) -> (end | sequel | ross wally)
+    (lease wally | latch) ->  (homer | lease wally)
+    (ross wally | ratch) -> (sequel | ross wally)
     sauce wally -> topper
     dunce wally -> bottom
     bird -> blush
