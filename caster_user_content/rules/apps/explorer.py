@@ -14,6 +14,8 @@ class ExplorerRule(MappingRule):
     mapping = {
         "address bar":
             R(Key("a-d")),
+        "window new":
+            R(Key("c-n")),
         "folder new":
             R(Key("cs-n")),
         "file new":
