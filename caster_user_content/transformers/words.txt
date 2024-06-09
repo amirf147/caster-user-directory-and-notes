@@ -26,9 +26,9 @@ navigation
 
     # button_dictionary_500_no_prefix_no_modifier
     <<<ANY>>>
-    tabby -> tab
+    # tabby -> tab 
     clear -> backs
-    deli -> delete
+    # deli -> delete
     shock -> enter
     lease -> left
     ross -> right
