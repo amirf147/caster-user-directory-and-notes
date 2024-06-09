@@ -35,7 +35,7 @@ navigation
 
     # keyboard shortcuts
     <<<ANY>>>
-    stoosh -> copy
+    # stoosh -> copy
     cut -> cuts
     # spark -> puts 
 
