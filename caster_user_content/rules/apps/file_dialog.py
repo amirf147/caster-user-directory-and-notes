@@ -27,9 +27,9 @@ class FileDialogRule(MappingRule):
         "search [<text>]":
             R(Key("a-d, tab:1") + Text("%(text)s")),
         "(navigation | nav | left) pane":
-            R(Key("a-d, tab:2")),
-        "(center pane | (file | folder) (pane | list))":
             R(Key("a-d, tab:3")),
+        "(center pane | (file | folder) (pane | list))":
+            R(Key("a-d, tab:4")),
         "organize": R(Key("c-l, tab:2")),
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
