@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Sleep
+from dragonfly import MappingRule, IntegerRef
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
