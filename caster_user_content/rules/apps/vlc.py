@@ -13,6 +13,7 @@ class VLCRule(MappingRule):
         "speed up [<n>]": R(Key("rbracket:%(n)d")),
         "slow down [<n>]": R(Key("lbracket:%(n)d")),
         "file open" : R(Key("c-o")),
+        "folder open" : R(Key("c-f")),
 
     }
     extras = [
