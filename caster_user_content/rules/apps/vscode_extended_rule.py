@@ -28,6 +28,8 @@ class VSCodeExtendedCcrRule(MergeRule):
             R(Key("c-l:%(n101)d")),
         "hide left":
             R(Key("c-b")),
+        "super find":
+            R(Key("cs-f")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
