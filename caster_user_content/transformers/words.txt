@@ -72,7 +72,7 @@ punctuation
 
 vscodeccr
     <<<ANY>>>
-    terminal -> (shell | terminal)
+    [show] terminal -> shell
     copy line up -> same above
     copy line down -> same below
     next cursor -> curse it

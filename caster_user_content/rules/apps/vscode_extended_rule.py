@@ -19,17 +19,23 @@ class VSCodeExtendedCcrRule(MergeRule):
             R(Key("c-%(n03)d")),
         "line del [<n>]":
             R(Key("cs-k:%(n)d")),
-
-        # add selection to previous find match (user defined keybinding)
-        "curse previous [<n>]":
-            R(Key("ca-d:%(n)d")),
-
         "selina [<n101>]":
             R(Key("c-l:%(n101)d")),
         "hide left":
             R(Key("c-b")),
         "super find":
             R(Key("cs-f")),
+
+        # Requires user-defined key bindings
+        # Each mapping is preceded by the command name
+
+        # Add selection to previous find match
+        "curse previous [<n>]":
+            R(Key("ca-d:%(n)d")),
+        
+        # Collapse folders in explorer
+        "collapse folders":
+            R(Key("c-k, cs-f")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
