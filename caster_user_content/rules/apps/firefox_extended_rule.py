@@ -12,6 +12,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-9")),
         "page minus <n_off_by_one>":
             R(Key("c-9, c-pgup:%(n_off_by_one)s")),
+        "page <nn>":
+            R(Key("c-8, c-pgdown:%(nn)s")),
         "show pages":
             R(Key("c-b/8, f1")), # workaround for when pressing just F1 doesn't work
         "hide left":
@@ -29,6 +31,18 @@ class FirefoxExtendedRule(MappingRule):
             "eight": "7",
             "nine": "8",
             "ten": "9",
+        }),
+        Choice("nn", {
+            "nine": "1",
+            "ten": "2",
+            "eleven": "3",
+            "twelve": "4",
+            "thirteen": "5",
+            "fourteen": "6",
+            "fifteen": "7",
+            "sixteen": "8",
+            "seventeen": "9",
+            "eighteen": "10",
         })
     ]
 
