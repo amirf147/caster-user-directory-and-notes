@@ -23,6 +23,8 @@ class CustomMarkdown(MergeRule):
         "insert <element>":
             # R(Store() + Key("%(element)s") + Retrieve(action_if_text="c-right")),
             R(Key("%(element)s")),
+        "[insert] subscript":
+            R(Text("<sub></sub>") + Key("left:6")),
         "insert header":
             R(Text("---\nauthor: \ntitle: \n---\n")),
     }
