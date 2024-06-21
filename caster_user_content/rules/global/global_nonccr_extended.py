@@ -26,6 +26,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "volume output":
             R(Key("w-b/3, up:3, enter/9")),
+
+        "focus taskbar": R(Key("w-t")),
+
     }
     extras = [
         IntegerRef("n", 1, 10),

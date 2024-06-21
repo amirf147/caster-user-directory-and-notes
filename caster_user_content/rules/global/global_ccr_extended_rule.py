@@ -16,7 +16,6 @@ class GlobalCCRExtendedRule(MergeRule):
         "[system | sys] tray": R(Key("w-b")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
-        "taskbar": R(Key("w-t")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
