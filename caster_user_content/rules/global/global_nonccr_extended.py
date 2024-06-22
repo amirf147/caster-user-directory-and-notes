@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef
+from dragonfly import MappingRule, IntegerRef, Pause
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -25,7 +25,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("a-space/5, s/3, down")),
 
         "volume output":
-            R(Key("w-b/3, up:3, enter/9")),
+            R(Key("w-b/3, up:3, enter") + Pause("40") + Key("tab, enter") + Pause("40") + Key("tab")),
 
         "focus taskbar": R(Key("w-t")),
 

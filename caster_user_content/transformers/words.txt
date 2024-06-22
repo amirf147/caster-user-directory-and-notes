@@ -65,7 +65,7 @@ punctuation
     questo -> question mark
     ace -> space
     clamor -> exclamation [mark|point]
-    minus -> (minus | dash)
+    minus -> (minus sign | dash)
     plus -> plus sign
     (atty | at symbol) -> at symbol
     (back | shin) tabby -> shin tab
