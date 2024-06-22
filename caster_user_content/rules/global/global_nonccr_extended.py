@@ -25,7 +25,20 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("a-space/5, s/3, down")),
 
         "volume output":
-            R(Key("w-b/3, up:3, enter") + Pause("40") + Key("tab, enter") + Pause("40") + Key("tab")),
+            R(Key("w-b/3, up:3, enter") +
+              Pause("40") + Key("tab, enter") +
+              Pause("40") + Key("tab")),
+        "volume output earphones":
+            R(Key("w-b/3, up:3, enter") +
+              Pause("40") + Key("tab, enter") +
+              Pause("40") + Key("tab/3, home") +
+              Pause("40") + Key("down, enter") +
+              Pause("40") + Key("a-tab")),
+        "volume output TV":
+            R(Key("w-b/3, up:3, enter") +
+              Pause("40") + Key("tab, enter") +
+              Pause("40") + Key("tab/3, end") +
+              Pause("40") + Key("a-tab")),
 
         "focus taskbar": R(Key("w-t")),
 
