@@ -11,6 +11,7 @@ class SumatraRule(MappingRule):
         "zoom in": R(Key("equal")),
         "zoom out": R(Key("minus")),
         "bookmarks": R(Key("f12")),
+        "file open": R(Key("c-o")),
     }
 
 def get_rule():
