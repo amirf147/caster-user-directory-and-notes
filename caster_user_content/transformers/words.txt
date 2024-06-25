@@ -38,6 +38,7 @@ navigation
     # stoosh -> copy
     cut -> cuts
     # spark -> puts 
+    save -> file retain
 
     # text formatting
     <<<ANY>>>     
