@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, ShortIntegerRef, Repeat
+from dragonfly import MappingRule, ShortIntegerRef, Repeat, Pause
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key
@@ -16,6 +16,34 @@ class GlobalCCRExtendedRule(MergeRule):
         "[system | sys] tray": R(Key("w-b")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
+        "snap window one":
+            R(Key("w-up") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("escape") +
+            Pause("40") + Key("a-tab") +
+            Pause("80") + Key("w-up")),
+        "snap window two":
+            R(Key("w-up") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("escape") +
+            Pause("40") + Key("a-tab") +
+            Pause("80") + Key("w-up")),
+        "snap window three":
+            R(Key("w-up") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("escape") +
+            Pause("40") + Key("a-tab") +
+            Pause("80") + Key("w-down")),
+        "snap window four":
+            R(Key("w-up") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("escape") +
+            Pause("40") + Key("a-tab") +
+            Pause("80") + Key("w-down")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
