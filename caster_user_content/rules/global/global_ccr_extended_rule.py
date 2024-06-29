@@ -16,33 +16,35 @@ class GlobalCCRExtendedRule(MergeRule):
         "[system | sys] tray": R(Key("w-b")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
+
+        # window snapping into 1 of 4 quadrants
         "snap window one":
             R(Key("w-up") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("escape") +
-            Pause("40") + Key("a-tab") +
+            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-up")),
         "snap window two":
             R(Key("w-up") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("escape") +
-            Pause("40") + Key("a-tab") +
+            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-up")),
         "snap window three":
             R(Key("w-up") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("escape") +
-            Pause("40") + Key("a-tab") +
+            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-down")),
         "snap window four":
             R(Key("w-up") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("escape") +
-            Pause("40") + Key("a-tab") +
+            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-down")),
     }
     extras = [
