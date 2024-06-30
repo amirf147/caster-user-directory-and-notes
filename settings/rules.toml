@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "DouglasGridRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "ExplorerRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "GitHubDeskRule", "SumatraRule", "CustomGitbashRule", "GlobalNonCCRExtendedRule", "MouseAlternativesRule", "MSTeamsClassicRule", "CustomMarkdown", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "DouglasGridRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "ExplorerRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "GitHubDeskRule", "SumatraRule", "CustomGitbashRule", "GlobalNonCCRExtendedRule", "MouseAlternativesRule", "MSTeamsClassicRule", "CustomMarkdown", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -114,3 +114,4 @@ YoutubeRule = true
 GeminiRule = true
 ChatGPTRule = true
 ClipchampRule = true
+FirefoxCcrRule = true

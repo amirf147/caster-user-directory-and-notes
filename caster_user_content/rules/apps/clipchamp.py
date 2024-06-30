@@ -14,10 +14,13 @@ class ClipchampRule(MappingRule):
             R(Key("c-minus:%(n)d")),
         "import media":
             R(Key("ca-i/3, enter")),
+        "properties":
+            R(Key("a-2:3, tab")),
     }
     extras = [
         IntegerRef("n", 1, 9),
     ]
+
 
 def get_rule():
     return ClipchampRule, RuleDetails(name="clipchamp", executable="clipchamp")
