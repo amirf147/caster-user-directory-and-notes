@@ -15,7 +15,7 @@ class ClipchampRule(MappingRule):
         "import media":
             R(Key("ca-i/3, enter")),
         "properties":
-            R(Key("a-2:3, tab")),
+            R(Key("a-2")),
     }
     extras = [
         IntegerRef("n", 1, 9),
