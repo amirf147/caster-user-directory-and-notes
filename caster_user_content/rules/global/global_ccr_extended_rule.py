@@ -1,10 +1,12 @@
-from dragonfly import MappingRule, ShortIntegerRef, Repeat, Pause
+from dragonfly import ShortIntegerRef, Pause, Function
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
+from castervoice.lib import utilities
+
 
 class GlobalCCRExtendedRule(MergeRule):
 
@@ -19,32 +21,28 @@ class GlobalCCRExtendedRule(MergeRule):
 
         # window snapping into 1 of 4 quadrants
         "snap window one":
-            R(Key("w-up") +
-            Pause("40") + Key("w-left") +
+            R(Function(utilities.maximize_window) +
+            Pause("80") + Key("w-left") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("escape") +
-            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-up")),
         "snap window two":
-            R(Key("w-up") +
-            Pause("40") + Key("w-right") +
+            R(Function(utilities.maximize_window) +
+            Pause("80") + Key("w-right") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("escape") +
-            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-up")),
         "snap window three":
             R(Key("w-up") +
-            Pause("40") + Key("w-left") +
+            Pause("80") + Key("w-left") +
             Pause("40") + Key("w-left") +
             Pause("40") + Key("escape") +
-            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-down")),
         "snap window four":
             R(Key("w-up") +
-            Pause("40") + Key("w-right") +
+            Pause("80") + Key("w-right") +
             Pause("40") + Key("w-right") +
             Pause("40") + Key("escape") +
-            # Pause("40") + Key("a-tab") +
             Pause("80") + Key("w-down")),
     }
     extras = [
