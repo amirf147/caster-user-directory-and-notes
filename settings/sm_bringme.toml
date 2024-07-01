@@ -5,6 +5,7 @@
 "caster gitter" = "https://gitter.im/dictation-toolbox/Caster"
 "caster discord" = "https://discord.gg/9eAAsCJ"
 google = "https://www.google.com"
+weather = "https://en.ilmatieteenlaitos.fi/weather/turku"
 
 [folder]
 "libraries | home" = "C:\\Users\\amirf"
