@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef
+from dragonfly import ShortIntegerRef, Pause
 
 from castervoice.lib.actions import Key
 
@@ -12,6 +12,8 @@ class FirefoxCcrRule(MergeRule):
 
     mapping = {
         "focus":
+            R(Key("f6/3")),
+        "you bar":
             R(Key("a-d/3")),
     }
 
