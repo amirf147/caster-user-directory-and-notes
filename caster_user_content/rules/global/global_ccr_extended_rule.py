@@ -15,7 +15,7 @@ class GlobalCCRExtendedRule(MergeRule):
     mapping = {
         "flash": R(Key("f2")),
         "go back [<n>]": R(Key("a-left:%(n)d")),
-        "[system | sys] tray": R(Key("w-b")),
+        "system tray": R(Key("w-b")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
 
