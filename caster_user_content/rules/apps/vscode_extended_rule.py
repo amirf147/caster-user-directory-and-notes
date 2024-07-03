@@ -1,6 +1,6 @@
-from dragonfly import ShortIntegerRef
+from dragonfly import ShortIntegerRef, Pause
 
-from castervoice.lib.actions import Key
+from castervoice.lib.actions import Key, Text
 
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
@@ -36,9 +36,13 @@ class VSCodeExtendedCcrRule(MergeRule):
         # Collapse folders in explorer
         "collapse folders":
             R(Key("c-k, cs-f")),
+
+        "zora <n>":
+            R(Key("c-g") + Text("%(n)d") + Key("enter") + Pause("50"))
+
     }
     extras = [
-        ShortIntegerRef("n", 1, 10),
+        ShortIntegerRef("n", 1, 1000),
         ShortIntegerRef("n101", 1, 101),
         ShortIntegerRef("n03", 0, 3)
     ]
