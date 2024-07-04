@@ -13,6 +13,7 @@ alphabet
     julia -> (julia|juliet)
     Novakeen -> november
     prime -> (prime|papa|poppa)
+    quebec -> quench
 
 navigation
     # special keystroke commands
