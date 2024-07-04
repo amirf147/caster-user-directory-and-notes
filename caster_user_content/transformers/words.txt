@@ -5,17 +5,61 @@
 # function in alphabet_support.py
 alphabet
     <<<ANY>>>
-    arch -> alpha
-    brov -> (bravo|brav|brov)
-    char -> (char|charlie)
-    foxy -> (fox|foxtrot)
-    goof -> golf
-    julia -> (julia|juliet)
-    Novakeen -> november
-    prime -> (prime|papa|poppa)
+    # arch -> alpha
+    # brov -> (bravo|brav|brov)
+    # char -> (char|charlie)
+    # foxy -> (fox|foxtrot)
+    # goof -> golf
+    # julia -> (julia|juliet)
+    # Novakeen -> november
+    # prime -> (prime|papa|poppa)
+    
+    # Talon alphabet
+    arch -> air
+    brov -> bat
+    char -> cap
+    delta -> drum
+    echo -> each
+    foxy -> fine
+    goof -> gust
+    hotel -> harp 
+
+    # doesn't work
+    # india -> sit 
+
+    julia -> jury 
+    kilo -> crunch
+
+    # doesn't work
+    lima -> look
+
+    # doesn't work
+    mike -> made
+
+    Novakeen -> near
+    oscar -> odd
+    prime -> pit
+
+    # doesn't work
     quebec -> quench
 
-navigation
+    # doesn't work
+    romeo -> read
+
+    # doesn't work
+    sierra -> sun
+
+    tango -> trap
+    uniform -> urge
+    victor -> vest
+    whiskey -> whale
+    x-ray -> plex
+    yankee -> yank
+    
+    # doesn't work
+    zulu -> zip
+
+, navigation
     # special keystroke commands
     <<<ANY>>>
     (lease wally | latch) ->  (homer | lease wally)
@@ -46,7 +90,7 @@ navigation
     dredge -> switchback
 
 navigationnon
-    <<<ANY>>>
+    <<<AN->Y>>>
     next tab -> page under
     prior tab -> page over
 
