@@ -1,7 +1,7 @@
-from dragonfly import ShortIntegerRef, Pause, Function
+from dragonfly import ShortIntegerRef, Pause, Function, Dictation
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
-from castervoice.lib.actions import Key
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
@@ -18,6 +18,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "system tray": R(Key("w-b")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
+        "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s")),
 
         # window snapping into 1 of 4 quadrants
         "snap window one":
@@ -48,6 +49,7 @@ class GlobalCCRExtendedRule(MergeRule):
     extras = [
         ShortIntegerRef("n", 1, 10),
         ShortIntegerRef("n101", 1, 101),
+        Dictation("query"),
     ]
     defaults = {
         "n": 1,
