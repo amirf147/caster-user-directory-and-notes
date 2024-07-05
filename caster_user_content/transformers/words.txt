@@ -23,41 +23,24 @@ alphabet
     foxy -> fine
     goof -> gust
     hotel -> harp 
-
-    # doesn't work
-    # india -> sit 
-
+    India -> sit 
     julia -> jury 
     kilo -> crunch
-
-    # doesn't work
-    lima -> look
-
-    # doesn't work
-    mike -> made
-
+    Lima -> look
+    Mike -> made
     Novakeen -> near
     oscar -> odd
     prime -> pit
-
-    # doesn't work
-    quebec -> quench
-
-    # doesn't work
-    romeo -> read
-
-    # doesn't work
-    sierra -> sun
-
+    Quebec -> quench
+    Romeo -> read
+    Sierra -> sun
     tango -> trap
     uniform -> urge
     victor -> vest
     whiskey -> whale
     x-ray -> plex
     yankee -> yank
-    
-    # doesn't work
-    zulu -> zip
+    Zulu -> zip
 
 , navigation
     # special keystroke commands
