@@ -13,7 +13,7 @@ class FirefoxCcrRule(MergeRule):
     mapping = {
         "toggle focus":
             R(Key("f6/3")),
-        "net search <query>":
+        "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
     }
 
