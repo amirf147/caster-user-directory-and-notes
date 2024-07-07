@@ -15,6 +15,8 @@ class FirefoxCcrRule(MergeRule):
             R(Key("f6/3")),
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
+        "hister <query>":
+            R(Key("a-d/5") + Text("^%(query)s")),
     }
 
     extras = [
