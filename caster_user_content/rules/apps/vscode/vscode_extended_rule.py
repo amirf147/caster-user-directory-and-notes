@@ -7,6 +7,7 @@ class VsCodeExtendedRule(MappingRule):
     pronunciation = "code extended"
     mapping = {
         "pop out window": R(Key("c-k, o")),
+        "open recent": R(Key("c-r")),
     }
 
 def get_rule():
