@@ -8,7 +8,7 @@ from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
 class VSCodeExtendedCcrRule(MergeRule):
-    pronunciation = "vscode extended"
+    pronunciation = "vscode ccr extended"
 
     mapping = {
         "pane increase [<n>]":
@@ -26,6 +26,10 @@ class VSCodeExtendedCcrRule(MergeRule):
         "super find":
             R(Key("cs-f")),
 
+        # Jumping to a line
+        "zora <n>":
+            R(Key("c-g") + Text("%(n)d") + Key("enter") + Pause("50")),
+
         # Requires user-defined key bindings
         # Each mapping is preceded by the command name
 
@@ -37,8 +41,6 @@ class VSCodeExtendedCcrRule(MergeRule):
         "collapse folders":
             R(Key("c-k, cs-f")),
 
-        "zora <n>":
-            R(Key("c-g") + Text("%(n)d") + Key("enter") + Pause("50"))
 
     }
     extras = [
