@@ -19,6 +19,10 @@ class GlobalCCRExtendedRule(MergeRule):
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
         "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s")),
+        
+        # adding an empty line above or below the cursor
+        "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
+        "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
         # window snapping into 1 of 4 quadrants
         "snap window one":

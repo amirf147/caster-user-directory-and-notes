@@ -15,9 +15,9 @@ alphabet
     # prime -> (prime|papa|poppa)
     
     # Talon alphabet
-    arch -> air
+    # arch -> air
     brov -> bat
-    char -> cap
+    # char -> cap
     delta -> drum
     echo -> each
     foxy -> fine
@@ -93,7 +93,7 @@ keyboard
 punctuation
     <<<ANY>>>
     brax -> bracket
-    ace -> space
+    # ace -> space
     minus -> (minus | dash)
     plus -> plus sign
     (atty | at symbol) -> at symbol
