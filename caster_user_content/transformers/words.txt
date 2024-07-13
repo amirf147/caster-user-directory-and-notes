@@ -104,7 +104,8 @@ punctuation
     clamor -> exclamation [mark|point]
     deckle -> colon
     questo -> question mark
-    
+    period | dot -> period
+
 vscodeccr
     <<<ANY>>>
     [show] terminal -> shell
