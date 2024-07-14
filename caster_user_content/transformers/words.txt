@@ -30,7 +30,7 @@ alphabet
     Mike -> made
     Novakeen -> near
     oscar -> odd
-    prime -> pit
+    # prime -> pit
     Quebec -> quench
     Romeo -> read
     Sierra -> sun
@@ -42,7 +42,7 @@ alphabet
     yankee -> yank
     Zulu -> zip
 
-, navigation
+navigation
     # special keystroke commands
     <<<ANY>>>
     # (lease wally | latch) ->  (homer | lease wally)
