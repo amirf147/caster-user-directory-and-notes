@@ -47,8 +47,9 @@ navigation
     <<<ANY>>>
     # (lease wally | latch) ->  (homer | lease wally)
     # (ross wally | ratch) -> (sequel | ross wally)
-    (lease wally | latch) ->  lice
-    (ross wally | ratch) -> rice
+    #(lease wally | latch) ->  lice
+    #(ross wally | ratch) -> rice
+    
     sauce wally -> topper
     dunce wally -> bottom
     bird -> blush
@@ -112,6 +113,7 @@ vscodeccr
     copy line up -> same above
     copy line down -> same below
     next cursor -> curse it
+    command palette -> commander
 
 vscodenonccr
     <<<ANY>>>

@@ -8,6 +8,10 @@ class VsCodeExtendedRule(MappingRule):
     mapping = {
         "pop out window": R(Key("c-k, o")),
         "open recent": R(Key("c-r")),
+
+        # Requires user defined key binding
+        # Command: Terminal: Move Terminal into New Window
+        "pop out terminal": R(Key("c-k, a-t")),
     }
 
 def get_rule():
