@@ -73,7 +73,7 @@ navigation
 
     # text formatting
     <<<ANY>>>     
-    dredge -> switchback
+    # dredge -> switchback
 
 navigationnon
     <<<ANY>>>
