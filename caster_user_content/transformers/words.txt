@@ -119,3 +119,7 @@ vscodenonccr
     <<<ANY>>>
     toggle word wrap -> word wrap
     explorer -> show files
+
+githubdeskrule
+    <<<ANY>>>
+    (repositories | repository list) -> repos
