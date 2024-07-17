@@ -7,9 +7,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
         # Window Switching
-        "switch <n>":
+        "drip <n>":
             R(Key("w-%(n)d/3")),
-        "switch minus [<n>]":
+        "drip minus [<n>]":
             R(Key("w-t/3, up:%(n)d, enter")),
         
         # Window Manipulation
