@@ -24,31 +24,6 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
-        # window snapping into 1 of 4 quadrants
-        "snap window one":
-            R(Function(utilities.maximize_window) +
-            Pause("80") + Key("w-left") +
-            Pause("40") + Key("w-left") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-up")),
-        "snap window two":
-            R(Function(utilities.maximize_window) +
-            Pause("80") + Key("w-right") +
-            Pause("40") + Key("w-right") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-up")),
-        "snap window three":
-            R(Key("w-up") +
-            Pause("80") + Key("w-left") +
-            Pause("40") + Key("w-left") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-down")),
-        "snap window four":
-            R(Key("w-up") +
-            Pause("80") + Key("w-right") +
-            Pause("40") + Key("w-right") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-down")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

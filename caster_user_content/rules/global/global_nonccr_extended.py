@@ -1,7 +1,8 @@
-from dragonfly import MappingRule, IntegerRef, Pause
+from dragonfly import MappingRule, IntegerRef, Pause, Function
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
+from castervoice.lib import utilities
 
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
@@ -41,6 +42,32 @@ class GlobalNonCCRExtendedRule(MappingRule):
               Pause("40") + Key("a-tab")),
 
         "focus taskbar": R(Key("w-t")),
+
+        # window snapping into 1 of 4 quadrants
+        "snap window one":
+            R(Function(utilities.maximize_window) +
+            Pause("80") + Key("w-left") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("escape") +
+            Pause("80") + Key("w-up")),
+        "snap window two":
+            R(Function(utilities.maximize_window) +
+            Pause("80") + Key("w-right") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("escape") +
+            Pause("80") + Key("w-up")),
+        "snap window three":
+            R(Key("w-up") +
+            Pause("80") + Key("w-left") +
+            Pause("40") + Key("w-left") +
+            Pause("40") + Key("escape") +
+            Pause("80") + Key("w-down")),
+        "snap window four":
+            R(Key("w-up") +
+            Pause("80") + Key("w-right") +
+            Pause("40") + Key("w-right") +
+            Pause("40") + Key("escape") +
+            Pause("80") + Key("w-down")),
 
     }
     extras = [

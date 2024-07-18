@@ -80,6 +80,7 @@ navigationnon
     next tab -> page under
     prior tab -> page over
     find -> finder
+    drop -> dropper
 
 keyboard
     <<<ANY>>>
