@@ -16,7 +16,7 @@ alphabet
     
     # Talon alphabet
     # arch -> air
-    brov -> bat
+    # brov -> bat
     # char -> cap
     delta -> drum
     echo -> each
