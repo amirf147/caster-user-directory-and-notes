@@ -13,18 +13,9 @@ class FirefoxCcrRule(MergeRule):
     mapping = {
         "focus":
             R(Key("f6/3")),
-        "netzer <query>":
-            R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
-        "netspell":
-            R(Key("a-d/5")),
-        "hister <query>":
-            R(Key("a-d/5") + Text("^%(query)s")),
+        "copy address":
+            R(Key("a-d/5, c-c"))
     }
-
-    extras = [
-        Dictation("query"),
-    ]
-
 def get_rule():
     details = RuleDetails(executable="firefox",
                           title="Firefox",

@@ -1,5 +1,5 @@
-from dragonfly import MappingRule, IntegerRef, Choice
-from castervoice.lib.actions import Key
+from dragonfly import MappingRule, IntegerRef, Choice, Dictation
+from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
@@ -18,6 +18,14 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-b/8, f1")), # workaround for when pressing just F1 doesn't work
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
+
+        "netzer <query>":
+            R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
+        "netspell":
+            R(Key("a-d/5")),
+        "hister <query>":
+            R(Key("a-d/5") + Text("^%(query)s")),
+
     }
     extras = [
         IntegerRef("n", 1, 9),
@@ -43,7 +51,8 @@ class FirefoxExtendedRule(MappingRule):
             "sixteen": "8",
             "seventeen": "9",
             "eighteen": "10",
-        })
+        }),
+        Dictation("query"),
     ]
 
 def get_rule():
