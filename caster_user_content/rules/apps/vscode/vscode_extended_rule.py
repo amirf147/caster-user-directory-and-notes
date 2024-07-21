@@ -14,6 +14,7 @@ class VsCodeExtendedRule(MappingRule):
             R(Key("cs-o:%(n)d")),
         "kill terminal":
             R(Key("ca-w")),
+        "[show] completions": R(Key("c-space")),
 
         # Requires user defined key binding
         # Command: Terminal: Move Terminal into New Window
