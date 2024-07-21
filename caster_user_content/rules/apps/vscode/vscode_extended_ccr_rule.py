@@ -11,10 +11,6 @@ class VSCodeExtendedCcrRule(MergeRule):
     pronunciation = "vscode ccr extended"
 
     mapping = {
-        "pane increase [<n>]":
-            R(Key("cs-i:%(n)d")),
-        "pane decrease [<n>]":
-            R(Key("cs-o:%(n)d")),
         "pane <n03>":
             R(Key("c-%(n03)d")),
         "line del [<n>]":
@@ -37,11 +33,6 @@ class VSCodeExtendedCcrRule(MergeRule):
         "curse previous [<n>]":
             R(Key("ca-d:%(n)d")),
         
-        # Collapse folders in explorer
-        "collapse folders":
-            R(Key("c-k, cs-f")),
-
-
     }
     extras = [
         ShortIntegerRef("n", 1, 1000),

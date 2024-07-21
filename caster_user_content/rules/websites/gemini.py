@@ -14,7 +14,8 @@ class GeminiRule(MappingRule):
         # ever since an update to gemini, no longer able to "s-tab" out of the compose box
         # so using f6 and multiple presses of the tab key is used as a workaround
         "response":
-            R(Key("f6/3, f6, tab") +
+            R(Key("f6/3, f6") +
+              Pause("40") + Key("tab") +
               Pause("40") + Key("tab:24") +
               Pause("60") + Key("end, up:10"))
     }

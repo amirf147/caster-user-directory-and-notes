@@ -120,6 +120,8 @@ vscodenonccr
     <<<ANY>>>
     toggle word wrap -> word wrap
     explorer -> show files
+    keyboard shortcuts -> keyboard mappings
+    (show hover|mouse hover|hover mouse) -> clarify [error]
 
 githubdeskrule
     <<<ANY>>>
