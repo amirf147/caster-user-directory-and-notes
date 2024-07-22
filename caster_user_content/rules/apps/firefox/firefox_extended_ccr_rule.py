@@ -14,7 +14,10 @@ class FirefoxCcrRule(MergeRule):
         "focus":
             R(Key("f6/3")),
         "copy address":
-            R(Key("a-d/5, c-c"))
+            R(Key("a-d/5, c-c")),
+        "netspell":
+            R(Key("a-d/5")),
+
     }
 def get_rule():
     details = RuleDetails(executable="firefox",
