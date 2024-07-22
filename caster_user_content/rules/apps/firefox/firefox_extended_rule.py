@@ -21,8 +21,6 @@ class FirefoxExtendedRule(MappingRule):
 
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
-        "nestle":
-            R(Key("a-d/5")),
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
 
