@@ -26,10 +26,14 @@ class VSCodeExtendedCcrRule(MergeRule):
         "zora <n>":
             R(Key("c-g") + Text("%(n)d") + Key("enter") + Pause("50")),
 
-        # Requires user-defined key bindings
-        # Each mapping is preceded by the command name
+        # Python executable paths
+        "python twelve":
+            R(Text("C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe")),
+        "python ten":
+            R(Text("C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python310\\python.exe")),
 
-        # Add selection to previous find match
+        # Requires user-defined key bindings
+        # Command: Add selection to previous find match
         "curse previous [<n>]":
             R(Key("ca-d:%(n)d")),
         
