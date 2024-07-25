@@ -24,6 +24,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
+        "alley": R(Key("c-a")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
