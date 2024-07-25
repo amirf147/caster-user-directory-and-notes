@@ -107,6 +107,7 @@ punctuation
     deckle -> colon
     questo -> question mark
     period | dot -> period
+    equals -> equal
 
 vscodeccr
     <<<ANY>>>

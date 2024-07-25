@@ -22,6 +22,10 @@ class VSCodeExtendedCcrRule(MergeRule):
         "super find":
             R(Key("cs-f")),
 
+        # Punctuation key formatting
+        "eco":
+            R(Key("space, equals, space")),
+
         # Jumping to a line
         "zora <n>":
             R(Key("c-g") + Text("%(n)d") + Key("enter") + Pause("50")),
