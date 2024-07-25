@@ -31,8 +31,9 @@ class VsCodeExtendedRule(MappingRule):
 
     }
     extras = [
-        ShortIntegerRef("n", 1, 1000),
+        ShortIntegerRef("n", 1, 11),
     ]
+    defaults = {"n": 1}
 
 def get_rule():
     return VsCodeExtendedRule, RuleDetails(name="VSCodeExtended", executable="code")
