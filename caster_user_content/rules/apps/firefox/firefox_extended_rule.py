@@ -24,6 +24,9 @@ class FirefoxExtendedRule(MappingRule):
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
 
+        "go you tube":
+            R(Key("a-d/5") + Text("youtube.com") + Key("enter")),
+
     }
     extras = [
         IntegerRef("n", 1, 9),
