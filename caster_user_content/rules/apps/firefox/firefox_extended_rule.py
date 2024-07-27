@@ -24,6 +24,10 @@ class FirefoxExtendedRule(MappingRule):
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
 
+        # Website navigation in new tab
+        "go tab you tube":
+            R(Key("c-t/5") + Text("youtube.com") + Key("enter")),
+
         "go you tube":
             R(Key("a-d/5") + Text("youtube.com") + Key("enter")),
 
