@@ -19,18 +19,19 @@ class FirefoxExtendedRule(MappingRule):
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
+        # Address bar querying with dictation
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
 
-        # Website navigation in new tab
+        # Specific website navigation in new tab
         "go tab you tube":
             R(Key("c-t/5") + Text("youtube.com") + Key("enter")),
         "go tab (github | git hub)":
             R(Key("c-t/5") + Text("github.com") + Key("enter")),
 
-        # Website navigation via address bar
+        # Specific website navigation via address bar
         "go you tube":
             R(Key("a-d/5") + Text("youtube.com") + Key("enter")),
         "go (github | git hub)":
