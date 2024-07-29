@@ -26,16 +26,12 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5") + Text("^%(query)s")),
 
         # Specific website navigation in new tab
-        "go tab you tube":
-            R(Key("c-t/5") + Text("youtube.com") + Key("enter")),
-        "go tab (github | git hub)":
-            R(Key("c-t/5") + Text("github.com") + Key("enter")),
+        "go tab <website>":
+            R(Key("c-t/5") + Text("%(website)s") + Key("enter")),
 
         # Specific website navigation via address bar
-        "go you tube":
-            R(Key("a-d/5") + Text("youtube.com") + Key("enter")),
-        "go (github | git hub)":
-            R(Key("a-d/5") + Text("github.com") + Key("enter")),
+        "go <website>":
+            R(Key("a-d/5") + Text("%(website)s") + Key("enter")),
 
     }
     extras = [
@@ -62,6 +58,10 @@ class FirefoxExtendedRule(MappingRule):
             "sixteen": "8",
             "seventeen": "9",
             "eighteen": "10",
+        }),
+        Choice("website", {
+            "(github | git hub)": "github.com",
+            "(youtube | you tube)": "youtube.com",
         }),
         Dictation("query"),
     ]
