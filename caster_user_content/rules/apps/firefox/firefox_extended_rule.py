@@ -62,6 +62,7 @@ class FirefoxExtendedRule(MappingRule):
         Choice("website", {
             "(github | git hub)": "github.com",
             "(youtube | you tube)": "youtube.com",
+            "school": "tuas.fi",
         }),
         Dictation("query"),
     ]
