@@ -12,6 +12,10 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-%(n)d/3")),
         "drip minus [<n>]":
             R(Key("w-t/3, up:%(n)d, enter")),
+
+        # hunt-and-peck activation
+        "hints":
+            R(Key("a-semicolon")),
         
         # Window Manipulation
         "window move":
