@@ -69,6 +69,14 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("40") + Key("escape") +
             Pause("80") + Key("w-down")),
 
+        # Putting computer to sleep via start menu
+        "computer go to sleep":
+            R(Key("win") +
+            Pause("80") + Key("tab") + Pause("30") + Key("down") +
+            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
+            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
+            Pause("30") + Key("enter") + Pause("30") + Key("enter")),
+
     }
     extras = [
         IntegerRef("n", 1, 10),
