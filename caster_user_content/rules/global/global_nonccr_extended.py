@@ -14,7 +14,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-t/3, up:%(n)d, enter")),
 
         # hunt-and-peck activation
-        "hints":
+        "show hints":
             R(Key("a-semicolon")),
         
         # Window Manipulation
