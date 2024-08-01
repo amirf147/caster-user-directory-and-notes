@@ -65,6 +65,7 @@ class FirefoxExtendedRule(MappingRule):
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
             "school": "tuas.fi",
             "gemini": "https://gemini.google.com/app",
+            "chat gee pea tea": "chatgpt.com",
         }),
         Dictation("query"),
     ]
