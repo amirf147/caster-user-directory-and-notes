@@ -66,6 +66,7 @@ class FirefoxExtendedRule(MappingRule):
             "school": "tuas.fi",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "chatgpt.com",
+            "copilot": "https://copilot.microsoft.com/"
         }),
         Dictation("query"),
     ]
