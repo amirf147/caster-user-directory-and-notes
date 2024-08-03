@@ -64,6 +64,7 @@ class FirefoxExtendedRule(MappingRule):
             "(youtube | you tube)": "youtube.com",
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
             "school": "tuas.fi",
+            "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "chatgpt.com",
             "copilot": "https://copilot.microsoft.com/"
