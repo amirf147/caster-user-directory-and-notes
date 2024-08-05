@@ -67,7 +67,8 @@ class FirefoxExtendedRule(MappingRule):
             "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "chatgpt.com",
-            "copilot": "https://copilot.microsoft.com/"
+            "copilot": "https://copilot.microsoft.com/",
+            "ice hall": "https://www.turku.fi/en/culture-and-sports/sports/sports-facilities/ice-halls/varissuo-ice-hall"
         }),
         Dictation("query"),
     ]
