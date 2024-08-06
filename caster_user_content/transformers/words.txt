@@ -52,7 +52,7 @@ navigation
     
     sauce wally -> topper
     dunce wally -> bottom
-    bird -> blush
+    # bird -> blush
     firch -> jump
 
     # button_dictionary_500_no_prefix_no_modifier
