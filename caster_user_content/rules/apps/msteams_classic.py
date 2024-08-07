@@ -23,10 +23,10 @@ class MSTeamsClassicRule(MappingRule):
             R(Key("c-3")),
         "calendar":
             R(Key("c-4")),
-        "previous item [<nnavi10>]":
-            R(Key("a-up"))*Repeat(extra="nnavi10"),
-        "next item [<nnavi10>]":
-            R(Key("a-down"))*Repeat(extra="nnavi10"),
+        # "previous item [<nnavi10>]":
+        #     R(Key("a-up"))*Repeat(extra="nnavi10"),
+        # "next item [<nnavi10>]":
+        #     R(Key("a-down"))*Repeat(extra="nnavi10"),
         "previous team":
             R(Key("cs-up")),
         "next team":
@@ -93,4 +93,4 @@ class MSTeamsClassicRule(MappingRule):
     }
 
 def get_rule():
-    return MSTeamsClassicRule, RuleDetails(name="Microsoft Teams Classic", executable="teams")
+    return MSTeamsClassicRule, RuleDetails(name="Microsoft Teams Classic", executable="ms-teams")
