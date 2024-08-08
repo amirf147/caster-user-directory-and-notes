@@ -6,6 +6,7 @@ sikuli/
 settings/companion_config.toml
 settings/hooks.toml
 settings/settings.toml
+settings/rules.toml
 
 # Ignore log files
 *.log
