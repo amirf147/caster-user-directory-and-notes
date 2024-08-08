@@ -60,13 +60,14 @@ class FirefoxExtendedRule(MappingRule):
             "eighteen": "10",
         }),
         Choice("website", {
-            "(github | git hub)": "github.com",
-            "(youtube | you tube)": "youtube.com",
+            "(github | git hub)": "https://github.com/",
+            "(youtube | you tube)": "https://www.youtube.com/",
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
-            "school": "tuas.fi",
+            "school": "https://www.tuas.fi/en/",
+            "pepe": "https://opiskelija.peppi.turkuamk.fi/",
             "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
             "gemini": "https://gemini.google.com/app",
-            "chat gee pea tea": "chatgpt.com",
+            "chat gee pea tea": "https://chatgpt.com/",
             "copilot": "https://copilot.microsoft.com/",
             "ice hall": "https://www.turku.fi/en/culture-and-sports/sports/sports-facilities/ice-halls/varissuo-ice-hall"
         }),
