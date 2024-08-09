@@ -16,6 +16,9 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-f, a") +
               Pause("60") + Key("c")),
 
+        "format bold":
+            R(Key("c-b")),
+
         # Applying styles
         "apply normal [style]":
             R(Key("cs-n")),
