@@ -20,6 +20,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-b")),
         "italicize":
             R(Key("c-i")),
+        "format underline":
+            R(Key("c-u")),
 
         # Applying styles
         "apply normal [style]":
