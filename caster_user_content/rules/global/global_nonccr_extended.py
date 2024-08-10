@@ -16,7 +16,10 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # hunt-and-peck activation
         "show hints":
             R(Key("a-semicolon")),
-        
+
+        "open snipping tool":
+            R(Key("ws-s")),
+
         # Window Manipulation
         "window move":
             R(Key("a-space/5, m")),
