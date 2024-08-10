@@ -18,6 +18,8 @@ class CustomMSWordRule(MappingRule):
 
         "format bold":
             R(Key("c-b")),
+        "italicize":
+            R(Key("c-i")),
 
         # Applying styles
         "apply normal [style]":
