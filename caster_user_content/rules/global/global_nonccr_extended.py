@@ -19,6 +19,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "open snipping tool":
             R(Key("ws-s")),
+        "full screenshot":
+            R(Key("ws-s") + Pause("160") + Key("tab/3, right:3, enter")),
 
         # Window Manipulation
         "window move":
