@@ -16,12 +16,17 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-f, a") +
               Pause("60") + Key("c")),
 
+        # text formatting
         "format bold":
             R(Key("c-b")),
         "italicize":
             R(Key("c-i")),
         "format underline":
             R(Key("c-u")),
+        "text increase":
+            R(Key("cs->")),
+        "text decrease":
+            R(Key("cs-<")),
 
         # Applying styles
         "apply normal [style]":
