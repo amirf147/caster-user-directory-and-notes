@@ -27,6 +27,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("cs->")),
         "text decrease":
             R(Key("cs-<")),
+        "insert bullet":
+            R(Key("*, tab")),
+        "insert number":
+            R(Key("1, tab")),
 
         # Applying styles
         "apply normal [style]":
