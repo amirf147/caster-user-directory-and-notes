@@ -36,6 +36,10 @@ class CustomMSWordRule(MappingRule):
         "subscript":
             R(Key("c-equals")),
 
+        # Paragraph
+        "line break":
+            R(Key("c-enter")),
+
         # Applying styles
         "apply normal [style]":
             R(Key("cs-n")),
