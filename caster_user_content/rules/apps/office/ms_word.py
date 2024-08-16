@@ -31,6 +31,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("*, tab")),
         "insert number":
             R(Key("1, tab")),
+        "super script":
+            R(Key("c-plus")),
+        "subscript":
+            R(Key("c-equals")),
 
         # Applying styles
         "apply normal [style]":
