@@ -37,8 +37,12 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-equals")),
 
         # Paragraph
-        "line break":
+        "page break":
             R(Key("c-enter")),
+
+        # Editing
+        "font dialog":
+            R(Key("c-d")),
 
         # Applying styles
         "apply normal [style]":
