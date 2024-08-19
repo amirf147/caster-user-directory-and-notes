@@ -10,13 +10,13 @@ class CustomOutlookRule(MappingRule):
     pronunciation = "custom outlook"
 
     mapping = {
-        "focus": R(Key("f6")),
-        "locus": R(Key("s-f6")),
+        "focus [<n>]": R(Key("f6:%(n)d")),
+        "locus [<n>]": R(Key("s-f6:%(n)d")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
     ]
-    defaults = {"n": 1}
+    defaults = {"n": 1,}
 
 
 def get_rule():
