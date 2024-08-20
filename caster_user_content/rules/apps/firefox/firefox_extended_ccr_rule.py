@@ -14,7 +14,7 @@ class FirefoxCcrRule(MergeRule):
         "focus":
             R(Key("f6/3")),
         "copy address":
-            R(Key("a-d/5, c-c")),
+            R(Key("a-d/5, c-c, escape, f6, tab/5, tab")),
         "netspell":
             R(Key("a-d/5")),
 

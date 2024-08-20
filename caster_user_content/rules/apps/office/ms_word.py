@@ -19,7 +19,7 @@ class CustomMSWordRule(MappingRule):
         # Editing
         "format bold":
             R(Key("c-b")),
-        "italicize":
+        "format italic":
             R(Key("c-i")),
         "format underline":
             R(Key("c-u")),
@@ -51,6 +51,14 @@ class CustomMSWordRule(MappingRule):
             R(Key("cs-n")),
         "apply heading <n3>":
             R(Key("ac-%(n3)d")),
+
+        # Page Layout
+        # Add line numbers with option: "Restart Each Page"
+        "page line numbers":
+            R(Key("a-p/3, l, n, r")),
+        # Remove line numbers
+        "remove line numbers":
+            R(Key("a-p/3, l, n, n")),
     }
     extras = [
         Dictation("dict"),
