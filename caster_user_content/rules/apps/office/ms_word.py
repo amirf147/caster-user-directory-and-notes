@@ -16,7 +16,7 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-f, a") +
               Pause("60") + Key("c")),
 
-        # text formatting
+        # Editing
         "format bold":
             R(Key("c-b")),
         "italicize":
@@ -35,6 +35,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-plus")),
         "subscript":
             R(Key("c-equals")),
+        "create hyperlink":
+            R(Key("c-k")),
 
         # Paragraph
         "page break":
