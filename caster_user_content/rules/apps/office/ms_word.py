@@ -38,9 +38,17 @@ class CustomMSWordRule(MappingRule):
         "create hyperlink":
             R(Key("c-k")),
 
-        # Paragraph
+        # Paragraph Formatting
         "page break":
             R(Key("c-enter")),
+        "lay align":
+            R(Key("c-l")),
+        "center align":
+            R(Key("c-e")),
+        "ray align":
+            R(Key("c-r")),
+        "justify align":
+            R(Key("c-j")),
 
         # Editing
         "font dialog":
