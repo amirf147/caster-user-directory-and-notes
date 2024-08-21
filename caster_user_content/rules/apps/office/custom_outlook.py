@@ -12,6 +12,7 @@ class CustomOutlookRule(MappingRule):
     mapping = {
         "focus [<n>]": R(Key("f6:%(n)d")),
         "locus [<n>]": R(Key("s-f6:%(n)d")),
+        "synchronize": R(Key("f9")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
