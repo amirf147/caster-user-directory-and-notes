@@ -67,6 +67,13 @@ class CustomMSWordRule(MappingRule):
         # Remove line numbers
         "remove line numbers":
             R(Key("a-p/3, l, n, n")),
+
+        # Expand/Collapse text under a heading
+        "expand text":
+            R(Key("as-+")),
+        "collapse text":
+            R(Key("as--")),
+
     }
     extras = [
         Dictation("dict"),
