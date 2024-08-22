@@ -17,8 +17,6 @@ class CustomMSWordRule(MappingRule):
               Pause("60") + Key("c")),
 
         # Editing
-        "format bold":
-            R(Key("c-b")),
         "format italic":
             R(Key("c-i")),
         "format underline":
@@ -50,9 +48,11 @@ class CustomMSWordRule(MappingRule):
         "justify align":
             R(Key("c-j")),
 
-        # Editing
+        # Opening Dialogs
         "font dialog":
             R(Key("c-d")),
+        "paragraph dialog":
+            R(Key("a-h/3, p, g")),
 
         # Applying styles
         "apply normal [style]":
