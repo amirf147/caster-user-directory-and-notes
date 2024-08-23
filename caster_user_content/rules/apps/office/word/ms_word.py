@@ -64,7 +64,6 @@ class CustomMSWordRule(MappingRule):
         # Add line numbers with option: "Restart Each Page"
         "page line numbers":
             R(Key("a-p/3, l, n, r")),
-        # Remove line numbers
         "remove line numbers":
             R(Key("a-p/3, l, n, n")),
 

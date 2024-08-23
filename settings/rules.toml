@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "GitHubDeskRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "MouseAlternativesRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "MouseAlternativesRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -59,7 +59,7 @@ VSCodeNonCcrRule = true
 fmanRule = false
 TotalCommanderRule = false
 SyncDirsRule = true
-GitHubDeskRule = true
+GitHubDeskRule = false
 KDiff3Rule = true
 ExcelRule = false
 OutlookRule = true
@@ -121,3 +121,4 @@ CustomMSWordRule = true
 Notepads = true
 CustomOutlookRule = true
 MSWordCcrRule = true
+CustomGitHubDeskRule = true

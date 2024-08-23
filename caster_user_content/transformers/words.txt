@@ -123,7 +123,3 @@ vscodenonccr
     explorer -> show files
     keyboard shortcuts -> keyboard mappings
     (show hover|mouse hover|hover mouse) -> clarify [error]
-
-githubdeskrule
-    <<<ANY>>>
-    (repositories | repository list) -> repos
