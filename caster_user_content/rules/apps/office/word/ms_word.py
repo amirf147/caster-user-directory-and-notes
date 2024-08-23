@@ -74,6 +74,9 @@ class CustomMSWordRule(MappingRule):
         "collapse text":
             R(Key("as--")),
 
+        # Ribbon
+        "collapse ribbon":
+            R(Key("c-f1")),
     }
     extras = [
         Dictation("dict"),
