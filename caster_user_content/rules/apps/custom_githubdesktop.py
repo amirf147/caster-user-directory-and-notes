@@ -1,6 +1,6 @@
-from dragonfly import Repeat, MappingRule, ShortIntegerRef
+from dragonfly import Repeat, MappingRule, ShortIntegerRef, Choice, Pause
 
-from castervoice.lib.actions import Key
+from castervoice.lib.actions import Key, Text
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -43,10 +43,16 @@ class CustomGitHubDeskRule(MappingRule):
         "[create] pull request": R(Key("c-r")),
 
         # Composite commands
-        # TODO: Switch to a specific repository
+        # Switch to a specific repository
+        "switch to <repository>":
+            R(Key("escape/3, c-t") + Pause("30") + Text("%(repository)s") + Key("enter")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
+        Choice("repository", {
+            "plans": "plans",
+            "caster": "caster",
+        }),
     ]
     defaults = {"n": 1}
 
