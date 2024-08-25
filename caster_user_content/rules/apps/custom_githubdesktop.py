@@ -52,6 +52,7 @@ class CustomGitHubDeskRule(MappingRule):
         Choice("repository", {
             "plans": "plans",
             "caster": "caster",
+            "next": "next",
         }),
     ]
     defaults = {"n": 1}
