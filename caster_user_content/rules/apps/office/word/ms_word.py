@@ -76,6 +76,10 @@ class CustomMSWordRule(MappingRule):
         # Ribbon
         "collapse ribbon":
             R(Key("c-f1")),
+
+        # Panes
+        "close pane":
+            R(Key("c-space/3, up, enter")),
     }
     extras = [
         Dictation("dict"),
