@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "MouseAlternativesRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "FirefoxRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "MouseAlternativesRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -122,3 +122,4 @@ Notepads = true
 CustomOutlookRule = true
 MSWordCcrRule = true
 CustomGitHubDeskRule = true
+CopilotRule = true
