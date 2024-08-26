@@ -76,6 +76,8 @@ class CustomMSWordRule(MappingRule):
         # Ribbon
         "collapse ribbon":
             R(Key("c-f1")),
+        "design ribbon":
+            R(Key("a-g")),
 
         # Panes
         "close pane":
