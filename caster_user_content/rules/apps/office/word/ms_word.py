@@ -1,5 +1,5 @@
 from dragonfly import Dictation, MappingRule, ShortIntegerRef, Pause, IntegerRef
-from castervoice.lib.actions import Key
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
@@ -10,6 +10,8 @@ class CustomMSWordRule(MappingRule):
         "file open": R(Key("c-o")),
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
+
+        "focus": R(Key("f6")),
 
         # Initial attempt at getting to file save as
         "file custom retain": 
@@ -53,6 +55,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-d")),
         "paragraph dialog":
             R(Key("a-h/3, p, g")),
+        "insert bookmark":
+            R(Key("cs-f5")),
 
         # Applying styles
         "apply normal [style]":
@@ -76,19 +80,28 @@ class CustomMSWordRule(MappingRule):
         # Ribbon
         "collapse ribbon":
             R(Key("c-f1")),
-        "design ribbon":
+        "hint design":
             R(Key("a-g")),
+        "hint references":
+            R(Key("a-s")),
+        "hint insert":
+            R(Key("a-n")),
+
+        # "Tell me" search box
+        "queen [<query>]":
+            R(Key("a-q/3") + Text("%(query)s")),
 
         # Panes
         "close pane":
             R(Key("c-space/3, up, enter")),
     }
     extras = [
-        Dictation("dict"),
+        Dictation("query"),
         ShortIntegerRef("n", 1, 100),
-        IntegerRef("n3", 1, 4)
+        IntegerRef("n3", 1, 4),
+
     ]
-    defaults = {"n": 1, "dict": "nothing"}
+    defaults = {"n": 1, "query": "",}
 
 
 def get_rule():
