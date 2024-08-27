@@ -86,6 +86,12 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-s")),
         "hint insert":
             R(Key("a-n")),
+        
+        # Ribbon: Table Design
+        "hint table":
+            R(Key("a-j, t")),
+        "hint borders":
+        R(Key("a-j, t/3, b")),
 
         # "Tell me" search box
         "queen [<query>]":
