@@ -86,7 +86,9 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-s")),
         "hint insert":
             R(Key("a-n")),
-        
+        "hint view":
+            R(Key("a-w")),
+
         # Ribbon: Table Design
         "hint table":
             R(Key("a-j, t")),
