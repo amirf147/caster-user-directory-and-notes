@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Pause, Function
+from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -12,6 +12,12 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-%(n)d/3")),
         "drip minus [<n>]":
             R(Key("w-t/3, up:%(n)d, enter")),
+
+        # Opening/focusing system tray icons
+        "open system <n_off_by_one>":
+            R(Key("w-b/3, right:%(n_off_by_one)s, enter")),
+        "go to system <n_off_by_one>":
+            R(Key("w-b/3, right:%(n_off_by_one)s")),
 
         # hunt-and-peck activation
         "show hints":
@@ -87,13 +93,36 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("enter") + Pause("30") + Key("enter")),
-
     }
+
     extras = [
         IntegerRef("n", 1, 10),
+        Choice("n_off_by_one", {
+            "one": "0",
+            "two": "1",
+            "three": "2",
+            "four": "3",
+            "five": "4",
+            "six": "5",
+            "seven": "6",
+            "eight": "7",
+            "nine": "8",
+            "ten": "9",
+            "eleven": "10",
+            "twelve": "11",
+            "thirteen": "12",
+            "fourteen": "13",
+            "fifteen": "14",
+            "sixteen": "15",
+            "seventeen": "16",
+            "eighteen": "17",
+            "nineteen": "18",
+            "twenty": "19",
+        }),
+
     ]
     defaults = {
-        "n": 1
+        "n": 1,
     }
 
 def get_rule():
