@@ -19,6 +19,13 @@ class FirefoxExtendedRule(MappingRule):
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
+        "duplicate tab":
+            R(Key("a-d/5, c-c, c-t, c-v/3, enter")),
+
+        "[show] downloads":
+            R(Key("c-j")),
+
+
         # Address bar querying with dictation
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
