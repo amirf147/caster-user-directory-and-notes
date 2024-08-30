@@ -77,8 +77,8 @@ navigation
 
 navigationnon
     <<<ANY>>>
-    next tab -> page under
-    prior tab -> page over
+    next tab -> swatch under
+    prior tab -> swatch over
     find -> finder
     drop -> dropper
 
@@ -87,8 +87,8 @@ keyboard
     (tab | tabby) -> tab
     (backspace | clear) -> backs
     (delete | deli) -> delete
-    page (down | dunce) -> (page down | page dunce | lis)
-    page (up | sauce) -> (page up | page sauce | moss)
+    page (down | dunce) -> page [down | dunce]
+    page (up | sauce) -> page (up | sauce)
     (home | lease wally | latch) -> (home | homer | lease wally)
     (end | ross wally | ratch) -> (end | sequel | ross wally)
 
@@ -97,7 +97,7 @@ punctuation
     brax -> bracket
     # ace -> space
     minus -> (minus | dash)
-    plus -> plus sign
+    plus -> plus https://poliisi.fi/en/passport
     (atty | at symbol) -> at symbol
     (back | shin) tabby -> shin tab
     

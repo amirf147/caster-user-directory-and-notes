@@ -32,20 +32,20 @@ class FirefoxExtendedRule(MappingRule):
         "caret browsing":
             R(Key("f7")),
 
-        "page <n>":
+        "swatch <n>":
             R(Key("c-%(n)d")),
-        "page [last | nine | minus | minus one]":
+        "swatch (last | minus | minus one)":
             R(Key("c-9")),
-        "page minus <n_off_by_one>":
+        "swatch minus <n_off_by_one>":
             R(Key("c-9, c-pgup:%(n_off_by_one)s")),
-        "page <nn>":
+        "swatch <nn>":
             R(Key("c-8, c-pgdown:%(nn)s")),
-        "show pages":
+        "show swatch":
             R(Key("c-b/8, f1")), # workaround for when pressing just F1 doesn't work
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
-        "duplicate tab":
+        "duplicate swatch":
             R(Key("a-d/5, c-c, c-t, c-v/3, enter")),
 
         "[show] downloads":
