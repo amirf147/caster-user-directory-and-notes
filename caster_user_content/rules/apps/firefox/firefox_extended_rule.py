@@ -29,7 +29,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-minus/20")) * Repeat(extra="n"),
         "zoom reset":
             R(Key("c-0")),
-
+        "caret browsing":
+            R(Key("f7")),
 
         "page <n>":
             R(Key("c-%(n)d")),
