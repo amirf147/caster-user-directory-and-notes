@@ -18,6 +18,11 @@ class FirefoxExtendedRule(MappingRule):
         "win close|close all tabs":
             R(Key("cs-w")),
 
+        "go back [<n>]":
+            R(Key("a-left/20")) * Repeat(extra="n"),
+        "go forward [<n>]":
+            R(Key("a-right/20")) * Repeat(extra="n"),
+
         "zoom in [<n>]":
             R(Key("c-plus/20")) * Repeat(extra="n"),
         "zoom out [<n>]":
