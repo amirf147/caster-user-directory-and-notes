@@ -6,6 +6,17 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
     mapping = {
+        
+        "(new window|win new)":
+            R(Key("c-n")),
+        "new tab [<n>]|tab new [<n>]":
+            R(Key("c-t") * Repeat(extra="n")),
+        "reopen tab [<n>]|tab reopen [<n>]":
+            R(Key("cs-t")) * Repeat(extra="n"),
+        "close tab [<n>]|tab close [<n>]":
+            R(Key("c-w")) * Repeat(extra='n'),
+        "win close|close all tabs":
+            R(Key("cs-w")),
 
         "zoom in [<n>]":
             R(Key("c-plus/20")) * Repeat(extra="n"),
@@ -92,6 +103,6 @@ class FirefoxExtendedRule(MappingRule):
         Dictation("query"),
     ]
     defaults = {"n": 1,}
-    
+
 def get_rule():
     return FirefoxExtendedRule, RuleDetails(name="fire fox extended", executable="firefox")
