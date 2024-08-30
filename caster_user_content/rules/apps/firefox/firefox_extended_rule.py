@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Choice, Dictation
+from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat
 from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
@@ -6,6 +6,15 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
     mapping = {
+
+        "zoom in [<n>]":
+            R(Key("c-plus/20")) * Repeat(extra="n"),
+        "zoom out [<n>]":
+            R(Key("c-minus/20")) * Repeat(extra="n"),
+        "zoom reset":
+            R(Key("c-0")),
+
+
         "page <n>":
             R(Key("c-%(n)d")),
         "page [last | nine | minus | minus one]":
@@ -82,6 +91,7 @@ class FirefoxExtendedRule(MappingRule):
         }),
         Dictation("query"),
     ]
-
+    defaults = {"n": 1,}
+    
 def get_rule():
     return FirefoxExtendedRule, RuleDetails(name="fire fox extended", executable="firefox")
