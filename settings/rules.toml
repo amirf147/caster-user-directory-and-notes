@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "MouseAlternativesRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule", "CustomMouseAlternativesRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -123,3 +123,4 @@ CustomOutlookRule = true
 MSWordCcrRule = true
 CustomGitHubDeskRule = true
 CopilotRule = true
+CustomMouseAlternativesRule = true
