@@ -99,7 +99,7 @@ punctuation
     brax -> bracket
     # ace -> space
     minus -> (minus | dash)
-    plus -> plus https://poliisi.fi/en/passport
+    plus -> plus sign
     (atty | at symbol) -> at symbol
     (back | shin) tabby -> shin tab
     
