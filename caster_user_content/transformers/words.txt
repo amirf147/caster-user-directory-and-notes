@@ -87,8 +87,10 @@ keyboard
     (tab | tabby) -> tab
     (backspace | clear) -> backs
     (delete | deli) -> delete
-    page (down | dunce) -> page [down | dunce]
-    page (up | sauce) -> page (up | sauce)
+    # page (down | dunce) -> page [down | dunce]
+    # page (up | sauce) -> page (up | sauce)
+    page (down | dunce) -> flis
+    page (up | sauce) -> floss
     (home | lease wally | latch) -> (home | homer | lease wally)
     (end | ross wally | ratch) -> (end | sequel | ross wally)
 

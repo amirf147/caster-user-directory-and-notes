@@ -34,6 +34,7 @@ element = "C:\\Users\\amirf\\AppData\\Local\\element-desktop\\Element.exe"
 mediaplayer = "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe"
 sumatra = "C:\\Users\\amirf\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe"
 outlook = "C:\\Program Files\\WindowsApps\\Microsoft.OutlookForWindows_1.2024.814.200_x64__8wekyb3d8bbwe\\olk.exe"
+word = "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
 
 [file]
 "caster settings file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\settings.toml"
