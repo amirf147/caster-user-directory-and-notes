@@ -8,6 +8,12 @@ class ElementMatrixRule(MappingRule):
     mapping = {
         "show settings":
             R(Key("c-slash")),
+        "show spaces":
+            R(Key("cs-o")),
+        "show menu":
+            R(Key("c-`")),
+        "go to home view":
+            R(Key("ca-h")),
     }
 
 def get_rule():
