@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "LegionGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "Notepads", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule", "CustomMouseAlternativesRule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "CustomIERule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule", "CustomMouseAlternativesRule", "ElementMatrixRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -118,9 +118,9 @@ FirefoxCcrRule = true
 CustomIERule = true
 VsCodeExtendedRule = true
 CustomMSWordRule = true
-Notepads = true
 CustomOutlookRule = true
 MSWordCcrRule = true
 CustomGitHubDeskRule = true
 CopilotRule = true
 CustomMouseAlternativesRule = true
+ElementMatrixRule = true
