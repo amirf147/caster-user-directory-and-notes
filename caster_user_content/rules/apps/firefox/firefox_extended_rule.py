@@ -46,7 +46,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
         "duplicate swatch":
-            R(Key("a-d/5, c-c, c-t, c-v/3, enter")),
+            R(Key("a-d/5, a-enter")),
+        "pop out swatch":
+            R(Key("a-d/5, s-enter")),
 
         "[show] downloads":
             R(Key("c-j")),

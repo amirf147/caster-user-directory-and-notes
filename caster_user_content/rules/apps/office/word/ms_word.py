@@ -19,8 +19,6 @@ class CustomMSWordRule(MappingRule):
               Pause("60") + Key("c")),
 
         # Editing
-        "format italic":
-            R(Key("c-i")),
         "format underline":
             R(Key("c-u")),
         "text increase":

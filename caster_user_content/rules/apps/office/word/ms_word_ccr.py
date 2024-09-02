@@ -15,7 +15,9 @@ class MSWordCcrRule(MergeRule):
         # Editing
         "format bold":
             R(Key("c-b")),
-            
+        "format italic":
+            R(Key("c-i")),
+
     }
 def get_rule():
     details = RuleDetails(executable="winword",
