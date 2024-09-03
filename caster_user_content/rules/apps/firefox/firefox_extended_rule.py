@@ -53,6 +53,8 @@ class FirefoxExtendedRule(MappingRule):
         "[show] downloads":
             R(Key("c-j")),
 
+        "address bar":
+            R(Key("a-d")),
 
         # Address bar querying with dictation
         "netzer <query>":
