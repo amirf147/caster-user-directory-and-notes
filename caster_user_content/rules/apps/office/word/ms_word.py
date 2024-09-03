@@ -18,6 +18,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-f, a") +
               Pause("60") + Key("c")),
 
+        # copy hyperlink via the context menu
+        "copy hyperlink":
+            R(Key("s-f10/3, down:5, enter")),
+
         # Editing
         "remove formatting":
             R(Key("c-space")),
@@ -84,6 +88,8 @@ class CustomMSWordRule(MappingRule):
         # Ribbon
         "collapse ribbon":
             R(Key("c-f1")),
+        "peak ribbon":
+            R(Key("c-f1/150, c-f1")),
         "hint design":
             R(Key("a-g")),
         "hint references":
