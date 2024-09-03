@@ -19,7 +19,7 @@ class CustomMSWordRule(MappingRule):
               Pause("60") + Key("c")),
 
         # Editing
-        "clear formatting":
+        "remove formatting":
             R(Key("c-space")),
         "format underline":
             R(Key("c-u")),
