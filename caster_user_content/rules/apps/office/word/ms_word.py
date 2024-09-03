@@ -19,6 +19,8 @@ class CustomMSWordRule(MappingRule):
               Pause("60") + Key("c")),
 
         # Editing
+        "clear formatting":
+            R(Key("c-space")),
         "format underline":
             R(Key("c-u")),
         "text increase":
@@ -35,6 +37,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-equals")),
         "create hyperlink":
             R(Key("c-k")),
+
+        # Beginning an italicized quote
+        "format q":
+            R(Key("c-space/2, \":2, left, c-i")),
 
         # Paragraph Formatting
         "page break":
