@@ -22,6 +22,14 @@ class CustomMSWordRule(MappingRule):
         "copy hyperlink":
             R(Key("s-f10/3, down:5, enter")),
 
+        # Zooming
+        "zoom in [<n>]":
+            R(Key("a-w/50, q/3, tab:2, up:%(n)d, enter")),
+        "zoom out [<n>]":
+            R(Key("a-w/50, q/3, tab:2, down:%(n)d, enter")),
+        "zoom reset":
+            R(Key("a-w/50, j")),
+
         # Editing
         "remove formatting":
             R(Key("c-space")),
