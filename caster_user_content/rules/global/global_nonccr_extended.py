@@ -19,6 +19,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "go to system <n_off_by_one>":
             R(Key("w-b/3, right:%(n_off_by_one)s")),
 
+        "show me calendar":
+        R(Key("w-b, up/3, enter")),
+
         # hunt-and-peck activation
         "show hints":
             R(Key("a-semicolon")),
