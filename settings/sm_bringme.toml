@@ -28,7 +28,7 @@ notepads = "C:\\Users\\amirf\\AppData\\Local\\Microsoft\\WindowsApps\\Notepads.e
 code = "C:\\Users\\amirf\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
 github = "C:\\Users\\amirf\\AppData\\Local\\GitHubDesktop\\GitHubDesktop.exe"
 firefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe"
-teams = "C:\\Users\\amirf\\AppData\\Local\\Microsoft\\Teams\\Update.exe"
+teams = "C:\\Users\\amirf\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe"
 carnac = "C:\\Users\\amirf\\AppData\\Local\\carnac\\Carnac.exe"
 element = "C:\\Users\\amirf\\AppData\\Local\\element-desktop\\Element.exe"
 mediaplayer = "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe"
@@ -36,6 +36,7 @@ sumatra = "C:\\Users\\amirf\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe"
 outlook = "C:\\Program Files\\WindowsApps\\Microsoft.OutlookForWindows_1.2024.814.200_x64__8wekyb3d8bbwe\\olk.exe"
 word = "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
 "taskbar numbers" = "C:\\Users\\amirf\\Documents\\7plus-Taskbar-Numberer\\64\\7+ Taskbar Numberer.exe"
+"hunt and peck" = "C:\\Users\\amirf\\Documents\\HuntAndPeck-1.7\\hap.exe"
 
 [file]
 "caster settings file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\settings.toml"
