@@ -70,6 +70,10 @@ class FirefoxExtendedRule(MappingRule):
         "go <website>":
             R(Key("a-d/5") + Text("%(website)s") + Key("enter")),
 
+        # Link navigation (Requires caret browsing)
+        "jink <query>":
+            R(Key("c-f/5") + Text("%(query)s") + Key("enter/5, escape/3, enter")),
+
     }
     extras = [
         IntegerRef("n", 1, 9),
