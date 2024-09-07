@@ -42,4 +42,4 @@ class FileDialogRule(MappingRule):
     }
 
 def get_rule():
-    return FileDialogRule, RuleDetails(name="custom file dialog", title=["open", "save", "select"])
+    return FileDialogRule, RuleDetails(name="custom file dialog", title=["open", "save", "select", "file upload"])
