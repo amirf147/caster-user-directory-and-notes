@@ -5,8 +5,8 @@ from castervoice.lib.merge.state.short import R
 from dragonfly import (AppContext, Choice, Dictation, Function, MappingRule,
                        Repeat)
 
-class MSTeamsClassicRule(MappingRule):
-    pronunciation = "teams classic"
+class CustomMSTeamsRule(MappingRule):
+    pronunciation = "custom teams"
     mapping = {
         # General
         "search":
@@ -17,12 +17,6 @@ class MSTeamsClassicRule(MappingRule):
             R(Key("c-comma")),
 
         # Navigation
-        "activity":
-            R(Key("c-1")),
-        "chat":
-            R(Key("c-3")),
-        "calendar":
-            R(Key("c-4")),
         # "previous item [<nnavi10>]":
         #     R(Key("a-up"))*Repeat(extra="nnavi10"),
         # "next item [<nnavi10>]":
@@ -93,4 +87,4 @@ class MSTeamsClassicRule(MappingRule):
     }
 
 def get_rule():
-    return MSTeamsClassicRule, RuleDetails(name="Microsoft Teams Classic", executable="ms-teams")
+    return CustomMSTeamsRule, RuleDetails(name="Custom Microsoft Teams", executable="ms-teams")
