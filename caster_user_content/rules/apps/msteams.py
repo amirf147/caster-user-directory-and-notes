@@ -39,6 +39,8 @@ class CustomMSTeamsRule(MappingRule):
             R(Key("s-enter")),
         "reply":
             R(Key("as-r")),
+        "file attach":
+            R(Key("as-o")),
 
         # meetings calls and calendar
         "Accept [video] call":
