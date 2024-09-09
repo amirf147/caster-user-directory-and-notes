@@ -32,7 +32,7 @@ class CustomMSTeamsRule(MappingRule):
 
         # Messaging
         "focus compose":
-            R(Key("as-c")),
+            R(Key("c-r")),
         "expand compose":
             R(Key("cs-x")),
         "new-line":
