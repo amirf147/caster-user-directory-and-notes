@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice
+from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -96,6 +96,17 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("enter") + Pause("30") + Key("enter")),
+
+        # Placing mouse cursor in one of 4 quadrants on the screen
+        "cork one":
+            R(Mouse("[500, 262]")),
+        "cork two":
+            R(Mouse("[1500, 262]")),
+        "cork three":
+            R(Mouse("[500, 800]")),
+        "cork four":
+            R(Mouse("[500, 800]")),
+
     }
 
     extras = [
