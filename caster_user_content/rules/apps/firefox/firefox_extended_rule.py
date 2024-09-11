@@ -110,6 +110,7 @@ class FirefoxExtendedRule(MappingRule):
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
             "school": "https://www.tuas.fi/en/",
             "pepe": "https://opiskelija.peppi.turkuamk.fi/",
+            "it's learning": "https://turkuamk.itslearning.com/",
             "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "https://chatgpt.com/",
