@@ -16,6 +16,9 @@ class VsCodeExtendedRule(MappingRule):
             R(Key("ca-w")),
         "[show] completions": R(Key("c-space")),
 
+        "quick open":
+            R(Key("c-e")),
+
         # Requires user defined key binding
         # Command: Terminal: Move Terminal into New Window
         "pop out terminal": R(Key("c-k, a-t")),
