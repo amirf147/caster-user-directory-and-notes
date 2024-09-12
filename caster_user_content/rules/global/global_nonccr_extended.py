@@ -103,9 +103,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "cork two":
             R(Mouse("[1500, 262]")),
         "cork three":
-            R(Mouse("[1500, 800]")),
-        "cork four":
             R(Mouse("[500, 800]")),
+        "cork four":
+            R(Mouse("[1500, 800]")),
 
     }
 
