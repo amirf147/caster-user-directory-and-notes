@@ -17,6 +17,10 @@ class CustomMSWordRule(MappingRule):
         "paste text":
             R(Key("s-f10/3, t")),
 
+        # Cycle through case formatting for highlighted text
+        "cycle caps":
+            R(Key("s-f3")),
+
         # Initial attempt at getting to file save as
         "file custom retain": 
             R(Key("a-f, a") +
