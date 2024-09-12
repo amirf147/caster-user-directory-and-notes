@@ -91,7 +91,7 @@ keyboard
     # page (up | sauce) -> page (up | sauce)
     # page (down | dunce) -> flis
     # page (up | sauce) -> floss
-    page (down | dunce) -> flea
+    page (down | dunce) -> fell
     page (up | sauce) -> flow
     (home | lease wally | latch) -> (home | homer | lease wally)
     (end | ross wally | ratch) -> (end | sequel | ross wally)

@@ -13,6 +13,10 @@ class CustomMSWordRule(MappingRule):
 
         "focus": R(Key("f6")),
 
+        # Pasting only text without formatting
+        "paste text":
+            R(Key("s-f10/3, t")),
+
         # Initial attempt at getting to file save as
         "file custom retain": 
             R(Key("a-f, a") +
