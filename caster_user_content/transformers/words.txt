@@ -81,6 +81,9 @@ navigationnon
     prior tab -> swatch over
     find -> finder
     drop -> dropper
+    
+    # I just want to stop this command from being recognized so I made it longer
+    maxiwin -> make maximize window
 
 keyboard
     <<<ANY>>>
