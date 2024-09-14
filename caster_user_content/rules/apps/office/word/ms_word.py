@@ -7,7 +7,7 @@ from castervoice.lib.merge.state.short import R
 class CustomMSWordRule(MappingRule):
     mapping = {
         "insert image": R(Key("alt, n, p")),
-        "file open": R(Key("c-o")),
+        "file open": R(Key("c-o/3, a-o")),
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
 
