@@ -43,6 +43,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-space")),
         "format underline":
             R(Key("c-u")),
+        "format strike through":
+            R(Key("a-h/3, 4")),
         "text increase":
             R(Key("cs->")),
         "text decrease":
