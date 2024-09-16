@@ -37,6 +37,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-w/50, q/3, tab:2, down:%(n)d, enter")),
         "zoom reset":
             R(Key("a-w/50, j")),
+        "zoom dialogue":
+            R(Key("a-w/50, q")),
 
         # Editing
         "remove formatting":
