@@ -19,6 +19,11 @@ class VsCodeExtendedRule(MappingRule):
         "quick open":
             R(Key("c-e")),
 
+        # Requires Extension: jumpy
+        # Requires user defined key binding: "command": "extension.jumpy-exit"
+        "hints":
+            R(Key("s-enter")),
+
         # Requires user defined key binding
         # Command: Terminal: Move Terminal into New Window
         "pop out terminal": R(Key("c-k, a-t")),
