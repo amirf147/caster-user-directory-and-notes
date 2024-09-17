@@ -2,6 +2,8 @@ from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat
 from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
+from castervoice.lib.temporary import Store, Retrieve
+
 
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
@@ -75,6 +77,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-f/5") + Text("%(query)s") + Key("enter/5, escape/3, enter")),
         "jinx <query>":
             R(Key("c-f/5") + Text("%(query)s") + Key("enter/5")),
+
+        "google that":
+            R(Store(remove_cr=True) + Key("c-t/5") + Retrieve() + Key("enter")),
 
     }
     extras = [
