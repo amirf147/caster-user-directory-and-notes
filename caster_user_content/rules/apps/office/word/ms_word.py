@@ -85,6 +85,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-h/3, p, g")),
         "insert bookmark":
             R(Key("cs-f5")),
+        "color dialog":
+            R(Key("a-h/3, f, c")),
 
         # Applying styles
         "apply normal [style]":
