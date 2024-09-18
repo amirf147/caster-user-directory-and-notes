@@ -1,5 +1,5 @@
-from dragonfly import MappingRule, ShortIntegerRef
-from castervoice.lib.actions import Key
+from dragonfly import MappingRule, ShortIntegerRef, Dictation
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
@@ -18,6 +18,11 @@ class VsCodeExtendedRule(MappingRule):
 
         "quick open":
             R(Key("c-e")),
+
+        # The text output results in missing letters
+        # TODO: Switch to VScodium where this bug does not occur
+        "open <text>":
+            R(Key("c-e/5") + Text("%(text)s")),
 
         # Requires Extension: jumpy
         # Requires user defined key binding: "command": "extension.jumpy-exit"
@@ -40,6 +45,7 @@ class VsCodeExtendedRule(MappingRule):
     }
     extras = [
         ShortIntegerRef("n", 1, 11),
+        Dictation("text"),
     ]
     defaults = {"n": 1}
 
