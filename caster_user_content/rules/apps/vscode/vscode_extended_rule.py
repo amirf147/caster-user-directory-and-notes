@@ -19,7 +19,7 @@ class VsCodeExtendedRule(MappingRule):
         "quick open":
             R(Key("c-e")),
 
-        # The text output results in missing letters
+        # BUG: The text output results in missing letters
         # TODO: Switch to VScodium where this bug does not occur
         "open <text>":
             R(Key("c-e/5") + Text("%(text)s")),
