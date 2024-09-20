@@ -122,6 +122,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-w")),
         "hint home":
             R(Key("a-h")),
+        "hint review":
+            R(Key("a-r")),
 
         # Ribbon: Table Design
         "hint table":
