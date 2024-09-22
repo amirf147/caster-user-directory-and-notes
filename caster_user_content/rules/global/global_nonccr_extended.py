@@ -1,8 +1,9 @@
-from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat
+from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat, ShortIntegerRef
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
-from castervoice.lib import utilities
+from castervoice.lib import utilities, navigation
+from castervoice.rules.core.navigation_rules import navigation_support
 
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
@@ -107,6 +108,12 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "cork four":
             R(Mouse("[1500, 800]")),
 
+        # Moving mouse cursor and then scrolling in one utterance
+        "cork one scree <direction> [<nnavi500>]":
+            R(Mouse("[500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
+        "cork two scree <direction> [<nnavi500>]":
+            R(Mouse("[1500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
+
         # Mirroring a window to all workspaces for my secondary monitor
         "mirror space window":
             R(Key("tab/3")*Repeat(3) + Key("s-f10/4, down:3, enter")),
@@ -137,10 +144,13 @@ class GlobalNonCCRExtendedRule(MappingRule):
             "nineteen": "18",
             "twenty": "19",
         }),
+        navigation_support.get_direction_choice("direction"),
+        ShortIntegerRef("nnavi500", 1, 500),
 
     ]
     defaults = {
         "n": 1,
+        "nnavi500": 1,
     }
 
 def get_rule():
