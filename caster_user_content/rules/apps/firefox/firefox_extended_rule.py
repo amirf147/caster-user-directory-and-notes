@@ -120,7 +120,8 @@ class FirefoxExtendedRule(MappingRule):
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "https://chatgpt.com/",
             "copilot": "https://copilot.microsoft.com/",
-            "ice hall": "https://www.turku.fi/en/culture-and-sports/sports/sports-facilities/ice-halls/varissuo-ice-hall"
+            "ice hall": "https://www.turku.fi/en/culture-and-sports/sports/sports-facilities/ice-halls/varissuo-ice-hall",
+            "read it": "https://reddit.com/",
         }),
         Dictation("query"),
     ]
