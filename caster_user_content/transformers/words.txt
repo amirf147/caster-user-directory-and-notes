@@ -77,8 +77,8 @@ navigation
 
 navigationnon
     <<<ANY>>>
-    next tab -> swatch under
-    prior tab -> swatch over
+    next tab -> page under
+    prior tab -> page over
     find -> finder
     drop -> dropper
     
