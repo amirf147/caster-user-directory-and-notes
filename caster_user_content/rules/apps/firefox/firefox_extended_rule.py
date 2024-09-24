@@ -34,22 +34,22 @@ class FirefoxExtendedRule(MappingRule):
         "caret browsing":
             R(Key("f7")),
 
-        "swatch <n>":
+        "page <n>":
             R(Key("c-%(n)d")),
-        "swatch (last | minus | minus one)":
+        "page (last | minus | minus one)":
             R(Key("c-9")),
-        "swatch minus <n_off_by_one>":
+        "page minus <n_off_by_one>":
             R(Key("c-9, c-pgup:%(n_off_by_one)s")),
-        "swatch <nn>":
-            R(Key("c-8, c-pgdown:%(nn)s")),
-        "show swatch":
+        "page <nn>":
+            R(Key("c-8/3, c-pgdown:%(nn)s")),
+        "show pages":
             R(Key("c-b/8, f1")), # workaround for when pressing just F1 doesn't work
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
-        "duplicate swatch":
+        "duplicate page":
             R(Key("a-d/5, a-enter")),
-        "pop out swatch":
+        "pop out page":
             R(Key("a-d/5, s-enter")),
 
         "[show] downloads":
@@ -109,6 +109,10 @@ class FirefoxExtendedRule(MappingRule):
             "sixteen": "8",
             "seventeen": "9",
             "eighteen": "10",
+            "nineteen": "11",
+            "twenty": "12",
+            "twenty one": "13",
+            "twenty two": "14",
         }),
         Choice("website", {
             "(github | git hub)": "https://github.com/",
