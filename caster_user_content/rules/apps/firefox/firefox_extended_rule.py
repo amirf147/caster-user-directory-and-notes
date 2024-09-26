@@ -135,6 +135,7 @@ class FirefoxExtendedRule(MappingRule):
             "pepe": "https://opiskelija.peppi.turkuamk.fi/",
             "it's learning": "https://turkuamk.itslearning.com/",
             "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
+            "theseus": "https://www.theseus.fi/",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "https://chatgpt.com/",
             "copilot": "https://copilot.microsoft.com/",
