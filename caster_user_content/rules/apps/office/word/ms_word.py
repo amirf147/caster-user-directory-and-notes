@@ -126,6 +126,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-r")),
         "hint layout":
             R(Key("a-l")),
+        "hint mailings":
+            R(Key("a-m")),
 
         # Ribbon: Table Design
         "hint table":
