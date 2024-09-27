@@ -129,6 +129,7 @@ class FirefoxExtendedRule(MappingRule):
             "(github | git hub)": "https://github.com/",
             "(youtube | you tube)": "https://www.youtube.com/",
             "you tube lists": "https://www.youtube.com/feed/you",
+            "youtube history": "https://www.youtube.com/feed/history",
             "gmail": "https://mail.google.com/mail/u/0/#inbox",
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
             "school": "https://www.tuas.fi/en/",
