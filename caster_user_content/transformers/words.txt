@@ -60,7 +60,7 @@ navigation
     # tabby -> tab 
     clear -> backs
     # deli -> delete
-    shock -> enter
+    # shock -> enter
     lease -> left
     ross -> right
 
