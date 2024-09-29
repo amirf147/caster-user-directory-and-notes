@@ -87,6 +87,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("cs-f5")),
         "color dialog":
             R(Key("a-h/3, f, c")),
+        "table dialog":
+            R(Key("a-n/3, t, i")),
 
         # Applying styles
         "apply normal [style]":
