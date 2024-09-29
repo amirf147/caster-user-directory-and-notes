@@ -133,7 +133,7 @@ class CustomMSWordRule(MappingRule):
 
         # Ribbon: Table Design
         "hint table":
-            R(Key("a-j, t")),
+            R(Key("alt/3, j,t")),
         "hint borders":
         R(Key("a-j, t/3, b")),
 
