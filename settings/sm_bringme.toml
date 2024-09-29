@@ -37,6 +37,7 @@ outlook = "C:\\Program Files\\WindowsApps\\Microsoft.OutlookForWindows_1.2024.81
 word = "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
 "taskbar numbers" = "C:\\Users\\amirf\\Documents\\7plus-Taskbar-Numberer\\64\\7+ Taskbar Numberer.exe"
 "hunt and peck" = "C:\\Users\\amirf\\Documents\\HuntAndPeck-1.7\\hap.exe"
+paint = "C:\\Windows\\System32\\mspaint.exe"
 
 [file]
 "caster settings file" = "C:\\Users\\amirf\\AppData\\Local\\caster\\settings\\settings.toml"
