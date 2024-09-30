@@ -1,16 +1,25 @@
-# Changing "rules' specs" using simplified transformers:
-# https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
+# Reference: https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
 
-# Modifications to specs that are defined in the caster_alphabet
-# function in alphabet_support.py
+# The left side of the arrow represents the original mappings 
+# (what the system currently listens for),
+# while the right side represents the new mappings (what the system will listen for after modification).
+
+# These modifications are related to the alphabet specifications defined in the 
+# caster_alphabet function within the alphabet_support.py file.
+
 alphabet
-    <<<ANY>>>
-    # Talon alphabet
+    <<<ANY>>>  # Represents the mode change: specs, extras, and defaults 
+    
+    # Talon alphabet adjustments:
+    # On the left are the original phonetic words; on the right are the modified ones.
+    # Example: 'arch' was changed to 'air', and 'brov' was changed to 'bat'.
+    # Uncomment or edit as necessary to make further adjustments.
+    
     # arch -> air
     # brov -> bat
     # char -> cap
-    delta -> drum
-    echo -> each
+    delta -> drum  # Original: 'delta', New: 'drum'
+    echo -> each   # Original: 'echo', New: 'each'
     foxy -> fine
     goof -> gust
     hotel -> harp 
@@ -21,7 +30,7 @@ alphabet
     Mike -> made
     Novakeen -> near
     oscar -> odd
-    # prime -> pit
+    # prime -> pit  # Uncomment to activate this change
     Quebec -> quench
     Romeo -> read
     Sierra -> sun
