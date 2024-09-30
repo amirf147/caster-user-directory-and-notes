@@ -127,7 +127,7 @@ class CustomMSWordRule(MappingRule):
         "hint review":
             R(Key("a-r")),
         "hint layout":
-            R(Key("a-l")),
+            R(Key("a-p")),
         "hint mailings":
             R(Key("a-m")),
 
