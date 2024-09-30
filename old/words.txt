@@ -5,6 +5,15 @@
 # function in alphabet_support.py
 alphabet
     <<<ANY>>>
+    # arch -> alpha
+    # brov -> (bravo|brav|brov)
+    # char -> (char|charlie)
+    # foxy -> (fox|foxtrot)
+    # goof -> golf
+    # julia -> (julia|juliet)
+    # Novakeen -> november
+    # prime -> (prime|papa|poppa)
+    
     # Talon alphabet
     # arch -> air
     # brov -> bat
@@ -36,20 +45,35 @@ alphabet
 navigation
     # special keystroke commands
     <<<ANY>>>
+    # (lease wally | latch) ->  (homer | lease wally)
+    # (ross wally | ratch) -> (sequel | ross wally)
+    #(lease wally | latch) ->  lice
+    #(ross wally | ratch) -> rice
+    
     sauce wally -> topper
     dunce wally -> bottom
+    # bird -> blush
     firch -> jump
 
     # button_dictionary_500_no_prefix_no_modifier
     <<<ANY>>>
+    # tabby -> tab 
     clear -> backs
+    # deli -> delete
+    # shock -> enter
     lease -> left
     ross -> right
 
     # keyboard shortcuts
     <<<ANY>>>
+    # stoosh -> copy
     cut -> cuts
+    # spark -> puts 
     save -> file retain
+
+    # text formatting
+    <<<ANY>>>
+    # dredge -> switchback
 
 navigationnon
     <<<ANY>>>
@@ -66,6 +90,10 @@ keyboard
     (tab | tabby) -> tab
     (backspace | clear) -> backs
     (delete | deli) -> delete
+    # page (down | dunce) -> page [down | dunce]
+    # page (up | sauce) -> page (up | sauce)
+    # page (down | dunce) -> flis
+    # page (up | sauce) -> floss
     page (down | dunce) -> fell
     page (up | sauce) -> flow
     (home | lease wally | latch) -> (home | homer | lease wally)
@@ -74,6 +102,7 @@ keyboard
 punctuation
     <<<ANY>>>
     brax -> bracket
+    # ace -> space
     minus -> (minus | dash)
     plus -> plus sign
     (atty | at symbol) -> at symbol
