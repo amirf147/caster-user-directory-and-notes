@@ -8,11 +8,6 @@ from castervoice.rules.core.navigation_rules import navigation_support
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
-        # Window Switching
-        "drip [<n_off_by_one>]":
-            R(Key("w-t/3, down:%(n_off_by_one)s, enter")),
-        "drip minus [<n>]":
-            R(Key("w-t/3, up:%(n)d, enter")),
 
         # Opening/focusing system tray icons
         "open system <n_off_by_one>":

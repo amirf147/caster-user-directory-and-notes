@@ -1,6 +1,7 @@
 # Ignore directories
 data/
 sikuli/
+.vscode/
 
 # Ignore these files in the settings directory
 settings/companion_config.toml
