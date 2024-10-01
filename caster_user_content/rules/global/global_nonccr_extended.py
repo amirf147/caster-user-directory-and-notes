@@ -16,10 +16,13 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-b/3, right:%(n_off_by_one)s")),
 
         "show me calendar":
-        R(Key("w-b, up/3, enter")),
+            R(Key("w-b, up/3, enter")),
 
-        # hunt-and-peck activation
-        "show hints":
+        # Hunt and Peck activation
+        "show hints": 
+            # The action that follows when "show hints" is spoken
+            # This triggers the key combination "Alt + ;" (a-semicolon)
+            # to activate hunt and peck
             R(Key("a-semicolon")),
 
         "open snipping tool":
