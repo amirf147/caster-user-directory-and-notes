@@ -133,9 +133,12 @@ class CustomMSWordRule(MappingRule):
 
         # Ribbon: Table Design
         "hint table":
-            R(Key("alt/3, j,t")),
+            R(Key("alt/3, j, t")),
         "hint borders":
-        R(Key("a-j, t/3, b")),
+            R(Key("a-j, t/3, b")),
+        "table auto fit":
+            R(Key("alt/3, j, l, f, c")),
+
 
         # "Tell me" search box
         "queen [<query>]":
