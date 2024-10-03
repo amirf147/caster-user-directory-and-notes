@@ -52,9 +52,9 @@ class CustomMSWordRule(MappingRule):
         "text decrease":
             R(Key("cs-<")),
         "insert bullet":
-            R(Key("*, tab")),
+            R(Key("cs-l")),
         "insert number":
-            R(Key("1, tab")),
+            R(Key("ca-l")),
         "super script":
             R(Key("c-plus")),
         "subscript":
@@ -138,7 +138,6 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-j, t/3, b")),
         "table auto fit":
             R(Key("alt/3, j, l, f, c")),
-
 
         # "Tell me" search box
         "queen [<query>]":
