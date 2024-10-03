@@ -1,4 +1,4 @@
-_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule", "CustomMouseAlternativesRule", "ElementMatrixRule", "CustomMSTeamsRule", "EnableViaCamRule", "TaskbarRule", "CustomIERule"]
+_enabled_ordered = ["Alphabet", "Navigation", "NavigationNon", "Numbers", "Punctuation", "Keyboard", "CasterRule", "CasterMicRule", "SudokuGridRule", "HistoryRule", "ChainAlias", "Alias", "BringRule", "Again", "GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "DictationSinkRule", "VSCodeCcrRule", "VSCodeNonCcrRule", "WindowManagementRule", "FirefoxExtendedRule", "VSCodeExtendedCcrRule", "GlobalCCRExtendedRule", "FileDialogRule", "VLCRule", "HardwareRule", "RainbowGridRule", "OBSStudioRule", "SumatraRule", "GlobalNonCCRExtendedRule", "MSTeamsClassicRule", "YoutubeRule", "GeminiRule", "ChatGPTRule", "ClipchampRule", "FirefoxCcrRule", "VsCodeExtendedRule", "TextManipulation", "CustomMSWordRule", "CustomOutlookRule", "MSWordCcrRule", "CustomGitHubDeskRule", "CopilotRule", "CustomMouseAlternativesRule", "ElementMatrixRule", "CustomMSTeamsRule", "EnableViaCamRule", "TaskbarRule", "CustomIERule", "WordRule"]
 _internal = ["GrammarActivatorRule", "HooksActivationRule", "TransformersActivationRule", "ManualGrammarReloadRule"]
 
 [whitelisted]
@@ -127,3 +127,4 @@ ElementMatrixRule = true
 CustomMSTeamsRule = true
 EnableViaCamRule = true
 TaskbarRule = true
+WordRule = true
