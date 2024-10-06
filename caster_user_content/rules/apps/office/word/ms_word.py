@@ -139,6 +139,14 @@ class CustomMSWordRule(MappingRule):
         "table auto fit":
             R(Key("alt/3, j, l, f, c")),
 
+        # Ribbon: Table Layout
+        "hint table lay out":
+            R(Key("alt/3, j, l")),
+        "table row above":
+            R(Key("alt/3, j, l, a")),
+        "table merge cells":
+           R(Key("alt/3, j, l, m")),
+
         # "Tell me" search box
         "queen [<query>]":
             R(Key("a-q/3") + Text("%(query)s")),
