@@ -11,7 +11,7 @@ class FirefoxCcrRule(MergeRule):
     pronunciation = "custom fire fox ccr"
 
     mapping = {
-        "focus":
+        "switch focus":
             R(Key("f6/3")),
         "copy address":
             R(Key("a-d/5, c-c, escape, f6, tab/5, tab")),
