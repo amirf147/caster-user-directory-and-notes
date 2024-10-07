@@ -1,4 +1,4 @@
-,from dragonfly import MappingRule, Choice, ShortIntegerRef
+from dragonfly import MappingRule, Choice, ShortIntegerRef
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key
 from castervoice.lib.merge.state.short import R
