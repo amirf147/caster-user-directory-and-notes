@@ -144,8 +144,12 @@ class CustomMSWordRule(MappingRule):
             R(Key("alt/3, j, l")),
         "table row above":
             R(Key("alt/3, j, l, a")),
+        "table row below":
+            R(Key("alt/3, j, l, b, e")),
         "table merge cells":
            R(Key("alt/3, j, l, m")),
+        "table delete row":
+            R(Key("alt/3, j, l, d, r")),
 
         # "Tell me" search box
         "queen [<query>]":
