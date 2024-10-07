@@ -9,12 +9,6 @@ class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
 
-        # Opening/focusing system tray icons
-        "open system <n_off_by_one>":
-            R(Key("w-b/3, right:%(n_off_by_one)s, enter")),
-        "go to system <n_off_by_one>":
-            R(Key("w-b/3, right:%(n_off_by_one)s")),
-
         "show me calendar":
             R(Key("w-b, up/3, enter")),
 
