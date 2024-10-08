@@ -5,12 +5,16 @@ from castervoice.lib.merge.state.short import R
 
 
 class PowerPointRule(MappingRule):
+
     mapping = {
+        "hint <ribbon>":
+           Key("a-%(ribbon)s"),
 
-       "hint <ribbon>":
-           Key("a-%(ribbon)s"), 
+        # Slides
+        "slide new":
+           Key("a-h/3, z, s, i"),
+        }
 
-    }
     extras = [
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
