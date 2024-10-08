@@ -1,10 +1,10 @@
-from dragonfly import Dictation, MappingRule, ShortIntegerRef, Pause, IntegerRef
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Pause, IntegerRef, Choice
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 
-class CustomMSWordRule(MappingRule):
+class PowerPointRule(MappingRule):
     mapping = {
 
        "hint <ribbon>":
@@ -15,12 +15,22 @@ class CustomMSWordRule(MappingRule):
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
         IntegerRef("n3", 1, 4),
-        Choice
-
+        Choice("ribbon", {
+            "file": "f",
+            "home": "h",
+            "insert": "n",
+            "design": "g",
+            "transitions": "k",
+            "animations": "a",
+            "slideshow": "s",
+            "record": "c",
+            "review": "r",
+            "view": "w"
+        }),
     ]
     defaults = {"n": 1, "query": "",}
 
 
 def get_rule():
-    details = RuleDetails(name="Custom Microsoft Word", executable="winword")
-    return CustomMSWordRule, details
+    details = RuleDetails(name="PowerPoint", executable="powerpnt")
+    return PowerPointRule, details
