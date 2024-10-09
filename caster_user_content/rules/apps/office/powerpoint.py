@@ -7,12 +7,28 @@ from castervoice.lib.merge.state.short import R
 class PowerPointRule(MappingRule):
 
     mapping = {
+
+        "cycle case":
+            R(Key("s-f3")),
         "hint <ribbon>":
-           Key("a-%(ribbon)s"),
+           R(Key("a-%(ribbon)s")),
 
         # Slides
         "slide new":
-           Key("a-h/3, z, s, i"),
+           R(Key("a-h/3, z, s, i")),
+
+        # Insert ribbon actions
+        "insert text box":
+            R(Key("a-n/3, x")),
+        "insert image":
+            R(Key("a-n/3, z, g/3, p, 1, d")),
+            
+        "show selection pane":
+            R(Key("a-f10")),
+
+        "show grid lines":
+            R(Key("s-f9")),
+
         }
 
     extras = [
