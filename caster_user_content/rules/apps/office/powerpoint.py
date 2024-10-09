@@ -14,15 +14,22 @@ class PowerPointRule(MappingRule):
            R(Key("a-%(ribbon)s")),
 
         # Slides
-        "slide new":
+        "new slide":
            R(Key("a-h/3, z, s, i")),
+        "duplicate slide":
+            R(Key("c-d")),
+
+        # Home ribbon actions
+
+        "show design pane":
+            R(Key("a-h/3, d, 2")),
 
         # Insert ribbon actions
         "insert text box":
             R(Key("a-n/3, x")),
         "insert image":
             R(Key("a-n/3, z, g/3, p, 1, d")),
-            
+
         "show selection pane":
             R(Key("a-f10")),
 
