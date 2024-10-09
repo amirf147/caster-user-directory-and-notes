@@ -1,12 +1,26 @@
-from dragonfly import Dictation, MappingRule, ShortIntegerRef, Pause, IntegerRef, Choice
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Pause, IntegerRef, Choice, Function
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
+def _change_slide(n0_50):
+    n0_50 -= 1
+    Key("escape, home, pgdown:%(n0_50)d").execute({"n0_50": n0_50})
 
 class PowerPointRule(MappingRule):
 
     mapping = {
+
+        "switch focus [<n>]":
+            R(Key("f6:%(n)d")),
+        "shin focus [<n>]":
+            R(Key("s-f6:%(n)d")),
+
+        "zoom in [<n>]":
+            R(Key("a-w/3, q/3, tab, up:%(n)d, enter")),
+        "zoom out [<n>]":
+            R(Key("a-w/3, q/3, tab, down:%(n)d, enter")),
+
 
         "cycle case":
             R(Key("s-f3")),
@@ -14,6 +28,8 @@ class PowerPointRule(MappingRule):
            R(Key("a-%(ribbon)s")),
 
         # Slides
+        "slide <n0_50>":
+            R(Function(_change_slide)),
         "new slide":
            R(Key("a-h/3, z, s, i")),
         "duplicate slide":
@@ -38,6 +54,7 @@ class PowerPointRule(MappingRule):
         }
 
     extras = [
+        ShortIntegerRef("n0_50", 0, 51),
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
         IntegerRef("n3", 1, 4),
