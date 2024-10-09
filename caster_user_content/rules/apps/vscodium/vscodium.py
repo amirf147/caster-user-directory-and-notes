@@ -78,7 +78,7 @@ class VsCodiumRule(MappingRule):
         "copy path":
             R(Key("c-k, p")),
         "[open] commander [<text>]":
-            R(Key("cs-p") + Text("%(text)s"), rdescript="VS Code: Command Palette"),
+            R(Key("cs-p/3") + Text("%(text)s"), rdescript="VS Code: Command Palette"),
         "(open file | go to [tab]) [<text>]":
             R(Key("c-p") + Text("%(text)s"), rdescript="VS Code: Go to File without using dialogbox"),
         "open project [<text>]":
