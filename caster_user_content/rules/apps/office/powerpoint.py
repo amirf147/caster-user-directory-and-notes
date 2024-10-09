@@ -20,15 +20,11 @@ class PowerPointRule(MappingRule):
             R(Key("c-d")),
 
         # Home ribbon actions
-
         "show design pane":
             R(Key("a-h/3, d, 2")),
 
-        # Insert ribbon actions
-        "insert text box":
-            R(Key("a-n/3, x")),
-        "insert image":
-            R(Key("a-n/3, z, g/3, p, 1, d")),
+        "insert <insert_action>":
+            R(Key("%(insert_action)s")),
 
         "show selection pane":
             R(Key("a-f10")),
@@ -36,12 +32,20 @@ class PowerPointRule(MappingRule):
         "show grid lines":
             R(Key("s-f9")),
 
+        "queen <query>":
+            R(Key("a-q/3") + Text("%(query)s")),
+
         }
 
     extras = [
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
         IntegerRef("n3", 1, 4),
+        Choice("insert_action", {
+            "text box": "a-n/3, x",
+            "image": "a-n/3, z, g/3, p, 1, d",
+            "smart art": "a-n/3, m",
+        }),
         Choice("ribbon", {
             "file": "f",
             "home": "h",
