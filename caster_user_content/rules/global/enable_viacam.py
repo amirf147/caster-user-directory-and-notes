@@ -6,7 +6,7 @@ from castervoice.lib.merge.state.short import R
 
 class EnableViaCamRule(MappingRule):
     mapping = {
-        "begin tracking | stop tracking":
+        "pointer":
             R(Key("f11")),
     }
     extras = [

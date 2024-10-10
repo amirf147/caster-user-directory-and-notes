@@ -35,15 +35,17 @@ class PowerPointRule(MappingRule):
         "duplicate slide":
             R(Key("c-d")),
 
-        # Home ribbon actions
-        "show design pane":
-            R(Key("a-h/3, d, 2")),
+        # Animations
+        "add animation":
+            R(Key("a-a/3, a, a")),
+        "(annie | animation) start":
+            R(Key("a-a/3, t")),
+
+        "<pane> pane":
+            R(Key("%(pane)s")),
 
         "insert <insert_action>":
             R(Key("%(insert_action)s")),
-
-        "show selection pane":
-            R(Key("a-f10")),
 
         "show grid lines":
             R(Key("s-f9")),
@@ -62,6 +64,11 @@ class PowerPointRule(MappingRule):
             "text box": "a-n/3, x",
             "image": "a-n/3, z, g/3, p, 1, d",
             "smart art": "a-n/3, m",
+        }),
+        Choice("pane", {
+            "selection": "a-f10",
+            "design": "a-h/3, d, 2",
+            "animation": "a-a/3, c",
         }),
         Choice("ribbon", {
             "file": "f",
