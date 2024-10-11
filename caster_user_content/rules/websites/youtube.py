@@ -7,6 +7,9 @@ class YoutubeRule(MappingRule):
     pronunciation = "youtube rule"
     mapping = {
 
+        "check comments":
+            R(Key("escape/200, c-end/200, pgdown")),
+
         # Only works when on a page that is not a youtube video
         "search <query>":
             R(Key("f1/2") + Text("%(query)s")),
