@@ -60,6 +60,11 @@ navigation
     cut -> cuts
     save -> file retain
 
+    # CCR Mouse commands
+    kick -> yep
+    psychic -> are yeah
+    (kick double|double kick) -> double yep
+
 navigationnon
     <<<ANY>>>
     next tab -> page under
@@ -95,18 +100,3 @@ punctuation
     questo -> question mark
     period | dot -> period
     equals -> equal
-
-vscodeccr
-    <<<ANY>>>
-    [show] terminal -> shell
-    copy line up -> same above
-    copy line down -> same below
-    next cursor -> curse it
-    command palette -> commander
-
-vscodenonccr
-    <<<ANY>>>
-    toggle word wrap -> word wrap
-    explorer -> show files
-    keyboard shortcuts -> keyboard mappings
-    (show hover|mouse hover|hover mouse) -> clarify [error]
