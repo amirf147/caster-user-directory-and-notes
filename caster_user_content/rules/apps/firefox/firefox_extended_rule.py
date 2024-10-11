@@ -61,6 +61,8 @@ class FirefoxExtendedRule(MappingRule):
         # Address bar querying with dictation
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
+        "tabzer <query>":
+            R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
 
