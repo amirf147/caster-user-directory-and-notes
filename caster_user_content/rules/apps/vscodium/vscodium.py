@@ -22,6 +22,12 @@ def _find_nth_token(text, n, direction):
 class VsCodiumRule(MappingRule):
     pronunciation = "viz codium"
     mapping = {
+
+        "page over [<n>]":
+            R(Key("c-pgup:%(n)d")),
+        "page down [<n>]":
+            R(Key("c-pgdown:%(n)d")),
+
         "shell":
             R(Key("c-backtick")),
             
