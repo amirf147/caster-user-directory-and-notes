@@ -23,11 +23,6 @@ class VsCodiumRule(MappingRule):
     pronunciation = "viz codium"
     mapping = {
 
-        "page over [<n>]":
-            R(Key("c-pgup:%(n)d")),
-        "page down [<n>]":
-            R(Key("c-pgdown:%(n)d")),
-
         "shell":
             R(Key("c-backtick")),
             
@@ -107,9 +102,9 @@ class VsCodiumRule(MappingRule):
             R(Key("cs-s")),
         "save all":
             R(Key("c-k, s")),
-        "next tab [<n>]":
+        "page under [<n>]":
             R(Key("c-pgdown") * Repeat(extra='n')),
-        "previous tab [<n>]":
+        "page over [<n>]":
             R(Key("c-pgup") * Repeat(extra='n')),
         "close tab [<n>]":
             R(Key("c-f4/20") * Repeat(extra='n')),

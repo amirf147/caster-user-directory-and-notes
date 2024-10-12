@@ -44,7 +44,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-8/3, c-pgdown:%(nn)s")),
         "page over [<n>]":
             R(Key("c-pgup/3"))*Repeat(extra="n"),
-        "page down [<n>]":
+        "page under [<n>]":
             R(Key("c-pgdown/3"))*Repeat(extra="n"),
 
         "show pages":
