@@ -27,6 +27,20 @@ class PowerPointRule(MappingRule):
         "hint <ribbon>":
            R(Key("a-%(ribbon)s")),
 
+        # Text
+        "center align":
+            R(Key("c-e")),
+        "lay align":
+            R(Key("c-l")),
+        "indent":
+            R(Key("as-right")),
+        "unindent":
+            R(Key("as-left")),
+        
+        # Table
+        "merge cells":
+            R(Key("a-j, l, m")),
+
         # Slides
         "slide <n0_50>":
             R(Function(_change_slide)),
@@ -80,7 +94,8 @@ class PowerPointRule(MappingRule):
             "slideshow": "s",
             "record": "c",
             "review": "r",
-            "view": "w"
+            "view": "w",
+            "table layout": "j, l",
         }),
     ]
     defaults = {"n": 1, "query": "",}
