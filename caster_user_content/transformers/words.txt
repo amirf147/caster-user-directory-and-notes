@@ -57,13 +57,16 @@ navigation
 
     # keyboard shortcuts
     <<<ANY>>>
-    cut -> cuts
+    cut -> cutter
     save -> file retain
 
     # CCR Mouse commands
-    kick -> yep
-    psychic -> are yeah
-    (kick double|double kick) -> double yep
+    # For some reason enabling this transformer, stops the other navigationnon
+    # from working
+    # kick -> yep
+
+    #psychic -> are yeah
+    #(kick double|double kick) -> double yep
 
 navigationnon
     <<<ANY>>>
@@ -72,8 +75,8 @@ navigationnon
     find -> finder
     drop -> dropper
     
-    # I just want to stop this command from being recognized so I made it longer
-    maxiwin -> make maximize window
+    # made this one longer to stop misrecognitions with "backs"
+    maxiwin -> make maximizing
 
 keyboard
     <<<ANY>>>
