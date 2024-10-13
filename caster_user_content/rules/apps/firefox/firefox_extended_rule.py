@@ -66,10 +66,12 @@ class FirefoxExtendedRule(MappingRule):
         # Address bar querying with dictation
         "netzer <query>":
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
-        "tabzer <query>":
+        "netzer tab <query>":
             R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
+        "hister tab <query>":
+            R(Key("c-t/5") + Text("^%(query)s")),
 
         # Specific website navigation in new tab
         "go tab <website>":
