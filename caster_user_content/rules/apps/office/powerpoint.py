@@ -37,6 +37,13 @@ class PowerPointRule(MappingRule):
         "unindent":
             R(Key("as-left")),
         
+        # Font
+        "font color":
+            R(Key("a-h, f, c")),
+        "font size":
+            R(Key("a-h, f, s")),
+
+
         # Table
         "merge cells":
             R(Key("a-j, l, m")),
@@ -78,6 +85,7 @@ class PowerPointRule(MappingRule):
             "text box": "a-n/3, x",
             "image": "a-n/3, z, g/3, p, 1, d",
             "smart art": "a-n/3, m",
+            "shape": "a-n, s, h",
         }),
         Choice("pane", {
             "selection": "a-f10",
