@@ -42,6 +42,10 @@ class PowerPointRule(MappingRule):
             R(Key("a-h, f, c")),
         "font size":
             R(Key("a-h, f, s")),
+        "text increase":
+            R(Key("cs->")),
+        "text decrease":
+            R(Key("cs-<")),
 
 
         # Table
