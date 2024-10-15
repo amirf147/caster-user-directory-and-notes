@@ -59,6 +59,8 @@ class PowerPointRule(MappingRule):
            R(Key("a-h/3, z, s, i")),
         "duplicate slide":
             R(Key("c-d")),
+        "slide layout":
+            R(Key("a-h, l")),
 
         # Animations
         "add animation":
