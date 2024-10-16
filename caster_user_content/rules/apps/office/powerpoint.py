@@ -42,10 +42,10 @@ class PowerPointRule(MappingRule):
             R(Key("a-h, f, c")),
         "font size":
             R(Key("a-h, f, s")),
-        "text increase":
-            R(Key("cs->")),
-        "text decrease":
-            R(Key("cs-<")),
+        "text increase [<n10>]":
+            R(Key("cs->:%(n10)d")),
+        "text decrease [<n10>]":
+            R(Key("cs-<:%(n10)d")),
 
 
         # Table
@@ -87,6 +87,7 @@ class PowerPointRule(MappingRule):
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
         IntegerRef("n3", 1, 4),
+        IntegerRef("n10", 1, 11),
         Choice("insert_action", {
             "text box": "a-n/3, x",
             "image": "a-n/3, z, g/3, p, 1, d",
@@ -112,7 +113,7 @@ class PowerPointRule(MappingRule):
             "table layout": "j, l",
         }),
     ]
-    defaults = {"n": 1, "query": "",}
+    defaults = {"n": 1, "n10": 1, "query": "",}
 
 
 def get_rule():
