@@ -12,8 +12,8 @@ alphabet
     
     # Talon alphabet adjustments:
     # On the left are the original phonetic words; on the right are the modified ones.
-    # Example: 'arch' was changed to 'air', and 'brov' was changed to 'bat'.
-    # Uncomment or edit as necessary to make further adjustments.
+    # Example: 'Sierra' was changed to 'sun', and 'victor' was changed to 'vest'.
+    # The ones that are commented out are left unchanged.
     
     # arch -> air
     # brov -> bat
