@@ -4,6 +4,8 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 
+REFERENCES_RIBBON = "a-s"
+
 class CustomMSWordRule(MappingRule):
     mapping = {
         "insert image": R(Key("alt, n, p")),
@@ -77,6 +79,16 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-r")),
         "justify align":
             R(Key("c-j")),
+
+        # Home Ribbon Actions
+        "show paragraph":
+            R(Key("a-h, z, p, 8")),
+        "show styles":
+            R(Key("a-h, l")),
+
+        # References Ribbon Actions
+        "insert caption":
+            R(Key(f"{REFERENCES_RIBBON}, p")),
 
         # Opening Dialogs
         "font dialog":
