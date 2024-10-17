@@ -99,6 +99,10 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Mouse("[500, 800]")),
         "cork four":
             R(Mouse("[1500, 800]")),
+        "cork five":
+            R(Mouse("[950, 500]")),
+        "cork six":
+            R(Mouse("[-1242, -655]")),
 
         # Moving mouse cursor and then scrolling in one utterance
         "cork one scree <direction> [<nnavi500>]":
