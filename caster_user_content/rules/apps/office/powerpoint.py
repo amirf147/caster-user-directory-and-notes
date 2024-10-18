@@ -5,7 +5,7 @@ from castervoice.lib.merge.state.short import R
 
 def _change_slide(n0_50):
     n0_50 -= 1
-    Key("escape, home, pgdown:%(n0_50)d").execute({"n0_50": n0_50})
+    Key("escape, home/5, pgdown:%(n0_50)d").execute({"n0_50": n0_50})
 
 class PowerPointRule(MappingRule):
 
