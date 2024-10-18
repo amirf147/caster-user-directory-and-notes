@@ -15,6 +15,10 @@ class CustomMSWordRule(MappingRule):
 
         "focus": R(Key("f6")),
 
+        # Viewing Headings in Navigation Pane
+        "navigate headings":
+            R(Key("c-f/100, backspace, tab:2/3, left:2/3, tab:2")),
+
         # Pasting only text without formatting
         "paste text":
             R(Key("s-f10/3, t")),
