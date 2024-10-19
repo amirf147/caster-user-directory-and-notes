@@ -46,6 +46,8 @@ class PowerPointRule(MappingRule):
             R(Key("cs->:%(n10)d")),
         "text decrease [<n10>]":
             R(Key("cs-<:%(n10)d")),
+        "format underline":
+            R(Key("c-u")),
 
 
         # Table
