@@ -48,6 +48,8 @@ class PowerPointRule(MappingRule):
             R(Key("cs-<:%(n10)d")),
         "format underline":
             R(Key("c-u")),
+        "format bold":
+            R(Key("c-b")),
 
 
         # Table
