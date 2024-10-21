@@ -6,6 +6,8 @@ from castervoice.lib.merge.state.short import R
 class TaskbarRule(MappingRule):
     mapping = {
         # Switching applications via the taskbar
+        "drip ten":
+            R(Key("w-0, enter")),
         "drip [<n9>]":
             R(Key("w-%(n9)d, enter")),
         "drip [<n_off_by_one_10_20>]":
@@ -38,7 +40,7 @@ class TaskbarRule(MappingRule):
         Choice("n_off_by_one_1_20", {
             "one": "0", "two": "1", "three": "2", "four": "3",
             "five": "4", "six": "5", "seven": "6", "eight": "7",
-            "nine": "8", "ten": "9", "eleven": "10", "twelve": "11",
+            "nine": "8", "eleven": "10", "twelve": "11",
             "thirteen": "12", "fourteen": "13", "fifteen": "14", "sixteen": "15",
             "seventeen": "16", "eighteen": "17", "nineteen": "18", "twenty": "19",
         }),

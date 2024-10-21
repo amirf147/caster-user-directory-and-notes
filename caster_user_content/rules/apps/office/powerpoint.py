@@ -21,6 +21,8 @@ class PowerPointRule(MappingRule):
         "zoom out [<n>]":
             R(Key("a-w/3, q/3, tab, down:%(n)d, enter")),
 
+        "file custom retain":
+            R(Key("a-f/3, a")),
 
         "cycle case":
             R(Key("s-f3")),
