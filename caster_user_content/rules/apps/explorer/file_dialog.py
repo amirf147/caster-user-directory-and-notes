@@ -1,4 +1,4 @@
-from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef
+from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key
 
@@ -35,8 +35,18 @@ class FileDialogRule(MappingRule):
         "[file] name": R(Key("a-n")),
         "file type": R(Key("c-l, tab:7")),
 
+        # Navigating via address bar
+        "go <path>":
+            R(Key("a-d/5") + Text("%(path)s") + Key("enter")),
+
     }
-    extras = [ShortIntegerRef("n", 1, 10), Dictation("text")]
+    extras = [
+        ShortIntegerRef("n", 1, 10),
+        Dictation("text"),
+        Choice("path", {
+            "[my] documents" : "C:\\Users\\amirf\\Documents\\",
+        }),
+        ]
     defaults = {
         "n": 1,
     }
