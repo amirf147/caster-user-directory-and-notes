@@ -5,27 +5,18 @@ from castervoice.lib.merge.state.short import R
 
 class WordRule(MappingRule):
     mapping = {
-
         # Example command 1:
         "insert [my | the] [<place>] address":
-            R(
-                Text("Address: %(place)s") +
-                Key("c-left:8")
-            ),
+            R(Text("Address: %(place)s") + Key("c-left:8")),
 
         # Example command 2:
         "empty above three":
-            R(
-                Key("home/5, enter:3")
-            ),
+            R(Key("home/5, enter:3")),
 
         # Example command 2:
         "empty below <n>":
-            R(
-                Key("end/3, enter:%(n)d")
-            )
+            R(Key("end/3, enter:%(n)d"))
     }
-
     extras = [
         Choice("place", {
             "home": "5665 Hillcrest Ave, Seattle, WA 98118",
@@ -33,7 +24,6 @@ class WordRule(MappingRule):
         }),
         IntegerRef("n", 1, 101),
     ]
-
     defaults = {
         "place": "5665 Hillcrest Ave, Seattle, WA 98118",
         }
