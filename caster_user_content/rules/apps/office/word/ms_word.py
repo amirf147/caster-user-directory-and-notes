@@ -152,8 +152,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("alt/3, j, t")),
         "hint borders":
             R(Key("a-j, t/3, b")),
-        "table auto fit":
-            R(Key("alt/3, j, l, f, c")),
+        "table shading":
+            R(Key("alt/3, j, t/3, h")),
+        "remove table shading":
+            R(Key("alt/3, j, t/3, h, n")),
 
         # Ribbon: Table Layout
         "hint table lay out":
@@ -166,6 +168,8 @@ class CustomMSWordRule(MappingRule):
            R(Key("alt/3, j, l, m")),
         "table delete row":
             R(Key("alt/3, j, l, d, r")),
+        "table auto fit":
+            R(Key("alt/3, j, l, f, c")),
 
         # "Tell me" search box
         "queen [<query>]":
