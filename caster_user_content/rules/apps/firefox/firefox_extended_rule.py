@@ -95,6 +95,8 @@ class FirefoxExtendedRule(MappingRule):
 
         "go tab clipboard":
             R(Key("c-t/5") + Key("cs-v") + Key("enter")),
+        "go window clipboard":
+            R(Key("c-n/120") + Key("cs-v") + Key("enter")),
 
     }
     extras = [
