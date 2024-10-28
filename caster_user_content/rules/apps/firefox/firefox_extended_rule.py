@@ -80,6 +80,8 @@ class FirefoxExtendedRule(MappingRule):
         # Specific website navigation via address bar
         "go <website>":
             R(Key("a-d/5") + Text("%(website)s") + Key("enter")),
+        "go window <website>":
+            R(Key("c-n/120") + Text("%(website)s") + Key("enter")),
 
         # Link navigation
         "jink <query>":
