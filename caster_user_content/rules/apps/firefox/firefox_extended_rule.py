@@ -68,6 +68,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
         "netzer tab <query>":
             R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
+        "netzer window <query>":
+            R(Key("c-n/120") + Text("%(query)s") + Key("enter")),
         "hister <query>":
             R(Key("a-d/5") + Text("^%(query)s")),
         "hister tab <query>":
