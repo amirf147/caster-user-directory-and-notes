@@ -95,6 +95,8 @@ class FirefoxExtendedRule(MappingRule):
 
         "google that":
             R(Store(remove_cr=True) + Key("c-t/5") + Retrieve() + Key("enter")),
+        "google that window":
+            R(Store(remove_cr=True) + Key("c-n/120") + Retrieve() + Key("enter")),
 
         "go clipboard":
             R(Key("a-d/5") + Key("c-v") + Key("enter")),
