@@ -5,7 +5,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
 class CopilotRule(MappingRule):
     mapping = {
-        "compose [box]":
+        "fous compose [box]":
             R(Key("f1")),
     }
 
