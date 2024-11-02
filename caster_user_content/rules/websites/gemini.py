@@ -6,7 +6,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 class GeminiRule(MappingRule):
     pronunciation = "gemini rule"
     mapping = {
-        "compose [box]":
+        "focus compose [box]":
             R(Key("f1")),
         
         # bring focus to the response area above the compose box so you can scroll the response
