@@ -1,8 +1,15 @@
-from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat
+from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function
 from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.temporary import Store, Retrieve
+
+def _search_youtube(query):
+    formatted_search = query.replace(" ", "+")
+    formatted_url = f"https://www.youtube.com/results?search_query={formatted_search}"
+    Key("a-d/5").execute() \
+        + Text("%(formatted_url)s").execute({"formatted_url": formatted_url}) \
+             + Key("enter").execute()
 
 
 class FirefoxExtendedRule(MappingRule):
@@ -105,6 +112,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-t/5") + Key("cs-v") + Key("enter")),
         "go window clipboard":
             R(Key("c-n/120") + Key("cs-v") + Key("enter")),
+
+        "you search <query>":
+            R(Function(_search_youtube)),
 
     }
     extras = [
