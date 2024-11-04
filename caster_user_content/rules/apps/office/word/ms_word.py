@@ -8,6 +8,10 @@ REFERENCES_RIBBON = "a-s"
 
 class CustomMSWordRule(MappingRule):
     mapping = {
+
+        "go to page <n>":
+            R(Key("f5/50") + Text("%(n)d") + Key("enter, escape")),
+
         "insert image": R(Key("alt, n, p")),
         "file open": R(Key("c-o/3, a-o")),
         "file retain": R(Key("c-s")),
