@@ -116,6 +116,9 @@ class FirefoxExtendedRule(MappingRule):
         "you search <query>":
             R(Function(_search_youtube)),
 
+        "you search window <query>":
+            R(Key("c-n/60") + Function(_search_youtube)),
+
     }
     extras = [
         IntegerRef("n", 1, 9),
