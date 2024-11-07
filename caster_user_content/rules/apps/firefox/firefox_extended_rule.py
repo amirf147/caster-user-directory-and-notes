@@ -118,6 +118,8 @@ class FirefoxExtendedRule(MappingRule):
 
         "you search window <query>":
             R(Key("c-n/60") + Function(_search_youtube)),
+        "you search tab <query>":
+            R(Key("c-t") + Function(_search_youtube)),
 
     }
     extras = [
