@@ -20,7 +20,7 @@ class CustomMSWordRule(MappingRule):
 
 
         "insert image": R(Key("alt, n, p")),
-        "file open": R(Key("c-o/3, a-o")),
+        "file open": R(Key("c-o/3, a-o/100, o")),
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
 
