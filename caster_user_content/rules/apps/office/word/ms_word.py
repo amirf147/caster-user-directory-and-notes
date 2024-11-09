@@ -23,6 +23,7 @@ class CustomMSWordRule(MappingRule):
         "file open": R(Key("c-o/3, a-o/100, o")),
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
+        "file export": R(Key("a-f/100, e")),
 
         "focus": R(Key("f6")),
 
