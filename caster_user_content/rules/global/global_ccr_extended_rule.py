@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Function, Dictation
+from dragonfly import ShortIntegerRef, Pause, Function, Dictation, Mouse
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
@@ -22,6 +22,13 @@ class GlobalCCRExtendedRule(MergeRule):
         # adding an empty line above or below the cursor
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
+
+        "click":
+            R(Mouse("[500, 262], left")),
+        "clack":
+            R(Mouse("[1500, 262], left")),
+
+
 
         "alley": R(Key("c-a")),
     }
