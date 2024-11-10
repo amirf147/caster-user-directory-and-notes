@@ -45,6 +45,7 @@ class FileDialogRule(MappingRule):
         Dictation("text"),
         Choice("path", {
             "[my] documents" : "C:\\Users\\amirf\\Documents\\",
+            "downloads" : "C:\\Users\\amirf\\Downloads\\",
         }),
         ]
     defaults = {
