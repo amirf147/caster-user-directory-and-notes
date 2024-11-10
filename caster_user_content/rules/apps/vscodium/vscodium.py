@@ -265,6 +265,10 @@ class VsCodiumRule(MappingRule):
         "[toggle] word wrap":
             R(Key("a-z")),
 
+        # Requires user-defined keybinding for "Python: Run Python File"
+        "pi run":
+            R(Key("c-k/3, f5")),
+
         "run this line":
             R(Key("csa-l")),
         "join line":
