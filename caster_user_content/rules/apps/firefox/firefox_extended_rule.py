@@ -55,7 +55,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-pgdown/3"))*Repeat(extra="n"),
 
         "show pages":
-            R(Key("c-b/8, f1")), # workaround for when pressing just F1 doesn't work
+            R(Key("c-b/30, f1")), # workaround for when pressing just F1 doesn't work
         "hide left":
             R(Key("c-b:2")), # workaround for when pressing just F1 doesn't work
 
