@@ -176,7 +176,8 @@ class FirefoxExtendedRule(MappingRule):
             "copilot": "https://copilot.microsoft.com/",
             "ice hall": "https://www.turku.fi/en/culture-and-sports/sports/sports-facilities/ice-halls/varissuo-ice-hall",
             "read it": "https://reddit.com/",
-            "linkedin": "https://www.linkedin.com"
+            "linkedin": "https://www.linkedin.com",
+            "google maps": "https://www.google.com/maps"
         }),
         Dictation("query"),
     ]
