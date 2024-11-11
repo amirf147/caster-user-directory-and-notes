@@ -158,6 +158,8 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-p")),
         "hint mailings":
             R(Key("a-m")),
+        "hint developer":
+            R(Key("a-l")),
 
         # Ribbon: Table Design
         "hint table design":
