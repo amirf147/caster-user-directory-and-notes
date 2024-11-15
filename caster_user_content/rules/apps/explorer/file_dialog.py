@@ -47,6 +47,7 @@ class FileDialogRule(MappingRule):
             "[my] documents" : "C:\\Users\\amirf\\Documents\\",
             "downloads" : "C:\\Users\\amirf\\Downloads\\",
             "home" : "C:\\Users\\amirf\\",
+            "pictures": "C:\\Users\\amirf\\Pictures\\"
         }),
         ]
     defaults = {
