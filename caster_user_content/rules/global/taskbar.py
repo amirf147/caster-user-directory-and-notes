@@ -9,7 +9,7 @@ class TaskbarRule(MappingRule):
         "drip ten":
             R(Key("w-0, enter")),
         "drip [<n9>]":
-            R(Key("w-%(n9)d, enter")),
+            R(Key("w-%(n9)d")),
         "drip [<n_off_by_one_10_20>]":
             R(Key("w-t/3, down:%(n_off_by_one_10_20)s, enter")),
         "drip minus [<n20>]":
