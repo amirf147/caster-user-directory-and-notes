@@ -12,12 +12,9 @@ class CustomMSWordRule(MappingRule):
         "go to page <n>":
             R(Key("f5/50") + Text("%(n)d") + Key("enter, escape")),
 
-        # temporary
-        "insert accessed":
-            R(Text("(Accessed: 2024-09-)") + Key("left")),
-        "insert available":
-            R(Text("Available at: ")),
-
+        # Read aloud
+        "reading mode": R(Key("ca-space")),
+        "(pause | resume) reading": R(Key("c-space")),
 
         "insert image": R(Key("alt, n, p")),
         "file open": R(Key("c-o/3, a-o/100, o")),
