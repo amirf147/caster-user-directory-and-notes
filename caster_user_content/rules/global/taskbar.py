@@ -23,17 +23,10 @@ class TaskbarRule(MappingRule):
     }
     extras = [
         Choice("off1_10_20", {
-            "ten": "9",
-            "eleven": "10",
-            "twelve": "11",
-            "thirteen": "12",
-            "fourteen": "13",
-            "fifteen": "14",
-            "sixteen": "15",
-            "seventeen": "16",
-            "eighteen": "17",
-            "nineteen": "18",
-            "twenty": "19",
+            "ten": "9", "eleven": "10", "twelve": "11",
+            "thirteen": "12", "fourteen": "13", "fifteen": "14",
+            "sixteen": "15", "seventeen": "16", "eighteen": "17",
+            "nineteen": "18", "twenty": "19",
         }),
         ShortIntegerRef("n9", 1, 10),
         ShortIntegerRef("n20", 1, 21),
