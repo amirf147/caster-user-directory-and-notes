@@ -7,22 +7,22 @@ class TaskbarRule(MappingRule):
     mapping = {
         # Switching applications via the taskbar
         "drip ten":
-            R(Key("w-0, enter")),
+            R(Key("w-0")),
         "drip [<n9>]":
             R(Key("w-%(n9)d")),
-        "drip [<n_off_by_one_10_20>]":
-            R(Key("w-t/3, down:%(n_off_by_one_10_20)s, enter")),
+        "drip [<off1_10_20>]":
+            R(Key("w-t/3, down:%(off1_10_20)s, enter")),
         "drip minus [<n20>]":
             R(Key("w-t/3, up:%(n20)d, enter")),
         
         # Opening/focusing system tray icons
-        "open system <n_off_by_one_1_20>":
-            R(Key("w-b/3, right:%(n_off_by_one_1_20)s, enter")),
-        "go to system <n_off_by_one_1_20>":
-            R(Key("w-b/3, right:%(n_off_by_one_1_20)s")),
+        "open system <off1_1_20>":
+            R(Key("w-b/3, right:%(off1_1_20)s, enter")),
+        "go to system <off1_1_20>":
+            R(Key("w-b/3, right:%(off1_1_20)s")),
     }
     extras = [
-        Choice("n_off_by_one_10_20", {
+        Choice("off1_10_20", {
             "ten": "9",
             "eleven": "10",
             "twelve": "11",
@@ -37,7 +37,7 @@ class TaskbarRule(MappingRule):
         }),
         ShortIntegerRef("n9", 1, 10),
         ShortIntegerRef("n20", 1, 21),
-        Choice("n_off_by_one_1_20", {
+        Choice("off1_1_20", {
             "one": "0", "two": "1", "three": "2", "four": "3",
             "five": "4", "six": "5", "seven": "6", "eight": "7",
             "nine": "8", "eleven": "10", "twelve": "11",

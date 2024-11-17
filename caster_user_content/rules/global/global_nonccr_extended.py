@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat, ShortIntegerRef
+from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat, ShortIntegerRef, Mimic
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -29,6 +29,15 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # Window Manipulation
         "window move":
             R(Key("a-space/5, m")),
+
+        "window middle":
+            R(Key("a-space/5, m") +
+             Mimic("squat") +
+              Pause("30") +
+               Mimic("curse", "left", "three seventy five") +
+                Pause("50") +
+                 Mimic("bench")),
+
         "window resize right":
             R(Key("a-space/5, s/3, right")),
         "window resize left":

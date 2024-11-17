@@ -14,7 +14,9 @@ class CustomMSWordRule(MappingRule):
 
         # Read aloud
         "reading mode": R(Key("ca-space")),
-        "(pause | resume) reading": R(Key("c-space")),
+        "(pause | resume | start | stop) reading": R(Key("c-space")),
+        "next paragraph": R(Key("c-right")),
+        "previous paragraph": R(Key("c-left")),
 
         "insert image": R(Key("alt, n, p")),
         "file open": R(Key("c-o/3, a-o/100, o")),
