@@ -23,6 +23,7 @@ class CustomMSWordRule(MappingRule):
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
         "file export": R(Key("a-f/100, e")),
+        "file custom retain": R(Key("a-f, a/60") + Key("o")),
 
         "focus": R(Key("f6")),
 
@@ -38,10 +39,6 @@ class CustomMSWordRule(MappingRule):
         "cycle caps":
             R(Key("s-f3")),
 
-        # Initial attempt at getting to file save as
-        "file custom retain": 
-            R(Key("a-f, a") +
-              Pause("60") + Key("c")),
 
         # copy hyperlink via the context menu
         "copy hyperlink":
