@@ -11,6 +11,10 @@ class CustomMSWordRule(MappingRule):
 
         "go to page <n>":
             R(Key("f5/50") + Text("%(n)d") + Key("enter, escape")),
+        
+        "find and replace": R(Key("c-h")),
+        "etsy <query>": R(Key("c-h/5, s-tab, left") +
+                          Text("%(query)s") + Key("enter")),
 
         # Read aloud
         "reading mode": R(Key("ca-space")),
