@@ -1,12 +1,12 @@
-from dragonfly import MappingRule
 from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
+from castervoice.lib.merge.mergerule import MergeRule
+from castervoice.lib.const import CCRType
 
-
-class EnableViaCamRule(MappingRule):
+class EnableViaCamRule(MergeRule):
     mapping = {
-        "pointer":
+        "pown":
             R(Key("f11")),
     }
     extras = [
@@ -15,5 +15,5 @@ class EnableViaCamRule(MappingRule):
 
 
 def get_rule():
-    details = RuleDetails(name="enable via cam rule")
+    details = RuleDetails(ccrtype=CCRType.GLOBAL)
     return EnableViaCamRule, details
