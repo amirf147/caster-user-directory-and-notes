@@ -17,7 +17,9 @@ class MSWordCcrRule(MergeRule):
             R(Key("c-b")),
         "format italic":
             R(Key("c-i")),
-
+        
+        # Find tab of Find and Replace dialog
+        "etsype": R(Key("c-h/5, s-tab, left")),
     }
 def get_rule():
     details = RuleDetails(executable="winword",
