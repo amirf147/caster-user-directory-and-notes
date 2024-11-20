@@ -13,10 +13,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-b, up/3, enter")),
 
         # Hunt and Peck activation
-        "show hints": 
-            # The action that follows when "show hints" is spoken
-            # This triggers the key combination "Alt + ;" (a-semicolon)
-            # to activate hunt and peck
+        "show hints":
             R(Key("a-semicolon")),
 
         "open snipping tool":
