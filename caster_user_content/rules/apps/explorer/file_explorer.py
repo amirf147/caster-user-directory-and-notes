@@ -11,6 +11,8 @@ class FileExplorerRule(MappingRule):
     mapping = {
         "address bar":
             R(Key("a-d")),
+        "copy address":
+            R(Key("a-d/5, c-c")),
         "folder new":
             R(Key("cs-n")),
         "file new":
