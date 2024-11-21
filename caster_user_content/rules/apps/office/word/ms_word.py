@@ -16,6 +16,9 @@ class CustomMSWordRule(MappingRule):
         "etsy <query>": R(Key("c-h/5, s-tab, left") +
                           Text("%(query)s") + Key("enter")),
 
+        "update field": R(Key("f9")),
+        "update table": R(Key("f9/5, down, enter")),
+
         # Read aloud
         "reading mode": R(Key("ca-space")),
         "(pause | resume | start | stop) reading": R(Key("c-space")),
