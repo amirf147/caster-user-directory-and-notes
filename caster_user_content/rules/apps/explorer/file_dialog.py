@@ -40,6 +40,8 @@ class FileDialogRule(MappingRule):
         # Navigating via address bar
         "go <path>":
             R(Key("a-d/5") + Text("%(path)s") + Key("enter")),
+        "go clipboard":
+            R(Key("a-d/5, c-v, enter")),
 
     }
     extras = [
