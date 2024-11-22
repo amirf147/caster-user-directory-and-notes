@@ -6,6 +6,7 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
+from . import environment_variables as ev
 
 class FileDialogRule(MappingRule):
     pronunciation = "custom file"
@@ -39,7 +40,7 @@ class FileDialogRule(MappingRule):
 
         # Navigating via address bar
         "go <path>":
-            R(Key("a-d/5") + Text("%(path)s") + Key("enter")),
+            R(Key("a-d/5") + Text("%(path)s") + Key("enter, tab:4")),
         "go clipboard":
             R(Key("a-d/5, c-v, enter")),
 
@@ -51,7 +52,8 @@ class FileDialogRule(MappingRule):
             "[my] documents" : "C:\\Users\\amirf\\Documents\\",
             "downloads" : "C:\\Users\\amirf\\Downloads\\",
             "home" : "C:\\Users\\amirf\\",
-            "pictures": "C:\\Users\\amirf\\Pictures\\"
+            "pictures": "C:\\Users\\amirf\\Pictures\\",
+            "job search": ev.JOB_SEARCH
         }),
         ]
     defaults = {

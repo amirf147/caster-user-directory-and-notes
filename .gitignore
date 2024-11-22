@@ -8,5 +8,8 @@ settings/
 *.log
 log.txt
 
+# Ignore environment variable files
+environment_variables.py
+
 # Ignore Python compiled bytecode files
 *.pyc
