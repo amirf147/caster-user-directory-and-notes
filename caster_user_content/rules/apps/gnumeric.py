@@ -12,6 +12,7 @@ class GnumericRule(MappingRule):
     mapping = {
 
         "fit width": R(Key("a-o, right, w")),
+        "fit height": R(Key("a-o, right, h")),
         "match above": R(Key("c-d")),
 
     }
