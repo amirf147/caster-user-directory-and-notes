@@ -14,6 +14,7 @@ class GnumericRule(MappingRule):
         "fit width": R(Key("a-o, right, w")),
         "fit height": R(Key("a-o, right, h")),
         "match above": R(Key("c-d")),
+        "cell insert": R(Key("cs-+")),
 
     }
     extras = [
