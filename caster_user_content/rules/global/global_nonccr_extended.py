@@ -128,6 +128,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "last join":
             R(Key("c-left, backspace, c-right")),
 
+        # LLM Chatbot prompts
+        "grammar check clipboard":
+            R(Text("How is the grammar here: ") + Key("c-v")),
     }
 
     extras = [
@@ -159,6 +162,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
             "city state": ev.CITY_STATE,
             "zip code": ev.ZIP_CODE,
             "city": ev.CITY,
+            "school": ev.SCHOOL,
+            "phone": ev.PHONE,
+            "employer": ev.EMPLOYER,
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
