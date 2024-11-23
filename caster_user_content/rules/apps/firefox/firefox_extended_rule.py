@@ -160,6 +160,7 @@ class FirefoxExtendedRule(MappingRule):
             "thirty": "22",
         }),
         Choice("website", {
+            "settings": "about:preferences",
             "(github | git hub)": "https://github.com/",
             "(youtube | you tube)": "https://www.youtube.com/",
             "you tube lists": "https://www.youtube.com/feed/you",

@@ -6,7 +6,7 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-from . import environment_variables as ev
+from caster_user_content import environment_variables as ev
 
 class FileDialogRule(MappingRule):
     pronunciation = "custom file"
@@ -53,7 +53,7 @@ class FileDialogRule(MappingRule):
             "downloads" : "C:\\Users\\amirf\\Downloads\\",
             "home" : "C:\\Users\\amirf\\",
             "pictures": "C:\\Users\\amirf\\Pictures\\",
-            "job search": ev.JOB_SEARCH
+            "job search": ev.JOB_SEARCH,
         }),
         ]
     defaults = {

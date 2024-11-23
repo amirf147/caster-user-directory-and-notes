@@ -5,6 +5,8 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 
+from caster_user_content import environment_variables as ev
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
@@ -15,6 +17,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # Hunt and Peck activation
         "show hints":
             R(Key("a-semicolon")),
+
+        "insert <text>": R(Text("%(text)s")),
 
         "open snipping tool":
             R(Key("ws-s")),
@@ -150,8 +154,15 @@ class GlobalNonCCRExtendedRule(MappingRule):
             "nineteen": "18",
             "twenty": "19",
         }),
+        Choice("text", {
+            "home address": ev.HOME_ADDRESS,
+            "city state": ev.CITY_STATE,
+            "zip code": ev.ZIP_CODE,
+            "city": ev.CITY,
+        }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
+
 
     ]
     defaults = {
