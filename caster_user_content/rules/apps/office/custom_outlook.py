@@ -16,6 +16,7 @@ class CustomOutlookRule(MappingRule):
         "go to inbox": R(Key("c-1/3, cs-i")),
         "hint insert": R(Key("alt/3, n")),
         "file attach": R(Key("alt/3, n, a, f")),
+        "pop out email": R(Key("s-enter")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),

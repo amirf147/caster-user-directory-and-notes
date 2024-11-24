@@ -179,7 +179,8 @@ class FirefoxExtendedRule(MappingRule):
             "read it": "https://reddit.com/",
             "linkedin": "https://www.linkedin.com",
             "linkedin profile": "https://www.linkedin.com/in/amir-farhadi-55586b133",
-            "google maps": "https://www.google.com/maps"
+            "google maps": "https://www.google.com/maps",
+            "office": "https://www.office.com",
         }),
         Dictation("query"),
     ]
