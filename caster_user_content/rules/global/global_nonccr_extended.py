@@ -131,6 +131,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # LLM Chatbot prompts
         "grammar check clipboard":
             R(Text("How is the grammar here: ") + Key("c-v")),
+        "width adjust":
+            R(Text("In a code pen, make this 40 characters wide: ") + Key("c-v")),
+
     }
 
     extras = [
@@ -165,6 +168,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
             "school": ev.SCHOOL,
             "phone": ev.PHONE,
             "employer": ev.EMPLOYER,
+            "name": ev.NAME,
+            "last name": ev.LAST_NAME,
+            "email": ev.EMAIL,
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
