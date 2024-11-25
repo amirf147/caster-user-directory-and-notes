@@ -12,6 +12,10 @@ class CustomOutlookRule(MappingRule):
     mapping = {
         "focus [<n>]": R(Key("f6:%(n)d")),
         "locus [<n>]": R(Key("s-f6:%(n)d")),
+        "school inbox": R(Key("c-e/3, f6:2, home, left, down, \
+                               left, down, right, down, enter")),
+        "personal inbox": R(Key("c-e/3, f6:2, home, left, down, \
+                                left, right, down, enter")),
         "synchronize": R(Key("f9")),
         "go to inbox": R(Key("c-1/3, cs-i")),
         "hint insert": R(Key("alt/3, n")),
