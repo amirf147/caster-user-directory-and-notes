@@ -171,6 +171,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             "name": ev.NAME,
             "last name": ev.LAST_NAME,
             "email": ev.EMAIL,
+            "line": "----------------------------------------",
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
