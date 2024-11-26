@@ -20,6 +20,7 @@ class GlobalProgramming(MergeRule):
                 "eco": "space, equals, space",
                 "meese": "space, minus, space",
                 "plooz": "space, plus, space",
+                "pink": "space, plus, equals, space",
             }
         )]
     defaults = {}
