@@ -211,8 +211,11 @@ class VsCodiumRule(MappingRule):
             R(Key("f9")),
         "step over [<n>]":
             R(Key("f10/50") * Repeat(extra='n')),
+        # Requires user define key binding because it was originally
+        # f11 but because I use that for enabling Enable Viacam,
+        # I changed it to a-f11
         "step into":
-            R(Key("f11")),
+            R(Key("a-f11")),
         "step out [of]":
             R(Key("s-f11")),
         "resume":
