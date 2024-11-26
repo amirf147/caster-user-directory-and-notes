@@ -132,10 +132,6 @@ class VSCodiumCcrRule(MergeRule):
         "super find":
             R(Key("cs-f")),
 
-        # Punctuation key formatting
-        "eco":
-            R(Key("space, equals, space")),
-
         # Python executable paths
         "python twelve":
             R(Text("C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe")),
