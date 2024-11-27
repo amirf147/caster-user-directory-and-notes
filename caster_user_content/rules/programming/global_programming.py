@@ -18,6 +18,7 @@ class GlobalProgramming(MergeRule):
         Choice(
             "formatted_operator", {
                 "eco": "space, equals, space",
+                "double eco": "space, equals, equals, space",
                 "meese": "space, minus, space",
                 "plooz": "space, plus, space",
                 "pink": "space, plus, equals, space",
