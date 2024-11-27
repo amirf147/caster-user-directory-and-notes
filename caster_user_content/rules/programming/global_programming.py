@@ -21,6 +21,9 @@ class GlobalProgramming(MergeRule):
                 "meese": "space, minus, space",
                 "plooz": "space, plus, space",
                 "pink": "space, plus, equals, space",
+                "naughty": "space, !, equals, space",
+                "pleak": "space, plus, equals, space",
+                "arrow": "space, minus, >, space",
             }
         )]
     defaults = {}
