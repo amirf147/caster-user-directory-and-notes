@@ -12,8 +12,8 @@ class TaskbarRule(MappingRule):
             R(Key("w-%(n9)d")),
         "drip [<off1_10_20>]":
             R(Key("w-t/3, down:%(off1_10_20)s, enter")),
-        "drip minus [<n20>]":
-            R(Key("w-t/3, up:%(n20)d, enter")),
+        "drip minus [<off1_1_20>]":
+            R(Key("w-t/3, end, up:%(off1_1_20)s, enter")),
         
         # Opening/focusing system tray icons
         "open system <off1_1_20>":
@@ -41,6 +41,7 @@ class TaskbarRule(MappingRule):
     defaults = {
         "n9": 1,
         "n20": 1,
+        "off1_1_20": "0",
     }
 def get_rule():
     details = RuleDetails(name="Taskbar")
