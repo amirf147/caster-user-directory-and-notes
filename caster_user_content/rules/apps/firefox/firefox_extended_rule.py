@@ -181,6 +181,7 @@ class FirefoxExtendedRule(MappingRule):
             "linkedin profile": "https://www.linkedin.com/in/amir-farhadi-55586b133",
             "google maps": "https://www.google.com/maps",
             "office": "https://www.office.com",
+            "leet code": "https://www.leetcode.com",
         }),
         Dictation("query"),
     ]
