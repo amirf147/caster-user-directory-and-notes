@@ -97,7 +97,7 @@ class CustomPythonCCR(MergeRule):
             R(Text("assert ")),
         "list (comprehension | comp)":
             R(Text("[x for x in TOKEN if TOKEN]")),
-        "[dot] (pie | pi)":
+        "dot (pie | pi)":
             R(Text(".py")),
         "toml":
             R(Text("toml")),

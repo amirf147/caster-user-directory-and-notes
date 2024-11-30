@@ -187,6 +187,8 @@ class VsCodiumRule(MappingRule):
             R(Key("c-f12:2, c-right:5, left/50, f12")),
         "peak definition":
             R(Key("a-f12")),
+        "go to type definition": # Requires user defined key binding
+            R(Key("c-k, s-f12")),
         "trigger parameter hints":
             R(Key("cs-space")),
         "format (that | selection)":
