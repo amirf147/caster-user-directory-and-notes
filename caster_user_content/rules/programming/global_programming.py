@@ -29,8 +29,9 @@ class GlobalProgramming(MergeRule):
                 "arrow": "space, minus, >, space",
                 "mink": "space, minus, equals, space",
                 "grand": "space, >, space",
-                "coach": "end, comma, enter",
-                "cole": "end, colon",
+                "lands": "space, <, space",
+                "coach": "end, comma",
+                "cole": "end, colon, space",
             }
         )]
     defaults = {}
