@@ -83,6 +83,12 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-t/5") + Text("^%(query)s")),
         "hister window <query>":
             R(Key("c-n/120") + Text("^%(query)s")),
+        "bookzer <query>":
+            R(Key("a-d/5") + Text("*%(query)s")),
+        "bookzer tab <query>":
+            R(Key("c-t/5") + Text("*%(query)s")),
+        "bookzer window <query>":
+            R(Key("c-n/120") + Text("*%(query)s")),
 
         # Specific website navigation in new tab
         "go tab <website>":

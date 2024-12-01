@@ -34,6 +34,7 @@ class GlobalCCRExtendedRule(MergeRule):
 
         "shtep <n>": R(Text("Step %(n)s: ")),
         "ie": R(Text("i.e. ")),
+        "e g": R(Text("e.g., ")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

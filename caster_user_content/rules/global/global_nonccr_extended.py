@@ -112,13 +112,15 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "cork five":
             R(Mouse("[950, 500]")),
         "cork six":
-            R(Mouse("[-1242, -655]")),
+            R(Mouse("[2351, 1525]")),
 
         # Moving mouse cursor and then scrolling in one utterance
         "cork one scree <direction> [<nnavi500>]":
             R(Mouse("[500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
         "cork two scree <direction> [<nnavi500>]":
             R(Mouse("[1500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
+        "cork six scree <direction> [<nnavi500>]":
+            R(Mouse("[2351, 1525]") + Pause("30") + Function(navigation.wheel_scroll)),
 
         # Mirroring a window to all workspaces for my secondary monitor
         "mirror space window":
