@@ -82,6 +82,9 @@ class CustomMSWordRule(MappingRule):
             R(Key("c-equals")),
         "create hyperlink":
             R(Key("c-k")),
+        "highlight red": R(Key("a-h, i, down, enter")),
+        "highlight yellow": R(Key("a-h, i, enter")),
+        "remove highlight": R(Key("a-h, i, n")),
 
         # Beginning an italicized quote
         "format q":

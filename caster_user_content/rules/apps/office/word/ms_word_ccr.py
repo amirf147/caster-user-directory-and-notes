@@ -17,6 +17,10 @@ class MSWordCcrRule(MergeRule):
             R(Key("c-b")),
         "format italic":
             R(Key("c-i")),
+        "color reset":
+            R(Key("a-h/3, f, c, a")),
+        "color red":
+            R(Key("a-h/3, f, c, up:4, home, enter")),
         
         # Find tab of Find and Replace dialog
         "etsype": R(Key("c-h/5, s-tab, left")),

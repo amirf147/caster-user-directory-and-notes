@@ -30,9 +30,10 @@ class GlobalCCRExtendedRule(MergeRule):
         "clack":
             R(Mouse("[1500, 262], left")),
 
-
-
         "alley": R(Key("c-a")),
+
+        "shtep <n>": R(Text("Step %(n)s: ")),
+        "ie": R(Text("i.e. ")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
