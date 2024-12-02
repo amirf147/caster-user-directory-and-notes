@@ -17,7 +17,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "go back [<n>]": R(Key("a-left:%(n)d")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
-        "shash": R(Key("s-end")),
+        "rash": R(Key("s-end")),
         "lash": R(Key("s-home")),
         "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s")),
         
