@@ -92,6 +92,8 @@ class VsCodiumRule(MappingRule):
             R(Key("c-s/10, c-w")),
         "new file":
             R(Key("c-n")),
+        "file new": # Requires user defined key binding (explorer.newFile)
+            R(Key("c-k, ca-n")),
         "new window":
             R(Key("cs-n")),
         "close window":
