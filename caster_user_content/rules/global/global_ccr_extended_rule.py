@@ -1,5 +1,6 @@
 from dragonfly import ShortIntegerRef, Pause, Function, Dictation, Mouse
 
+from castervoice.lib import textformat
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -35,6 +36,13 @@ class GlobalCCRExtendedRule(MergeRule):
         "shtep <n>": R(Text("Step %(n)s: ")),
         "ie": R(Text("i.e. ")),
         "e g": R(Text("e.g., ")),
+
+        "eco": R(Text(" = ")),
+        "plooz": R(Text(" + ")),
+        
+        # Experimenting with continuing dictation and/or formatting text after custom word
+        # "v s codium": R(Text(" VSCodium ") + Function(textformat.master_format_text))
+        "v s codium [<query>]": R(Text(" VSCodium %(query)s")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
@@ -43,7 +51,8 @@ class GlobalCCRExtendedRule(MergeRule):
     ]
     defaults = {
         "n": 1,
-        "n101": 1
+        "n101": 1,
+        "query": "",
     }
 
 def get_rule():

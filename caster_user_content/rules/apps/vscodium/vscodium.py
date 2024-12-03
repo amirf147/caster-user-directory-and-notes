@@ -53,7 +53,7 @@ class VsCodiumRule(MappingRule):
             R(Key("cs-e")),
         "source control":
             R(Key("cs-g")),
-        "keyboard shortcuts":
+        "keyboard shorts":
             R(Key("c-k, c-s")),
         "key mappings":
             R(Key("c-k, c-s:2")),
@@ -189,6 +189,8 @@ class VsCodiumRule(MappingRule):
             R(Key("a-f12")),
         "go to type definition": # Requires user defined key binding
             R(Key("c-k, s-f12")),
+        "go to declaration": # Requires user defined key binding
+            R(Key("c-k, a-f12")),
         "trigger parameter hints":
             R(Key("cs-space")),
         "format (that | selection)":
