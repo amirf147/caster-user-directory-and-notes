@@ -135,7 +135,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Text("How is the grammar here: ") + Key("c-v")),
         "width adjust":
             R(Text("In a code pen, make this 40 characters wide: ") + Key("c-v")),
-
+        
+        "eco": R(Text(" = ")),
     }
 
     extras = [
