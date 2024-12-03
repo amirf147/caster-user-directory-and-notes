@@ -50,7 +50,7 @@ class CustomMSTeamsRule(MappingRule):
         "decline [call]":
             R(Key("cs-d")),
         "start audio call":
-            R(Key("cs-c")),
+            R(Key("as-a")),
         "Start video call":
             R(Key("cs-u")),
         "toggle mute":

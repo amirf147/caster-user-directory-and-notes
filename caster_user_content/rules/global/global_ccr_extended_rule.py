@@ -36,9 +36,11 @@ class GlobalCCRExtendedRule(MergeRule):
         "shtep <n>": R(Text("Step %(n)s: ")),
         "ie": R(Text("i.e. ")),
         "e g": R(Text("e.g., ")),
+        "etc": R(Text(", etc. ")),
 
         "eco": R(Text(" = ")),
         "plooz": R(Text(" + ")),
+        "meece": R(Text(" - ")),
         
         # Experimenting with continuing dictation and/or formatting text after custom word
         # "v s codium": R(Text(" VSCodium ") + Function(textformat.master_format_text))

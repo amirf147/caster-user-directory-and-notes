@@ -85,6 +85,8 @@ class CustomMSWordRule(MappingRule):
         "highlight red": R(Key("a-h, i, down, enter")),
         "highlight yellow": R(Key("a-h, i, enter")),
         "remove highlight": R(Key("a-h, i, n")),
+        "highlight dialogue": R(Key("a-h, i")),
+        "color blue": R(Key("a-h/3, f, c, tab, right:7, enter")),
 
         # Beginning an italicized quote
         "format q":
