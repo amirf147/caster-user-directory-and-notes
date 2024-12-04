@@ -6,6 +6,7 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
+from caster_user_content import environment_variables as ev
 
 class FileExplorerRule(MappingRule):
     mapping = {
@@ -50,6 +51,7 @@ class FileExplorerRule(MappingRule):
         Choice("path", {
             "[my] documents" : "C:\\Users\\amirf\\Documents\\",
             "downloads" : "C:\\Users\\amirf\\Downloads\\",
+            "job search": ev.JOB_SEARCH,
         }),
         ]
     defaults = {

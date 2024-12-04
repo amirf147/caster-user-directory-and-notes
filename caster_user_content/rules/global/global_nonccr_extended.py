@@ -134,7 +134,10 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "grammar check clipboard":
             R(Text("How is the grammar here: ") + Key("c-v")),
         "width adjust":
-            R(Text("In a code pen, make this 40 characters wide: ") + Key("c-v")),
+            R(Text("I want to be able to copy and paste this into a cell in a \
+spreadsheet. Can you make the following text 40 characters \
+wide and put it into a code pen so it is easy for me to \
+copy and paste it: ") + Key("c-v")),
 
         "fancy zones": R(Key("ws-`")),
     }
