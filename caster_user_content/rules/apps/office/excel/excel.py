@@ -7,15 +7,10 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 
-class GnumericRule(MappingRule):
-    pronunciation = "numeric"
+class ExcelRule(MappingRule):
     mapping = {
-
         "file open": R(Key("c-o")),
-        "fit width": R(Key("a-o, right, w")),
-        "fit height": R(Key("a-o, right, h")),
-        "match above": R(Key("c-d")),
-        "cell insert": R(Key("cs-+")),
+        "hint home": R(Key("a-h")),
 
     }
     extras = [
@@ -27,5 +22,5 @@ class GnumericRule(MappingRule):
     }
 
 def get_rule():
-    return GnumericRule, RuleDetails(name="Gnumeric Rule",
-                                         executable="gnumeric")
+    return ExcelRule, RuleDetails(name="Excel Rule",
+                                  title="Excel")

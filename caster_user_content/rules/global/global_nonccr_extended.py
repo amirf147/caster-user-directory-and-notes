@@ -140,6 +140,7 @@ wide and put it into a code pen so it is easy for me to \
 copy and paste it: ") + Key("c-v")),
 
         "fancy zones": R(Key("ws-`")),
+
     }
 
     extras = [
@@ -178,6 +179,7 @@ copy and paste it: ") + Key("c-v")),
             "last name": ev.LAST_NAME,
             "email": ev.EMAIL,
             "line": "----------------------------------------",
+            "job search": ev.JOB_SEARCH,
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
