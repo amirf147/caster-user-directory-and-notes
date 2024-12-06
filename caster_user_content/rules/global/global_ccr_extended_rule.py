@@ -33,8 +33,8 @@ class GlobalCCRExtendedRule(MergeRule):
 
         "alley": R(Key("c-a")),
 
-        "shtep <n>": R(Text("Step %(n)s: ")),
-        "ie": R(Text("i.e. ")),
+        # "shtep <n>": R(Text("Step %(n)s: ")),
+        # "ie": R(Text("i.e. ")),
         "e g": R(Text("e.g., ")),
         "etc": R(Text(", etc. ")),
 
