@@ -11,6 +11,7 @@ class ExcelCCR(MergeRule):
     pronunciation = "excel c c r"
 
     mapping = {
+        "nail": R(Key("f2")),
 
         # Editing
         "format bold":
