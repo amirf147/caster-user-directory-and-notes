@@ -132,12 +132,6 @@ class VSCodiumCcrRule(MergeRule):
         "super find":
             R(Key("cs-f")),
 
-        # Python executable paths
-        "python twelve":
-            R(Text("C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe")),
-        "python ten":
-            R(Text("C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python310\\python.exe")),
-
         # Requires user-defined key bindings
         # Command: Add selection to previous find match
         "curse previous [<n>]":
