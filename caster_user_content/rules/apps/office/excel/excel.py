@@ -11,6 +11,16 @@ class ExcelRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
         "hint home": R(Key("a-h")),
+        
+        # Zooming
+        # "zoom in [<n>]":
+        #     R(Key("a-w/50, q/3, tab:2, up:%(n)d, enter")),
+        # "zoom out [<n>]":
+        #     R(Key("a-w/50, q/3, tab:2, down:%(n)d, enter")),
+        "zoom reset":
+            R(Key("a-w/50, j")),
+        "zoom dialogue":
+            R(Key("a-w/50, q")),
 
     }
     extras = [
@@ -23,4 +33,4 @@ class ExcelRule(MappingRule):
 
 def get_rule():
     return ExcelRule, RuleDetails(name="Excel Rule",
-                                  title="Excel")
+                                  executable="EXCEL")
