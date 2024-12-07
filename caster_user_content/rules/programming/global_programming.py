@@ -17,11 +17,8 @@ class GlobalProgramming(MergeRule):
     extras = [
         Choice(
             "formatted_operator", {
-                "eco": "space, equals, space",
                 "double eco": "space, equals, equals, space",
-                "meese": "space, minus, space",
                 "double meese": "minus:2, space",
-                "plooz": "space, plus, space",
                 "double plooz": "plus:2, space",
                 "pink": "space, plus, equals, space",
                 "naughty": "space, !, equals, space",
@@ -30,6 +27,8 @@ class GlobalProgramming(MergeRule):
                 "mink": "space, minus, equals, space",
                 "grand": "space, >, space",
                 "lands": "space, <, space",
+                "greek": "space, >, =, space",
+                "leak": "space, <, =, space",
                 "coach": "end, comma",
                 "cole": "end, colon, space",
             }

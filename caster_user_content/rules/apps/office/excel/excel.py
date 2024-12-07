@@ -16,7 +16,7 @@ class ExcelRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
         
-        # Copied over from builtin Excel rule
+        # Copied over and modified from builtin Excel rule
         # Credit: Alex Boche 2019
         "fly <column_1> <row_1>":
             R(Function(_select_cell)),
@@ -36,6 +36,10 @@ class ExcelRule(MappingRule):
             R(Key("a-w/50, j")),
         "zoom dialogue":
             R(Key("a-w/50, q")),
+
+        "date place": R(Key("c-;")),
+        "hyperlink": R(Key("c-k")),
+
 
         # Home Tab
         "hint home": R(Key("a-h")),

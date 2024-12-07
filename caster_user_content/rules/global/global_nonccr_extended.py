@@ -101,29 +101,29 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("30") + Key("enter") + Pause("30") + Key("enter")),
 
         # Placing mouse cursor in one of 4 quadrants on the screen
-        "cork one":
+        "zone one":
             R(Mouse("[500, 262]")),
-        "cork two":
+        "zone two":
             R(Mouse("[1500, 262]")),
-        "cork three":
+        "zone three":
             R(Mouse("[500, 800]")),
-        "cork four":
+        "zone four":
             R(Mouse("[1500, 800]")),
-        "cork five":
+        "zone five":
             R(Mouse("[950, 500]")),
-        "cork six":
+        "zone six":
             R(Mouse("[2351, 1525]")),
-        "cork seven":
+        "zone seven":
             R(Mouse("[2906, 1567]")),
 
         # Moving mouse cursor and then scrolling in one utterance
-        "cork one scree <direction> [<nnavi500>]":
+        "zone one scree <direction> [<nnavi500>]":
             R(Mouse("[500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "cork two scree <direction> [<nnavi500>]":
+        "zone two scree <direction> [<nnavi500>]":
             R(Mouse("[1500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "cork six scree <direction> [<nnavi500>]":
+        "zone six scree <direction> [<nnavi500>]":
             R(Mouse("[2351, 1525]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "cork seven scree <direction> [<nnavi500>]":
+        "zone seven scree <direction> [<nnavi500>]":
             R(Mouse("[2906, 1567]") + Pause("30") + Function(navigation.wheel_scroll)),
 
         # Mirroring a window to all workspaces for my secondary monitor

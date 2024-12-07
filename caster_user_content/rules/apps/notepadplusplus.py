@@ -12,6 +12,10 @@ class CustomNPPRule(MappingRule):
     mapping = {
         "zoom in <n2>": R(Key("c-npadd:%(n2)d")),
         "zoom out <n2>": R(Key("c-npsub:%(n2)d")),
+
+        "code run": R(Key("f5")),
+        "pi run": R(Key("c-f6")),
+        "exec": R(Key("f6")),
     }
     extras = [
         Dictation("text"),
