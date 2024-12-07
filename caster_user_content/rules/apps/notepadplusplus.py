@@ -10,6 +10,20 @@ from castervoice.lib.merge.state.short import R
 class CustomNPPRule(MappingRule):
 
     mapping = {
+        
+        # File Management
+        "file open": R(Key("c-o")),
+        "file new": R(Key("c-n")),
+        "file custom retain": R(Key("ca-s")),
+
+        # Line Operations
+        "line del [<n>]": R(Key("c-l:%(n)d")),
+        "move up [<n>]": R(Key("cs-up:%(n)d")),
+        "move down [<n>]": R(Key("cs-down:%(n)d")),
+
+        # Commenting
+        "comment": R(Key("c-q")), # Toggle Comment
+
         "zoom in <n2>": R(Key("c-npadd:%(n2)d")),
         "zoom out <n2>": R(Key("c-npsub:%(n2)d")),
 

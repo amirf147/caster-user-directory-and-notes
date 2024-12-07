@@ -144,11 +144,13 @@ wide and put it into a code pen so it is easy for me to \
 copy and paste it: ") + Key("c-v")),
 
         "fancy zones": R(Key("ws-`")),
+        "fancy <n0>": R(Key("wca-%(n0)d")),
 
     }
 
     extras = [
         IntegerRef("n", 1, 10),
+        IntegerRef("n0", 0, 10),
         Choice("n_off_by_one", {
             "one": "0",
             "two": "1",
@@ -186,6 +188,7 @@ copy and paste it: ") + Key("c-v")),
             "job search": ev.JOB_SEARCH,
             "python twelve": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
             "python ten": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "github profile": "https://github.com/amirf147",
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
@@ -194,6 +197,7 @@ copy and paste it: ") + Key("c-v")),
     ]
     defaults = {
         "n": 1,
+        "n0": 0,
         "nnavi500": 1,
     }
 
