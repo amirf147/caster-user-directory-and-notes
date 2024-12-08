@@ -17,6 +17,8 @@ class CustomPython(MappingRule):
             R(
                 Text("try:") + Key("enter:2/10, backspace") + Text("except Exception:") +
                 Key("enter")),
+        # pdb
+        "set trace": Text("pdb.set_trace()"),
     }
 
 

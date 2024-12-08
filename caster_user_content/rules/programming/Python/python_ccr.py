@@ -9,7 +9,7 @@ Personal customizations added by Amir Farhadi
 from dragonfly import Pause, Dictation, Choice
 
 from castervoice.lib.actions import Text, Key
-from castervoice.rules.ccr.standard import SymbolSpecs
+from . standard import SymbolSpecs
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
@@ -114,29 +114,29 @@ class CustomPythonCCR(MergeRule):
         # going into the command pallet (cs-p) and typing in "insert snippet"
         # then press enter and then you have choices of snippets show up in the drop-down list.
         # you can also make your own snippets.
-        "try [<exception>]":
-            R(
-                Text("try : ") + Pause("10") + Key("enter/2") +
-                Text("except %(exception)s:") + Pause("10") + Key("enter/2")),
-        "try [<exception>] as":
-            R(
-                Text("try :") + Pause("10") + Key("enter/2") +
-                Text("except %(exception)s as :") + Pause("10") + Key("enter/2")),
+        # "try [<exception>]":
+        #     R(
+        #         Text("try : ") + Pause("10") + Key("enter/2") +
+        #         Text("except %(exception)s:") + Pause("10") + Key("enter/2")),
+        # "try [<exception>] as":
+        #     R(
+        #         Text("try :") + Pause("10") + Key("enter/2") +
+        #         Text("except %(exception)s as :") + Pause("10") + Key("enter/2")),
 
         # class and class methods
-        "sub class":
-            R(Store() + Text("class ():") + Key("left:3") +
-              Retrieve(action_if_text="right:3")),
-        "dunder":
-            R(Store() + Text("____()") + Key("left:4") +
-              Retrieve(action_if_text="right:4")),
-        "init":
-            R(Store() + Text("__init__()") + Key("left") +
-              Retrieve(action_if_text="right")),
-        "meth [<binary_meth>]":
-            R(Text("__%(binary_meth)s__(self, other):")),
-        "meth [<unary_meth>]":
-            R(Text("__%(unary_meth)s__(self):")),
+        # "sub class":
+        #     R(Store() + Text("class ():") + Key("left:3") +
+        #       Retrieve(action_if_text="right:3")),
+        # "dunder":
+        #     R(Store() + Text("____()") + Key("left:4") +
+        #       Retrieve(action_if_text="right:4")),
+        # "init":
+        #     R(Store() + Text("__init__()") + Key("left") +
+        #       Retrieve(action_if_text="right")),
+        # "meth [<binary_meth>]":
+        #     R(Text("__%(binary_meth)s__(self, other):")),
+        # "meth [<unary_meth>]":
+        #     R(Text("__%(unary_meth)s__(self):")),
     }
 
     extras = [

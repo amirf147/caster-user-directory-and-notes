@@ -21,13 +21,18 @@ class CustomNPPRule(MappingRule):
         "show files": R(Key("cas-e")),
         "hide left": R(Key("a-p, e, e")),
 
+        # Plugin: DBGp
+        "debugger": R(Key("cas-d")),
+        "break point": R(Key("cs-f9")),
+
         # File Management
         "file open": R(Key("c-o")),
         "file new": R(Key("c-n")),
         "file custom retain": R(Key("ca-s")),
 
         # View
-        "cros": R(Key("f8")),
+        "cros": R(Key("f8")), # Instead of "cross" because I have "ross" transformed in words.txt
+        "word wrap": R(Key("cas-w")),
         # Requires user defined shortcut mapping ("Move to Other View")
         "split editor": R(Key("ca-backslash")),
 
