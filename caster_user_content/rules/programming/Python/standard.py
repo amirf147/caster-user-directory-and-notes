@@ -29,7 +29,7 @@ class SymbolSpecs(object):
     OR = "lodge or"
     NOT = "lodge not"
 
-    SYSOUT = "print to console"
+    SYSOUT = "pi print"
 
     IMPORT = "import"
 

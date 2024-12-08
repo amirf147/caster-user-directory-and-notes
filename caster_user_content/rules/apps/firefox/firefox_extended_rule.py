@@ -189,6 +189,7 @@ class FirefoxExtendedRule(MappingRule):
             "google maps": "https://www.google.com/maps",
             "office": "https://www.office.com",
             "leet code": "https://www.leetcode.com",
+            "my thesis": "https://urn.fi/URN:NBN:fi:amk-2024120231895"
         }),
         Dictation("query"),
     ]

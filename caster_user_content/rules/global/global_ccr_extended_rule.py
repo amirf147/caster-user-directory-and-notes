@@ -30,6 +30,7 @@ class GlobalCCRExtendedRule(MergeRule):
             R(Mouse("[500, 262], left")),
         "clack":
             R(Mouse("[1500, 262], left")),
+        "zick": R(Mouse("[500, 800], left")),
 
         "alley": R(Key("c-a")),
 

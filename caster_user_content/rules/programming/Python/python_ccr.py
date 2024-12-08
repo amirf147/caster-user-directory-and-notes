@@ -50,7 +50,8 @@ class CustomPythonCCR(MergeRule):
         SymbolSpecs.NOT:
             R(Text("!")),
         SymbolSpecs.SYSOUT:
-            R(Store() + Text("print()") + Key("left") + Retrieve(action_if_text="right")),
+            # R(Store() + Text("print()") + Key("left") + Retrieve(action_if_text="right")),
+            R(Text("print()") + Key("left")),
         SymbolSpecs.IMPORT:
             R(Text("import ")),
         SymbolSpecs.FUNCTION:
