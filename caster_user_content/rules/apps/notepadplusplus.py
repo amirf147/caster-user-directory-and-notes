@@ -11,10 +11,25 @@ class CustomNPPRule(MappingRule):
 
     mapping = {
         
+        # Settings
+        "keyboard shorts": R(Key("c-comma")),
+
+        # Plugin: NppExec
+        "shell": R(Key("c-~")),
+
+        # Plugin: Explorer
+        "show files": R(Key("cas-e")),
+        "hide left": R(Key("a-p, e, e")),
+
         # File Management
         "file open": R(Key("c-o")),
         "file new": R(Key("c-n")),
         "file custom retain": R(Key("ca-s")),
+
+        # View
+        "cros": R(Key("f8")),
+        # Requires user defined shortcut mapping ("Move to Other View")
+        "split editor": R(Key("ca-backslash")),
 
         # Line Operations
         "line del [<n>]": R(Key("c-l:%(n)d")),

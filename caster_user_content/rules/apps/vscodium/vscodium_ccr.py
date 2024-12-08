@@ -131,7 +131,9 @@ class VSCodiumCcrRule(MergeRule):
             R(Key("c-b")),
         "super find":
             R(Key("cs-f")),
-
+        "move up [<n101>]": R(Key("a-up:%(n101)d")),
+        "move down [<n101>]": R(Key("a-down:%(n101)d")),
+        
         # Requires user-defined key bindings
         # Command: Add selection to previous find match
         "curse previous [<n>]":
