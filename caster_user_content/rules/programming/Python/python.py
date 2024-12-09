@@ -19,6 +19,8 @@ class CustomPython(MappingRule):
                 Key("enter")),
         # pdb
         "set trace": Text("pdb.set_trace()"),
+        "break point": Text("breakpoint()"),
+
     }
 
 
