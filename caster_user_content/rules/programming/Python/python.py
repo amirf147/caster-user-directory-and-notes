@@ -21,6 +21,9 @@ class CustomPython(MappingRule):
         "set trace": Text("pdb.set_trace()"),
         "break point": Text("breakpoint()"),
 
+        # Test/dummy variables
+        "example list": Text("l = [1, 2, 3, 4, 4, 5]"),
+
     }
 
 

@@ -8,6 +8,10 @@ class LeetCodeRule(MappingRule):
     mapping = {
         "leet run": R(Key("c-'")),
         "leet submit": R(Key("c-enter")),
+        "expand panel": R(Key("c-]")),
+        "next question": R(Key("a-right")),
+        "previous question": R(Key("a-left")),
+        "pane maximize": R(Key("a-equal")),
     }
 
 def get_rule():

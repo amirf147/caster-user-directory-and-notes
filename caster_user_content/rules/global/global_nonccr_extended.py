@@ -146,6 +146,11 @@ copy and paste it: ") + Key("c-v")),
         "fancy zones": R(Key("ws-`")),
         "fancy <n0>": R(Key("wca-%(n0)d")),
 
+        # Terminal/Shell
+        "pi twelve": R(Text("$p312 ")),
+        "pi quit": R(Text("quit()") + Key("enter")),
+        "pi exit": R(Text("exit()") + Key("enter")),
+        "wiper": R(Text("clear") + Key("enter")),
     }
 
     extras = [
@@ -188,8 +193,8 @@ copy and paste it: ") + Key("c-v")),
             "job search": ev.JOB_SEARCH,
             "degree": ev.DEGREE,
             "specialization": ev.SPECIALIZATION,
-            "python twelve": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
-            "python ten": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+            "(python | pi) twelve path": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+            "(python | pi) ten path": "C:\\Users\\amirf\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "github profile": "https://github.com/amirf147",
         }),
         navigation_support.get_direction_choice("direction"),
