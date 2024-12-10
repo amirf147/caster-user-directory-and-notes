@@ -42,9 +42,8 @@ class CalcRule(MappingRule):
 
 
         # Home Tab
-        "hint home": R(Key("a-h")),
-        "fit width": R(Key("a-h, o, i")),
-        "fit height": R(Key("a-h, o, a")),
+        "fit width": R(Key("a-o, m, o, enter")),
+        "fit height": R(Key("a-o, w, o, enter")),
 
     }
     extras = [
