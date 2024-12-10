@@ -30,8 +30,9 @@ class GlobalCCRExtendedRule(MergeRule):
             R(Mouse("[500, 262], left")),
         "clack":
             R(Mouse("[1500, 262], left")),
-        "zick": R(Mouse("[1542, 820], left"), rdescript="Click bottom right of screen"),
-        
+        "zick two": R(Mouse("[923, 268], left"), rdescript="Click sextant 2"),
+        "zick three": R(Mouse("[1540, 218], left"), rdescript="Click sextant 3"),
+        "zick six": R(Mouse("[1542, 820], left"), rdescript="Click bottom right of screen"),
         "alley": R(Key("c-a")),
 
         # "shtep <n>": R(Text("Step %(n)s: ")),
