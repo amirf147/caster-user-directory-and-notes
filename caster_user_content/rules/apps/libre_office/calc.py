@@ -15,6 +15,7 @@ def _select_cell(column_1, row_1):
 class CalcRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
+        "open recent": R(Key("a-f, u")),
         
         # Copied over and modified from builtin Excel rule
         # Credit: Alex Boche 2019
