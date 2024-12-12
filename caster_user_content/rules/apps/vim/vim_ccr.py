@@ -11,6 +11,7 @@ class VimCCR(MergeRule):
 
     pronunciation = "vim c c r"
     mapping = {
+        "vimmy": R(Text("vim") + Key("space")),
     }
     extras = [
         ShortIntegerRef("n", 1, 11),

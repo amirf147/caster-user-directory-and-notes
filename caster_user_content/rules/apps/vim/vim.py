@@ -11,6 +11,7 @@ class VimRule(MappingRule):
     mapping = {
         "vim quit": R(Key("escape, colon, q, enter")),
         "vim retain": R(Key("escape, colon, w, enter")),
+        "vim quit no save": R(Key("escape, colon, q, !, enter")),
     }
     extras = [
     ]
