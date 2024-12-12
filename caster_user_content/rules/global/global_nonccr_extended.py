@@ -146,11 +146,6 @@ copy and paste it: ") + Key("c-v")),
         "fancy zones": R(Key("ws-`")),
         "fancy <n0>": R(Key("wca-%(n0)d")),
 
-        # Terminal/Shell
-        "pi twelve": R(Text("$p312 ")),
-        "pi quit": R(Text("quit()") + Key("enter")),
-        "pi exit": R(Text("exit()") + Key("enter")),
-        "wiper": R(Text("clear") + Key("enter")),
     }
 
     extras = [
