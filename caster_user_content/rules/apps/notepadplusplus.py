@@ -40,6 +40,11 @@ class CustomNPPRule(MappingRule):
         "line del [<n>]": R(Key("c-l:%(n)d")),
         "move up [<n>]": R(Key("cs-up:%(n)d")),
         "move down [<n>]": R(Key("cs-down:%(n)d")),
+        
+        # Edit
+        # Requires user defined shortcut mapping
+        # ("Multi-Select Next: Match Whole Word and Case")
+        "curse it [<n2>]": R(Key("ca-np3:%(n2)d")),
 
         # Commenting
         "comment": R(Key("c-q")), # Toggle Comment
