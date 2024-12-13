@@ -9,6 +9,12 @@ from castervoice.lib.merge.state.short import R
 
 class CommandLineRule(MappingRule):
     mapping = {
+        "show settings": R(Key("c-comma")),
+        "close tab": R(Key("cs-w")),
+
+        "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
+        "dir home": R(Text("cd; ls;") + Key("enter")),
+
         "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),
         "pi exit": R(Text("exit()") + Key("enter")),
