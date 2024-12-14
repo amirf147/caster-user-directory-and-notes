@@ -35,6 +35,7 @@ class CustomNPPRule(MappingRule):
         "word wrap": R(Key("cas-w")),
         # Requires user defined shortcut mapping ("Move to Other View")
         "split editor": R(Key("ca-backslash")),
+        "folder view": R(Key("ca-f6")),
 
         # Line Operations
         "line del [<n>]": R(Key("c-l:%(n)d")),
