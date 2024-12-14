@@ -13,6 +13,10 @@ class WriterRule(MappingRule):
         "apply heading <n3>": R(Key("c-%(n3)d")),
         "apply normal": R(Key("c-0")),
         
+        # View
+        "web view": R(Key("a-v, w")),
+        "normal view": R(Key("a-v, n")),
+        
     }
     extras = [
         IntegerRef("n3", 1, 4),
