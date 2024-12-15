@@ -13,10 +13,9 @@ class WriterCCR(MergeRule):
     mapping = {
 
         # Editing
-        "format bold":
-            R(Key("c-b")),
-        "format italic":
-            R(Key("c-i")),
+        "format bold": R(Key("c-b")),
+        "format italic": R(Key("c-i")),
+        "format underline": R(Key("c-u")),
         # "color reset":
         #     R(Key("a-h/3, f, c, a")),
         # "color red":

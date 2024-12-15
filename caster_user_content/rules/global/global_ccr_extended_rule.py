@@ -26,10 +26,10 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
-        "click":
-            R(Mouse("[500, 262], left")),
-        "clack":
-            R(Mouse("[1500, 262], left")),
+        "click": R(Mouse("[500, 262], left")),
+        "clack": R(Mouse("[1500, 262], left")),
+        
+        "zick one": R(Mouse("[192, 199], left"), rdescript="Click sextant 1"),
         "zick two": R(Mouse("[923, 268], left"), rdescript="Click sextant 2"),
         "zick three": R(Mouse("[1540, 218], left"), rdescript="Click sextant 3"),
         "zick six": R(Mouse("[1542, 820], left"), rdescript="Click bottom right of screen"),

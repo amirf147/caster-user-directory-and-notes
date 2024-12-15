@@ -11,8 +11,14 @@ class WriterRule(MappingRule):
         "file custom retain": R(Key("cs-s")),
         "open recent": R(Key("a-f, u")),
         
+        # Styles
         "apply heading <n3>": R(Key("c-%(n3)d")),
         "apply normal": R(Key("c-0")),
+        "apply title": R(Key("a-y, t")),
+        "apply subtitle": R(Key("a-y, b")),
+
+        # Format
+        "insert bullet": R(Key("s-f12")),
         
         # View
         "web view": R(Key("a-v, w")),
