@@ -10,6 +10,7 @@ class WriterRule(MappingRule):
         "file open": R(Key("c-o")),
         "file custom retain": R(Key("cs-s")),
         "open recent": R(Key("a-f, u")),
+        "file export pdf": R(Key("a-f, e, d")),
         
         # Styles
         "apply heading <n3>": R(Key("c-%(n3)d")),
