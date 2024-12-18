@@ -17,6 +17,8 @@ class WindowsTerminal(MergeRule):
         
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
 
+        "go": R(Key("c, d, space")),
+
         # Executables
         "<exe>": R(Text("%(exe)s")),
 
@@ -27,6 +29,9 @@ class WindowsTerminal(MergeRule):
     extras = [
         Choice("path", {
             "pi folder": "C:/Users/amirf/python",
+            "caster user": "C:/Users/amirf/AppData/Local/caster",
+            "caster rules": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules",
+            "caster apps": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules/apps",
         }),
         Choice("exe", {
             "pi twelve": "$p312", # Environment Variable
