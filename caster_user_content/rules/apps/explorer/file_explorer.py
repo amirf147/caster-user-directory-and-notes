@@ -44,6 +44,10 @@ class FileExplorerRule(MappingRule):
         "fit column":
             R(Key("a-v, s, f")),
 
+        # Home Ribbon
+        "copy path": R(Key("a-h, c, p")),
+
+
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
