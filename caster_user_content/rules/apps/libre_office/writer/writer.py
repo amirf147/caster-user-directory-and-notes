@@ -7,6 +7,7 @@ from castervoice.lib.merge.state.short import R
 
 class WriterRule(MappingRule):
     mapping = {
+        "file new": R(Key("c-n")),
         "file open": R(Key("c-o")),
         "file custom retain": R(Key("cs-s")),
         "open recent": R(Key("a-f, u")),
