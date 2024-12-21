@@ -21,6 +21,7 @@ class WriterRule(MappingRule):
 
         # Format
         "insert bullet": R(Key("s-f12")),
+        "cycle case": R(Key("s-f3")),
         
         # View
         "web view": R(Key("a-v, w")),
