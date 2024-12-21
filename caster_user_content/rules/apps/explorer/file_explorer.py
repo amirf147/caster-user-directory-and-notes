@@ -56,6 +56,7 @@ class FileExplorerRule(MappingRule):
             "[my] documents" : "C:\\Users\\amirf\\Documents\\",
             "downloads" : "C:\\Users\\amirf\\Downloads\\",
             "job search": ev.JOB_SEARCH,
+            "job postings": ev.JOB_POSTINGS,
             "desktop": "Desktop",
         }),
         ]

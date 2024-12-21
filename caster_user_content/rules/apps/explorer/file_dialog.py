@@ -54,6 +54,7 @@ class FileDialogRule(MappingRule):
             "home" : "C:\\Users\\amirf\\",
             "pictures": "C:\\Users\\amirf\\Pictures\\",
             "job search": ev.JOB_SEARCH,
+            "job postings": ev.JOB_POSTINGS,
             "caster user [directory]": ev.CASTER_USER_DIRECTORY,
             "desktop": "Desktop",
         }),
