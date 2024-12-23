@@ -4,6 +4,8 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.temporary import Store, Retrieve
 
+from caster_user_content import environment_variables as ev
+
 def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://www.youtube.com/results?search_query={formatted_search}"
@@ -189,7 +191,8 @@ class FirefoxExtendedRule(MappingRule):
             "google maps": "https://www.google.com/maps",
             "office": "https://www.office.com",
             "leet code": "https://www.leetcode.com",
-            "my thesis": "https://urn.fi/URN:NBN:fi:amk-2024120231895"
+            "my thesis": "https://urn.fi/URN:NBN:fi:amk-2024120231895",
+            "redmine issues": ev.REDMINE_ISSUES,
         }),
         Dictation("query"),
     ]
