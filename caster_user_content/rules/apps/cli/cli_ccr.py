@@ -40,7 +40,8 @@ class CommandLineCCRRule(MergeRule):
     ]
 
 _executables = [
-    "WindowsTerminal"
+    "WindowsTerminal",
+    "cmd",
 ]
 
 

@@ -18,6 +18,7 @@ class CommandLineRule(MappingRule):
         "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),
         "pi exit": R(Text("exit()") + Key("enter")),
+        "see exit": R(Text("EXIT") + Key("enter")),
         "wiper": R(Text("clear") + Key("enter")),
     }
     extras = [
@@ -26,7 +27,8 @@ class CommandLineRule(MappingRule):
     }
 
 _executables = [
-    "WindowsTerminal"
+    "WindowsTerminal",
+    "cmd",
 ]
 def get_rule():
     return CommandLineRule, RuleDetails(name="Command Line", executable=_executables)

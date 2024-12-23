@@ -6,7 +6,7 @@ from castervoice.lib.const import CCRType
 
 class EnableViaCamRule(MergeRule):
     mapping = {
-        "pown":
+        "pose":
             R(Key("f11")),
     }
     extras = [
