@@ -18,7 +18,10 @@ class CommandLineRule(MappingRule):
         "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),
         "pi exit": R(Text("exit()") + Key("enter")),
-        "see exit": R(Text("EXIT") + Key("enter")),
+
+        # sqlite
+        "see exit": R(Text(".exit") + Key("enter")),
+
         "wiper": R(Text("clear") + Key("enter")),
     }
     extras = [
