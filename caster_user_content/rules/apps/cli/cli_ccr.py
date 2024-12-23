@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Text
+from dragonfly import ShortIntegerRef, Text, Choice
 
 from castervoice.lib.actions import Key
 
@@ -13,7 +13,31 @@ class CommandLineCCRRule(MergeRule):
 
     mapping = {
         "axe": R(Key("a-backspace")),
+        
+        "dirrup":
+            R(Text("cd ../ ; ls;") + Key("enter")),
+        
+        "go <path>": R(Text("cd %(path)s") + Key("enter")),
+
+        "go": R(Key("c, d, space")),
+
+        # Executables
+        "<exe>": R(Text("%(exe)s")),
+
+        # Python exe
+        "pi debug": R(Text("$p312 -m pdb ")),
     }
+    extras = [
+        Choice("path", {
+            "pi folder": "C:/Users/amirf/python",
+            "caster user": "C:/Users/amirf/AppData/Local/caster",
+            "caster rules": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules",
+            "caster apps": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules/apps",
+        }),
+        Choice("exe", {
+            "pi twelve": "$p312", # Environment Variable
+        }),
+    ]
 
 _executables = [
     "WindowsTerminal"
