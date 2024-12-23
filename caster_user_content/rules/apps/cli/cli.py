@@ -23,6 +23,9 @@ class CommandLineRule(MappingRule):
         "see exit": R(Text(".exit") + Key("enter")),
 
         "wiper": R(Text("clear") + Key("enter")),
+
+        # Redmine
+        "start redmine": R(Text("bundle exec rails server -e production") + Key("enter")),
     }
     extras = [
     ]
