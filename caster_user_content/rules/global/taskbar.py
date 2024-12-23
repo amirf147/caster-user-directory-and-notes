@@ -17,9 +17,9 @@ class TaskbarRule(MappingRule):
         
         # Opening/focusing system tray icons
         "open system <off1_1_20>":
-            R(Key("w-b/3, right:%(off1_1_20)s, enter")),
-        "go to system <off1_1_20>":
-            R(Key("w-b/3, right:%(off1_1_20)s")),
+            R(Key("w-b/3, right:%(off1_1_20)s/3, enter")),
+        "psy system <off1_1_20>":
+            R(Key("w-b/3, right:%(off1_1_20)s/5, s-f10")),
     }
     extras = [
         Choice("off1_10_20", {
