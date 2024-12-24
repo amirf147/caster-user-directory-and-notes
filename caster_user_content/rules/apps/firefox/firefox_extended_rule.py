@@ -73,24 +73,18 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d")),
 
         # Address bar querying with dictation
-        "netzer <query>":
-            R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
-        "netzer tab <query>":
-            R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
-        "netzer window <query>":
-            R(Key("c-n/120") + Text("%(query)s") + Key("enter")),
-        "hister <query>":
-            R(Key("a-d/5") + Text("^%(query)s")),
-        "hister tab <query>":
-            R(Key("c-t/5") + Text("^%(query)s")),
-        "hister window <query>":
-            R(Key("c-n/120") + Text("^%(query)s")),
-        "bookzer <query>":
-            R(Key("a-d/5") + Text("*%(query)s")),
-        "bookzer tab <query>":
-            R(Key("c-t/5") + Text("*%(query)s")),
-        "bookzer window <query>":
-            R(Key("c-n/120") + Text("*%(query)s")),
+        "netzer <query>": R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
+        "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
+        "netzer window <query>": R(Key("c-n/120") + Text("%(query)s") + Key("enter")),
+        "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit") + Key("enter")),
+        "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit") + Key("enter")),
+        "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit") + Key("enter")),
+        "hister <query>": R(Key("a-d/5") + Text("^%(query)s")),
+        "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s")),
+        "hister window <query>": R(Key("c-n/120") + Text("^%(query)s")),
+        "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s")),
+        "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s")),
+        "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s")),
 
         # Specific website navigation in new tab
         "go tab <website>":
