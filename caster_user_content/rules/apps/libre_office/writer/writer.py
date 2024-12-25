@@ -14,8 +14,6 @@ class WriterRule(MappingRule):
         "file export pdf": R(Key("a-f, e, d")),
         
         # Styles
-        "apply heading <n3>": R(Key("c-%(n3)d")),
-        "apply normal": R(Key("c-0")),
         "apply title": R(Key("a-y, t")),
         "apply subtitle": R(Key("a-y, b")),
 
@@ -29,7 +27,6 @@ class WriterRule(MappingRule):
         
     }
     extras = [
-        IntegerRef("n3", 1, 4),
         ShortIntegerRef("n", 1, 10),
         Dictation("text"),
         ]
