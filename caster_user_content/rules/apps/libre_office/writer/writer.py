@@ -24,6 +24,10 @@ class WriterRule(MappingRule):
         # View
         "web view": R(Key("a-v, w")),
         "normal view": R(Key("a-v, n")),
+
+        # Edit
+        # Requires user defined key binding: "Remove Hyperlink"
+        "remove hyperlink": R(Key("cs-h")),
         
     }
     extras = [
