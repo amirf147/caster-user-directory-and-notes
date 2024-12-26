@@ -133,6 +133,7 @@ class VSCodiumCcrRule(MergeRule):
             R(Key("cs-f")),
         "move up [<n101>]": R(Key("a-up:%(n101)d")),
         "move down [<n101>]": R(Key("a-down:%(n101)d")),
+        "open spell": R(Key("c-e/5")), # Allows me to directly start spelling the filename
         
         # Requires user-defined key bindings
         # Command: Add selection to previous find match

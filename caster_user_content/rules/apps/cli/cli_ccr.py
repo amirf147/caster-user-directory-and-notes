@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Text, Choice
+from dragonfly import Text, Choice
 
 from castervoice.lib.actions import Key
 
@@ -17,9 +17,8 @@ class CommandLineCCRRule(MergeRule):
         "dirrup":
             R(Text("cd ../ ; ls;") + Key("enter")),
         
-        "go <path>": R(Text("cd %(path)s") + Key("enter")),
-
         "go": R(Key("c, d, space")),
+        "to clipboard": R(Key("space, |, space, c, l, i, p")),
 
         # Executables
         "<exe>": R(Text("%(exe)s")),
@@ -33,16 +32,11 @@ class CommandLineCCRRule(MergeRule):
         "ghost": R(Key("G, O, enter")),
     }
     extras = [
-        Choice("path", {
-            "pi folder": "C:/Users/amirf/python",
-            "documents": "C:/Users/amirf/Documents",
-            "caster user": "C:/Users/amirf/AppData/Local/caster",
-            "caster rules": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules",
-            "caster apps": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules/apps",
-        }),
         Choice("exe", {
             "pi twelve": "$p312", # Environment Variable
+            "print work": "pwd",
         }),
+
     ]
 
 _executables = [
