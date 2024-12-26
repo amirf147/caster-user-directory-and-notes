@@ -18,7 +18,10 @@ class WriterRule(MappingRule):
         "apply subtitle": R(Key("a-y, b")),
 
         # Format
-        "insert bullet": R(Key("s-f12")),
+        "insert bullet": # Requires user define key binding: "Bullets and Numbering"
+            R(Key("s-f10")),
+        "bullets": # unordered list via drop-down menu because unreliable via keyboard shortcut
+            R(Key("a-o, t, left, t, u")),
         "cycle case": R(Key("s-f3")),
         
         # View
@@ -28,6 +31,9 @@ class WriterRule(MappingRule):
         # Edit
         # Requires user defined key binding: "Remove Hyperlink"
         "remove hyperlink": R(Key("cs-h")),
+
+        # Tools
+        "customize dialogue": R(Key("a-t, c:2, enter")),
         
     }
     extras = [

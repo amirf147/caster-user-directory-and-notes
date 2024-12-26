@@ -187,6 +187,7 @@ class FirefoxExtendedRule(MappingRule):
             "leet code": "https://www.leetcode.com",
             "my thesis": "https://urn.fi/URN:NBN:fi:amk-2024120231895",
             "redmine issues": ev.REDMINE_ISSUES,
+            "latest movies": "https://www.rottentomatoes.com/browse/movies_at_home/sort:newest",
         }),
         Dictation("query"),
     ]
