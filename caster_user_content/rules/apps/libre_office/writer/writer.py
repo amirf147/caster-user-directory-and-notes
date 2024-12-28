@@ -34,6 +34,7 @@ class WriterRule(MappingRule):
 
         # Tools
         "customize dialogue": R(Key("a-t, c:2, enter")),
+        "line numbers": R(Key("a-t, l, space, enter")),
         
     }
     extras = [
