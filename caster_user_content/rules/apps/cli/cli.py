@@ -1,4 +1,4 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef, Mimic
 
 from castervoice.lib.actions import Key, Mouse
 
@@ -29,7 +29,7 @@ class CommandLineRule(MappingRule):
         "wiper": R(Text("clear") + Key("enter")),
 
         # Redmine
-        "start redmine": R(Text("bundle exec rails server -e production") + Key("enter")),
+        "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production") + Key("enter")),
     }
     extras = [
         Choice("path", {
