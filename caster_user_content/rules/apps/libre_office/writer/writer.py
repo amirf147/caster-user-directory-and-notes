@@ -35,6 +35,10 @@ class WriterRule(MappingRule):
         # Tools
         "customize dialogue": R(Key("a-t, c:2, enter")),
         "line numbers": R(Key("a-t, l, space, enter")),
+
+        # Font
+        # Requires user define key binding: "Font Color" (second one)
+        "font color": R(Key("cs-c, space, tab:2")),
         
     }
     extras = [
