@@ -39,6 +39,7 @@ class WriterRule(MappingRule):
         # Font
         # Requires user define key binding: "Font Color" (second one)
         "font color": R(Key("cs-c, space, tab:2")),
+        "font red": R(Key("cs-c, space, tab:2, down:6, right:4, enter, tab, enter")),
         
     }
     extras = [
