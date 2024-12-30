@@ -24,6 +24,9 @@ class WriterRule(MappingRule):
             R(Key("a-o, t, left, t, u")),
         "cycle case": R(Key("s-f3")),
         "page style dialog": R(Key("as-p")),
+
+        # Insert
+        "show bookmarks": R(Key("a-i, k")),
         
         # View
         "web view": R(Key("a-v, w")),
