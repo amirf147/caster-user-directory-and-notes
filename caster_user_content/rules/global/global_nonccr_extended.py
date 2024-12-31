@@ -146,6 +146,12 @@ copy and paste it: ") + Key("c-v")),
         "fancy zones": R(Key("ws-`")),
         "fancy <n0>": R(Key("wca-%(n0)d")),
 
+        # For Libre Office Writer because apparently this dialog is not recognized as being
+        # in the same context as the Writer rule context
+        "apply page margins": R(Text("0.35") + Key("tab") +
+                           Text("0.1") + Key("tab") +
+                           Text("0.1") + Key("tab") +
+                           Text("0.1") + Key("enter, left, enter")),
     }
 
     extras = [
