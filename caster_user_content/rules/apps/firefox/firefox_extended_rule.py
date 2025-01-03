@@ -172,9 +172,6 @@ class FirefoxExtendedRule(MappingRule):
             "subscriptions": "https://www.youtube.com/feed/subscriptions",
             "school": "https://www.tuas.fi/en/",
             "pepe": "https://opiskelija.peppi.turkuamk.fi/",
-            "it's learning": "https://turkuamk.itslearning.com/",
-            "library": "https://www.tuas.fi/en/about-us/library/tuas-library/",
-            "theseus": "https://www.theseus.fi/",
             "gemini": "https://gemini.google.com/app",
             "chat gee pea tea": "https://chatgpt.com/",
             "copilot": "https://copilot.microsoft.com/",
@@ -188,6 +185,7 @@ class FirefoxExtendedRule(MappingRule):
             "my thesis": "https://urn.fi/URN:NBN:fi:amk-2024120231895",
             "redmine issues": ev.REDMINE_ISSUES,
             "latest movies": "https://www.rottentomatoes.com/browse/movies_at_home/sort:newest",
+            "indeed applied": "https://myjobs.indeed.com/applied",
         }),
         Dictation("query"),
     ]
