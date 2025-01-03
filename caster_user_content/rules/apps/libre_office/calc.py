@@ -1,4 +1,4 @@
-from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice, Repetition, Function
+from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice, Repetition, Function, Pause, Mimic
 
 from castervoice.lib.actions import Key
 from castervoice.rules.core.alphabet_rules import alphabet_support
@@ -39,9 +39,15 @@ class CalcRule(MappingRule):
             R(Key("a-w/50, q")),
 
         "date place": R(Key("c-;")),
+
+        # Hyperlinking
         "hyperlink": R(Key("c-k")),
-
-
+        "link to file": R(Key("c-k, s-tab, home, down:2, tab:2, space")),
+        "link to job posting": # Selects the most recently created job posting text file
+            R(Key("c-k, s-tab, home, down:2, tab:2, space") + Pause("300") +
+              Mimic("go job postings") + Pause("500") +
+              Key("s-tab/3, right/3, enter/3, home, space")),
+        
         # Home Tab
         "fit width": R(Key("a-o, m, o, enter")),
         "fit height": R(Key("a-o, w, o, enter")),
