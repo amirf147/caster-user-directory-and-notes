@@ -31,6 +31,7 @@ class WriterRule(MappingRule):
         # View
         "web view": R(Key("a-v, w")),
         "normal view": R(Key("a-v, n")),
+        "zoom entire page": R(Key("a-v, z, e")),
 
         # Edit
         # Requires user defined key binding: "Remove Hyperlink"
