@@ -32,6 +32,7 @@ class WriterRule(MappingRule):
         "web view": R(Key("a-v, w")),
         "normal view": R(Key("a-v, n")),
         "zoom entire page": R(Key("a-v, z, e")),
+        "zoom seventy five": R(Key("a-v, z, 7")),
         "(show | hide) grid": R(Key("a-v, i:2, d")),
 
         # Edit
