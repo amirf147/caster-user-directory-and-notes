@@ -16,6 +16,8 @@ class PowershellRule(MappingRule):
         "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
         "dir home": R(Text("cd; ls;") + Key("enter")),
 
+        "clipboard out": R(Text("Get-Clipboard | Out-File -Encoding UTF8") + Key("space")),
+
         # "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),
         "pi exit": R(Text("exit()") + Key("enter")),
