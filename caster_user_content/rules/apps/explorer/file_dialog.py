@@ -48,16 +48,7 @@ class FileDialogRule(MappingRule):
     extras = [
         ShortIntegerRef("n", 1, 10),
         Dictation("text"),
-        Choice("path", {
-            "[my] documents" : "C:\\Users\\amirf\\Documents\\",
-            "downloads" : "C:\\Users\\amirf\\Downloads\\",
-            "home" : "C:\\Users\\amirf\\",
-            "pictures": "C:\\Users\\amirf\\Pictures\\",
-            "job search": ev.JOB_SEARCH,
-            "job postings": ev.JOB_POSTINGS,
-            "caster user [directory]": ev.CASTER_USER_DIRECTORY,
-            "desktop": "Desktop",
-        }),
+        Choice("path", ev.FILE_EXPLORER_PATHS),
         ]
     defaults = {
         "n": 1,
