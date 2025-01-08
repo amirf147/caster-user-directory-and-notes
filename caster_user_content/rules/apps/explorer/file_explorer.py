@@ -52,13 +52,7 @@ class FileExplorerRule(MappingRule):
     extras = [
         ShortIntegerRef("n", 1, 10),
         Dictation("text"),
-        Choice("path", {
-            "[my] documents" : "C:\\Users\\amirf\\Documents\\",
-            "downloads" : "C:\\Users\\amirf\\Downloads\\",
-            "job search": ev.JOB_SEARCH,
-            "job postings": ev.JOB_POSTINGS,
-            "desktop": "Desktop",
-        }),
+        Choice("path", ev.FILE_EXPLORER_PATHS),
         ]
     defaults = {
         "n": 1,
