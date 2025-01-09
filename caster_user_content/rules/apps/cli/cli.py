@@ -32,14 +32,7 @@ class CommandLineRule(MappingRule):
         "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production") + Key("enter")),
     }
     extras = [
-        Choice("path", {
-            "pi folder": "C:/Users/amirf/python",
-            "documents": "C:/Users/amirf/Documents",
-            "caster user": "C:/Users/amirf/AppData/Local/caster",
-            "caster rules": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules",
-            "caster apps": "C:/Users/amirf/AppData/Local/caster/caster_user_content/rules/apps",
-            "redmine": ev.REDMINE_DIRECTORY,
-        }),
+        Choice("path", ev.PATHS),
     ]
     defaults = {
     }
