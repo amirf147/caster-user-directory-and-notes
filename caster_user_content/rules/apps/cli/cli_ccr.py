@@ -7,6 +7,9 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
+from caster_user_content import environment_variables as ev
+
+
 class CommandLineCCRRule(MergeRule):
 
     pronunciation = "command line c c r"
@@ -32,11 +35,7 @@ class CommandLineCCRRule(MergeRule):
         "ghost": R(Key("G, O, enter")),
     }
     extras = [
-        Choice("exe", {
-            "pi twelve": "$p312", # Environment Variable
-            "print work": "pwd",
-        }),
-
+        Choice("exe", ev.EXECUTABLES),
     ]
 
 _executables = [
