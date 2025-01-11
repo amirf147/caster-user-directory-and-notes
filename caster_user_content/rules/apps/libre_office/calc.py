@@ -38,15 +38,20 @@ class CalcRule(MappingRule):
         "zoom dialogue":
             R(Key("a-w/50, q")),
 
-        "date place": R(Key("c-;")),
+        "insert date": R(Key("cs-d")), # Custom key binding: Insert Current Date
+        "continue date": R(Key("c-d, cs-d")),
 
+        # Tools
+        "customize dialog": R(Key("a-t, c")),
+        
         # Hyperlinking
         "hyperlink": R(Key("c-k")),
         "link to file": R(Key("c-k, s-tab, home, down:2, tab:2, space")),
         "link to job posting": # Selects the most recently created job posting text file
-            R(Key("c-k, s-tab, home, down:2, tab:2, space") + Pause("300") +
-              Mimic("go job postings") + Pause("500") +
-              Key("s-tab/3, right/3, enter/3, home, space")),
+            R(Key("c-k, s-tab, home, down:2, tab:2, space")),
+            # Pause("300") +
+              # Mimic("go job postings") + Key("space")),
+              # Key("tab/3, right/3, enter/3, home, space")),
         
         # Home Tab
         "fit width": R(Key("a-o, m, o, enter")),
