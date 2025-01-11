@@ -14,25 +14,16 @@ class PowershellCCRRule(MergeRule):
     pronunciation = "power shell c c r"
 
     mapping = {
-        "dirrup":
-            R(Text("cd ../ ; ls;") + Key("enter")),
-        
-        "go": R(Key("c, d, space")),
         "to clipboard": R(Key("space, |, space, c, l, i, p")),
 
-        # Executables
-        "<exe>": R(Text("%(exe)s")),
-
-        # Python exe
-        "pi debug": R(Text("$p312 -m pdb ")),
+        # Executables/Commands
+        "<exe>": R(Text("%(exe)s") + Key("space")),
 
         # SQL
-        "seekum": R(Text("sqlcmd") + Key("space")),
-        "seekle": R(Text("sqlite3") + Key("space")),
         "ghost": R(Key("G, O, enter")),
     }
     extras = [
-        Choice("exe", ev.EXECUTEABLES),
+        Choice("exe", ev.EXECUTABLES),
     ]
 
 def get_rule():

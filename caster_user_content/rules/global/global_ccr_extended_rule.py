@@ -44,6 +44,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "eco": R(Text(" = ")),
         "plooz": R(Text(" + ")),
         "meece": R(Text(" - ")),
+        "dot t x t": R(Text(".txt")),
         
         # Experimenting with continuing dictation and/or formatting text after custom word
         # "v s codium": R(Text(" VSCodium ") + Function(textformat.master_format_text))

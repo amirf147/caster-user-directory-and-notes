@@ -36,6 +36,7 @@ class CustomNPPRule(MappingRule):
         # Requires user defined shortcut mapping ("Move to Other View")
         "split editor": R(Key("ca-backslash")),
         "folder view": R(Key("ca-f6")),
+        "toggle folder (view | as workspace)": R(Key("csa-f6")),
 
         # Line Operations
         "line del [<n>]": R(Key("c-l:%(n)d")),
