@@ -33,6 +33,7 @@ class WriterRule(MappingRule):
         "normal view": R(Key("a-v, n")),
         "zoom entire page": R(Key("a-v, z, e")),
         "zoom seventy five": R(Key("a-v, z, 7")),
+        "zoom [page] width": R(Key("a-v, z, p")),
         "(show | hide) grid": R(Key("a-v, i:2, d")),
 
         # Edit
