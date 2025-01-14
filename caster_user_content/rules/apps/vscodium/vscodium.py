@@ -362,5 +362,5 @@ class VsCodiumRule(MappingRule):
 
 def get_rule():
     return VsCodiumRule, RuleDetails(name="VSCodium",
-                                      executable="VSCodium",
-                                      title="VSCodium")
+                                      executable=["VSCodium", "cursor"],
+                                      title=["VSCodium", "Cursor"])

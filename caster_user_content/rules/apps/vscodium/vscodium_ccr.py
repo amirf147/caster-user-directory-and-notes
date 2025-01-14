@@ -169,7 +169,7 @@ class VSCodiumCcrRule(MergeRule):
 
 
 def get_rule():
-    details = RuleDetails(executable="VSCodium",
-                          title="VSCodium",
+    details = RuleDetails(executable=["VSCodium", "cursor"],
+                          title=["VSCodium", "Cursor"],
                           ccrtype=CCRType.APP)
     return VSCodiumCcrRule, details
