@@ -64,7 +64,7 @@ class CustomNPPRule(MappingRule):
         ShortIntegerRef("n", 1, 1000),
         ShortIntegerRef("n2", 1, 10),
     ]
-    defaults = {"n": 1}
+    defaults = {"n": 1, "n2": 1}
 
 
 def get_rule():
