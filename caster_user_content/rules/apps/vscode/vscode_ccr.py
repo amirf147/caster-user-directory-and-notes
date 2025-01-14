@@ -9,8 +9,8 @@ from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
 
-class VSCodiumCcrRule(MergeRule):
-    pronunciation = "viz codium ccr"
+class CustomVSCodeCcrRule(MergeRule):
+    pronunciation = "custom code c c r"
 
     mapping = {
         # Note: If you get the bad grammar grammar too complex error, move some of these commands into the non-CCR rule
@@ -169,7 +169,8 @@ class VSCodiumCcrRule(MergeRule):
 
 
 def get_rule():
-    details = RuleDetails(executable=["VSCodium", "cursor"],
-                          title=["VSCodium", "Cursor"],
+    details = RuleDetails(executable=["VSCodium", "cursor", "code"],
+                          title=["VSCodium", "Cursor", "Visual Studio Code"],
                           ccrtype=CCRType.APP)
-    return VSCodiumCcrRule, details
+    return CustomVSCodeCcrRule, details
+

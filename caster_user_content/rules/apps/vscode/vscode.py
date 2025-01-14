@@ -19,8 +19,9 @@ def _find_nth_token(text, n, direction):
     Key('escape').execute()
 
 
-class VsCodiumRule(MappingRule):
-    pronunciation = "viz codium"
+class CustomVSCodeRule(MappingRule):
+    # Unable to enable using enable command, just enable manually in rules.toml
+    # pronunciation = "viz"
     mapping = {
 
         "shell":
@@ -361,6 +362,6 @@ class VsCodiumRule(MappingRule):
     defaults = {"n": 1, "ln2": "",  "mim": "", "text": ""}
 
 def get_rule():
-    return VsCodiumRule, RuleDetails(name="VSCodium",
+    return CustomVSCodeRule, RuleDetails(name="CustomVSCode",
                                       executable=["VSCodium", "cursor"],
                                       title=["VSCodium", "Cursor"])
