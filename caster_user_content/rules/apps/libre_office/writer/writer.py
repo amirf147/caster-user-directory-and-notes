@@ -35,6 +35,7 @@ class WriterRule(MappingRule):
         "zoom seventy five": R(Key("a-v, z, 7")),
         "zoom [page] width": R(Key("a-v, z, p")),
         "(show | hide) grid": R(Key("a-v, i:2, d")),
+        "show paragraph": R(Key("c-f10")),
 
         # Edit
         # Requires user defined key binding: "Remove Hyperlink"
