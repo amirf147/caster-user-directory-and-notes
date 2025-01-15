@@ -52,8 +52,6 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-b")),
         "show files":
             R(Key("cs-e")),
-        "source control":
-            R(Key("cs-g")),
         "keyboard shorts":
             R(Key("c-k, c-s")),
         "key mappings":
@@ -341,6 +339,7 @@ class CustomVSCodeRule(MappingRule):
         "collapse folders":
             R(Key("c-k, cs-f")),
 
+        "source control": R(Key("cs-g, g")),
     }
     extras = [
         Dictation("text"),
