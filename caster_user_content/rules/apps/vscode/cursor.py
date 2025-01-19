@@ -12,6 +12,7 @@ class CursorRule(MappingRule):
     mapping = {
         "hide right": # Requires user defined key binding (View: Close AI Sidebar)
             R(Key("c-m, a-w")),
+        "show chat": R(Key("cs-y")),
     }
     extras = [
     ]
