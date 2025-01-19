@@ -340,6 +340,8 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-k, cs-f")),
 
         "source control": R(Key("cs-g, g")),
+
+        "hide left": R(Key("c-b")),
     }
     extras = [
         Dictation("text"),

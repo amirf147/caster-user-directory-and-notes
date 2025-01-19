@@ -127,8 +127,6 @@ class CustomVSCodeCcrRule(MergeRule):
             R(Key("cs-k:%(n)d")),
         "selina [<n101>]":
             R(Key("c-l:%(n101)d")),
-        "hide left":
-            R(Key("c-b")),
         "super find":
             R(Key("cs-f")),
         "move up [<n101>]": R(Key("a-up:%(n101)d")),
