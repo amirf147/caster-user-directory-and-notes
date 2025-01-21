@@ -342,6 +342,9 @@ class CustomVSCodeRule(MappingRule):
         "source control": R(Key("cs-g, g")),
 
         "hide left": R(Key("c-b")),
+        
+        # Requires user defined key binding (Git: Sync)
+        "git sync": R(Key("cs-k, c-s")),
     }
     extras = [
         Dictation("text"),
