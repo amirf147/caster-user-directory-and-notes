@@ -16,7 +16,12 @@ class ScreenCopyRule(MappingRule):
         "go back": R(Key("a-b")),
         "show menu": R(Key("a-m")),
         "switcher": R(Key("a-s")),
+        "hit power": R(Key("a-p")),
         "phone screen off": R(Key("a-o")),
+        "phone screen on": R(Key("as-o")),
+        "show (alerts | notifications)": R(Key("a-n")),
+        "hide (alerts | notifications)": R(Key("a-a" )),
+        "show f p s": R(Key("a-i")),
     }
     extras = [
     ]
