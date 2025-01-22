@@ -13,6 +13,9 @@ class CursorRule(MappingRule):
         "hide right": # Requires user defined key binding (View: Close AI Sidebar)
             R(Key("c-m, a-w")),
         "show chat": R(Key("cs-y")),
+        
+        "new chat": R(Key("c-l")),
+        "chat new": R(Key("c-n")),  #"when": "focusedView == 'workbench.panel.aichat.view'"
     }
     extras = [
     ]
