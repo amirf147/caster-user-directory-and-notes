@@ -21,9 +21,11 @@ class CustomOutlookRule(MappingRule):
         "hint insert": R(Key("alt/3, n")),
         "file attach": R(Key("alt/3, n, a, f")),
         "pop out email": R(Key("s-enter")),
+        "etsy <dictation>": R(Key("c-e") + Text("%(dictation)s")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
+        Dictation("dictation"),
     ]
     defaults = {"n": 1,}
 
