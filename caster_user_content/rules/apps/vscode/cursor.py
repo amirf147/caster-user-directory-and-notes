@@ -16,6 +16,7 @@ class CursorRule(MappingRule):
         
         "new chat": R(Key("c-l")),
         "chat new": R(Key("c-n")),  #"when": "focusedView == 'workbench.panel.aichat.view'"
+        "composer": R(Key("cs-m, cs-k")), # Requires user defined key binding (View: Toggle Composer)
     }
     extras = [
     ]
