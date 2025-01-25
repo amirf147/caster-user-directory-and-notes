@@ -31,6 +31,7 @@ class PowershellRule(MappingRule):
         "start screen copy": R(Mimic("go screen copy") + Pause("50") + Text("./scrcpy") + Key("enter")),
 
         "oh list": R(Text("ollama list") + Key("enter")),
+        "oh serve": R(Text("ollama serve") + Key("enter")),
     }
     extras = [
         Choice("path", ev.PATHS),
