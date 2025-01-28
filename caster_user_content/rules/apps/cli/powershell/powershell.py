@@ -33,7 +33,7 @@ class PowershellRule(MappingRule):
         "oh list": R(Text("ollama list") + Key("enter")),
         "oh serve": R(Text("ollama serve") + Key("enter")),
         "oh p s": R(Text("ollama ps") + Key("enter")),
-        "oh show": R(Text("ollama show") + Key("enter")),
+        "oh show": R(Text("ollama show") + Key("space")),
         "oh show deep": R(Text("ollama show deepseek-r1:1.5b") + Key("enter")),
         "oh stop": R(Text("ollama stop") + Key("space")),
     }
