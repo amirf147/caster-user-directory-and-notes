@@ -36,6 +36,8 @@ class PowershellRule(MappingRule):
         "oh show": R(Text("ollama show") + Key("space")),
         "oh show deep": R(Text("ollama show deepseek-r1:1.5b") + Key("enter")),
         "oh stop": R(Text("ollama stop") + Key("space")),
+        "oh help list": R(Text("ollama help list") + Key("enter")),
+        "oh help show": R(Text("ollama help show") + Key("enter")),
     }
     extras = [
         Choice("path", ev.PATHS),
