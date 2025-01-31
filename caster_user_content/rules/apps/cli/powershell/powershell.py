@@ -39,6 +39,7 @@ class PowershellRule(MappingRule):
         "oh help list": R(Text("ollama help list") + Key("enter")),
         "oh help show": R(Text("ollama help show") + Key("enter")),
         "oh help serve": R(Text("ollama help serve") + Key("enter")),
+        "oh help create": R(Text("ollama help create") + Key("enter")),
     }
     extras = [
         Choice("path", ev.PATHS),
