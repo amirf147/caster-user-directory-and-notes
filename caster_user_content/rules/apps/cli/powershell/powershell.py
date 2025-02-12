@@ -13,7 +13,7 @@ class PowershellRule(MappingRule):
     mapping = {
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
 
-        "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
+        "dirrup": R(Text("cd ../") + Key("enter")),
         "dir home": R(Text("cd; ls;") + Key("enter")),
 
         # "pi twelve": R(Text("$p312 ")),
