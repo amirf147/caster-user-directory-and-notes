@@ -17,6 +17,13 @@ class CursorRule(MappingRule):
         "new chat": R(Key("c-l")),
         "chat new": R(Key("c-n")),  #"when": "focusedView == 'workbench.panel.aichat.view'"
         "composer": R(Key("cs-m, cs-k")), # Requires user defined key binding (View: Toggle Composer)
+
+        # Source Control/Git
+        "generate commit message": R(Key("c-k, cs-c")), # Requires user defined key binding (Generate Commit Message)
+        "show changes": R(Key("c-g, c-o")), # Requires user defined key binding (Git: Open Changes)
+        "stage changes": R(Key("c-g, c-s")), # Requires user defined key binding (Git: Stage Changes)
+        "show stage": R(Key("c-g, cs-s")), # Requires user defined key binding (Git: View Staged Changes)
+
     }
     extras = [
     ]
