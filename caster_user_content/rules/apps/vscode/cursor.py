@@ -23,6 +23,7 @@ class CursorRule(MappingRule):
         "show changes": R(Key("c-g, c-o")), # Requires user defined key binding (Git: Open Changes)
         "stage changes": R(Key("c-g, c-s")), # Requires user defined key binding (Git: Stage Changes)
         "show stage": R(Key("c-g, cs-s")), # Requires user defined key binding (Git: View Staged Changes)
+        "git sure commit": R(Key("c-g, c-c")), # Requires user defined key binding (Git: Commit)
 
     }
     extras = [
