@@ -24,11 +24,17 @@ class CursorRule(MappingRule):
         "stage changes": R(Key("c-g, c-s")), # Requires user defined key binding (Git: Stage Changes)
         "show stage": R(Key("c-g, cs-s")), # Requires user defined key binding (Git: View Staged Changes)
         "git sure commit": R(Key("c-g, c-c")), # Requires user defined key binding (Git: Commit)
+        
+        "cursor above [<n>]": R(Key("ca-up:%(n)s")),
+        "cursor below [<n>]": R(Key("ca-down:%(n)s")),
 
     }
     extras = [
+        ShortIntegerRef("n", 1, 101),
     ]
-    defaults = {}
+    defaults = {
+        "n": 1,
+    }
 
 def get_rule():
     return CursorRule, RuleDetails(name="Cursor",
