@@ -20,13 +20,25 @@ class ScreenCopyRule(MappingRule):
         "phone screen off": R(Key("a-o")),
         "phone screen on": R(Key("as-o")),
         "show (alerts | notifications)": R(Key("a-n")),
-        "hide (alerts | notifications)": R(Key("a-a" )),
+        "hide (alerts | notifications)": R(Key("a-a")),
         "show f p s": R(Key("a-i")),
 
         # "swipe": R(Mouse("(0.5, 0.5), left:down/100, (0.1, 0.5), left:up")),
-        "swipe": R(Mouse("(0.5, 0.5), left:down") + Pause("20") + Mouse("<-200, 0>") + Pause("20") + Mouse("left:up")),
-        "lipe": R(Mouse("(0.5, 0.5), left:down") + Pause("20") + Mouse("<200, 0>") + Pause("20") + Mouse("left:up")),
+        "swipe": R(Mouse("(0.9, 0.5), left:down") + Pause("20") + Mouse("<-300, 0>") + Pause("20") + Mouse("left:up")),
+        "lipe": R(Mouse("(0.1, 0.5), left:down") + Pause("20") + Mouse("<300, 0>") + Pause("20") + Mouse("left:up")),
 
+        # Swiping up
+        # Added multiple steps of movement with pauses to slow down the swipe
+        "swee": R(Mouse("(0.5, 0.9), left:down") + Pause("30") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Mouse("<0, -100>") + Pause("5") +
+                  Pause("30") + Mouse("left:up")),
     }
     extras = [
     ]
