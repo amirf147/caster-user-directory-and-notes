@@ -22,6 +22,11 @@ class ScreenCopyRule(MappingRule):
         "show (alerts | notifications)": R(Key("a-n")),
         "hide (alerts | notifications)": R(Key("a-a" )),
         "show f p s": R(Key("a-i")),
+
+        # "swipe": R(Mouse("(0.5, 0.5), left:down/100, (0.1, 0.5), left:up")),
+        "swipe": R(Mouse("(0.5, 0.5), left:down") + Pause("20") + Mouse("<-200, 0>") + Pause("20") + Mouse("left:up")),
+        "lipe": R(Mouse("(0.5, 0.5), left:down") + Pause("20") + Mouse("<200, 0>") + Pause("20") + Mouse("left:up")),
+
     }
     extras = [
     ]

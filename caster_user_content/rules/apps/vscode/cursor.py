@@ -28,6 +28,8 @@ class CursorRule(MappingRule):
         "cursor above [<n>]": R(Key("ca-up:%(n)s")),
         "cursor below [<n>]": R(Key("ca-down:%(n)s")),
 
+        "comment": R(Key("c-slash")),
+
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
