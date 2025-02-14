@@ -20,13 +20,19 @@ class ScreenCopyRule(MappingRule):
         "phone screen off": R(Key("a-o")),
         "phone screen on": R(Key("as-o")),
         "show (alerts | notifications)": R(Key("a-n")),
+        "show quick settings": R(Key("alt:down, n/20, n, alt:up")),
         "hide (alerts | notifications)": R(Key("a-a")),
         "show f p s": R(Key("a-i")),
 
         # Swiping actions
-        "swipe": R(Mouse("(0.8, 0.5)/20, left:down/20, <-300, 0>/20, left:up")),
-        "lipe": R(Mouse("(0.1, 0.5)/20, left:down/20, <300, 0>/20, left:up")),
-        "swee": R(Mouse("(0.5, 0.85)/20, left:down/20, <0, -800>/20, left:up")),
+        "swipe": # Right to left
+            R(Mouse("(0.8, 0.5)/20, left:down/20, <-300, 0>/20, left:up")),
+        "lipe": # Left to right
+            R(Mouse("(0.1, 0.5)/20, left:down/20, <300, 0>/20, left:up")),
+        "swee": # Bottom to top
+            R(Mouse("(0.5, 0.85)/20, left:down/20, <0, -800>/20, left:up")),
+        "swoo": # Top to bottom
+            R(Mouse("(0.5, 0.2)/20, left:down/20, <0, 800>/20, left:up")),
     }
     extras = [
     ]
