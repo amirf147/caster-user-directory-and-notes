@@ -102,30 +102,37 @@ class FirefoxExtendedRule(MappingRule):
         "jinx <query>":
             R(Key("c-f/5") + Text("%(query)s") + Key("enter/5")),
 
+        # Googling selected text
         "google that":
             R(Store(remove_cr=True) + Key("c-t/5") + Retrieve() + Key("enter")),
         "google that window":
             R(Store(remove_cr=True) + Key("c-n/120") + Retrieve() + Key("enter")),
 
+        # Pasting clipboard content into address bar
         "go clipboard":
             R(Key("a-d/5") + Key("c-v") + Key("enter")),
-
         "go tab clipboard":
             R(Key("c-t/5") + Key("cs-v") + Key("enter")),
         "go window clipboard":
             R(Key("c-n/120") + Key("cs-v") + Key("enter")),
 
+        # Searching YouTube
         "you search <query>":
             R(Function(_search_youtube)),
-
         "you search window <query>":
             R(Key("c-n/60") + Function(_search_youtube)),
         "you search tab <query>":
             R(Key("c-t") + Function(_search_youtube)),
-            
-        # Translates the selection via the context menu
-        "translate that": R(Key("s-f10/3, down:6, enter")),
+
+        # Translations    
+        "translate that": # Translates the selection via the context menu
+            R(Key("s-f10/3, down:6, enter")),
+        "translate page": # Presses the translate button in the address bar and enables page translation
+            R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:3, enter")),
+        "remove translation":
+            R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:2, enter")),
     }
+    
     extras = [
         IntegerRef("n", 1, 9),
         Choice("n_off_by_one", {
