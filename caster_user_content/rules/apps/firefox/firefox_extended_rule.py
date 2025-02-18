@@ -6,12 +6,59 @@ from castervoice.lib.temporary import Store, Retrieve
 
 from caster_user_content import environment_variables as ev
 
+
+from datetime import datetime
+import os
+import pyperclip
+import sys
+import subprocess
+
+
 def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://www.youtube.com/results?search_query={formatted_search}"
     Key("a-d/5").execute() \
         + Text("%(formatted_url)s").execute({"formatted_url": formatted_url}) \
-             + Key("enter").execute()
+        + Key("enter").execute()
+
+def _save_to_job_postings():
+    try:
+        # Check if directory exists
+        if not os.path.exists(ev.PATHS["job postings"]):
+            print(f"Error: Directory does not exist: {ev.PATHS['job postings']}")
+            return
+
+        content = pyperclip.paste()
+        
+        # Get the path to the save_to_text.py script
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        script_path = os.path.join(current_dir, "..", "..", "..", "util", "save_to_text.py")
+        
+        # Start the process detached from the parent
+        if os.name == 'nt':  # Windows
+            DETACHED_PROCESS = 0x00000008
+            process = subprocess.Popen([
+                sys.executable, 
+                script_path, 
+                ev.PATHS["job postings"]
+            ], stdin=subprocess.PIPE, 
+               text=True,
+               creationflags=DETACHED_PROCESS)
+        # else:  # Unix-like
+        #     process = subprocess.Popen([
+        #         sys.executable, 
+        #         script_path, 
+        #         ev.PATHS["job postings"]
+        #     ], stdin=subprocess.PIPE, 
+        #        text=True,
+        #        start_new_session=True)
+        
+        # Send the content without waiting for completion
+        process.stdin.write(content)
+        process.stdin.close()
+            
+    except Exception as e:
+        print(f"Error saving text: {str(e)}")
 
 
 class FirefoxExtendedRule(MappingRule):
@@ -131,6 +178,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:3, enter")),
         "remove translation":
             R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:2, enter")),
+        
+        "put in text file":
+            R(Store() + Function(_save_to_job_postings)),
     }
     
     extras = [
