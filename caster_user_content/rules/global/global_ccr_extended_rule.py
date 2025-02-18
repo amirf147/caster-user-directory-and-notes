@@ -49,6 +49,10 @@ class GlobalCCRExtendedRule(MergeRule):
         # Experimenting with continuing dictation and/or formatting text after custom word
         # "v s codium": R(Text(" VSCodium ") + Function(textformat.master_format_text))
         "v s codium [<query>]": R(Text(" VSCodium %(query)s")),
+
+        # Finnish characters
+        "a dots": R(Key("alt:down, numpad1, numpad3, numpad2, alt:up"), rdescript="Insert Finnish letter ä"),
+        "o dots": R(Key("alt:down, numpad1, numpad4, numpad8, alt:up"), rdescript="Insert Finnish letter ö"),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
