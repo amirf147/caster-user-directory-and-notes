@@ -53,6 +53,9 @@ class WriterRule(MappingRule):
         "font black": R(Key("cs-c, space, left:120, enter, tab, enter")),
         "font red": R(Key("cs-c, space, tab:2, down:6, right:4, enter, tab, enter")),
         "font dialog": R(Key("a-o, h")),
+
+        # File
+        "template manager": R(Key("a-f, m:2")),
         
     }
     extras = [
