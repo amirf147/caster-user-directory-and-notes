@@ -37,21 +37,20 @@ def _save_to_job_postings():
         # Start the process detached from the parent
         if os.name == 'nt':  # Windows
             DETACHED_PROCESS = 0x00000008
+            SW_SHOW = 5
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags = subprocess.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = SW_SHOW
+            
             process = subprocess.Popen([
                 sys.executable, 
                 script_path, 
-                ev.PATHS["job postings"]
+                ev.PATHS["job postings"],
+                "--always-on-top"  # Add this flag to be handled in save_to_text.py
             ], stdin=subprocess.PIPE, 
                text=True,
-               creationflags=DETACHED_PROCESS)
-        # else:  # Unix-like
-        #     process = subprocess.Popen([
-        #         sys.executable, 
-        #         script_path, 
-        #         ev.PATHS["job postings"]
-        #     ], stdin=subprocess.PIPE, 
-        #        text=True,
-        #        start_new_session=True)
+               creationflags=DETACHED_PROCESS,
+               startupinfo=startupinfo)
         
         # Send the content without waiting for completion
         process.stdin.write(content)
@@ -179,7 +178,7 @@ class FirefoxExtendedRule(MappingRule):
         "remove translation":
             R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:2, enter")),
         
-        "put in text file":
+        "text to job postings":
             R(Store() + Function(_save_to_job_postings)),
     }
     
