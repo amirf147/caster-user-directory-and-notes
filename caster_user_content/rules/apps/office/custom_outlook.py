@@ -10,6 +10,8 @@ class CustomOutlookRule(MappingRule):
     pronunciation = "custom outlook"
 
     mapping = {
+        "new mail": R(Key("c-n")),
+
         "focus [<n>]": R(Key("f6:%(n)d")),
         "locus [<n>]": R(Key("s-f6:%(n)d")),
         "school inbox": R(Key("c-e/3, f6:2, home, left, down, \
@@ -22,6 +24,9 @@ class CustomOutlookRule(MappingRule):
         "file attach": R(Key("alt/3, n, a, f")),
         "pop out email": R(Key("s-enter")),
         "etsy <dictation>": R(Key("c-e") + Text("%(dictation)s")),
+
+        # Text Formatting
+        "insert bullet": R(Key("c-.")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
