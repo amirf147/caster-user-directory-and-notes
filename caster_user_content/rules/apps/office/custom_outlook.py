@@ -24,6 +24,7 @@ class CustomOutlookRule(MappingRule):
         "file attach": R(Key("alt/3, n, a, f")),
         "pop out email": R(Key("s-enter")),
         "etsy <dictation>": R(Key("c-e") + Text("%(dictation)s")),
+        "insert simple ending": R(Text("Thanks,\nAmir Farhadi")),
 
         # Text Formatting
         "insert bullet": R(Key("c-.")),
