@@ -345,6 +345,9 @@ class CustomVSCodeRule(MappingRule):
         
         # Requires user defined key binding (Git: Sync)
         "git sync": R(Key("cs-k, c-s")),
+
+        # Search in files with text
+        "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
     }
     extras = [
         Dictation("text"),

@@ -33,9 +33,12 @@ class CursorRule(MappingRule):
 
         "comment": R(Key("c-slash")),
 
+        "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
+
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
+        Dictation("text"),
     ]
     defaults = {
         "n": 1,
