@@ -20,11 +20,13 @@ class CustomOutlookRule(MappingRule):
                                 left, right, down, enter")),
         "synchronize": R(Key("f9")),
         "go to inbox": R(Key("c-1/3, cs-i")),
+        "show calendar": R(Key("c-2")),
         "hint insert": R(Key("alt/3, n")),
         "file attach": R(Key("alt/3, n, a, f")),
         "pop out email": R(Key("s-enter")),
         "etsy <dictation>": R(Key("c-e") + Text("%(dictation)s")),
         "insert simple ending": R(Text("Thanks,\nAmir Farhadi")),
+        
 
         # Text Formatting
         "insert bullet": R(Key("c-.")),
