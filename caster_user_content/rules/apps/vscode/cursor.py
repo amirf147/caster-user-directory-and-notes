@@ -25,8 +25,11 @@ class CursorRule(MappingRule):
         "show stage": R(Key("c-g, cs-s")), # Requires user defined key binding (Git: View Staged Changes)
         "git sure commit": R(Key("c-g, c-c")), # Requires user defined key binding (Git: Commit)
         
+        # Multiple Cursors
         "cursor above [<n>]": R(Key("ca-up:%(n)s")),
         "cursor below [<n>]": R(Key("ca-down:%(n)s")),
+        "curse previous [<n>]": R(Key("ca-d:%(n)s")),
+        "curse it [<n>]": R(Key("c-d:%(n)s")),
 
         "comment": R(Key("c-slash")),
 
