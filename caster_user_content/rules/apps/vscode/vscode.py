@@ -348,6 +348,9 @@ class CustomVSCodeRule(MappingRule):
 
         # Search in files with text
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
+            
+        "remove notifications": # key binding (Notifications: Clear All)
+            R(Key("c-m, delete")),
     }
     extras = [
         Dictation("text"),

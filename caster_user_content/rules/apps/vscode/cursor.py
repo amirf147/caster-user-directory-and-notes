@@ -35,6 +35,7 @@ class CursorRule(MappingRule):
 
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
 
+        "zen mode": R(Key("c-m, z")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
