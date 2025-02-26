@@ -9,6 +9,13 @@ class ZoomRule(MappingRule):
 
     mapping = {
         "show chat": R(Key("a-h")),
+        "show mic": R(Key("a-a")),
+        "show video": R(Key("a-v")),
+        "(start | stop) sure recording": R(Key("a-r")),
+        "(start | stop) sure sharing": R(Key("a-s")),
+        "show reactions": R(Key("cs-y")),
+        "show participants": R(Key("a-u")),
+        "end sure meeting": R(Key("a-q")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
