@@ -186,6 +186,8 @@ class FirefoxExtendedRule(MappingRule):
         "show console": R(Key("cs-k")),
         "show debugger": R(Key("cs-z")), # Doesn't always work
         "show network": R(Key("cs-e")),
+        "tool under": R(Key("c-]")),
+        "tool over": R(Key("c-[")),
     }
     
     extras = [
