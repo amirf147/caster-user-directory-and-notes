@@ -180,6 +180,10 @@ class FirefoxExtendedRule(MappingRule):
         
         "text to job postings":
             R(Store() + Function(_save_to_job_postings)),
+
+        # Developer Tools
+        "show tools": R(Key("f12")),
+        "show console": R(Key("cs-k")),
     }
     
     extras = [
