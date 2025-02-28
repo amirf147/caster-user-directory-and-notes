@@ -15,6 +15,9 @@ class PowershellRule(MappingRule):
 
         "dirrup": R(Text("cd ../") + Key("enter")),
         "dir home": R(Text("cd; ls;") + Key("enter")),
+        "list names": R(Text("Get-ChildItem -Name") + Key("enter")),
+        "list folders": R(Text("Get-ChildItem -Directory -Name") + Key("enter")),
+        "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
 
         # "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),

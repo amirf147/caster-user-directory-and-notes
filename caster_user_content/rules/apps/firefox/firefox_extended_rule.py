@@ -59,6 +59,12 @@ def _save_to_job_postings():
     except Exception as e:
         print(f"Error saving text: {str(e)}")
 
+def _search_github(query):
+    formatted_search = query.replace(" ", "+")
+    formatted_url = f"https://github.com/search?q={formatted_search}&type=repositories"
+    Key("a-d/5").execute() \
+        + Text("%(formatted_url)s").execute({"formatted_url": formatted_url}) \
+        + Key("enter").execute()
 
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
@@ -188,6 +194,14 @@ class FirefoxExtendedRule(MappingRule):
         "show network": R(Key("cs-e")),
         "tool under": R(Key("c-]")),
         "tool over": R(Key("c-[")),
+
+        # GitHub searching
+        "git search <query>":
+            R(Function(_search_github)),
+        "git search window <query>":
+            R(Key("c-n/60") + Function(_search_github)),
+        "git search tab <query>":
+            R(Key("c-t") + Function(_search_github)),
     }
     
     extras = [
