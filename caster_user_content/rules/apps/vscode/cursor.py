@@ -10,13 +10,18 @@ from castervoice.lib.merge.state.short import R
 
 class CursorRule(MappingRule):
     mapping = {
+
+        # AI Chat
         "hide right": # Requires user defined key binding (View: Close AI Sidebar)
             R(Key("c-m, a-w")),
         "show chat": R(Key("cs-y")),
-        
         "new chat": R(Key("c-l")),
         "chat new": R(Key("c-n")),  #"when": "focusedView == 'workbench.panel.aichat.view'"
         "composer": R(Key("cs-m, cs-k")), # Requires user defined key binding (View: Toggle Composer)
+        "add context": R(Key("ca-p")),
+
+        # Opening Files/Folders
+        "folder open": R(Key("c-m, c-o")),
 
         # Source Control/Git
         "generate commit message": R(Key("c-k, cs-c")), # Requires user defined key binding (Generate Commit Message)

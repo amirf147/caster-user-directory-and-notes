@@ -57,7 +57,7 @@ navigation
 
     # keyboard shortcuts
     <<<ANY>>>
-    cut -> cuts
+    # cut -> cuts
     save -> file retain
 
     # CCR Mouse commands
