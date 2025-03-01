@@ -38,7 +38,11 @@ class CursorRule(MappingRule):
 
         "comment": R(Key("c-slash")),
 
+        # Searching
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
+        "fly <text>": R(Key("c-f/3") + Text("%(text)s")),
+        "match whole": R(Key("a-w")),
+        "match case": R(Key("a-c")),
 
         "zen mode": R(Key("c-m, z")),
     }
