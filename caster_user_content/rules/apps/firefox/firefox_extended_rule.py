@@ -202,6 +202,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-n/60") + Function(_search_github)),
         "git search tab <query>":
             R(Key("c-t") + Function(_search_github)),
+
+        "composer": R(Key("f1")),
     }
     
     extras = [

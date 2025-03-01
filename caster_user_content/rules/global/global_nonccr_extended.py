@@ -5,6 +5,7 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 
+
 from caster_user_content import environment_variables as ev
 
 class GlobalNonCCRExtendedRule(MappingRule):
@@ -152,6 +153,10 @@ copy and paste it: ") + Key("c-v")),
                            Text("0.1") + Key("tab") +
                            Text("0.1") + Key("tab") +
                            Text("0.1") + Key("enter, left, enter")),
+
+        "bling [<nnavi500>]":
+            R(Mouse("left") + Mouse("left") + Mouse("left") + Function(
+                navigation.stoosh_keep_clipboard)),
     }
 
     extras = [
