@@ -1,0 +1,15 @@
+OLLAMA_COMMANDS = {
+    "list": "ollama list",
+    "serve": "ollama serve",
+    "p s": "ollama ps",
+    "show": "ollama show",
+    "show deep": "ollama show deepseek-r1:1.5b",
+    "stop": "ollama stop",
+    "help list": "ollama help list",
+    "help show": "ollama help show",
+    "help serve": "ollama help serve",
+    "help create": "ollama help create",
+    "help p s": "ollama help ps",
+    "help": "ollama help",
+    "run": "ollama run",
+} 
