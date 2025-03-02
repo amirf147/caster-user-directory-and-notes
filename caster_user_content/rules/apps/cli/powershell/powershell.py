@@ -15,7 +15,6 @@ class PowershellRule(MappingRule):
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
 
         "dirrup": R(Text("cd ../") + Key("enter")),
-        "dir home": R(Text("cd; ls;") + Key("enter")),
         "list names": R(Text("Get-ChildItem -Name") + Key("enter")),
         "list folders": R(Text("Get-ChildItem -Directory -Name") + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
@@ -37,13 +36,24 @@ class PowershellRule(MappingRule):
         # netstat
         "port check": R(Text("netstat -ano | findstr :")),
 
+        # CLI Tools with options
         "oh <ollama_command>": R(Text("%(ollama_command)s") + Key("enter")),
         "dock <docker_command>": R(Text("%(docker_command)s") + Key("enter")),
+
+        # Variables
+        "var <text>": R(Text("$%(text)s = \"\"") + Key("left")),
+        "var string <text>": R(Text("$%(text)s = @\"") + Key("enter")),
+        "end string": R(Text("\"@") + Key("enter")),
+        "ref <text>": R(Text("$%(text)s")),
+
+        # Create commit message generation prompt
+        "generate commit prompt": R(Text("('I just made modifications within my caster user directory in caster an extension to the dragonfly speech recognition framework, can you generate me a commit message given the following git diff:`n' + (git diff)) | Set-Clipboard")),
     }
     extras = [
         Choice("path", ev.PATHS),
         Choice("ollama_command", OLLAMA_COMMANDS),
         Choice("docker_command", DOCKER_COMMANDS),
+        Dictation("text"),
     ]
     defaults = {
     }
