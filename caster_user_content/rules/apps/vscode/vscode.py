@@ -339,7 +339,12 @@ class CustomVSCodeRule(MappingRule):
         "collapse folders":
             R(Key("c-k, cs-f")),
 
+        # Source Control
         "source control": R(Key("cs-g, g")),
+        "show changes": R(Key("c-g, c-o")), # git.openAllChanges
+        "stage changes": R(Key("c-g, c-s")), # git.stageAll
+        "show stage": R(Key("c-g, cs-s")), # git.viewStagedChanges
+        "git sure commit": R(Key("c-g, c-c")), # git.commit
 
         "hide left": R(Key("c-b")),
         
@@ -353,8 +358,10 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-m, delete")),
 
         # Codeium
-        "Next Completion": R(Key("a-]")),
-        "Previous Completion": R(Key("a-[")),
+        "next Completion": R(Key("a-]")),
+        "previous Completion": R(Key("a-[")),
+        "generate commit message": # (Codeium: Generate Commit Message (beta))
+            R(Key("c-m, cs-c")),
     }
     extras = [
         Dictation("text"),
