@@ -18,6 +18,7 @@ class PowershellRule(MappingRule):
         "list names": R(Text("Get-ChildItem -Name") + Key("enter")),
         "list folders": R(Text("Get-ChildItem -Directory -Name") + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
+        "get alias": R(Text("Get-Alias") + Key("space")),
 
         # "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()") + Key("enter")),
@@ -47,7 +48,7 @@ class PowershellRule(MappingRule):
         "ref <text>": R(Text("$%(text)s")),
 
         # Create commit message generation prompt
-        "generate commit prompt": R(Text("('I just made modifications within my caster user directory in caster an extension to the dragonfly speech recognition framework, can you generate me a commit message given the following git diff:`n' + (git diff)) | Set-Clipboard")),
+        "generate commit prompt": R(Text("('I just made modifications within my caster user directory in caster an extension to the dragonfly speech recognition framework, can you generate me a commit message with the following requirements: it should only be focusing on what was added and what was removed in the diff, you do not need to reference the metadata of the diff, you do not need to talk about the coding syntax or conventions, do not need to mention the commit id, just mention briefly the commands that were added. Heres an example of a previous commit message: Add variable manipulation and commit prompt generation to PowerShell rule This commit introduces several new voice commands to the PowerShell rule in Caster: Removed dir home command. Added commands for variable manipulation: var : Creates a new variable with the given name. var string : Creates a multiline string variable. end string: Closes a multiline string variable. ref : References an existing variable. Added generate commit prompt command to copy a formatted git diff prompt to the clipboard, facilitating commit message generation. Added Dictation(text) to extras to support variable naming. These additions enhance the users ability to interact with PowerShell through voice commands, particularly for scripting and development tasks. given the following git diff.:`n' + (git diff)) | Set-Clipboard", pause=0.0)),
     }
     extras = [
         Choice("path", ev.PATHS),

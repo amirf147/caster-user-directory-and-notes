@@ -351,6 +351,10 @@ class CustomVSCodeRule(MappingRule):
             
         "remove notifications": # key binding (Notifications: Clear All)
             R(Key("c-m, delete")),
+
+        # Codeium
+        "Next Completion": R(Key("a-]")),
+        "Previous Completion": R(Key("a-[")),
     }
     extras = [
         Dictation("text"),
