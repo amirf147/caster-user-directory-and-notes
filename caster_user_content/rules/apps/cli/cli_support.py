@@ -36,4 +36,5 @@ DOCKER_COMMANDS = {
     "volume list": "docker volume ls",
     "inspect": "docker inspect",
     "stats": "docker stats",
+    "run nathan": "docker run -it --rm --name n8n -p 5678:5678 -p 11434:11434 -v n8n_data:/home/node/.n8n -e N8N_RUNNERS_ENABLED=true -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true docker.n8n.io/n8nio/n8n",
 } 
