@@ -8,7 +8,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
-from caster_user_content.rules.apps.cli.cli_support import OLLAMA_COMMANDS
+from caster_user_content.rules.apps.cli.cli_support import OLLAMA_COMMANDS, DOCKER_COMMANDS
 
 class PowershellRule(MappingRule):
     mapping = {
@@ -38,10 +38,12 @@ class PowershellRule(MappingRule):
         "port check": R(Text("netstat -ano | findstr :")),
 
         "oh <ollama_command>": R(Text("%(ollama_command)s") + Key("enter")),
+        "dock <docker_command>": R(Text("%(docker_command)s") + Key("enter")),
     }
     extras = [
         Choice("path", ev.PATHS),
         Choice("ollama_command", OLLAMA_COMMANDS),
+        Choice("docker_command", DOCKER_COMMANDS),
     ]
     defaults = {
     }

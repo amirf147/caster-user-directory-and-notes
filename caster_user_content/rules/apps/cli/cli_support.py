@@ -13,3 +13,27 @@ OLLAMA_COMMANDS = {
     "help": "ollama help",
     "run": "ollama run",
 } 
+
+DOCKER_COMMANDS = {
+    "p s": "docker ps",
+    "p s all": "docker ps -a",
+    "images": "docker images",
+    "stop": "docker stop",
+    "start": "docker start",
+    "restart": "docker restart",
+    "remove": "docker rm",
+    "remove image": "docker rmi",
+    "pull": "docker pull",
+    "run": "docker run",
+    "exec": "docker exec",
+    "logs": "docker logs",
+    "build": "docker build",
+    "compose up": "docker-compose up",
+    "compose down": "docker-compose down",
+    "compose p s": "docker-compose ps",
+    "system prune": "docker system prune",
+    "network list": "docker network ls",
+    "volume list": "docker volume ls",
+    "inspect": "docker inspect",
+    "stats": "docker stats",
+} 
