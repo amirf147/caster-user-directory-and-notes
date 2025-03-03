@@ -384,5 +384,5 @@ class CustomVSCodeRule(MappingRule):
 
 def get_rule():
     return CustomVSCodeRule, RuleDetails(name="CustomVSCode",
-                                      executable=["VSCodium", "cursor"],
-                                      title=["VSCodium", "Cursor"])
+                                      executable=["VSCodium", "cursor", "Windsurf"],
+                                      title=["VSCodium", "Cursor", "Windsurf"])
