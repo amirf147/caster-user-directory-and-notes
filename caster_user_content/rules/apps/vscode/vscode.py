@@ -140,12 +140,8 @@ class CustomVSCodeRule(MappingRule):
         "select all occurrences":
             R(Key("a-enter")),
 
-        "toggle case sensitive":
-            R(Key("a-c"), rdescript="VS Code: Toggle Find Case Sensitive"),
         "toggle regex":
             R(Key("a-r"), rdescript="VS Code: Toggle Find Regular Expressions"),
-        "toggle whole word":
-            R(Key("a-w"), rdescript="VS Code: Toggle Find Whole Word"),
 
         "(find | jump [to]) next <text>":
             R(Function(_find_nth_token, n=1, direction="forward")),
@@ -351,8 +347,11 @@ class CustomVSCodeRule(MappingRule):
         # Requires user defined key binding (Git: Sync)
         "git sync": R(Key("cs-k, c-s")),
 
-        # Search in files with text
+        # Searching
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
+        "fly <text>": R(Key("c-f/3") + Text("%(text)s")),
+        "match whole": R(Key("a-w")),
+        "match case": R(Key("a-c")),
             
         "remove notifications": # key binding (Notifications: Clear All)
             R(Key("c-m, delete")),

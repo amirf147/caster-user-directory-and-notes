@@ -167,8 +167,8 @@ class CustomVSCodeCcrRule(MergeRule):
 
 
 def get_rule():
-    details = RuleDetails(executable=["VSCodium", "code"],
-                          title=["VSCodium", "Visual Studio Code"],
+    details = RuleDetails(executable=["VSCodium", "code", "Windsurf"],
+                          title=["VSCodium", "Visual Studio Code", "Windsurf"],
                           ccrtype=CCRType.APP)
     return CustomVSCodeCcrRule, details
 
