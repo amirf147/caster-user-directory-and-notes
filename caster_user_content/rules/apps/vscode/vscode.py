@@ -340,12 +340,11 @@ class CustomVSCodeRule(MappingRule):
         "show changes": R(Key("c-g, c-o")), # git.openAllChanges
         "stage changes": R(Key("c-g, c-s")), # git.stageAll
         "show stage": R(Key("c-g, cs-s")), # git.viewStagedChanges
+        "unstage changes": R(Key("c-g, c-u")), # git.unstageAll
         "git sure commit": R(Key("c-g, c-c")), # git.commit
+        "git sync": R(Key("c-g, a-s")), # git.sync
 
         "hide left": R(Key("c-b")),
-        
-        # Requires user defined key binding (Git: Sync)
-        "git sync": R(Key("cs-k, c-s")),
 
         # Searching
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
