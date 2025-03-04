@@ -18,7 +18,7 @@ def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://www.youtube.com/results?search_query={formatted_search}"
     Key("a-d/5").execute() \
-        + Text("%(formatted_url)s").execute({"formatted_url": formatted_url}) \
+        + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url}) \
         + Key("enter").execute()
 
 def _save_to_job_postings():
@@ -63,7 +63,7 @@ def _search_github(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://github.com/search?q={formatted_search}&type=repositories"
     Key("a-d/5").execute() \
-        + Text("%(formatted_url)s").execute({"formatted_url": formatted_url}) \
+        + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url}) \
         + Key("enter").execute()
 
 class FirefoxExtendedRule(MappingRule):
@@ -125,34 +125,34 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d")),
 
         # Address bar querying with dictation
-        "netzer <query>": R(Key("a-d/5") + Text("%(query)s") + Key("enter")),
-        "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s") + Key("enter")),
-        "netzer window <query>": R(Key("c-n/120") + Text("%(query)s") + Key("enter")),
-        "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit") + Key("enter")),
-        "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit") + Key("enter")),
-        "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit") + Key("enter")),
-        "hister <query>": R(Key("a-d/5") + Text("^%(query)s")),
-        "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s")),
-        "hister window <query>": R(Key("c-n/120") + Text("^%(query)s")),
-        "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s")),
-        "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s")),
-        "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s")),
+        "netzer <query>": R(Key("a-d/5") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "netzer window <query>": R(Key("c-n/120") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "hister <query>": R(Key("a-d/5") + Text("^%(query)s", pause=0.0)),
+        "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s", pause=0.0)),
+        "hister window <query>": R(Key("c-n/120") + Text("^%(query)s", pause=0.0)),
+        "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s", pause=0.0)),
+        "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s", pause=0.0)),
+        "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s", pause=0.0)),
 
         # Specific website navigation in new tab
         "go tab <website>":
-            R(Key("c-t/5") + Text("%(website)s") + Key("enter")),
+            R(Key("c-t/5") + Text("%(website)s", pause=0.0) + Key("enter")),
 
         # Specific website navigation via address bar
         "go <website>":
-            R(Key("a-d/5") + Text("%(website)s") + Key("enter")),
+            R(Key("a-d/5") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go window <website>":
-            R(Key("c-n/120") + Text("%(website)s") + Key("enter")),
+            R(Key("c-n/120") + Text("%(website)s", pause=0.0) + Key("enter")),
 
         # Link navigation
         "jink <query>":
-            R(Key("c-f/5") + Text("%(query)s") + Key("enter/5, escape/3, enter")),
+            R(Key("c-f/5") + Text("%(query)s", pause=0.0) + Key("enter/5, escape/3, enter")),
         "jinx <query>":
-            R(Key("c-f/5") + Text("%(query)s") + Key("enter/5")),
+            R(Key("c-f/5") + Text("%(query)s", pause=0.0) + Key("enter/5")),
 
         # Googling selected text
         "google that":
