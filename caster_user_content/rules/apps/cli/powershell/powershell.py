@@ -14,6 +14,9 @@ class PowershellRule(MappingRule):
     mapping = {
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
 
+        # Copy current directory path to clipboard
+        "copy address": R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
+
         "dirrup": R(Text("cd ../") + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
         "get alias": R(Text("Get-Alias") + Key("space")),

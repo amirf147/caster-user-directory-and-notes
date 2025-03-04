@@ -38,17 +38,17 @@ class GlobalCCRExtendedRule(MergeRule):
 
         # "shtep <n>": R(Text("Step %(n)s: ")),
         # "ie": R(Text("i.e. ")),
-        "e g": R(Text("e.g., ")),
-        "etc": R(Text(", etc. ")),
+        "e g": R(Text("e.g., ", pause=0.0)),
+        "etc": R(Text(", etc. ", pause=0.0)),
 
-        "eco": R(Text(" = ")),
-        "plooz": R(Text(" + ")),
-        "meece": R(Text(" - ")),
-        "dot t x t": R(Text(".txt")),
+        "eco": R(Text(" = ", pause=0.0)),
+        "plooz": R(Text(" + ", pause=0.0)),
+        "meece": R(Text(" - ", pause=0.0)),
+        "dot t x t": R(Text(".txt", pause=0.0)),
         
         # Experimenting with continuing dictation and/or formatting text after custom word
-        # "v s codium": R(Text(" VSCodium ") + Function(textformat.master_format_text))
-        "v s codium [<query>]": R(Text(" VSCodium %(query)s")),
+        # "v s codium": R(Text(" VSCodium ", pause=0.0) + Function(textformat.master_format_text))
+        "v s codium [<query>]": R(Text(" VSCodium %(query)s", pause=0.0)),
 
         # Finnish characters
         "a dots": R(Key("alt:down, numpad1, numpad3, numpad2, alt:up"), rdescript="Insert Finnish letter ä"),
