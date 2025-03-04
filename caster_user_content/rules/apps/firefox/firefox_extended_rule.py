@@ -249,4 +249,4 @@ class FirefoxExtendedRule(MappingRule):
     defaults = {"n": 1,}
 
 def get_rule():
-    return FirefoxExtendedRule, RuleDetails(name="fire fox extended", executable="firefox")
+    return FirefoxExtendedRule, RuleDetails(name="fire fox extended", executable=["firefox", "waterfox"])
