@@ -10,10 +10,14 @@ from castervoice.lib.merge.state.short import R
 
 class WindsurfRule(MappingRule):
     mapping = {
-        # Cascade Chat
+        # Cascade Chat Initialization/Toggling
         "show chat": R(Key("c-l")),
         "hide right": R(Key("c-l:2")),
         "new chat": R(Key("cs-l")),
+
+        # Cascade Chat Context
+        "site <text>": R(Text("@file:%(text)s")),
+        "drek <text>": R(Text("@directory:%(text)s")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
