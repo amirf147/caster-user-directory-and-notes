@@ -9,14 +9,14 @@ OLLAMA_COMMANDS = {
     "help show": "ollama help show",
     "help serve": "ollama help serve",
     "help create": "ollama help create",
-    "help p s": "ollama help ps",
+    "help ps": "ollama help ps",
     "help": "ollama help",
     "run": "ollama run",
 } 
 
 DOCKER_COMMANDS = {
-    "p s": "docker ps",
-    "p s all": "docker ps -a",
+    "ps": "docker ps",
+    "ps all": "docker ps -a",
     "images": "docker images",
     "stop": "docker stop",
     "start": "docker start",
@@ -38,3 +38,9 @@ DOCKER_COMMANDS = {
     "stats": "docker stats",
     "run nathan": "docker run -it --rm --name n8n -p 5678:5678 -p 11434:11434 -v n8n_data:/home/node/.n8n -e N8N_RUNNERS_ENABLED=true -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true docker.n8n.io/n8nio/n8n",
 } 
+
+LIST_COMMANDS = {
+    "names": "Get-ChildItem -Name",
+    "folders": "Get-ChildItem -Directory -Name",
+    "recent": "Get-ChildItem | Sort-Object LastWriteTime | Format-List Name, LastWriteTime"
+}

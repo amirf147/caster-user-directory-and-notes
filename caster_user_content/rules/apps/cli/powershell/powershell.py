@@ -8,15 +8,13 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
-from caster_user_content.rules.apps.cli.cli_support import OLLAMA_COMMANDS, DOCKER_COMMANDS
+from caster_user_content.rules.apps.cli import cli_support
 
 class PowershellRule(MappingRule):
     mapping = {
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
 
         "dirrup": R(Text("cd ../") + Key("enter")),
-        "list names": R(Text("Get-ChildItem -Name") + Key("enter")),
-        "list folders": R(Text("Get-ChildItem -Directory -Name") + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
         "get alias": R(Text("Get-Alias") + Key("space")),
 
@@ -26,7 +24,7 @@ class PowershellRule(MappingRule):
 
         # sqlite
         "see exit": R(Text(".exit") + Key("enter")),
-
+ 
         "wiper": R(Text("clear") + Key("enter")),
 
         # Redmine
@@ -40,7 +38,8 @@ class PowershellRule(MappingRule):
         # CLI Tools with options
         "oh <ollama_command>": R(Text("%(ollama_command)s") + Key("enter")),
         "dock <docker_command>": R(Text("%(docker_command)s") + Key("enter")),
-
+        "list <list_command>": R(Text("%(list_command)s") + Key("enter")),
+        
         # Variables
         "var <text>": R(Text("$%(text)s = \"\"") + Key("left")),
         "var string <text>": R(Text("$%(text)s = @\"") + Key("enter")),
@@ -52,8 +51,9 @@ class PowershellRule(MappingRule):
     }
     extras = [
         Choice("path", ev.PATHS),
-        Choice("ollama_command", OLLAMA_COMMANDS),
-        Choice("docker_command", DOCKER_COMMANDS),
+        Choice("ollama_command", cli_support.OLLAMA_COMMANDS),
+        Choice("docker_command", cli_support.DOCKER_COMMANDS),
+        Choice("list_command", cli_support.LIST_COMMANDS),
         Dictation("text"),
     ]
     defaults = {
