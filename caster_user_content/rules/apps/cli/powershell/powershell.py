@@ -12,42 +12,42 @@ from caster_user_content.rules.apps.cli import cli_support
 
 class PowershellRule(MappingRule):
     mapping = {
-        "go <path>": R(Text("cd %(path)s") + Key("enter")),
+        "go <path>": R(Text("cd %(path)s", pause=0.0) + Key("enter")),
 
         # Copy current directory path to clipboard
         "copy address": R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
 
-        "dirrup": R(Text("cd ../") + Key("enter")),
+        "dirrup": R(Text("cd ../", pause=0.0) + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
-        "get alias": R(Text("Get-Alias") + Key("space")),
+        "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
 
         # "pi twelve": R(Text("$p312 ")),
-        "pi quit": R(Text("quit()") + Key("enter")),
-        "pi exit": R(Text("exit()") + Key("enter")),
+        "pi quit": R(Text("quit()", pause=0.0) + Key("enter")),
+        "pi exit": R(Text("exit()", pause=0.0) + Key("enter")),
 
         # sqlite
-        "see exit": R(Text(".exit") + Key("enter")),
- 
-        "wiper": R(Text("clear") + Key("enter")),
+        "see exit": R(Text(".exit", pause=0.0) + Key("enter")),
+
+        "wiper": R(Text("clear", pause=0.0) + Key("enter")),
 
         # Redmine
-        "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production") + Key("enter")),
+        "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production", pause=0.0) + Key("enter")),
 
-        "start screen copy": R(Mimic("go screen copy") + Pause("50") + Text("./scrcpy") + Key("enter")),
+        "start screen copy": R(Mimic("go screen copy") + Pause("50") + Text("./scrcpy", pause=0.0) + Key("enter")),
 
         # netstat
-        "port check": R(Text("netstat -ano | findstr :")),
+        "port check": R(Text("netstat -ano | findstr :", pause=0.0)),
 
         # CLI Tools with options
-        "oh <ollama_command>": R(Text("%(ollama_command)s") + Key("enter")),
-        "dock <docker_command>": R(Text("%(docker_command)s") + Key("enter")),
-        "list <list_command>": R(Text("%(list_command)s") + Key("enter")),
-        
+        "oh <ollama_command>": R(Text("%(ollama_command)s", pause=0.0) + Key("enter")),
+        "dock <docker_command>": R(Text("%(docker_command)s", pause=0.0) + Key("enter")),
+        "list <list_command>": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
+
         # Variables
-        "var <text>": R(Text("$%(text)s = \"\"") + Key("left")),
-        "var string <text>": R(Text("$%(text)s = @\"") + Key("enter")),
-        "end string": R(Text("\"@") + Key("enter")),
-        "ref <text>": R(Text("$%(text)s")),
+        "var <text>": R(Text("$%(text)s = \"\"", pause=0.0) + Key("left")),
+        "var string <text>": R(Text("$%(text)s = @\"", pause=0.0) + Key("enter")),
+        "end string": R(Text("\"@", pause=0.0) + Key("enter")),
+        "ref <text>": R(Text("$%(text)s", pause=0.0)),
 
         # Create commit message generation prompt
         "generate commit prompt": R(Text("('I just made modifications within my caster user directory in caster an extension to the dragonfly speech recognition framework, can you generate me a commit message with the following requirements: it should only be focusing on what was added and what was removed in the diff, you do not need to reference the metadata of the diff, you do not need to talk about the coding syntax or conventions, do not need to mention the commit id, just mention briefly the commands that were added. Heres an example of a previous commit message: Add variable manipulation and commit prompt generation to PowerShell rule This commit introduces several new voice commands to the PowerShell rule in Caster: Removed dir home command. Added commands for variable manipulation: var : Creates a new variable with the given name. var string : Creates a multiline string variable. end string: Closes a multiline string variable. ref : References an existing variable. Added generate commit prompt command to copy a formatted git diff prompt to the clipboard, facilitating commit message generation. Added Dictation(text) to extras to support variable naming. These additions enhance the users ability to interact with PowerShell through voice commands, particularly for scripting and development tasks. given the following git diff.:`n' + (git diff)) | Set-Clipboard", pause=0.0)),
