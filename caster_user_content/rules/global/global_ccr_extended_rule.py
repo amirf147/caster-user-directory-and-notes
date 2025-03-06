@@ -20,7 +20,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
         # "rash": R(Key("s-end")),
         # "lash": R(Key("s-home")),
-        "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s")),
+        "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s", pause=0.0)),
         
         # adding an empty line above or below the cursor
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
