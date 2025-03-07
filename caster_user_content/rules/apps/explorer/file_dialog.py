@@ -28,7 +28,7 @@ class FileDialogRule(MappingRule):
         "go forward [<n>]":
             R(Key("a-right:%(n)d")),
         "search [<text>]":
-            R(Key("a-d, tab:1") + Text("%(text)s")),
+            R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
             R(Key("a-d, tab:3")),
         "(center pane | (file | folder) (pane | list))":
@@ -40,7 +40,7 @@ class FileDialogRule(MappingRule):
 
         # Navigating via address bar
         "go <path>":
-            R(Key("a-d/5") + Text("%(path)s") + Key("enter, tab:4")),
+            R(Key("a-d/5") + Text("%(path)s", pause=0.0) + Key("enter, tab:4")),
         "go clipboard":
             R(Key("a-d/5, c-v, enter")),
 

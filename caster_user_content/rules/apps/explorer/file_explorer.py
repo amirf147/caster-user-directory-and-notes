@@ -27,7 +27,7 @@ class FileExplorerRule(MappingRule):
         "go forward [<n>]":
             R(Key("a-right:%(n)d")),
         "search [<text>]":
-            R(Key("a-d, tab:1") + Text("%(text)s")),
+            R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
             R(Key("a-d, tab:2")),
         "(center pane | (file | folder) (pane | list))":
@@ -39,7 +39,7 @@ class FileExplorerRule(MappingRule):
 
         # Navigating via address bar
         "go <path>":
-            R(Key("a-d/5") + Text("%(path)s") + Key("enter")),
+            R(Key("a-d/5") + Text("%(path)s", pause=0.0) + Key("enter")),
         
         "fit column":
             R(Key("a-v, s, f")),
