@@ -301,9 +301,9 @@ class CustomVSCodeRule(MappingRule):
 
         "pop out window": R(Key("c-k, o")),
         "open recent": R(Key("c-r")),
-        "pane increase [<n>]":
-            R(Key("cs-i:%(n)d")),
-        "pane decrease [<n>]":
+        "pane increase [<n>]": # workbench.action.increaseViewSize
+            R(Key("c-m, cs-i:%(n)d")),
+        "pane decrease [<n>]": # workbench.action.decreaseViewSize
             R(Key("cs-o:%(n)d")),
         "kill terminal":
             R(Key("ca-w")),
