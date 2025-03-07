@@ -220,7 +220,7 @@ class FirefoxExtendedRule(MappingRule):
             "ten": "9",
         }),
         Choice("nn", {
-            "nine": "1",o
+            "nine": "1",
             "ten": "2",
             "eleven": "3",
             "twelve": "4",
