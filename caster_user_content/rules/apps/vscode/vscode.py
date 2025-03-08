@@ -62,6 +62,9 @@ class CustomVSCodeRule(MappingRule):
             R(Key("a-f, p, s:2, enter"), rdescript="VS Code: User Snippets"),
         "extensions":
             R(Key("cs-x")),
+        "extension install": R(Key("c-k, a-w")), # workbench.extensions.action.installVSIX
+        "copy command id": # Copies a keyboard shortcut's command id via the context menu
+            R(Key("s-f10/50, down:2, enter")),
         "search details":
             R(Key("cs-j")),
         "output panel":
