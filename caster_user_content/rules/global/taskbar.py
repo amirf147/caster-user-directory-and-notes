@@ -20,6 +20,9 @@ class TaskbarRule(MappingRule):
             R(Key("w-b/3, right:%(off1_1_20)s/3, enter")),
         "psy system <off1_1_20>":
             R(Key("w-b/3, right:%(off1_1_20)s/5, s-f10")),
+        "close system <off1_1_20>":
+            R(Key("w-b/3, right:%(off1_1_20)s/3, s-f10/3, up, enter"),
+             rdescript="Taskbar: 'close system <off1_1_20>' - Closes a program via the system tray icon"),
     }
     extras = [
         Choice("off1_10_20", {
