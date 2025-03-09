@@ -1,7 +1,6 @@
-from dragonfly import Text, Choice
+from dragonfly import Choice, Dictation
 
-from castervoice.lib.actions import Key
-
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
@@ -19,6 +18,7 @@ class WindsurfCCRRule(MergeRule):
         "lek": R(Text("@directory:", pause=0.0)),
     }
     extras = [
+        Dictation("text"),
     ]
 
 def get_rule():

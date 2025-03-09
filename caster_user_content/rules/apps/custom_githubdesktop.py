@@ -11,7 +11,7 @@ class CustomGitHubDeskRule(MappingRule):
     mapping = {
         "new repository": R(Key("c-n")),
         "add local repository": R(Key("c-o")),
-        "clone repository": R(Key("c-o")),
+        "clone repository": R(Key("cs-o")),
         "options": R(Key("c-comma")),
 
         "changes": R(Key("c-1")),

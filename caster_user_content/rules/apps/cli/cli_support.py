@@ -44,3 +44,13 @@ LIST_COMMANDS = {
     "folders": "Get-ChildItem -Directory -Name",
     "recent": "Get-ChildItem | Sort-Object LastWriteTime | Format-List Name, LastWriteTime"
 }
+
+PYTHON_COMMANDS = {
+    "create virtual": "-m venv .venv",
+}
+
+PIP_COMMANDS = {
+    "install are": "install -r ",
+    "install": "install ",
+    "install upgrade pip": "install --upgrade pip",
+}
