@@ -50,6 +50,9 @@ class FileExplorerRule(MappingRule):
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
 
+        # Extract - Compressed Folder Tools Ribbon
+        "extract all": R(Key("alt, j, z, a")),
+
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
