@@ -12,6 +12,7 @@ from caster_user_content.rules.apps.cli import cli_support
 
 PYTHON_12 = ev.EXECUTABLES["pi twelve"]
 PYTHON_10 = ev.EXECUTABLES["pi ten"]
+PYTHON_8 = ev.EXECUTABLES["pi eight"]
 
 class PowershellRule(MappingRule):
     mapping = {
@@ -51,6 +52,7 @@ class PowershellRule(MappingRule):
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),
         "pi ten <python_command>": R(Text(PYTHON_10) + Key("space") + Text("%(python_command)s")),
+        "pi eight <python_command>": R(Text(PYTHON_8) + Key("space") + Text("%(python_command)s")),
         "pip <pip_command>": R(Text("pip %(pip_command)s")),
 
         # Variables

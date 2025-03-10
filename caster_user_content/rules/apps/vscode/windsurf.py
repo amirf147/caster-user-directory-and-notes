@@ -14,10 +14,12 @@ class WindsurfRule(MappingRule):
         "show chat": R(Key("c-l")),
         "hide right": R(Key("c-l:2")),
         "new chat": R(Key("cs-l")),
+        "switch mode": R(Key("c-.")),
 
         # Cascade Chat Context
         "site <text>": R(Text("@file:%(text)s", pause=0.0)),
         "drek <text>": R(Text("@directory:%(text)s", pause=0.0)),
+        
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
