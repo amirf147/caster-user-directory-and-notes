@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function
+from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function, Pause
 from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
@@ -65,6 +65,10 @@ def _search_github(query):
     Key("a-d/5").execute() \
         + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url}) \
         + Key("enter").execute()
+
+def _resume_to_clipboard():
+    resume_text = ev.RESUME
+    pyperclip.copy(resume_text)  # Copy the resume text to the clipboard
 
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
@@ -183,10 +187,15 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:3, enter")),
         "remove translation":
             R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:2, enter")),
-        
-        "text to job postings":
-            R(Store() + Function(_save_to_job_postings)),
 
+        # Job search automation
+        "text to job postings": # Writes the selected text to a text file 
+            R(Store() + Function(_save_to_job_postings)),
+        "cover letter prompt":
+            R(Function(_resume_to_clipboard) + Pause("50")
+              + Text("Can you write me a cover letter for this job posting, here is my resume:")
+              + Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting: ")),
+        
         # Developer Tools
         "show tools": R(Key("f12")),
         "show console": R(Key("cs-k")),
