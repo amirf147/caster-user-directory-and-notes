@@ -19,8 +19,6 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "show hints":
             R(Key("a-semicolon")),
 
-        "insert <text>": R(Text("%(text)s")),
-
         "open snipping tool":
             R(Key("ws-s")),
         "full screenshot":
@@ -184,7 +182,6 @@ copy and paste it: ") + Key("c-v")),
             "nineteen": "18",
             "twenty": "19",
         }),
-        Choice("text", ev.INSERTABLE_TEXT),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
 

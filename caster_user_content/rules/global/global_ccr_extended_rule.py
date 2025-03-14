@@ -1,16 +1,14 @@
-from dragonfly import ShortIntegerRef, Pause, Function, Dictation, Mouse
+from dragonfly import ShortIntegerRef, Pause, Dictation, Mouse, Choice
 
-from castervoice.lib import textformat
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
-from castervoice.lib import utilities
 
+from caster_user_content import environment_variables as ev
 
 class GlobalCCRExtendedRule(MergeRule):
-
     pronunciation = "global ccr extended"
 
     mapping = {
@@ -53,11 +51,14 @@ class GlobalCCRExtendedRule(MergeRule):
         # Finnish characters
         "a dots": R(Key("alt:down, numpad1, numpad3, numpad2, alt:up"), rdescript="Insert Finnish letter ä"),
         "o dots": R(Key("alt:down, numpad1, numpad4, numpad8, alt:up"), rdescript="Insert Finnish letter ö"),
+
+        "insert <text>": R(Text("%(text)s")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
         ShortIntegerRef("n101", 1, 101),
         Dictation("query"),
+        Choice("text", ev.INSERTABLE_TEXT),
     ]
     defaults = {
         "n": 1,

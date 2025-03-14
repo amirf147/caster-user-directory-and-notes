@@ -15,3 +15,6 @@ private.py
 # Ignore Python compiled bytecode files
 *.pyc
 
+# Ignore pylint config file
+.pylintrc
+
