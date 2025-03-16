@@ -195,6 +195,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Function(_resume_to_clipboard) + Pause("50")
               + Text("Can you write me a cover letter for this job posting, here is my resume:")
               + Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting: ")),
+        "résumé prompt":
+            R(Function(_resume_to_clipboard) + Pause("50") +
+            Text(" Here is my resume:") + Pause("50") + Key("c-v/5, c-home")),
 
         # Miscellaneous chat prompts
         "ask power": R(Text("give me a power shell one liner for ", pause=0.0)),

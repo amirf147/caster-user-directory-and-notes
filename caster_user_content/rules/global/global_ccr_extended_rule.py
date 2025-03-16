@@ -52,13 +52,12 @@ class GlobalCCRExtendedRule(MergeRule):
         "a dots": R(Key("alt:down, numpad1, numpad3, numpad2, alt:up"), rdescript="Insert Finnish letter ä"),
         "o dots": R(Key("alt:down, numpad1, numpad4, numpad8, alt:up"), rdescript="Insert Finnish letter ö"),
 
-        "insert <text>": R(Text("%(text)s")),
+        # "insert <text>": R(Text("%(text)s")), # Not working here: had to be removed and put into firefox extended CCR rule
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
         ShortIntegerRef("n101", 1, 101),
         Dictation("query"),
-        Choice("text", ev.INSERTABLE_TEXT),
     ]
     defaults = {
         "n": 1,
