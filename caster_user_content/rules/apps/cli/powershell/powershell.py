@@ -22,6 +22,9 @@ class PowershellRule(MappingRule):
         "show colors": R(Key("a-space, p/5, s-tab, right:3")),
         "show terminal": R(Key("a-space, p/5, s-tab, right:4")),
 
+        "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),
+        "zoom out [<n>]": R(Key("a-space, p/5, s-tab, right, tab, up:%(n)d, enter")),
+
         "go <path>": R(Text("cd %(path)s", pause=0.0) + Key("enter")),
         "go clipboard": R(Text("cd \"\"", pause=0.0) + Key("left, c-v/3, enter")),
 
@@ -94,8 +97,10 @@ class PowershellRule(MappingRule):
         Choice("python_command", cli_support.PYTHON_COMMANDS),
         Choice("pip_command", cli_support.PIP_COMMANDS),
         Dictation("text"),
+        ShortIntegerRef("n", 1, 11),
     ]
     defaults = {
+        "n": 1,
     }
 
 def get_rule():

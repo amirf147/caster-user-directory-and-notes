@@ -36,8 +36,8 @@ class GlobalCCRExtendedRule(MergeRule):
 
         # "shtep <n>": R(Text("Step %(n)s: ")),
         # "ie": R(Text("i.e. ")),
-        "e g": R(Text("e.g., ", pause=0.0)),
-        "etc": R(Text(", etc. ", pause=0.0)),
+        # "e g": R(Text("e.g., ", pause=0.0)),
+        # "etc": R(Text(", etc. ", pause=0.0)),
 
         "eco": R(Text(" = ", pause=0.0)),
         "plooz": R(Text(" + ", pause=0.0)),
