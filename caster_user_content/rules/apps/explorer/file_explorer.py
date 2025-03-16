@@ -44,6 +44,8 @@ class FileExplorerRule(MappingRule):
         "fit column":
             R(Key("a-v, s, f")),
 
+        "copy file name": R(Key("f2/3, c-c/3, escape")),
+
         # Home Ribbon
         "copy path": R(Key("a-h, c, p")),
 

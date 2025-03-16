@@ -16,6 +16,12 @@ PYTHON_8 = ev.EXECUTABLES["pi eight"]
 
 class PowershellRule(MappingRule):
     mapping = {
+        "show (settings | options)": R(Key("a-space, p")),
+        "show font": R(Key("a-space, p/5, s-tab, right")),
+        "show layout": R(Key("a-space, p/5, s-tab, right:2")),
+        "show colors": R(Key("a-space, p/5, s-tab, right:3")),
+        "show terminal": R(Key("a-space, p/5, s-tab, right:4")),
+
         "go <path>": R(Text("cd %(path)s", pause=0.0) + Key("enter")),
         "go clipboard": R(Text("cd \"\"", pause=0.0) + Key("left, c-v/3, enter")),
 
