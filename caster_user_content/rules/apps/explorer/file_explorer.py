@@ -40,6 +40,8 @@ class FileExplorerRule(MappingRule):
         # Navigating via address bar
         "go <path>":
             R(Key("a-d/5") + Text("%(path)s", pause=0.0) + Key("enter")),
+        "go clipboard":
+            R(Key("a-d/5, c-v/3, enter")),
         
         "fit column":
             R(Key("a-v, s, f")),
