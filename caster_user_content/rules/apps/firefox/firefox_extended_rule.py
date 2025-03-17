@@ -5,24 +5,13 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.temporary import Store, Retrieve
 
 from caster_user_content import environment_variables as ev
-
+from caster_user_content.util.generate_rdescript import generate_rdescript
 
 from datetime import datetime
 import os
 import pyperclip
 import sys
 import subprocess
-
-def _generate_rdescript(command_name, category, description):
-    return f"""
--------- Executing:
-
-            {category} - "{command_name}"
-
--------- Description:
-
-            {description}
-            """
 
 def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
@@ -200,16 +189,16 @@ class FirefoxExtendedRule(MappingRule):
 
         # Job search automation
         "text to job postings": R(Store() + Function(_save_to_job_postings), 
-            rdescript=_generate_rdescript("text to job postings", "JOB SEARCH AUTOMATION", "Save selected text to job postings")),
+            rdescript=generate_rdescript("text to job postings", "JOB SEARCH AUTOMATION", "Save selected text to job postings")),
 
         "cover letter prompt": R(Function(_resume_to_clipboard) + Pause("50") + 
             Text("Can you write me a cover letter for this job posting, here is my resume:"), 
             Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting:"), 
-            rdescript=_generate_rdescript("cover letter prompt", "JOB SEARCH AUTOMATION", "Prompt for cover letter with resume context")),
+            rdescript=generate_rdescript("cover letter prompt", "JOB SEARCH AUTOMATION", "Prompt for cover letter with resume context")),
 
         "résumé prompt": R(Function(_resume_to_clipboard) + Pause("50") + 
             Text(" Here is my resume:") + Pause("50") + Key("c-v/5, c-home"), 
-            rdescript=_generate_rdescript("resume prompt", "JOB SEARCH AUTOMATION", "Prompt to include resume text")),
+            rdescript=generate_rdescript("resume prompt", "JOB SEARCH AUTOMATION", "Prompt to include resume text")),
         
         # Miscellaneous chat prompts
         "ask power": R(Text("give me a power shell one liner for ", pause=0.0)),

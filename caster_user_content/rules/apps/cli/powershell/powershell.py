@@ -9,6 +9,7 @@ from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
 from caster_user_content.rules.apps.cli import cli_support
+from caster_user_content.util.generate_rdescript import generate_rdescript
 
 PYTHON_12 = ev.EXECUTABLES["pi twelve"]
 PYTHON_10 = ev.EXECUTABLES["pi ten"]
@@ -35,6 +36,10 @@ class PowershellRule(MappingRule):
             R(Text("Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")),
         "search file are": R(Text("Get-ChildItem -Recurse -Filter ", pause=0.0)),
         "search file here": R(Text("Get-ChildItem -Filter ", pause=0.0)),
+        "recent file":
+            R(Text("Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1", pause=0.0) +
+            Pause("20") + Key("enter"), 
+            rdescript=generate_rdescript("recent file", "FILE/FOLDER OPERATIONS", "Get the most recently modified file in the current directory")),
 
         "dirrup": R(Text("cd ../", pause=0.0) + Key("enter")),
         "dirrup two": R(Text("cd ../../", pause=0.0) + Key("enter")),        
