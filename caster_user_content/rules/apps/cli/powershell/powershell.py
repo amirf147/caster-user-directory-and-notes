@@ -32,14 +32,18 @@ class PowershellRule(MappingRule):
         # File/Folder Operations
         "copy address": # Copy current directory path to clipboard
             R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
-        "copy file path":
+        "copy path":
             R(Text("Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")),
         "search file are": R(Text("Get-ChildItem -Recurse -Filter ", pause=0.0)),
         "search file here": R(Text("Get-ChildItem -Filter ", pause=0.0)),
-        "recent file":
-            R(Text("Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1", pause=0.0) +
+        "copy recent name":
+            R(Text("(Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name -replace '[\\r\\n]' | Set-Clipboard", pause=0.0) +
             Pause("20") + Key("enter"), 
-            rdescript=generate_rdescript("recent file", "FILE/FOLDER OPERATIONS", "Get the most recently modified file in the current directory")),
+            rdescript=generate_rdescript("copy recent name", "FILE/FOLDER OPERATIONS", "Get the most recently modified file in the current directory")),
+        "copy recent contents":
+            R(Text("Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard", pause=0.0)
+            + Pause("20") + Key("enter"),
+            rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
 
         "dirrup": R(Text("cd ../", pause=0.0) + Key("enter")),
         "dirrup two": R(Text("cd ../../", pause=0.0) + Key("enter")),        
