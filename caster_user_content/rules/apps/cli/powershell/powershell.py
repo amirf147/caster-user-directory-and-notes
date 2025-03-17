@@ -46,7 +46,8 @@ class PowershellRule(MappingRule):
             rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
 
         "dirrup": R(Text("cd ../", pause=0.0) + Key("enter")),
-        "dirrup two": R(Text("cd ../../", pause=0.0) + Key("enter")),        
+        "dirrup two": R(Text("cd ../../", pause=0.0) + Key("enter")),
+        "dirrup three": R(Text("cd ../../../", pause=0.0) + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
         "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
 
