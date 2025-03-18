@@ -38,8 +38,7 @@ class WriterRule(MappingRule):
         "show paragraph": R(Key("c-f10")),
 
         # Edit
-        # Requires user defined key binding: "Remove Hyperlink"
-        "remove hyperlink": R(Key("cs-h")),
+        "remove hyperlink": R(Key("cs-h")), # Requires user defined key binding: "Remove Hyperlink"
 
         # Tools
         "customize dialogue": R(Key("a-t, c:2, enter")),
@@ -53,6 +52,9 @@ class WriterRule(MappingRule):
         "font black": R(Key("cs-c, space, left:120, enter, tab, enter")),
         "font red": R(Key("cs-c, space, tab:2, down:6, right:4, enter, tab, enter")),
         "font dialog": R(Key("a-o, h")),
+        "text increase <n>": R(Key("a-o, h, tab:3, down:%(n)d, enter")), # Increases font size
+        "text decrease <n>": R(Key("a-o, h, tab:3, up:%(n)d, enter")), # Decreases font size
+
 
         # File
         "template manager": R(Key("a-f, m:2")),
