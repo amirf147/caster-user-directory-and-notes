@@ -7,8 +7,8 @@ class OutlierPlaygroundRule(MappingRule):
     mapping = {
         "composer":
             R(Key("f1")),
-        "show models": R(Key("f1/3, s-tab, space")),
-        "switch to <model>": R(Key("f1/3, s-tab, space, home, down:%(model)s/100")),
+        "show models": R(Key("f1/3, tab, space")),
+        "switch to <model>": R(Key("f1/3, tab, space, home, down:%(model)s/100")),
     }
 
     extras = [

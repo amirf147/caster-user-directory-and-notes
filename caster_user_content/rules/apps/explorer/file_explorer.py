@@ -50,6 +50,8 @@ class FileExplorerRule(MappingRule):
 
         # Home Ribbon
         "copy path": R(Key("a-h, c, p")),
+        "new shortcut": R(Key("a-h, w, s")),
+        "new window": R(Key("c-n")),
 
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
