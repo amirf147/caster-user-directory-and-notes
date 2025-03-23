@@ -10,6 +10,7 @@ from caster_user_content import environment_variables as ev
 
 class FileExplorerRule(MappingRule):
     mapping = {
+        "show properties": R(Key("a-enter")),
         "address bar":
             R(Key("a-d")),
         "copy address":
@@ -53,6 +54,7 @@ class FileExplorerRule(MappingRule):
         "new shortcut": R(Key("a-h, w, s")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
+        "preview pane": R(Key("a-v, p")),
 
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
