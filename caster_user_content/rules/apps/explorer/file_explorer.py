@@ -55,6 +55,7 @@ class FileExplorerRule(MappingRule):
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
         "preview pane": R(Key("a-v, p")),
+        "details pane": R(Key("a-v, d")),
 
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
