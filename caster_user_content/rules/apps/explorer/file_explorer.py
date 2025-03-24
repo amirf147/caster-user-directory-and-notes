@@ -11,6 +11,7 @@ from caster_user_content import environment_variables as ev
 class FileExplorerRule(MappingRule):
     mapping = {
         "show properties": R(Key("a-enter")),
+        "show settings": R(Key("a-v, y, o")),
         "address bar":
             R(Key("a-d")),
         "copy address":
