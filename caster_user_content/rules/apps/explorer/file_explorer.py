@@ -57,7 +57,8 @@ class FileExplorerRule(MappingRule):
         "select all": R(Key("a-h, s, a")),
         "preview pane": R(Key("a-v, p")),
         "details pane": R(Key("a-v, d")),
-
+        "invert selection": R(Key("a-h, s, i")),
+        
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
 
