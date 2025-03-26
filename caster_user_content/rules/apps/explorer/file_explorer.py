@@ -59,6 +59,9 @@ class FileExplorerRule(MappingRule):
         "details pane": R(Key("a-v, d")),
         "invert selection": R(Key("a-h, s, i")),
         "deselect": R(Key("a-h, s, n")),
+
+        # Share Ribbon
+        "zippo": R(Key("a-s, c")), # Create a compressed (zipped) folder that contains the selected items
         
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
