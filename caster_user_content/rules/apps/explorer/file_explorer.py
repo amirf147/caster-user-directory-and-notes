@@ -58,6 +58,7 @@ class FileExplorerRule(MappingRule):
         "preview pane": R(Key("a-v, p")),
         "details pane": R(Key("a-v, d")),
         "invert selection": R(Key("a-h, s, i")),
+        "deselect": R(Key("a-h, s, n")),
         
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
