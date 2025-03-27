@@ -1,4 +1,4 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef, Mimic
 
 from castervoice.lib.actions import Key, Mouse
 
@@ -367,6 +367,9 @@ class CustomVSCodeRule(MappingRule):
 
         # Text formatting
         "title case": R(Key("c-m, a-t")), # editor.action.transformToTitlecase
+
+        # Composite Command for positioning caster output
+        "snap terminal right": R(Mimic("pop out terminal") + Pause("100") + Mimic("monitor right") + Pause("100") + Mimic("window right")),
     }
     extras = [
         Dictation("text"),
