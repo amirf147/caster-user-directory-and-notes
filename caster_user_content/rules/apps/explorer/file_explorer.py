@@ -60,6 +60,9 @@ class FileExplorerRule(MappingRule):
         "invert selection": R(Key("a-h, s, i")),
         "deselect": R(Key("a-h, s, n")),
 
+        # View Ribbon
+        "show files | hide left": R(Key("a-v, n, space")),
+
         # Share Ribbon
         "zippo": R(Key("a-s, c")), # Create a compressed (zipped) folder that contains the selected items
         
