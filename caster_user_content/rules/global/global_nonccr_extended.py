@@ -4,9 +4,10 @@ from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
-
+from datetime import datetime, timedelta
 
 from caster_user_content import environment_variables as ev
+
 
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
@@ -143,18 +144,26 @@ wide and put it into a code pen so it is easy for me to \
 copy and paste it: ") + Key("c-v")),
 
         "fancy zones": R(Key("ws-`")),
-        "fancy <n0>": R(Key("wca-%(n0)d")),
+        "fancy <n0>":
+            R(Key("wca-%(n0)d")),
 
         # For Libre Office Writer because apparently this dialog is not recognized as being
         # in the same context as the Writer rule context
-        "apply page margins": R(Text("0.35") + Key("tab") +
-                           Text("0.1") + Key("tab") +
-                           Text("0.1") + Key("tab") +
-                           Text("0.1") + Key("enter, left, enter")),
+        "apply page margins":
+            R(Text("0.35") + Key("tab") +
+               Text("0.1") + Key("tab") +
+               Text("0.1") + Key("tab") +
+               Text("0.1") + Key("enter, left, enter")),
 
         "bling [<nnavi500>]":
             R(Mouse("left") + Mouse("left") + Mouse("left") + Function(
                 navigation.stoosh_keep_clipboard)),
+
+        "insert date":
+            R(Text(datetime.now().strftime("%m-%d-%Y"))),
+        "insert future date":
+            R(Text((datetime.now() + timedelta(days=21)).strftime("%m-%d-%Y"))),
+
     }
 
     extras = [

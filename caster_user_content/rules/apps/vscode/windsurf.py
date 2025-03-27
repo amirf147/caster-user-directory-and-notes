@@ -17,8 +17,8 @@ class WindsurfRule(MappingRule):
         "switch mode": R(Key("c-.")),
 
         # Cascade Chat Context
-        "site <text>": R(Text("@file:%(text)s", pause=0.0)),
-        "drek <text>": R(Text("@directory:%(text)s", pause=0.0)),
+        "file <text>": R(Text("@file:%(text)s", pause=0.0)),
+        "directory <text>": R(Text("@directory:%(text)s", pause=0.0)),
         
     }
     extras = [
