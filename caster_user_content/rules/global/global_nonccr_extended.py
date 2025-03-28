@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat, ShortIntegerRef, Mimic
+from dragonfly import MappingRule, IntegerRef, Pause, Function, Choice, Mouse, Repeat, ShortIntegerRef, Mimic, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -164,9 +164,15 @@ copy and paste it: ") + Key("c-v")),
         "insert future date":
             R(Text((datetime.now() + timedelta(days=21)).strftime("%m-%d-%Y"))),
 
+        # Copilot from Microsoft
+        "(show | hide) q": R(Key("a-space")),
+        "new q": R(Key("a-space/180, tab:2")),
+        "q <prompt>": R(Key("a-space/180, tab:2") + Text("%(prompt)s")),
+
     }
 
     extras = [
+        Dictation("prompt"),
         IntegerRef("n", 1, 10),
         IntegerRef("n0", 0, 10),
         Choice("n_off_by_one", {
