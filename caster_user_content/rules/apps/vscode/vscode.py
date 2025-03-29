@@ -56,7 +56,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-k, c-s")),
         "key mappings":
             R(Key("c-k, c-s:2")),
-        "settings":
+        "show settings":
             R(Key("a-f, p, s, enter"), rdescript="VS Code: User/workspace Settings"),
         "snippets":
             R(Key("a-f, p, s:2, enter"), rdescript="VS Code: User Snippets"),
