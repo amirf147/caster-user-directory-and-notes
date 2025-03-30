@@ -328,6 +328,7 @@ class CustomVSCodeRule(MappingRule):
         # Requires user defined key binding
         # Command: Terminal: Move Terminal into New Window
         "pop out terminal": R(Key("c-k, a-t")),
+        "snap back terminal": R(Key("c-k, as-t")), # workbench.action.terminal.moveToTerminalPanel
 
         # Requires user defined key binding
         # Command: Python: Select Interpreter
@@ -369,7 +370,7 @@ class CustomVSCodeRule(MappingRule):
         "title case": R(Key("c-m, a-t")), # editor.action.transformToTitlecase
 
         # Composite Command for positioning caster output
-        "snap terminal right": R(Mimic("pop out terminal") + Pause("100") + Mimic("monitor right") + Pause("100") + Mimic("window right")),
+        "snap terminal right": R(Key("c-k, a-t/100, ws-right/100, w-right")),
     }
     extras = [
         Dictation("text"),
