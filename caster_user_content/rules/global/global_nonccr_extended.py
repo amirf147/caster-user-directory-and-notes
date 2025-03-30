@@ -166,9 +166,11 @@ copy and paste it: ") + Key("c-v")),
 
         # Copilot from Microsoft
         "(show | hide) q": R(Key("a-space")),
+        "close q": R(Key("a-f4")),
         "new q": R(Key("a-space/180, tab:2")),
         "q <prompt>": R(Key("a-space/180, tab:2") + Text("%(prompt)s")),
-
+        "new q max": R(Key("a-space/180, s-tab:3, enter")),
+        "max q": R(Key("s-tab:5, enter")),
     }
 
     extras = [

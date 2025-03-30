@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function, Pause
+from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function, Pause, Mouse
 from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
@@ -218,6 +218,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-n/60") + Function(_search_github)),
         "git search tab <query>":
             R(Key("c-t") + Function(_search_github)),
+
+        "all replace": R(Mouse("left") + Pause("20") + Key("c-a/3, c-v")),
 
         "composer": R(Key("f1")),
     }
