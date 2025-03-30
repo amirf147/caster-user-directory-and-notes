@@ -28,8 +28,8 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-backtick")),
             
         # Moving around a file
-        "[(go to | jump | jump to)] line <n>":
-            R(Key("c-g") + Text("%(n)d") + Key("enter")),
+        # "[(go to | jump | jump to)] line <n>":
+        #     R(Key("c-g") + Text("%(n)d") + Key("enter")),
         "<action> [line] <ln1> [by <ln2>]":
             R(Function(navigation.action_lines)),
 
@@ -58,9 +58,9 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-k, c-s:2")),
         "show settings":
             R(Key("a-f, p, s, enter"), rdescript="VS Code: User/workspace Settings"),
-        "snippets":
+        "show snippets":
             R(Key("a-f, p, s:2, enter"), rdescript="VS Code: User Snippets"),
-        "extensions":
+        "show extensions":
             R(Key("cs-x")),
         "extension install": R(Key("c-k, a-w")), # workbench.extensions.action.installVSIX
         "copy command id": # Copies a keyboard shortcut's command id via the context menu
