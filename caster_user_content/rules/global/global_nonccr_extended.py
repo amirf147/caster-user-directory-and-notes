@@ -172,6 +172,7 @@ copy and paste it: ") + Key("c-v")),
         "new q max": R(Key("a-space/180, s-tab:3, enter")),
         "max q": R(Key("s-tab:5, enter")),
         "show settings": R(Key("s-tab:4, enter")),
+        "q clipboard": R(Key("a-space/180, tab:2") + Key("c-v")),
     }
 
     extras = [
