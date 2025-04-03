@@ -39,6 +39,8 @@ class WriterRule(MappingRule):
 
         # Edit
         "remove hyperlink": R(Key("cs-h")), # Requires user defined key binding: "Remove Hyperlink"
+        "paste special": R(Key("cs-v")),
+        "unspark": R(Key("csa-v")),
 
         # Tools
         "customize dialogue": R(Key("a-t, c:2, enter")),
