@@ -68,7 +68,7 @@ class PowershellRule(MappingRule):
         # Redmine
         "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production", pause=0.0) + Key("enter")),
 
-        "start screen copy": R(Mimic("go screen copy") + Pause("50") + Text("./scrcpy", pause=0.0) + Key("enter")),
+        "start screen copy": R(Text("./scrcpy", pause=0.0) + Key("enter")),
 
         # netstat
         "port check": R(Text("netstat -ano | findstr :", pause=0.0)),
