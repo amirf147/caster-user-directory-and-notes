@@ -150,6 +150,16 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go window <website>":
             R(Key("c-n/120") + Text("%(website)s", pause=0.0) + Key("enter")),
+        "split right <website>": # Opens Website in new window and splits windows vertically
+            R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(website)s", pause=0.0) + Key("enter")),
+
+        # Pasting clipboard content into address bar
+        "go clipboard":
+            R(Key("a-d/5") + Key("c-v") + Key("enter")),
+        "go tab clipboard":
+            R(Key("c-t/5") + Key("cs-v") + Key("enter")),
+        "go window clipboard":
+            R(Key("c-n/120") + Key("cs-v") + Key("enter")),
 
         # Link navigation
         "jink <query>":
@@ -163,13 +173,6 @@ class FirefoxExtendedRule(MappingRule):
         "google that window":
             R(Store(remove_cr=True) + Key("c-n/120") + Retrieve() + Key("enter")),
 
-        # Pasting clipboard content into address bar
-        "go clipboard":
-            R(Key("a-d/5") + Key("c-v") + Key("enter")),
-        "go tab clipboard":
-            R(Key("c-t/5") + Key("cs-v") + Key("enter")),
-        "go window clipboard":
-            R(Key("c-n/120") + Key("cs-v") + Key("enter")),
 
         # Searching YouTube
         "you search <query>":

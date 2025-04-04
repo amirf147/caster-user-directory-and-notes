@@ -55,13 +55,15 @@ class FileExplorerRule(MappingRule):
         "new shortcut": R(Key("a-h, w, s")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
-        "preview pane": R(Key("a-v, p")),
         "details pane": R(Key("a-v, d")),
         "invert selection": R(Key("a-h, s, i")),
         "deselect": R(Key("a-h, s, n")),
 
         # View Ribbon
-        "show files | hide left": R(Key("a-v, n, space")),
+        "show files | hide left":
+            R(Key("a-v, n, space")),
+        "preview pane":         # I noticed that when the preview pane is open the
+            R(Key("a-v/3, p")), # view ribbon interaction might require a pause after pressing a-v
 
         # Share Ribbon
         "zippo": R(Key("a-s, c")), # Create a compressed (zipped) folder that contains the selected items
