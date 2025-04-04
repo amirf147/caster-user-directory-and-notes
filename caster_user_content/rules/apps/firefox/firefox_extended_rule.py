@@ -222,6 +222,9 @@ class FirefoxExtendedRule(MappingRule):
         "all replace": R(Mouse("left") + Pause("20") + Key("c-a/3, c-v")),
 
         "composer": R(Key("f1")),
+
+        # PDF files
+        "rotate pdf": R(Key("s-r")),
     }
     
     extras = [
