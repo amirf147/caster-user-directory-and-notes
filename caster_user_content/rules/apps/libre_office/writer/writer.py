@@ -43,7 +43,9 @@ class WriterRule(MappingRule):
         "unspark": R(Key("csa-v")),
 
         # Tools
-        "customize dialogue": R(Key("a-t, c:2, enter")),
+        "hint tools": R(Key("a-t")),
+        "keyboard shorts": R(Key("a-t, c:2, enter")),
+        "key search": R(Key("a-t, c:2, enter, tab:6/50") + Text("%(text)s")),
         "show line numbers": R(Key("a-t, l, space, tab:5, 1, enter")),
         "remove line numbers": R(Key("a-t, l, space, enter")),
         "line numbers dialog": R(Key("a-t, l")),
