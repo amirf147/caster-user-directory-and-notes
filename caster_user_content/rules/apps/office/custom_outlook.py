@@ -21,7 +21,11 @@ class CustomOutlookRule(MappingRule):
         "synchronize": R(Key("f9")),
         "go to inbox": R(Key("c-1/3, cs-i")),
         "show inbox": R(Key("c-1")),
+
+        # Calendar
         "show calendar": R(Key("c-2")),
+        "event new": R(Key("c-2, c-n")),
+
         "show contacts": R(Key("c-3")),
         "hint insert": R(Key("alt/3, n")),
         "file attach": R(Key("alt/3, n, a, f")),
