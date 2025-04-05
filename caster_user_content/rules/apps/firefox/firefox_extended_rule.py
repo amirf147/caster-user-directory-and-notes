@@ -157,9 +157,11 @@ class FirefoxExtendedRule(MappingRule):
         "go clipboard":
             R(Key("a-d/5") + Key("c-v") + Key("enter")),
         "go tab clipboard":
-            R(Key("c-t/5") + Key("cs-v") + Key("enter")),
+            R(Key("c-t/5") + Key("c-v") + Key("enter")),
         "go window clipboard":
-            R(Key("c-n/120") + Key("cs-v") + Key("enter")),
+            R(Key("c-n/120") + Key("c-v") + Key("enter")),
+        "go right clipboard": # Opens clipboard content in new window and splits windows vertically
+            R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50, c-v, enter")),
 
         # Link navigation
         "jink <query>":
