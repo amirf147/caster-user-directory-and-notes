@@ -131,15 +131,22 @@ class FirefoxExtendedRule(MappingRule):
         "netzer <query>": R(Key("a-d/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer window <query>": R(Key("c-n/120") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "netzer sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s", pause=0.0) + Key("enter")),
+
         "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "reddit sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+
         "hister <query>": R(Key("a-d/5") + Text("^%(query)s", pause=0.0)),
         "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s", pause=0.0)),
         "hister window <query>": R(Key("c-n/120") + Text("^%(query)s", pause=0.0)),
+        "hister sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("^%(query)s", pause=0.0) + Key("enter")),
+
         "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s", pause=0.0)),
         "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s", pause=0.0)),
         "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s", pause=0.0)),
+        "bookzer sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("*%(query)s", pause=0.0) + Key("enter")),
 
         # Specific website navigation in new tab
         "go tab <website>":
@@ -150,7 +157,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go window <website>":
             R(Key("c-n/120") + Text("%(website)s", pause=0.0) + Key("enter")),
-        "split right <website>": # Opens Website in new window and splits windows vertically
+        "go sprite <website>": # Opens Website in new window and splits windows vertically
             R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(website)s", pause=0.0) + Key("enter")),
 
         # Pasting clipboard content into address bar
@@ -160,7 +167,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-t/5") + Key("c-v") + Key("enter")),
         "go window clipboard":
             R(Key("c-n/120") + Key("c-v") + Key("enter")),
-        "go right clipboard": # Opens clipboard content in new window and splits windows vertically
+        "go sprite clipboard": # Opens clipboard content in new window and splits windows vertically
             R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50, c-v, enter")),
 
         # Link navigation
