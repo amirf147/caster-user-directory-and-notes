@@ -26,7 +26,7 @@ class PowershellRule(MappingRule):
         "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),
         "zoom out [<n>]": R(Key("a-space, p/5, s-tab, right, tab, up:%(n)d, enter")),
 
-        "go <path>": R(Text("cd %(path)s", pause=0.0) + Key("enter")),
+        "go <path>": R(Text("cd \"%(path)s\"", pause=0.0) + Key("enter")),
         "go clipboard": R(Text("cd \"\"", pause=0.0) + Key("left, c-v/3, enter")),
 
         # File/Folder Operations
