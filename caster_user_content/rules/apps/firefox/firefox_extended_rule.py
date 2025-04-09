@@ -123,9 +123,10 @@ class FirefoxExtendedRule(MappingRule):
 
         "[show] downloads":
             R(Key("c-j")),
-
         "address bar":
             R(Key("a-d")),
+        "extensions bar": # Focuses on extensions located to the right of the address bar
+            R(Key("a-d/5, tab:2, right:2")),
 
         # Address bar querying with dictation
         "netzer <query>": R(Key("a-d/5") + Text("%(query)s", pause=0.0) + Key("enter")),
