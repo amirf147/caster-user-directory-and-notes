@@ -29,6 +29,7 @@ class CustomOutlookRule(MappingRule):
 
         "show contacts": R(Key("c-3")),
         "hint insert": R(Key("alt/3, n")),
+        "hint view": R(Key("alt/3, v")),
         "file attach": R(Key("alt/3, n, a, f")),
         "pop out email": R(Key("s-enter")),
         "etsy <dictation>": R(Key("c-e") + Text("%(dictation)s", pause=0.0)),
