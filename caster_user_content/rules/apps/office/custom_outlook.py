@@ -18,6 +18,7 @@ class CustomOutlookRule(MappingRule):
                                left, down, right, down, enter")),
         "personal inbox": R(Key("c-e/3, f6:2, home, left, down, \
                                 left, right, down, enter")),
+        "mail list": R(Key("c-e/3, f6:3")),
         "synchronize": R(Key("f9")),
         "go to inbox": R(Key("c-1/3, cs-i")),
         "show inbox": R(Key("c-1")),
