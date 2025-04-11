@@ -29,6 +29,9 @@ class PowershellRule(MappingRule):
         "go <path>": R(Text("cd \"%(path)s\"", pause=0.0) + Key("enter")),
         "go clipboard": R(Text("cd \"\"", pause=0.0) + Key("left, c-v/3, enter")),
 
+        # Process
+        "search process": R(Text("Get-Process | Where-Object { $_.Name -like \"\" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize", pause=0.0) + Key("left:70")),
+
         # File/Folder Operations
         "copy address": # Copy current directory path to clipboard
             R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
