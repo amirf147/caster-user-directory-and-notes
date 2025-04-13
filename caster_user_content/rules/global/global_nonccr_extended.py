@@ -98,7 +98,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("80") + Key("tab") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
-            Pause("30") + Key("enter") + Pause("30") + Key("enter")),
+            Pause("30") + Key("enter/30, down/30, enter")),
 
         # Placing mouse cursor in one of 4 quadrants on the screen
         "zone one":
