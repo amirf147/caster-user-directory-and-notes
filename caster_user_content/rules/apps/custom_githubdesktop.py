@@ -47,7 +47,7 @@ class CustomGitHubDeskRule(MappingRule):
         "switch to <repository>":
             R(Key("escape/3, c-t") + Pause("30") + Text("%(repository)s") + Key("enter")),
         "fast update":
-            R(Key("tab:8") + Text("update") + Pause("30") + Key("tab:2/3, tab")),
+            R(Key("a-f/3, escape, tab:7") + Text("update") + Pause("30") + Key("tab:2/3, tab")),
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
