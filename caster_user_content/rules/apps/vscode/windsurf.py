@@ -1,4 +1,4 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef, Mimic
 
 from castervoice.lib.actions import Key, Mouse
 
@@ -7,6 +7,8 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
+
+from caster_user_content.util import switch_application
 
 class WindsurfRule(MappingRule):
     mapping = {
@@ -19,6 +21,12 @@ class WindsurfRule(MappingRule):
         # Cascade Chat Context
         "file <text>": R(Text("@file:%(text)s", pause=0.0)),
         "directory <text>": R(Text("@directory:%(text)s", pause=0.0)),
+
+        "generate commit prompt": R(
+                Function(switch_application.title, window_title="Windows PowerShell") +
+                Pause("30") + Mimic("generate commit prompt") + Pause("200") +
+                Key("a-tab") + Pause("100") + Key("cs-l/3, c-v/3, enter")),
+
         
     }
     extras = [
