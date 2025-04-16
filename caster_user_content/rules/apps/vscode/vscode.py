@@ -321,7 +321,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-e/5") + Text("%(text)s")),
 
         "go <file>":
-            R(Key("c-e/5") + Text("%(file)s") + Pause("80") + Key("enter")),
+            R(Key("c-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
         
         # Requires Extension: jumpy
         # Requires user defined key binding: "command": "extension.jumpy-exit"
@@ -345,9 +345,10 @@ class CustomVSCodeRule(MappingRule):
         # Source Control
         "source control": R(Key("cs-g, g")),
         "show changes": R(Key("c-g, c-o")), # git.openAllChanges
-        "stage changes": R(Key("c-g, c-s")), # git.stageAll
+        "stage changes | git stage": R(Key("c-g, c-s")), # git.stageAll
         "show stage": R(Key("c-g, cs-s")), # git.viewStagedChanges
-        "unstage changes": R(Key("c-g, c-u")), # git.unstageAll
+        "unstage changes | git unstage": R(Key("c-g, c-u")), # git.unstageAll
+        "stage and view": R(Key("c-g, c-s/100, c-g, cs-s")), # First stages changes and then views stage
         "git sure commit": R(Key("c-g, c-c")), # git.commit
         "git sync": R(Key("c-g, a-s")), # git.sync
         "hide left": R(Key("c-b")),

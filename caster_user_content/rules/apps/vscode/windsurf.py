@@ -28,7 +28,7 @@ class WindsurfRule(MappingRule):
             Function(switch_application.title, window_title="Windows PowerShell") +
             Pause("30") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("20") + Key("c-v/3,enter") + Pause("200") +
-            Key("a-tab") + Pause("100") + Key("cs-l/100, c-v/3, enter")),
+            Key("a-tab") + Pause("100") + Key("cs-l/150, c-v/3, enter")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
