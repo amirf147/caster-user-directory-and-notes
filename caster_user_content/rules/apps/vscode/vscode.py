@@ -7,6 +7,8 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
+from caster_user_content import environment_variables as ev
+
 def _find_nth_token(text, n, direction):
     Key("c-f").execute()
     Text("%(text)s").execute({"text": text})
@@ -315,11 +317,12 @@ class CustomVSCodeRule(MappingRule):
         "quick open":
             R(Key("c-e")),
 
-        # BUG: The text output results in missing letters
-        # TODO: Switch to VScodium where this bug does not occur
         "open <text>":
             R(Key("c-e/5") + Text("%(text)s")),
 
+        "go <file>":
+            R(Key("c-e/5") + Text("%(file)s") + Pause("80") + Key("enter")),
+        
         # Requires Extension: jumpy
         # Requires user defined key binding: "command": "extension.jumpy-exit"
         "hints":
@@ -388,6 +391,7 @@ class CustomVSCodeRule(MappingRule):
                 "fifth": "5",
                 "sixth": "6",
             }),
+        Choice("file", ev.CASTER_FILE_NAMES),
     ]
     defaults = {"n": 1, "ln2": "",  "mim": "", "text": ""}
 
