@@ -7,7 +7,7 @@ from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
 from caster_user_content import environment_variables as ev
-
+from caster_user_content.util import switch_application
 
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
@@ -173,6 +173,10 @@ copy and paste it: ") + Key("c-v")),
         "max q": R(Key("tab:4, enter")),
         "show settings": R(Key("s-tab:4, enter")),
         "q clipboard": R(Key("a-space/180, tab:2") + Key("c-v")),
+
+        # Application Switching
+        "switch to [caster] user": R(Function(switch_application.title, window_title="caster - Windsurf")),
+        "switch to power": R(Function(switch_application.title, window_title="Windows PowerShell")),
     }
 
     extras = [
