@@ -170,6 +170,9 @@ copy and paste it: ") + Key("c-v")),
         "q <prompt>": R(Key("a-space/180, tab:2") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, s-tab:3, enter")),
         "q clipboard": R(Key("a-space/180, tab:2") + Key("c-v")),
+        "close q": R(
+            Function(switch_application.title, window_title="Copilot") +
+            Pause("30") + Key("a-f4")),
 
         # Application Switching
         "switch to [caster] user": R(Function(switch_application.title, window_title="caster - Windsurf")),
