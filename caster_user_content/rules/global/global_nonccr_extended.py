@@ -166,10 +166,10 @@ copy and paste it: ") + Key("c-v")),
 
         # Copilot from Microsoft
         "(show | hide) q": R(Key("a-space")),
-        "new q": R(Key("a-space/180, tab:2")),
-        "q <prompt>": R(Key("a-space/180, tab:2") + Text("%(prompt)s")),
+        "new q": R(Key("a-space/180")),
+        "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, s-tab:3, enter")),
-        "q clipboard": R(Key("a-space/180, tab:2") + Key("c-v")),
+        "q clipboard": R(Key("a-space/180") + Key("c-v")),
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
