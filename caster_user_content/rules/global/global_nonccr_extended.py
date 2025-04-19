@@ -128,7 +128,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         # Mirroring a window to all workspaces for my secondary monitor
         "mirror space window":
-            R(Key("tab/3")*Repeat(3) + Key("s-f10/40, down/40, down/2, down/2, enter, escape")),
+            R(Key("w-tab/150") + Key("tab/3")*Repeat(3) + Key("s-f10/40, down/40, down/2, down/2, enter, escape")),
         
         # Combining the previous two words into one word
         "last join":
