@@ -49,6 +49,7 @@ class WriterRule(MappingRule):
         "show line numbers": R(Key("a-t, l, space, tab:5, 1, enter")),
         "remove line numbers": R(Key("a-t, l, space, enter")),
         "line numbers dialog": R(Key("a-t, l")),
+        "show settings": R(Key("a-t, o")),
 
         # Font
         # Requires user define key binding: "Font Color" (second one)

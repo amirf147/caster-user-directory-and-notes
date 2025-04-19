@@ -14,8 +14,8 @@ class WindsurfCCRRule(MergeRule):
 
     mapping = {
         # Cascade Chat Context
-        "site <text>": R(Text("@file:", pause=0.0)),
-        "lek": R(Text("@directory:", pause=0.0)),
+        "site <text>": R(Text("@file:%(text)s", pause=0.0)),
+        "lek": R(Text("@directory:%(text)s", pause=0.0)),
     }
     extras = [
         Dictation("text"),
