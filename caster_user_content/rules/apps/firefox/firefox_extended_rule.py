@@ -9,12 +9,11 @@ from caster_user_content import environment_variables as ev
 from caster_user_content.util.generate_rdescript import generate_rdescript
 from caster_user_content.util.text import text_to_clipboard
 
-
-from datetime import datetime
 import os
 import pyperclip
 import sys
 import subprocess
+
 
 def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
@@ -49,7 +48,7 @@ def _save_to_job_postings():
                 script_path, 
                 ev.PATHS["job postings"],
                 "--always-on-top"  # Add this flag to be handled in save_to_text.py
-            ], stdin=subprocess.PIPE, 
+            ], stdin=subprocess.PIPE,
                text=True,
                creationflags=DETACHED_PROCESS,
                startupinfo=startupinfo)
@@ -249,6 +248,8 @@ class FirefoxExtendedRule(MappingRule):
 
         # PDF files
         "rotate pdf": R(Key("s-r")),
+
+        "insert <text>": R(Text("%(text)s")),
     }
     
     extras = [
@@ -290,6 +291,7 @@ class FirefoxExtendedRule(MappingRule):
         }),
         Choice("website", ev.WEBSITES),
         Dictation("query"),
+        Choice("text", ev.INSERTABLE_TEXT),
     ]
     defaults = {"n": 1,}
 

@@ -19,10 +19,10 @@ class FirefoxCcrRule(MergeRule):
             R(Key("a-d/5, c-c, escape, f6, tab/5, tab")),
         "netspell":
             R(Key("a-d/5")),
-        "insert <text>": R(Text("%(text)s")),
+        # "insert <text>": R(Text("%(text)s")), # Not working for some reason
     }
     extras = [
-        Choice("text", ev.INSERTABLE_TEXT),
+        # Choice("text", ev.INSERTABLE_TEXT),
     ]
     defaults = {
     }
