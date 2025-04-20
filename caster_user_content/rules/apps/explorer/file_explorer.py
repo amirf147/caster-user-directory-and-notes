@@ -64,6 +64,7 @@ class FileExplorerRule(MappingRule):
             R(Key("a-v, n, space")),
         "preview pane":         # I noticed that when the preview pane is open the
             R(Key("a-v/3, p")), # view ribbon interaction might require a pause after pressing a-v
+        "sort by recent": R(Key("a-v, o, down, enter")),
 
         # Share Ribbon
         "zippo": R(Key("a-s, c")), # Create a compressed (zipped) folder that contains the selected items
