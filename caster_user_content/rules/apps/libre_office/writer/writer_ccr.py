@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Dictation, IntegerRef
+from dragonfly import Dictation, IntegerRef, Choice
 
 from castervoice.lib.actions import Key, Text
 
@@ -6,6 +6,8 @@ from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
+
+from caster_user_content import environment_variables as ev
 
 class WriterCCR(MergeRule):
     pronunciation = "writer c c r"
@@ -26,10 +28,16 @@ class WriterCCR(MergeRule):
         
         # # Find tab of Find and Replace dialog
         # "etsype": R(Key("c-h/5, s-tab, left")),
+
+        "insert <text>": R(Text("%(text)s")),
     }
     extras = [
         IntegerRef("n3", 1, 4),
+        Choice("text", ev.INSERTABLE_TEXT),
     ]
+    defaults = {
+    }
+
 def get_rule():
     details = RuleDetails(executable="soffice",
                           title="LibreOffice Writer",
