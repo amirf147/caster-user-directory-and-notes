@@ -3,10 +3,12 @@ from castervoice.lib.actions import Key,Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.temporary import Store, Retrieve
+from castervoice.lib import utilities
 
 from caster_user_content import environment_variables as ev
 from caster_user_content.util.generate_rdescript import generate_rdescript
 from caster_user_content.util.text import text_to_clipboard
+
 
 from datetime import datetime
 import os
@@ -131,22 +133,30 @@ class FirefoxExtendedRule(MappingRule):
         "netzer <query>": R(Key("a-d/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer window <query>": R(Key("c-n/120") + Text("%(query)s", pause=0.0) + Key("enter")),
-        "netzer sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "netzer sprite <query>": R(
+            Function(utilities.maximize_window) + Pause("50") +
+            Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s", pause=0.0) + Key("enter")),
 
         "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
-        "reddit sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "reddit sprite <query>": R(
+            Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") +
+            Text("%(query)s reddit", pause=0.0) + Key("enter")),
 
         "hister <query>": R(Key("a-d/5") + Text("^%(query)s", pause=0.0)),
         "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s", pause=0.0)),
         "hister window <query>": R(Key("c-n/120") + Text("^%(query)s", pause=0.0)),
-        "hister sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("^%(query)s", pause=0.0) + Key("enter")),
+        "hister sprite <query>": R(
+            Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") +
+            Text("%(query)s reddit", pause=0.0) + Key("enter")),
 
         "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s", pause=0.0)),
         "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s", pause=0.0)),
         "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s", pause=0.0)),
-        "bookzer sprite <query>": R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("*%(query)s", pause=0.0) + Key("enter")),
+        "bookzer sprite <query>": R(
+            Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") +
+            Text("*%(query)s", pause=0.0) + Key("enter")),
 
         # Specific website navigation in new tab
         "go tab <website>":
@@ -158,7 +168,8 @@ class FirefoxExtendedRule(MappingRule):
         "go window <website>":
             R(Key("c-n/120") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go sprite <website>": # Opens Website in new window and splits windows vertically
-            R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(website)s", pause=0.0) + Key("enter")),
+            R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") +
+            Text("%(website)s", pause=0.0) + Key("enter")),
 
         # Pasting clipboard content into address bar
         "go clipboard":
@@ -168,7 +179,7 @@ class FirefoxExtendedRule(MappingRule):
         "go window clipboard":
             R(Key("c-n/120") + Key("c-v") + Key("enter")),
         "go sprite clipboard": # Opens clipboard content in new window and splits windows vertically
-            R(Key("w-up/50, w-right/50, c-n/100, wca-0/30, w-right:2/50, c-v, enter")),
+            R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50, c-v, enter")),
 
         # Link navigation
         "jink <query>":
@@ -190,7 +201,9 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-n/60") + Function(_search_youtube)),
         "you search tab <query>":
             R(Key("c-t") + Function(_search_youtube)),
-
+        "you search sprite <query>":
+            R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s", pause=0.0) + Key("enter")),
+        
         # Translations    
         "translate that": # Translates the selection via the context menu
             R(Key("s-f10/3, down:6, enter")),
