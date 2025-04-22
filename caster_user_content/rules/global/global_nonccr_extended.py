@@ -155,9 +155,12 @@ copy and paste it: ") + Key("c-v")),
                Text("0.1") + Key("tab") +
                Text("0.1") + Key("enter, left, enter")),
 
-        "bling [<nnavi500>]":
+        # Triple click actions
+        "bling [<nnavi500>]": # Copies the line under the mouse cursor
             R(Mouse("left") + Mouse("left") + Mouse("left") + Function(
                 navigation.stoosh_keep_clipboard)),
+        "cling": # Cuts the line under the mouse cursor
+            R(Mouse("left")*Repeat(3) + Pause("30") + Key("c-x")),
 
         "insert date":
             R(Text(datetime.now().strftime("%m-%d-%Y"))),
