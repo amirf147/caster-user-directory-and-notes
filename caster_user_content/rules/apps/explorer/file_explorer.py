@@ -58,6 +58,8 @@ class FileExplorerRule(MappingRule):
         "details pane": R(Key("a-v, d")),
         "invert selection": R(Key("a-h, s, i")),
         "deselect": R(Key("a-h, s, n")),
+        "edit file": R(Key("a-h, e")),
+        "open with": R(Key("a-h, p, e")),
 
         # View Ribbon
         "show files | hide left":
