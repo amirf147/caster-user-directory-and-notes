@@ -42,6 +42,9 @@ class CustomOutlookRule(MappingRule):
 
         # Text Formatting
         "insert bullet": R(Key("c-.")),
+        "format bold": R(Key("c-b")),
+        "format italic": R(Key("c-i")),
+        "format underline": R(Key("c-u")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
