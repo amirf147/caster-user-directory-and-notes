@@ -177,12 +177,15 @@ copy and paste it: ") + Key("c-v")),
         # Application Switching
         "switch to [caster] user": R(Function(switch_application.title, window_title="caster - Windsurf")),
         "switch to power": R(Function(switch_application.title, window_title="Windows PowerShell")),
+
+        "bring oh <program>": R(Key("win/30") + Text("%(program)s", pause=0.0) + Pause("30") + Key("enter")),
     }
 
     extras = [
         Dictation("prompt"),
         IntegerRef("n", 1, 10),
         IntegerRef("n0", 0, 10),
+        Choice("program", ev.PROGRAM_NAMES),
         Choice("n_off_by_one", {
             "one": "0",
             "two": "1",
