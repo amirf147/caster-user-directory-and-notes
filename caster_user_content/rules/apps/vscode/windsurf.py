@@ -27,8 +27,8 @@ class WindsurfRule(MappingRule):
         "generate commit prompt": R(
             Function(switch_application.title, window_title="Windows PowerShell") +
             Pause("30") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
-            Pause("20") + Key("c-v/3,enter") + Pause("200") +
-            Key("a-tab") + Pause("100") + Key("cs-l/150, c-v/3, enter")),
+            Pause("20") + Key("c-c/2") + Key("c-v/3,enter") + Pause("200") +
+            Key("a-tab") + Pause("100") + Key("cs-l/150, c-v/3")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
