@@ -160,7 +160,11 @@ copy and paste it: ") + Key("c-v")),
             R(Mouse("left") + Mouse("left") + Mouse("left") + Function(
                 navigation.stoosh_keep_clipboard)),
         "cling": # Cuts the line under the mouse cursor
-            R(Mouse("left")*Repeat(3) + Pause("30") + Key("c-x")),
+            R(Mouse("left")*Repeat(3) + Key("c-x")),
+
+        # Double click actions
+        "slacks": # Cuts the word under the mouse cursor
+            R(Mouse("left")*Repeat(2) + Key("c-x")),
 
         "insert date":
             R(Text(datetime.now().strftime("%m-%d-%Y"))),
