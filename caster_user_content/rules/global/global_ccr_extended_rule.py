@@ -13,7 +13,6 @@ class GlobalCCRExtendedRule(MergeRule):
 
     mapping = {
         "name flash": R(Key("f2")),
-        "go back [<n>]": R(Key("a-left:%(n)d")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
         # "rash": R(Key("s-end")),

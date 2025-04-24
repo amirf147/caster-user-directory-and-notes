@@ -186,6 +186,10 @@ copy and paste it: ") + Key("c-v")),
         "switch to power": R(Function(switch_application.title, window_title="Windows PowerShell")),
 
         "bring oh <program>": R(Key("win/30") + Text("%(program)s", pause=0.0) + Pause("30") + Key("enter")),
+        "start screen copy": R(
+            # After pressing alt-tab they pause needs to be separate otherwise it keeps the key combination pressed down
+            Key("w-r/30") + Text(f"\"{ev.PATHS['screen copy']}/scrcpy\"", pause=0.0) +
+            Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
     }
 
     extras = [
