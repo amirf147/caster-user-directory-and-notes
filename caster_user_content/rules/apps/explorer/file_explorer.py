@@ -67,6 +67,7 @@ class FileExplorerRule(MappingRule):
         "preview pane":         # I noticed that when the preview pane is open the
             R(Key("a-v/3, p")), # view ribbon interaction might require a pause after pressing a-v
         "sort by recent": R(Key("a-v, o, down, enter")),
+        "sort by size": R(Key("a-v, o, down:3, enter")),
         "view set extra large": R(Key("a-v, tab:6, enter, home, enter")),
         "view set large": R(Key("a-v, tab:6, enter, home, tab:1, enter")),
         "view set medium": R(Key("a-v, tab:6, enter, home, tab:2, enter")),
