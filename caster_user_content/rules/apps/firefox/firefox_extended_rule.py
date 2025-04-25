@@ -248,8 +248,12 @@ class FirefoxExtendedRule(MappingRule):
 
         # PDF files
         "rotate pdf": R(Key("s-r")),
+        "show sidebar": R(Key("f4")),
 
         "insert <text>": R(Text("%(text)s")),
+
+        "copy back address": # Copy address bar contents and switch back to previous application
+            R(Key("a-d/5, c-c/3, f6/3, a-tab")),
     }
     
     extras = [
