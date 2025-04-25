@@ -16,6 +16,9 @@ class WriterCCR(MergeRule):
         "format bold": R(Key("c-b")),
         "format italic": R(Key("c-i")),
         "format underline": R(Key("c-u")),
+        "format super": R(Key("cs-p")),
+        "format sub": R(Key("cs-b")),
+        "norse": R(Key("c-m")), # Removes all formatting
 
         # Styles
         "apply heading <n3>": R(Key("c-%(n3)d")),
