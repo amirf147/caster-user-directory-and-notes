@@ -78,8 +78,8 @@ class PowershellRule(MappingRule):
         "port check": R(Text("netstat -ano | findstr :", pause=0.0)),
 
         # CLI Tools with options
-        "oh <ollama_command>": R(Text("%(ollama_command)s", pause=0.0) + Key("enter")),
-        "dock <docker_command>": R(Text("%(docker_command)s", pause=0.0) + Key("enter")),
+        "oh <ollama_command>": R(Text("%(ollama_command)s ", pause=0.0)),
+        "dock <docker_command>": R(Text("%(docker_command)s ", pause=0.0)),
         "list <list_command>": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
         
         # Python
