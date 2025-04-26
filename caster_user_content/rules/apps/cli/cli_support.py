@@ -12,6 +12,7 @@ OLLAMA_COMMANDS = {
     "help ps": "ollama help ps",
     "help": "ollama help",
     "run": "ollama run",
+    "run deep": "ollama run deepseek-r1:1.5b",
 } 
 
 DOCKER_COMMANDS = {
