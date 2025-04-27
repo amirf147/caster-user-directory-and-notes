@@ -124,8 +124,8 @@ class CustomVSCodeRule(MappingRule):
             R(Key("space, c-z")),
         "keep [preview] open":
             R(Key("c-k, enter")),
-        "windows explorer here":
-            R(Key("c-k, r")),
+        "show in file explorer": # revealFileInOS
+            R(Key("c-k, ca-r")),
         "show active file in new window":
             R(Key("c-k, o")),
 
