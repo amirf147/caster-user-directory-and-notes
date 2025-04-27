@@ -81,6 +81,11 @@ class PowershellRule(MappingRule):
         "oh <ollama_command>": R(Text("%(ollama_command)s ", pause=0.0)),
         "dock <docker_command>": R(Text("%(docker_command)s ", pause=0.0)),
         "list <list_command>": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
+
+        # History
+        "show history": R(Text("Invoke-History") + Key("enter")),
+        "hister clip <n501>": R( # Places command (via id) from history to clipboard
+            Text("(Get-History -Id %(n501)s).CommandLine | Set-Clipboard") + Key("enter")),
         
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),
@@ -116,6 +121,7 @@ class PowershellRule(MappingRule):
         Choice("pip_command", cli_support.PIP_COMMANDS),
         Dictation("text"),
         ShortIntegerRef("n", 1, 11),
+        ShortIntegerRef("n501", 1, 501),
     ]
     defaults = {
         "n": 1,
