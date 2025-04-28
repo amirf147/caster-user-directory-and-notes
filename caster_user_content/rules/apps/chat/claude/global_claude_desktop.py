@@ -13,7 +13,7 @@ class GlobalClaudeDesktopRule(MappingRule):
         # Copilot from Microsoft
         "(show | hide) q": R(Key("ca-space")),
         # "new q": R(Key("a-space/180")),
-        "q <prompt>": R(Key("ca-space/180") + Text("%(prompt)s")),
+        "q <prompt>": R(Key("ca-space/80") + Text("%(prompt)s")),
         # "new q max": R(Key("a-space/180, s-tab:3, enter")),
         # "q clipboard": R(Key("a-space/180") + Key("c-v")),
     #     "close q": R(
