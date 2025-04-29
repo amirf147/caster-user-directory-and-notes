@@ -60,6 +60,7 @@ class PowershellRule(MappingRule):
         "dirrup three": R(Text("cd ../../../", pause=0.0) + Key("enter")),
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
         "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
+        "show (aliases | alias)": R(Text("Get-Alias | Out-GridView", pause=0.0) + Key("enter")),
 
         # "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()", pause=0.0) + Key("enter")),

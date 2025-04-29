@@ -44,11 +44,15 @@ class GlobalCCRExtendedRule(MergeRule):
         # "e g": R(Text("e.g., ", pause=0.0)),
         # "etc": R(Text(", etc. ", pause=0.0)),
 
-        # Text key combinations
+        # Formatted Operators
         "eco": R(Text(" = ", pause=0.0)),
         "plooz": R(Text(" + ", pause=0.0)),
         "meece": R(Text(" - ", pause=0.0)),
+        "peach": R(Text(" | ", pause=0.0)),
+
+        # File Extensions
         "dot t x t": R(Text(".txt", pause=0.0)),
+        "dot pie": R(Text(".py", pause=0.0)),
         
         # Experimenting with continuing dictation and/or formatting text after custom word
         # "v s codium": R(Text(" VSCodium ", pause=0.0) + Function(textformat.master_format_text))
