@@ -26,8 +26,9 @@ class CustomVSCodeRule(MappingRule):
     # pronunciation = "viz"
     mapping = {
 
-        "shell":
+        "show shell":
             R(Key("c-backtick")),
+        "kill shell": R(Key("c-k, c-f4")), # workbench.action.terminal.kill
             
         # Moving around a file
         # "[(go to | jump | jump to)] line <n>":

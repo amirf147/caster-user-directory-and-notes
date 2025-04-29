@@ -25,10 +25,9 @@ class WindsurfRule(MappingRule):
         "directory <text>": R(Text("@directory:%(text)s", pause=0.0)),
 
         "generate commit prompt": R(
-            Function(switch_application.title, window_title="Windows PowerShell") +
-            Pause("30") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
-            Pause("20") + Key("c-c/30") + Text("cd " + ev.PATHS["caster user"]) + Key("enter") + Key("c-v/3,enter") + Pause("200") +
-            Key("a-tab") + Pause("100") + Key("cs-l/150, c-v/3")),
+            Key("cs-backtick") + # Create new terminal instance
+            Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
+            Pause("30") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/150, c-v/3")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
