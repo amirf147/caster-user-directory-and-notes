@@ -6,8 +6,6 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-
-from caster_user_content.util import switch_application
 from caster_user_content.util.text import text_to_clipboard
 from caster_user_content import environment_variables as ev
 

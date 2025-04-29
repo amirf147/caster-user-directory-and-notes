@@ -27,8 +27,9 @@ class PowershellRule(MappingRule):
         "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),
         "zoom out [<n>]": R(Key("a-space, p/5, s-tab, right, tab, up:%(n)d, enter")),
 
-        "go <path>": R(Text("cd \"%(path)s\"", pause=0.0) + Key("enter")),
-        "go clipboard": R(Text("cd \"\"", pause=0.0) + Key("left, c-v/3, enter")),
+        "go <path>": R(Text("Push-Location \"%(path)s\"", pause=0.0) + Key("enter")),
+        "go clipboard": R(Text("Push-Location \"\"", pause=0.0) + Key("left, c-v/3, enter")),
+        "go back": R(Text("Pop-Location", pause=0.0) + Key("enter")),
 
         # Process
         "search process": R(Text("Get-Process | Where-Object { $_.Name -like \"\" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize", pause=0.0) + Key("left:70")),
@@ -55,10 +56,15 @@ class PowershellRule(MappingRule):
             + Pause("20") + Key("enter"),
             rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
 
-        "dirrup": R(Text("cd ../", pause=0.0) + Key("enter")),
-        "dirrup two": R(Text("cd ../../", pause=0.0) + Key("enter")),
-        "dirrup three": R(Text("cd ../../../", pause=0.0) + Key("enter")),
+        "dirrup": R(Text("Push-Location ../", pause=0.0) + Key("enter")),
+        "dirrup two": R(Text("Push-Location ../../", pause=0.0) + Key("enter")),
+        "dirrup three": R(Text("Push-Location ../../../", pause=0.0) + Key("enter")),
+
+        # Environment Variables
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
+        "envo": R(Text("$env:", pause=0.0)),
+
+        # Aliases
         "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
         "show (aliases | alias)": R(Text("Get-Alias | Out-GridView", pause=0.0) + Key("enter")),
 
