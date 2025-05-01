@@ -23,6 +23,10 @@ class PowershellRule(MappingRule):
         "show layout": R(Key("a-space, p/5, s-tab, right:2")),
         "show colors": R(Key("a-space, p/5, s-tab, right:3")),
         "show terminal": R(Key("a-space, p/5, s-tab, right:4")),
+        
+        # Editing Modes
+        "mark mode": R(Key("c-m")),
+        "scroll mode": R(Key("a-space, e, l")),
 
         "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),
         "zoom out [<n>]": R(Key("a-space, p/5, s-tab, right, tab, up:%(n)d, enter")),
