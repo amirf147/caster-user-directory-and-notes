@@ -14,7 +14,6 @@ class PowershellCCRRule(MergeRule):
     pronunciation = "power shell c c r"
 
     mapping = {
-        "to clipboard": R(Key("space, |, space, c, l, i, p")),
 
         # Executables/Commands
         "<exe>": R(Text("%(exe)s") + Key("space")),

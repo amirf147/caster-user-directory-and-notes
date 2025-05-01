@@ -128,6 +128,7 @@ class PowershellRule(MappingRule):
             Pause("20") + Key("c-v/3,enter")),
 
         # String Manipulation
+        "to clipboard": R(Text(" | Set-Clipboard", pause=0.0)),
         "dot split": R(Text(".Split(\"\")", pause=0.0) + Key("left:2")),
         "split space": R(Text(".Split(\" \")", pause=0.0)),
     }
