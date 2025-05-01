@@ -127,7 +127,9 @@ class PowershellRule(MappingRule):
             Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("20") + Key("c-v/3,enter")),
 
-
+        # String Manipulation
+        "dot split": R(Text(".Split(\"\")", pause=0.0) + Key("left:2")),
+        "split space": R(Text(".Split(\" \")", pause=0.0)),
     }
     extras = [
         Choice("path", ev.PATHS),
