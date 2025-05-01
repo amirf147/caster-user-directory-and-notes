@@ -97,7 +97,7 @@ class PowershellRule(MappingRule):
         # CLI Tools with options
         "oh <ollama_command>": R(Text("%(ollama_command)s ", pause=0.0)),
         "dock <docker_command>": R(Text("%(docker_command)s ", pause=0.0)),
-        "list <list_command>": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
+        "list [<list_command>]": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
 
         # History
         "show history": R(Text("Invoke-History") + Key("enter")),
@@ -141,6 +141,7 @@ class PowershellRule(MappingRule):
         ShortIntegerRef("n501", 1, 501),
     ]
     defaults = {
+        "list_command": cli_support.LIST_COMMANDS["names"],
         "n": 1,
     }
 
