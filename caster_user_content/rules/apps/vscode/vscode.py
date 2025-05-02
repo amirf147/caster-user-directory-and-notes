@@ -210,7 +210,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("f2")),
         "(trim white)":
             R(Key("c-k, c-x")),
-        "change file language":
+        "[change] language mode":
             R(Key("c-k, m")),
 
         # Debugging
