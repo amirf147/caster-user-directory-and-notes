@@ -6,88 +6,75 @@ def title(window_title):
     pyautogui.getWindowsWithTitle(window_title)[0].activate()
 
 
-class WindowInfo:
-    def __init__(self, hwnd, tab_title=None):
-        self.hwnd = hwnd
-        self.tab_title = tab_title
+# Define application groups by their window title identifiers
+CTRL_TAB_APPS = ['Waterfox', 'Firefox', 'Windows Terminal']
+CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code']
 
 window_info = {}
 
-def get_browser_tab_title():
-    """Get the current browser tab title"""
-    active_window = pyautogui.getActiveWindow()
-    if active_window:
-        return active_window.title
+def set_alias(window_alias: str) -> None:
+    """Set alias for current window, storing title for tabbed applications"""
+    window = pyautogui.getActiveWindow()
+    if window:
+        is_tabbed_app = any(app in window.title for app in CTRL_TAB_APPS + CTRL_PGDN_APPS)
+        info = {
+            'handle': window._hWnd,
+            'title': window.title if is_tabbed_app else None,
+            'window_type': get_window_type(window.title)
+        }
+        window_info[window_alias] = info
+        print(f"Set alias '{window_alias}' for: {window.title}")
+
+def get_window_type(title):
+    """Determine which type of tab switching to use"""
+    if any(app in title for app in CTRL_TAB_APPS):
+        return 'ctrl_tab'
+    if any(app in title for app in CTRL_PGDN_APPS):
+        return 'ctrl_pgdn'
     return None
 
-def set_alias(window_alias: str) -> None:
-    """
-    Set an alias for the currently focused window and tab
-    
-    Args:
-        window_alias (str): The alias name to assign to the window
-    """
-    active_window = pyautogui.getActiveWindow()
-    if active_window:
-        tab_title = get_browser_tab_title()
-        window_info[window_alias] = WindowInfo(active_window._hWnd, tab_title)
-        print(f"Window alias '{window_alias}' set (ID: {active_window._hWnd}, Tab: {tab_title})")
-
-def find_and_activate_tab(window, target_tab_title):
-    """Find and activate the specific tab"""
-    if not target_tab_title:
-        return
-
-    # Store the initial tab title
-    initial_tab = get_browser_tab_title()
-    
-    # Try to find the tab by cycling through tabs
-    max_tries = 50  # Prevent infinite loop
+def find_tab(target_title, window_type):
+    """Cycle through tabs to find target using appropriate key combination"""
+    initial_title = pyautogui.getActiveWindow().title
     tries = 0
-    
+    max_tries = 50  # Prevent infinite loop
+
     while tries < max_tries:
-        current_tab = get_browser_tab_title()
+        current_title = pyautogui.getActiveWindow().title
+        if target_title == current_title:
+            return True
         
-        if current_tab and target_tab_title in current_tab:
-            return True  # Found the tab
+        # Use appropriate key combination based on application type
+        if window_type == 'ctrl_tab':
+            Key("c-tab").execute()
+        elif window_type == 'ctrl_pgdn':
+            Key("c-pgdown").execute()
             
-        # Press Ctrl+Tab to move to next tab
-        Key("c-tab").execute()
-        time.sleep(0.1)  # Small delay to let the tab switch
+        time.sleep(0.1)
         tries += 1
-        
-        # If we've cycled back to the initial tab, stop searching
-        if tries > 1 and current_tab == initial_tab:
+
+        # Stop if we've cycled back to start
+        if tries > 1 and current_title == initial_title:
             break
     
     return False
 
 def alias(window_alias: str) -> None:
-    """
-    Switch to a window using its alias and restore the specific tab
-    
-    Args:
-        window_alias (str): The alias name of the window to switch to
-    """
+    """Switch to window and find tab if applicable"""
     if window_alias not in window_info:
-        print(f"No window found with alias '{window_alias}'")
+        print(f"No window found for alias '{window_alias}'")
         return
-    
+
     info = window_info[window_alias]
     try:
-        # Get all windows
         windows = pyautogui.getAllWindows()
-        # Find the window with matching handle
         for window in windows:
-            if window._hWnd == info.hwnd:
+            if window._hWnd == info['handle']:
                 window.activate()
-                time.sleep(0.2)  # Wait for window to activate
-                
-                # If we stored a tab title, try to find and activate it
-                if info.tab_title:
-                    if not find_and_activate_tab(window, info.tab_title):
-                        print(f"Could not find tab: {info.tab_title}")
+                time.sleep(0.1)
+                # Only try to find specific tab if it's a tabbed application
+                if info['title'] and info['window_type']:
+                    find_tab(info['title'], info['window_type'])
                 return
-        print(f"Window with ID {info.hwnd} not found")
     except Exception as e:
-        print(f"Error switching to window: {e}")
+        print(f"Error switching: {e}")

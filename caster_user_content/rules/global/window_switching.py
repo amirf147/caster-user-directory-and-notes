@@ -11,7 +11,7 @@ from caster_user_content.util import switch_application
 
 # Create a Dragonfly List
 window_aliases = List("window_alias")
-window_aliases.set(["code", "power", "water"])
+window_aliases.set(["code", "power", "water", "chat"])
 
 class WindowSwitchingRule(MappingRule):
     pronunciation = "window switching"
