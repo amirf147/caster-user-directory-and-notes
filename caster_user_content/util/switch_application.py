@@ -11,6 +11,8 @@ def title(window_title):
 CTRL_TAB_APPS = ['Waterfox', 'Firefox', 'Windows Terminal']
 CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code']
 
+# TODO: Create list of applications that or not tabbed and handle accordingly
+
 class WindowInfo(NamedTuple):
     handle: int
     title: str
@@ -77,7 +79,7 @@ def find_tab(target_title: str, window_type: str) -> bool:
         if window_type == 'ctrl_tab':
             Key("c-tab").execute()
         elif window_type == 'ctrl_pgdn':
-            Key("c-pgdown").execute()
+            Key("c-pgdown/60").execute()
             
         time.sleep(0.1)
         tries += 1
