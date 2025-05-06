@@ -13,7 +13,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
 
-        "show me calendar":
+        "show [me] calendar":
             R(Key("w-b, up/3, enter")),
 
         # Hunt and Peck activation
@@ -48,49 +48,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "window resize down":
             R(Key("a-space/5, s/3, down")),
 
-        # "volume output":
-        #     R(Key("w-b/3, up:2, enter") +
-        #       Pause("40") + Key("tab, enter") +
-        #       Pause("40") + Key("tab")),
-        # "volume output earphones":
-        #     R(Key("w-b/3, up:2, enter") +
-        #       Pause("40") + Key("tab, enter") +
-        #       Pause("40") + Key("tab/3, home") +
-        #       Pause("40") + Key("down, enter") +
-        #       Pause("40") + Key("a-tab")),
-        # "volume output TV":
-        #     R(Key("w-b/3, up:2, enter") +
-        #       Pause("40") + Key("tab, enter") +
-        #       Pause("40") + Key("tab/3, end") +
-        #       Pause("40") + Key("a-tab")),
-
         "focus taskbar": R(Key("w-t")),
-
-        # window snapping into 1 of 4 quadrants
-        "snap window one":
-            R(Function(utilities.maximize_window) +
-            Pause("80") + Key("w-left") +
-            Pause("40") + Key("w-left") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-up")),
-        "snap window two":
-            R(Function(utilities.maximize_window) +
-            Pause("80") + Key("w-right") +
-            Pause("40") + Key("w-right") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-up")),
-        "snap window three":
-            R(Key("w-up") +
-            Pause("80") + Key("w-left") +
-            Pause("40") + Key("w-left") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-down")),
-        "snap window four":
-            R(Key("w-up") +
-            Pause("80") + Key("w-right") +
-            Pause("40") + Key("w-right") +
-            Pause("40") + Key("escape") +
-            Pause("80") + Key("w-down")),
 
         # Putting computer to sleep via start menu
         "computer go to sleep":
@@ -98,7 +56,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("80") + Key("tab") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
-            Pause("30") + Key("enter/30, down/30, enter")),
+            Pause("30") + Key("enter/30, enter")),
 
         # Placing mouse cursor in one of 4 quadrants on the screen
         "zone one":

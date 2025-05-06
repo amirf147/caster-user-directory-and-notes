@@ -1,0 +1,42 @@
+        "volume output":
+             R(Key("w-b/3, up:2, enter") +
+               Pause("40") + Key("tab, enter") +
+               Pause("40") + Key("tab")),
+        "volume output earphones":
+             R(Key("w-b/3, up:2, enter") +
+               Pause("40") + Key("tab, enter") +
+               Pause("40") + Key("tab/3, home") +
+               Pause("40") + Key("down, enter") +
+               Pause("40") + Key("a-tab")),
+        "volume output TV":
+             R(Key("w-b/3, up:2, enter") +
+               Pause("40") + Key("tab, enter") +
+               Pause("40") + Key("tab/3, end") +
+               Pause("40") + Key("a-tab")),
+
+
+        # window snapping into 1 of 4 quadrants
+        "snap window one":
+             R(Function(utilities.maximize_window) +
+             Pause("80") + Key("w-left") +
+             Pause("40") + Key("w-left") +
+             Pause("40") + Key("escape") +
+             Pause("80") + Key("w-up")),
+        "snap window two":
+             R(Function(utilities.maximize_window) +
+             Pause("80") + Key("w-right") +
+             Pause("40") + Key("w-right") +
+             Pause("40") + Key("escape") +
+             Pause("80") + Key("w-up")),
+        "snap window three":
+             R(Key("w-up") +
+             Pause("80") + Key("w-left") +
+             Pause("40") + Key("w-left") +
+             Pause("40") + Key("escape") +
+             Pause("80") + Key("w-down")),
+        "snap window four":
+             R(Key("w-up") +
+             Pause("80") + Key("w-right") +
+             Pause("40") + Key("w-right") +
+             Pause("40") + Key("escape") +
+             Pause("80") + Key("w-down")),
