@@ -99,6 +99,10 @@ class PowershellRule(MappingRule):
         "dock <docker_command>": R(Text("%(docker_command)s ", pause=0.0)),
         "list [<list_command>]": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
 
+        # Ollama
+        "oh create model": R(Text("ollama create --file .\\Modelfile") + Key("left:19, space:2, left")),
+        "run model": R(Text(f"{PYTHON_12} .\\ollama_test.py")),
+
         # History
         "show history": R(Text("Invoke-History") + Key("enter")),
         "hister clip <n501>": R( # Places command (via id) from history to clipboard
