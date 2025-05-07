@@ -111,8 +111,10 @@ class PowershellRule(MappingRule):
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),
         "pi ten <python_command>": R(Text(PYTHON_10) + Key("space") + Text("%(python_command)s")),
-        # "pi eight <python_command>": R(Text(PYTHON_8) + Key("space") + Text("%(python_command)s")),
         "pip <pip_command>": R(Text("pip %(pip_command)s")),
+        "pi repple": R(Text("python") + Key("enter")),
+        "pi ten repple": R(Text(PYTHON_10) + Key("enter")),
+        "pi twelve repple": R(Text(PYTHON_12) + Key("enter")),
 
         # Variables
         "var <text>": R(Text("$%(text)s = \"\"", pause=0.0) + Key("left")),
