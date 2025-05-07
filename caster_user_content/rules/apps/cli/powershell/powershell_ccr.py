@@ -18,6 +18,8 @@ class PowershellCCRRule(MergeRule):
         # Executables/Commands
         "<exe>": R(Text("%(exe)s") + Key("space")),
 
+        "mark mode": R(Key("a-space, e, k")),
+
         # SQL
         "ghost": R(Key("G, O, enter")),
     }

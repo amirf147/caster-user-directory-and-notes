@@ -25,7 +25,6 @@ class PowershellRule(MappingRule):
         "show terminal": R(Key("a-space, p/5, s-tab, right:4")),
         
         # Editing Modes
-        "mark mode": R(Key("c-m")),
         "scroll mode": R(Key("a-space, e, l")),
 
         "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),

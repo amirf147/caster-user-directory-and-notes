@@ -10,6 +10,7 @@ def _random_number_list(length, element_magnitude):
     element_magnitude = int(element_magnitude)
     print(length, element_magnitude)
     list = str([random.randint(0, element_magnitude) for _ in range(length)])
+    list = "l = " + list
     Text(list).execute()
 
 
@@ -31,6 +32,10 @@ class CustomPython(MappingRule):
 
         "random list [<length>] [<element_magnitude>]":
             Function(_random_number_list),
+        
+        "a var": R(Text("a = ")),
+        "b var": R(Text("b = ")),
+        "c var": R(Text("c = ")),
     }
     extras = [
         IntegerRef("length", 1, 21),

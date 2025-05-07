@@ -5,7 +5,7 @@ from caster_user_content.util import switch_application
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(["code", "power", "water", "chat"])
+window_aliases.set(["colt", "turk", "webs", "chats", "leets"])
 
 class WindowSwitchingRule(MappingRule):
     pronunciation = "window switching"
@@ -16,7 +16,7 @@ class WindowSwitchingRule(MappingRule):
         "set page <window_alias>": R(Function(switch_application.set_page)),
         
         # Single switching command
-        "switch [to] <window_alias>": R(Function(switch_application.switch_to))
+        "[switch [to]] <window_alias>": R(Function(switch_application.switch_to))
     }
 
     extras = [
