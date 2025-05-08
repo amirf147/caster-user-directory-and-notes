@@ -5,7 +5,7 @@ from caster_user_content.util import switch_application
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(["colt", "turk", "webs", "chats", "leets"])
+window_aliases.set(["colt", "turk", "webs", "chats", "leets", "yuech"])
 
 def list_aliases():
     """Print all current aliases"""
@@ -21,10 +21,6 @@ class WindowSwitchingRule(MappingRule):
         # Setting commands
         "set window <window_alias>": R(Function(switch_application.set_window)),
         "set page <window_alias>": R(Function(switch_application.set_page)),
-        
-        # Switching command
-        "[switch [to]] <window_alias>": 
-            R(Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
         
         # Utility command
         "list aliases": R(Function(list_aliases)),
