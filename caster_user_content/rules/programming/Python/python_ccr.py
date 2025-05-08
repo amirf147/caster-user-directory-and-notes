@@ -85,9 +85,9 @@ class CustomPythonCCR(MergeRule):
         "shell iffae | LFA":
             R(Key("e,l,i,f,space,colon,left")),
         "convert to character":
-            R(Store() + Text("chr()") + Key("left") + Retrieve(action_if_text="right")),
+            R(Text("chr()") + Key("left")),
         "length of":
-            R(Store() + Text("len()") + Key("left") + Retrieve(action_if_text="right")),
+            R(Text("len()") + Key("left")),
         "global":
             R(Text("global ")),
         "make assertion":
