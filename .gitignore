@@ -10,7 +10,7 @@ log.txt
 
 # Ignore internal files
 environment_variables.py
-private.py
+window_aliases.json
 
 # Ignore Python compiled bytecode files
 *.pyc

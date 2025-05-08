@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, Function, List, ListRef
+from dragonfly import MappingRule, Function, List, ListRef, Mouse
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 from caster_user_content.util import switch_application
@@ -6,6 +6,13 @@ from caster_user_content.util import switch_application
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
 window_aliases.set(["colt", "turk", "webs", "chats", "leets"])
+
+def list_aliases():
+    """Print all current aliases"""
+    print("\nCurrent Aliases:")
+    for alias, info in switch_application.aliases.items():
+        alias_type = "Tab" if info.is_tab else "Window"
+        print(f"{alias}: {alias_type} - {info.title}")
 
 class WindowSwitchingRule(MappingRule):
     pronunciation = "window switching"
@@ -15,8 +22,12 @@ class WindowSwitchingRule(MappingRule):
         "set window <window_alias>": R(Function(switch_application.set_window)),
         "set page <window_alias>": R(Function(switch_application.set_page)),
         
-        # Single switching command
-        "[switch [to]] <window_alias>": R(Function(switch_application.switch_to))
+        # Switching command
+        "[switch [to]] <window_alias>": 
+            R(Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
+        
+        # Utility command
+        "list aliases": R(Function(list_aliases)),
     }
 
     extras = [

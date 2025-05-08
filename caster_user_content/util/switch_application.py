@@ -1,7 +1,10 @@
 import pyautogui
 import time
+import json
+import os
 from typing import Dict, NamedTuple
 from castervoice.lib.actions import Key
+from pathlib import Path
 
 
 def title(window_title):
@@ -11,16 +14,49 @@ def title(window_title):
 CTRL_TAB_APPS = ['Waterfox', 'Firefox', 'Windows Terminal']
 CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code']
 
-# TODO: Create list of applications that or not tabbed and handle accordingly
-
 class WindowInfo(NamedTuple):
     handle: int
     title: str
     is_tab: bool = False
     window_type: str = None
 
-# Single dictionary for all aliases
+# Get path to store aliases
+CASTER_USER_DIR = Path(os.path.expanduser("~/AppData/Local/caster/caster_user_content/"))
+ALIASES_FILE = CASTER_USER_DIR / "window_aliases.json"
+
+# Ensure directory exists
+CASTER_USER_DIR.mkdir(exist_ok=True)
+
+# Dictionary for aliases
 aliases: Dict[str, WindowInfo] = {}
+
+def load_aliases() -> None:
+    """Load aliases from file"""
+    global aliases
+    try:
+        if ALIASES_FILE.exists():
+            with open(ALIASES_FILE, 'r') as f:
+                data = json.load(f)
+                # Convert stored dict back to WindowInfo objects
+                aliases = {
+                    k: WindowInfo(**v) for k, v in data.items()
+                }
+            print(f"Loaded {len(aliases)} aliases")
+    except Exception as e:
+        print(f"Error loading aliases: {e}")
+        aliases = {}
+
+def save_aliases() -> None:
+    """Save aliases to file"""
+    try:
+        # Convert WindowInfo objects to dict for JSON storage
+        data = {
+            k: v._asdict() for k, v in aliases.items()
+        }
+        with open(ALIASES_FILE, 'w') as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        print(f"Error saving aliases: {e}")
 
 def get_window_type(title: str) -> str:
     """Determine which type of tab switching to use"""
@@ -44,6 +80,7 @@ def set_window(window_alias: str) -> None:
         window_type=get_window_type(window.title)
     )
     print(f"Set window alias '{window_alias}' for: {window.title}")
+    save_aliases()
 
 def set_page(window_alias: str) -> None:
     """Set alias for current tab"""
@@ -63,6 +100,7 @@ def set_page(window_alias: str) -> None:
         window_type=window_type
     )
     print(f"Set tab alias '{window_alias}' for: {window.title}")
+    save_aliases()
 
 def find_tab(target_title: str, window_type: str) -> bool:
     """Find specific tab using Caster Key actions"""
@@ -75,11 +113,10 @@ def find_tab(target_title: str, window_type: str) -> bool:
         if target_title == current_title:
             return True
         
-        # Use Caster Key action for tab switching
         if window_type == 'ctrl_tab':
             Key("c-tab").execute()
         elif window_type == 'ctrl_pgdn':
-            Key("c-pgdown/60").execute()
+            Key("c-pgdown").execute()
             
         time.sleep(0.1)
         tries += 1
@@ -109,6 +146,10 @@ def switch_to(window_alias: str) -> None:
         
         print(f"Window for alias '{window_alias}' not found")
         aliases.pop(window_alias)
+        save_aliases()  # Save after removing invalid alias
         
     except Exception as e:
         print(f"Error switching: {e}")
+
+# Load aliases when module is imported
+load_aliases()
