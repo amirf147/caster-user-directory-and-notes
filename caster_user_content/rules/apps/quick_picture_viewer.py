@@ -1,0 +1,22 @@
+from dragonfly import MappingRule, ShortIntegerRef
+
+from castervoice.lib.actions import Key
+from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
+from castervoice.lib.merge.state.short import R
+
+
+class QuickPictureViewerRule(MappingRule):
+
+    mapping = {
+        "zoom in [<n2>]": R(Key("c-equals:%(n2)d")),
+        "zoom out [<n2>]": R(Key("c-minus:%(n2)d")),
+    }
+    extras = [
+        ShortIntegerRef("n2", 1, 10),
+    ]
+    defaults = {"n2": 1}
+
+
+def get_rule():
+    return QuickPictureViewerRule, RuleDetails(name="Quick Picture Viewer",
+                                               executable="quick-picture-viewer")
