@@ -12,7 +12,7 @@ from caster_user_content.util import switch_application
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(["colt", "turk", "webs", "chats", "leets", "yuech"])
+window_aliases.set(["colt", "turk", "webs", "chats", "leets", "yuech", "docks"])
 
 class WindowSwitchingCCRRule(MergeRule):
     pronunciation = "window switching c c r"

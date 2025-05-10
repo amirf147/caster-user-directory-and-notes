@@ -8,15 +8,11 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
-PYTHON_8 = ev.EXECUTABLES["pi eight"]
 from caster_user_content.rules.apps.cli import cli_support
 
 class CommandLineRule(MappingRule):
     mapping = {
         "go <path>": R(Text("cd %(path)s") + Key("enter")),
-
-        "show settings": R(Key("c-comma")),
-        "close tab": R(Key("cs-w")),
 
         "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
         "dir home": R(Text("cd; ls;") + Key("enter")),
@@ -32,9 +28,6 @@ class CommandLineRule(MappingRule):
 
         # Redmine
         "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production") + Key("enter")),
-
-        "pi eight <python_command>": R(Text(PYTHON_8) + Text("%(python_command)s")), 
-        
     }
     extras = [
         Choice("path", ev.PATHS),
