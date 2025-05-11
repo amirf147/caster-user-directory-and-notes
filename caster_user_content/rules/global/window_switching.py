@@ -1,11 +1,14 @@
 from dragonfly import MappingRule, Function, List, ListRef, Mouse
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
+
 from caster_user_content.util import switch_application
+from caster_user_content import environment_variables as ev
+
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(["colt", "turk", "webs", "chats", "leets", "yuech", "docks"])
+window_aliases.set(ev.WINDOW_ALIASES)
 
 def list_aliases():
     """Print all current aliases"""
