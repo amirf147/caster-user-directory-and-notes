@@ -66,6 +66,7 @@ class PowershellRule(MappingRule):
         # Environment Variables
         "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
         "envo": R(Text("$env:", pause=0.0)),
+        "show path": R(Text("$env:Path -split ';' | ForEach-Object { $i=0 } { \"[$i] $_\"; $i++ }", pause=0.0)),
 
         # Aliases
         "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
