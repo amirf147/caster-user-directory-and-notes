@@ -41,8 +41,14 @@ class CalcRule(MappingRule):
         "insert date": R(Key("cs-d")), # Custom key binding: Insert Current Date
         "continue date": R(Key("c-d, cs-d")),
 
+        # View
+        "freeze first row": R(Key("a-v, c, r")),
+        "freeze first column": R(Key("a-v, c, f")),
+        "unfreeze": R(Key("a-v, e")),
+
         # Tools
         "customize dialog": R(Key("a-t, c")),
+        "macro editor": R(Key("a-t, m:2, e")),
         
         # Hyperlinking
         "hyperlink": R(Key("c-k")),
