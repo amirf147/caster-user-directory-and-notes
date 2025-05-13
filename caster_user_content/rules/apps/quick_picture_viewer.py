@@ -8,6 +8,9 @@ from castervoice.lib.merge.state.short import R
 class QuickPictureViewerRule(MappingRule):
 
     mapping = {
+        "file open": R(Key("c-o")),
+        "file retain": R(Key("c-s")),
+        "file custom retain": R(Key("cs-s")),
         "zoom in [<n2>]": R(Key("c-equals:%(n2)d")),
         "zoom out [<n2>]": R(Key("c-minus:%(n2)d")),
     }
