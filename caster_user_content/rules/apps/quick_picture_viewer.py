@@ -19,6 +19,7 @@ class QuickPictureViewerRule(MappingRule):
         "slideshow": R(Key("s-f5")),
 
         "show info": R(Key("c-i")),
+        "show settings": R(Key("c-comma")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
