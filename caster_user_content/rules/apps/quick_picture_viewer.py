@@ -20,6 +20,8 @@ class QuickPictureViewerRule(MappingRule):
 
         "show info": R(Key("c-i")),
         "show settings": R(Key("c-comma")),
+        "background color": R(Key("f3")),
+        "show plugins": R(Key("f2")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
