@@ -376,6 +376,8 @@ class CustomVSCodeRule(MappingRule):
 
         # Composite Command for positioning caster output
         "snap terminal right": R(Key("c-k, a-t/100, ws-right/100, w-right")),
+
+        "restart to update": R(Key("c-k, ca-w")), # update.restartToUpdate
     }
     extras = [
         Dictation("text"),
