@@ -1,3 +1,5 @@
+# window_switching_ccr.py
+
 from dragonfly import Function, Mouse, List, ListRef
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
