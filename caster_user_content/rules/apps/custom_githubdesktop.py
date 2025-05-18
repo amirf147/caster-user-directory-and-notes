@@ -12,7 +12,7 @@ class CustomGitHubDeskRule(MappingRule):
         "new repository": R(Key("c-n")),
         "add local repository": R(Key("c-o")),
         "clone repository": R(Key("cs-o")),
-        "options": R(Key("c-comma")),
+        "options | (show (settings | options))": R(Key("c-comma")),
 
         "changes": R(Key("c-1")),
         "history": R(Key("c-2")),
