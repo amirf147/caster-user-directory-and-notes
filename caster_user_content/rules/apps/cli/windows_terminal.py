@@ -15,6 +15,7 @@ class WindowsTerminalRule(MappingRule):
         "show settings": R(Key("c-comma")),
         "close tab": R(Key("cs-w")),
         "new power": R(Key("cs-1")),
+        "new (command | c m d | command prompt)": R(Key("cs-2")),
     }
     extras = [
     ]
