@@ -126,9 +126,9 @@ copy and paste it: ") + Key("c-v")),
 
         # Date Insertion
         "insert date":
-            R(Text(datetime.now().strftime("%m-%d-%Y"))),
+            R(Text(datetime.now().strftime("%d-%m-%Y"))),
         "insert future date":
-            R(Text((datetime.now() + timedelta(days=21)).strftime("%m-%d-%Y"))),
+            R(Text((datetime.now() + timedelta(days=21)).strftime("%d-%m-%Y"))),
 
         # Application Switching
         "switch to [caster] user": R(Function(switch_application.title, window_title="caster - Windsurf")),

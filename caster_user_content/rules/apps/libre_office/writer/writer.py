@@ -52,6 +52,9 @@ class WriterRule(MappingRule):
         "line numbers dialog": R(Key("a-t, l")),
         "show settings": R(Key("a-t, o")),
 
+        # Table
+        "insert table": R(Key("c-f12")),
+
         # Font
         # Requires user define key binding: "Font Color" (second one)
         "font color": R(Key("cs-c, space, tab:2")),
