@@ -16,7 +16,9 @@ class WindowsTerminalRule(MappingRule):
         "close tab": R(Key("cs-w")),
         "new power": R(Key("cs-1")),
         "new (command | c m d | command prompt)": R(Key("cs-2")),
-        "new git bash": R(Key("cs-3")),
+        "new git bash": R(Key("cs-6")),
+        "commander": R(Key("cs-p")),
+
     }
     extras = [
     ]
