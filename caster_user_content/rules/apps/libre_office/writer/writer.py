@@ -20,6 +20,7 @@ class WriterRule(MappingRule):
         # Format
         "insert bullet": # Requires user define key binding: "Bullets and Numbering"
             R(Key("s-f7")),
+        "remove bullet": R(Key("s-f7, tab, s-r, enter")), # Requires user define key binding: "Bullets and Numbering"
         "bullets": # unordered list via drop-down menu because unreliable via keyboard shortcut
             R(Key("a-o, t, left, t, u")),
         "cycle case": R(Key("s-f3")),
