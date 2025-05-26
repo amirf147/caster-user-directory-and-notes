@@ -38,8 +38,9 @@ class PowershellRule(MappingRule):
         "search process": R(Text("Get-Process | Where-Object { $_.Name -like \"\" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize", pause=0.0) + Key("left:70")),
 
         # File/Folder Operations
-        "tree": R(Text("tree", pause=0.0) + Key("enter")),
-        "tree eff": R(Text("tree /f", pause=0.0) + Key("enter")),
+        "tree": R(Text("tree", pause=0.0)),
+        "tree eff": R(Text("tree /f", pause=0.0)),
+        "tree eff to clipboard": R(Text("tree /f | Set-Clipboard", pause=0.0)),
         "copy address": # Copy current directory path to clipboard
             R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
         "copy path":
