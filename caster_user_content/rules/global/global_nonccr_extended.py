@@ -15,6 +15,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "show [me] calendar":
             R(Key("w-b, up/3, enter")),
+        "show sounds": # Opens the Windows Sounds utility via run dialog
+            R(Key("w-r/50") + Text("mmsys.cpl") + Key("enter")),
 
         # Hunt and Peck activation
         "show hints":
