@@ -119,8 +119,9 @@ class FirefoxExtendedRule(MappingRule):
         "pop out page":
             R(Key("a-d/5, s-enter")),
 
-        "[show] downloads":
+        "show downloads":
             R(Key("c-j")),
+        "show history": R(Key("cs-h")),
         "address bar":
             R(Key("a-d")),
         "extensions bar": # Focuses on extensions located to the right of the address bar
