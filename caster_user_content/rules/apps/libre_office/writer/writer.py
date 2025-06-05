@@ -26,6 +26,10 @@ class WriterRule(MappingRule):
         "restart numbering": R(Key("a-o, t, left, t, r")),
         "cycle case": R(Key("s-f3")),
         "page style dialog": R(Key("as-p")),
+        "lay align": R(Key("c-l")),
+        "center align": R(Key("c-e")),
+        "ray align": R(Key("c-r")),
+        "justify align": R(Key("c-j")),
 
         # Insert
         "show bookmarks": R(Key("a-i, k")),
