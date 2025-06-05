@@ -235,6 +235,8 @@ class FirefoxExtendedRule(MappingRule):
         "tool under": R(Key("c-]")),
         "tool over": R(Key("c-[")),
 
+        "show process": R(Key("s-escape")),
+
         # GitHub searching
         "git search <query>":
             R(Function(_search_github)),
