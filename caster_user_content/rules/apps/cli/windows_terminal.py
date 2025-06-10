@@ -13,7 +13,7 @@ from caster_user_content.rules.apps.cli import cli_support
 class WindowsTerminalRule(MappingRule):
     mapping = {
         "show settings": R(Key("c-comma")),
-        "close tab": R(Key("cs-w")),
+        "close shell": R(Key("cs-w")),
         "shell over [<n>]": R(Key("c-tab:%(n)d")),
         "shell under [<n>]": R(Key("cs-tab:%(n)d")),
         "new power": R(Key("cs-1")),
