@@ -14,6 +14,8 @@ class WindowsTerminalRule(MappingRule):
     mapping = {
         "show settings": R(Key("c-comma")),
         "close tab": R(Key("cs-w")),
+        "shell over [<n>]": R(Key("c-tab:%(n)d")),
+        "shell under [<n>]": R(Key("cs-tab:%(n)d")),
         "new power": R(Key("cs-1")),
         "new (command | c m d | command prompt)": R(Key("cs-2")),
         "new git bash": R(Key("cs-6")),
@@ -21,8 +23,10 @@ class WindowsTerminalRule(MappingRule):
 
     }
     extras = [
+        ShortIntegerRef("n", 1, 11),
     ]
     defaults = {
+        "n": 1,
     }
 def get_rule():
     return WindowsTerminalRule, RuleDetails(name="Windows Terminal", executable="WindowsTerminal")

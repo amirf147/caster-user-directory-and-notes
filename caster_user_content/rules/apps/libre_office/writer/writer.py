@@ -14,6 +14,7 @@ class WriterRule(MappingRule):
         "file export pdf": R(Key("a-f, e, d")),
         
         # Styles
+        "show styles": R(Key("a-y, y")),
         "apply title": R(Key("a-y, t")),
         "apply subtitle": R(Key("a-y, b")),
 
