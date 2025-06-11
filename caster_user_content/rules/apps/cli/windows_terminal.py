@@ -20,7 +20,7 @@ class WindowsTerminalRule(MappingRule):
         "new (command | c m d | command prompt)": R(Key("cs-2")),
         "new git bash": R(Key("cs-6")),
         "commander": R(Key("cs-p")),
-
+        "mark mode": R(Key("cs-m")),
     }
     extras = [
         ShortIntegerRef("n", 1, 11),
