@@ -20,6 +20,7 @@ class WindowsTerminalRule(MappingRule):
 
         "close shell": R(Key("cs-w")),
         "reopen shell": R(Key("cs-t")),
+        "pop out shell": R(Key("csa-t")), # Move pane into new window
         "shell over [<n>]": R(Key("c-tab:%(n)d")),
         "shell under [<n>]": R(Key("cs-tab:%(n)d")),
         "new power": R(Key("cs-1")),
