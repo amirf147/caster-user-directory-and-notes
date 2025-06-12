@@ -50,7 +50,8 @@ class CustomNPPRule(MappingRule):
         "curse it [<n2>]": R(Key("ca-np3:%(n2)d")),
 
         # Commenting
-        "comment": R(Key("c-q")), # Toggle Comment
+        "toggle comment": R(Key("c-q")), # Toggle single line comment
+        "comment": R(Key("c-k")), # Single Line Comment
 
         "zoom in <n2>": R(Key("c-npadd:%(n2)d")),
         "zoom out <n2>": R(Key("c-npsub:%(n2)d")),
