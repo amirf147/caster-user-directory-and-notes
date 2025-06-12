@@ -13,13 +13,19 @@ from caster_user_content.rules.apps.cli import cli_support
 class WindowsTerminalRule(MappingRule):
     mapping = {
         "show settings": R(Key("c-comma")),
+        "commander": R(Key("cs-p")),
+
+        "zoom in [<n>]": R(Key("c-equal:%(n)d")),
+        "zoom out [<n>]": R(Key("c-minus:%(n)d")),
+
         "close shell": R(Key("cs-w")),
+        "reopen shell": R(Key("cs-t")),
         "shell over [<n>]": R(Key("c-tab:%(n)d")),
         "shell under [<n>]": R(Key("cs-tab:%(n)d")),
         "new power": R(Key("cs-1")),
         "new (command | c m d | command prompt)": R(Key("cs-2")),
         "new git bash": R(Key("cs-6")),
-        "commander": R(Key("cs-p")),
+        
         "mark mode": R(Key("cs-m")),
     }
     extras = [
