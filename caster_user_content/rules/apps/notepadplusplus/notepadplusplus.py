@@ -52,6 +52,7 @@ class CustomNPPRule(MappingRule):
         # Commenting
         "toggle comment": R(Key("c-q")), # Toggle single line comment
         "comment": R(Key("c-k")), # Single Line Comment
+        "uncomment": R(Key("cs-k")), # Single Line Uncomment
 
         "zoom in <n2>": R(Key("c-npadd:%(n2)d")),
         "zoom out <n2>": R(Key("c-npsub:%(n2)d")),
