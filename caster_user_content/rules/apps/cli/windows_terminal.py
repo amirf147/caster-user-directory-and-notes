@@ -13,6 +13,7 @@ from caster_user_content.rules.apps.cli import cli_support
 class WindowsTerminalRule(MappingRule):
     mapping = {
         "show settings": R(Key("c-comma")),
+        "show settings jason": R(Key("cs-comma")),
         "commander": R(Key("cs-p")),
 
         "zoom in [<n>]": R(Key("c-equal:%(n)d")),
