@@ -61,6 +61,11 @@ class GlobalNonCCRExtendedRule(MappingRule):
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("down:2") + Pause("30") + Key("down") +
             Pause("30") + Key("enter/30, enter")),
+        "show power options": # Showing power and sleep options from windows button menu
+            R(Key("win") +
+            Pause("80") + Key("tab") + Pause("30") + Key("down") +
+            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
+            Pause("30") + Key("down:2") + Pause("30") + Key("down, enter")),
 
         # Placing mouse cursor in one of 4 quadrants on the screen
         "zone one":
