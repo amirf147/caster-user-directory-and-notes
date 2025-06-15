@@ -19,6 +19,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("mmsys.cpl") + Key("enter")),
         "show mixer": # Opens the Windows Sound Mixer via run dialog
             R(Key("w-r/50") + Text("sndvol.exe") + Key("enter")),
+        "show network connections": # Opens the Windows Network Connections utility via run dialog
+            R(Key("w-r/50") + Text("ncpa.cpl") + Key("enter")),
 
         # Hunt and Peck activation
         "show hints":
