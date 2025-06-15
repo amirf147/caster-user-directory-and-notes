@@ -23,6 +23,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("ncpa.cpl") + Key("enter")),
         "show m s info": # Opens the Microsoft Information utility via run dialog
             R(Key("w-r/50") + Text("msinfo32.exe") + Key("enter")),
+        "show device manager": # Opens the Device Manager utility via run dialog
+            R(Key("w-r/50") + Text("devmgmt.msc") + Key("enter")),
 
         # Hunt and Peck activation
         "show hints":
