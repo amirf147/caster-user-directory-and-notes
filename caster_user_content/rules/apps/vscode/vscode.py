@@ -163,7 +163,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-w")),
         "close folder":
             R(Key("c-k, f")),
-        "split editor":
+        "split right":
             R(Key("c-backslash")),
         "next pane":
             R(Key("c-k, c-right")),
