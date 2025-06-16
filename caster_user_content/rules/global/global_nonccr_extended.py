@@ -25,7 +25,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("msinfo32.exe") + Key("enter")),
         "show device manager": # Opens the Device Manager utility via run dialog
             R(Key("w-r/50") + Text("devmgmt.msc") + Key("enter")),
-
+        "show m s config": # Opens the Microsoft Configuration utility via run dialog
+            R(Key("w-r/50") + Text("msconfig") + Key("enter")),
+        
         # Hunt and Peck activation
         "show hints":
             R(Key("a-semicolon")),
