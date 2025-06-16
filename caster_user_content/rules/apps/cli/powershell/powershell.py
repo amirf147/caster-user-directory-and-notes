@@ -110,6 +110,7 @@ class PowershellRule(MappingRule):
         "show history": R(Text("Invoke-History") + Key("enter")),
         "hister clip <n501>": R( # Places command (via id) from history to clipboard
             Text("(Get-History -Id %(n501)s).CommandLine | Set-Clipboard") + Key("enter")),
+        "copy last command": R(Text("(Get-History -Count 1).CommandLine | Set-Clipboard", pause=0.0) + Key("enter")),
         
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),

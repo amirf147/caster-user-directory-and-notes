@@ -17,6 +17,8 @@ class WindsurfRule(MappingRule):
         "hide right": R(Key("c-l:2")),
         "new chat": R(Key("cs-l")),
         "switch mode": R(Key("c-.")),
+        "chat here": # Opens a new chat with the last focused file
+            R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
 
         # Cascade Chat Context
         "file <text>": R(Text("@file:%(text)s", pause=0.0)),
