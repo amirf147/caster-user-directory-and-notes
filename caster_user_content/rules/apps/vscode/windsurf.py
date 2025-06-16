@@ -19,6 +19,12 @@ class WindsurfRule(MappingRule):
         "switch mode": R(Key("c-.")),
         "chat here": # Opens a new chat with the last focused file
             R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
+        "stop gen": R(Key("ca-c")),
+        "change over": R(Key("a-k")),
+        "change under": R(Key("a-j")),
+        "accept change": R(Key("a-enter")),
+        "reject change": R(Key("sa-backspace")),
+        "accept all": R(Key("c-backspace")),
 
         # Cascade Chat Context
         "file <text>": R(Text("@file:%(text)s", pause=0.0)),

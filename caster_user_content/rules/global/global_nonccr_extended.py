@@ -13,6 +13,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
 
+        # Text insertion command - works in any text field
+        "texter <text>": R(Text("%(text)s")),
+
         "show [me] calendar":
             R(Key("w-b, up/3, enter")),
         "show sounds": # Opens the Windows Sounds utility via run dialog
@@ -162,6 +165,7 @@ copy and paste it: ") + Key("c-v")),
     }
 
     extras = [
+        Choice("text", ev.INSERTABLE_TEXT),
         Dictation("prompt"),
         IntegerRef("n", 1, 10),
         IntegerRef("n0", 0, 10),
