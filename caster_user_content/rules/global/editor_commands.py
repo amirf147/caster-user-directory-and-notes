@@ -9,17 +9,15 @@ from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
 from caster_user_content import environment_variables as ev
-from caster_user_content.util import switch_application
+
 
 class EditorCommandsRule(MappingRule):
     pronunciation = "editor commands"
     mapping = {
-
-        # TODO: Update the file path data structure to include the full path to the file
-        "edit <file_name>": R(Key("w-r/50") + Text(f"windsurf {ev.CASTER_USER_DIRECTORY}\\caster_user_content\\%(file_name)s")),
+        "edit <file_path>": R(Key("w-r/50") + Text(f"windsurf %(file_path)s")),
     }
     extras = [
-        Choice("file_name", ev.CASTER_FILE_NAMES),
+        Choice("file_path", ev.CASTER_FILE_PATHS),
     ]
     defaults = {}
 
