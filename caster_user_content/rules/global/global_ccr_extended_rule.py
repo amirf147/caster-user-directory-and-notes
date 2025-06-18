@@ -35,7 +35,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "zick five": R(Mouse("[772, 756], left"), rdescript="Click sextant 5"),
 
         # ALL key combinations
-        "alley": R(Key("c-a")),
+        "all cell": R(Key("c-a")),
         "alloy": R(Key("c-a, c-c")),
         "al dee": R(Key("c-a, delete")),
 
