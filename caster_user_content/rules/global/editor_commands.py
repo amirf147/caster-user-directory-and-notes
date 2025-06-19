@@ -14,7 +14,7 @@ from caster_user_content import environment_variables as ev
 class EditorCommandsRule(MappingRule):
     pronunciation = "editor commands"
     mapping = {
-        "edit <file_path>": R(Key("w-r/50") + Text(f"windsurf %(file_path)s")),
+        "edit <file_path>": R(Key("w-r/50") + Text(f"windsurf %(file_path)s") + Pause("50") + Key("enter")),
     }
     extras = [
         Choice("file_path", ev.CASTER_FILE_PATHS),
