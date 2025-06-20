@@ -11,6 +11,7 @@ log.txt
 # Ignore internal files
 environment_variables.py
 window_aliases.json
+.var_positions.json
 
 # Ignore Python compiled bytecode files
 *.pyc
