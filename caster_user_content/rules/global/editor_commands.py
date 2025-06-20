@@ -17,11 +17,11 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
     env_var = env_var.upper()
     line_number = str(variable_tracker.var_tracker.get_line_number(env_var))
     if line_number:
-        Key("c-e/50").execute()
-        Text("environment_variables.py").execute()
-        Pause("50").execute()
-        Key("enter/50").execute()
-
+        Key("w-r/50").execute()
+        Text(f"windsurf {ev.ENVIRONMENT_FILE}").execute()
+        Pause("30").execute()
+        Key("enter").execute()
+        Pause("150").execute()
         print(f"Jumping to line {line_number} for variable {env_var}")
         Key("cas-g/50").execute()
         Text(line_number).execute()
