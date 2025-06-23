@@ -1,4 +1,4 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef, Mimic
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Mouse
 
