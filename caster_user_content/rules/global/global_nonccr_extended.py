@@ -30,6 +30,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("devmgmt.msc") + Key("enter")),
         "show m s config": # Opens the Microsoft Configuration utility via run dialog
             R(Key("w-r/50") + Text("msconfig") + Key("enter")),
+
+        "begin dictation": # Activate windows dictation mode and sleeps caster windows
+            R(Key("w-h") + Mimic("caster sleep")),
         
         # Hunt and Peck activation
         "show hints":
