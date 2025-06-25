@@ -48,7 +48,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "eco": R(Text(" = ", pause=0.0)),
         "plooz": R(Text(" + ", pause=0.0)),
         "meece": R(Text(" - ", pause=0.0)),
-        "peach": R(Text(" | ", pause=0.0)),
+        "peep": R(Text(" | ", pause=0.0)),
 
         # File Extensions
         "dot t x t": R(Text(".txt", pause=0.0)),
