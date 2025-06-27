@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Dictation, Mouse, Choice
+from dragonfly import ShortIntegerRef, Pause, Dictation, Mouse
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
@@ -6,7 +6,6 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
 
-from caster_user_content import environment_variables as ev
 
 class GlobalCCRExtendedRule(MergeRule):
     pronunciation = "global ccr extended"
