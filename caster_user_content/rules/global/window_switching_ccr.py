@@ -19,8 +19,13 @@ class WindowSwitchingCCRRule(MergeRule):
 
     mapping = {
         # Switching command
-        "[switch [to]] <window_alias>": 
-            R(Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
+        "[switch [to]] <window_alias>":
+            # The alt key is pressed as a workaround for overcoming windows foreground-lock.
+            # Windows will only honour SetForegroundWindow API call from switch_application.switch_to
+            # when it believes the request came from a process that most recently generated genuine user input.
+            # By pressing the alt key we ensure that the caster process is the one that generated the most
+            # genuine recent user input.
+            R(Key("alt") + Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
     }
     extras = [
         ListRef("window_alias", window_aliases),
