@@ -23,7 +23,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
         # Clicking on left and right of screen for coding
-        "click": R(Mouse("[500, 262], left")),
+        # "click": R(Mouse("[500, 262], left")), # Commented due to continuous triggering
         "clack": R(Mouse("[1500, 262], left")),
         
         # Clicking on screen sextants
