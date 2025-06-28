@@ -32,9 +32,9 @@ class FileExplorerRule(MappingRule):
         "search [<text>]":
             R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
-            R(Key("a-d, tab:2")),
+            R(Key("a-d, tab:1")),
         "(center pane | (file | folder) (pane | list))":
-            R(Key("a-d, tab:3")),
+            R(Key("a-d, tab:2")),
         "organize": R(Key("c-l, tab:2")),
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
@@ -79,13 +79,13 @@ class FileExplorerRule(MappingRule):
         "view set content": R(Key("a-v, tab:6, enter, home, tab:7, enter")),
 
         # Share Ribbon
-        "zippo": R(Key("a-s, c")), # Create a compressed (zipped) folder that contains the selected items
+        "zippo": R(Key("a-s, c")), # Cureate a compressed (zipped) folder that contains the selected items
         
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
 
         # Extract - Compressed Folder Tools Ribbon
-        "extract all": R(Key("alt, j, z, a")),
+        "extract all": R(Key("alt, right:8, enter")),
 
     }
     extras = [
