@@ -1,3 +1,4 @@
+# TODO: replace ribbon navigation commands with windows 11 compatible macros
 from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key
@@ -51,7 +52,7 @@ class FileExplorerRule(MappingRule):
         "copy file name": R(Key("f2/3, c-c/3, escape")),
 
         # Home Ribbon
-        "copy path": R(Key("a-h, c, p")),
+        "copy path": R(Key("cs-c")),
         "new shortcut": R(Key("a-h, w, s")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
