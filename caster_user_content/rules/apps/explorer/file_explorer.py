@@ -79,7 +79,7 @@ class FileExplorerRule(MappingRule):
         "view set content": R(Key("a-v, tab:6, enter, home, tab:7, enter")),
 
         # Share Ribbon
-        "zippo": R(Key("a-s, c")), # Cureate a compressed (zipped) folder that contains the selected items
+        "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items
         
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("a-j, t, o")),
