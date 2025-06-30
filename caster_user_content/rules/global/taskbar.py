@@ -7,9 +7,9 @@ class TaskbarRule(MappingRule):
     mapping = {
         # Switching applications via the taskbar
         "drip ten":
-            R(Key("w-0/30") + Mouse("(0.5, 0.5)")),
-        "drip [<n9>]":
-            R(Key("w-%(n9)d/30") + Mouse("(0.5, 0.5)")),
+            R(Key("w-t/3, down:9, enter/30") + Mouse("(0.5, 0.5)")),
+        "drip [<off1_1_20>]":
+            R(Key("w-t/3, down:%(off1_1_20)s, enter/30") + Mouse("(0.5, 0.5)")),
         "drip [<off1_10_20>]":
             R(Key("w-t/3, down:%(off1_10_20)s, enter/30") + Mouse("(0.5, 0.5)")),
         "drip minus [<off1_1_20>]":
