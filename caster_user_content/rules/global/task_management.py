@@ -1,10 +1,10 @@
-from dragonfly import MappingRule, Function, Clipboard
+from dragonfly import MappingRule, Function, Clipboard, Pause, Key
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
 # Attempt to import the helper that actually talks to the Trello REST API.
 # Keep this import at module level so the rule fails early if the dependency
-# is not available, rat | her than during recognition time.
+# is not available, rather than during recognition time.
 try:
     import trello_tools  # expects a module with an `add_card` helper
 except ImportError as err:
@@ -18,7 +18,7 @@ else:
 def _safe_add_card():
     """Wrapper that reads the clipboard and delegates to ``trello_tools.add_card``.
 
-    board_name and list_name are fixed for now.  The clipboard text becomes the
+    board_name and list_name are fixed for now. The clipboard text becomes the
     card name; description is left blank.
     """
     if trello_tools is None:
@@ -43,7 +43,7 @@ def _safe_add_card():
 class TaskManagementRule(MappingRule):
     mapping = {
         # Spoken: "add to to do list"
-        "add to to do list": R(Function(_safe_add_card)),
+        "add sure list": R(Key("c-c/30") + Function(_safe_add_card)),
     }
 
 
