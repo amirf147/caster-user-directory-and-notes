@@ -9,6 +9,7 @@ class WriterRule(MappingRule):
     mapping = {
         "file new": R(Key("c-n")),
         "file open": R(Key("c-o")),
+        "file print": R(Key("c-p")),
         "file custom retain": R(Key("cs-s")),
         "open recent": R(Key("a-f, u")),
         "file export pdf": R(Key("a-f, e, d")),

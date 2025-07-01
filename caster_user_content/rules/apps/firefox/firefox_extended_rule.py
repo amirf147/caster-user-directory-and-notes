@@ -74,11 +74,11 @@ class FirefoxExtendedRule(MappingRule):
         "(new window|win new)":
             R(Key("c-n")),
         "new tab [<n>]|tab new [<n>]":
-            R(Key("c-t") * Repeat(extra="n")),
+            R(Key("c-t/30") * Repeat(extra="n")),
         "reopen tab [<n>]|tab reopen [<n>]":
-            R(Key("cs-t")) * Repeat(extra="n"),
+            R(Key("cs-t/30")) * Repeat(extra="n"),
         "close tab [<n>]|tab close [<n>]":
-            R(Key("c-w")) * Repeat(extra='n'),
+            R(Key("c-w/30")) * Repeat(extra='n'),
         "win close|close all tabs":
             R(Key("cs-w")),
 

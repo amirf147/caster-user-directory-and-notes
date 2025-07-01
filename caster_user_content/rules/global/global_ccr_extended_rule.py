@@ -22,9 +22,9 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
-        # Clicking on left and right of screen for coding
-        # "click": R(Mouse("[500, 262], left")), # Commented due to continuous triggering
-        "clack": R(Mouse("[1500, 262], left")),
+        # Clicking on left and right of screen for faster split-windowed switching
+        "cheek": R(Mouse("[500, 262], left")),
+        "chook": R(Mouse("[1500, 262], left")),
         
         # Clicking on screen sextants
         "zick one": R(Mouse("[192, 199], left"), rdescript="Click sextant 1"),
