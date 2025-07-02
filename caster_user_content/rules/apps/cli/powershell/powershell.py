@@ -118,6 +118,10 @@ class PowershellRule(MappingRule):
         "pi ten repple": R(Text(PYTHON_10) + Key("enter")),
         "pi twelve repple": R(Text(PYTHON_12) + Key("enter")),
 
+        # pyreverse
+        "pi reverse": R(Text("pyreverse -o png -p") + Key("space")),
+        "[pi] reverse detailed": R(Text("pyreverse -o png -p  -ASmy") + Key("left:6")),
+
         # Variables
         "var <text>": R(Text("$%(text)s = \"\"", pause=0.0) + Key("left")),
         "var string <text>": R(Text("$%(text)s = @\"", pause=0.0) + Key("enter")),
@@ -157,4 +161,4 @@ class PowershellRule(MappingRule):
     }
 
 def get_rule():
-    return PowershellRule, RuleDetails(name="Powershell", executable="powershell")
+    return PowershellRule, RuleDetails(name="Powershell", executable="WindowsTerminal", title="Windows PowerShell")

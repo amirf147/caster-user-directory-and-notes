@@ -16,7 +16,7 @@ class TrelloRule(MappingRule):
         "card under [<n>]": R(Key(">/20")) * Repeat(extra='n'),
         "move over [<n>]": R(Key("comma/20")) * Repeat(extra='n'),
         "move under [<n>]": R(Key("./20")) * Repeat(extra='n'),
-        "label <color>": R(Key("l/30, %(color)s, tab, enter, escape")),
+        "label <color>": R(Key("l/40, %(color)s, tab, enter, escape")),
     }
 
     extras = [

@@ -28,6 +28,7 @@ class PowershellCCRRule(MergeRule):
     ]
 
 def get_rule():
-    details = RuleDetails(executable="powershell",
+    details = RuleDetails(executable="WindowsTerminal",
+                          title="Windows PowerShell",
                           ccrtype=CCRType.APP)
     return PowershellCCRRule, details
