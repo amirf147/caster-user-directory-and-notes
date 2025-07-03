@@ -119,8 +119,9 @@ class PowershellRule(MappingRule):
         "pi twelve repple": R(Text(PYTHON_12) + Key("enter")),
 
         # pyreverse
-        "pi reverse": R(Text("pyreverse -o png -p") + Key("space")),
-        "[pi] reverse detailed": R(Text("pyreverse -o png -p  -ASmy") + Key("left:6")),
+        "pi rev": R(Text("pyreverse -o png -p") + Key("space")),
+        "pi rev detailed": R(Text("pyreverse -o png -p  -ASmy") + Key("left:6")),
+        
 
         # Variables
         "var <text>": R(Text("$%(text)s = \"\"", pause=0.0) + Key("left")),

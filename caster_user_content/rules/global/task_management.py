@@ -34,7 +34,7 @@ def _safe_add_card():
 
     trello_tools.add_card(
         board_name="Summer 2025",
-        list_name="To Do",
+        list_name="To Sort",
         card_name=card_name,
         card_desc="",  # description intentionally left blank for now
     )
