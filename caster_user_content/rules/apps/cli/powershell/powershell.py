@@ -59,6 +59,11 @@ class PowershellRule(MappingRule):
             R(Text("Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard", pause=0.0)
             + Pause("20") + Key("enter"),
             rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
+        
+        # Policies/Permissions
+        "[show] policy": R(Text("Get-ExecutionPolicy -List", pause=0.0)),
+        "policy set": R(Text("Set-ExecutionPolicy ", pause=0.0)),
+        "policy set remote current": R(Text("Set-ExecutionPolicy RemoteSigned -Scope CurrentUser", pause=0.0)),
 
         "dirrup": R(Text("Push-Location ../", pause=0.0) + Key("enter")),
         "dirrup two": R(Text("Push-Location ../../", pause=0.0) + Key("enter")),
@@ -143,6 +148,9 @@ class PowershellRule(MappingRule):
         "to clipboard": R(Text(" | Set-Clipboard", pause=0.0)),
         "dot split": R(Text(".Split(\"\")", pause=0.0) + Key("left:2")),
         "split space": R(Text(".Split(\" \")", pause=0.0)),
+
+        # Trello https://github.com/mheap/trello-cli
+        "trell [<trello_command>]": R(Text("trello %(trello_command)s")),
     }
     extras = [
         Choice("path", ev.PATHS),
@@ -150,6 +158,7 @@ class PowershellRule(MappingRule):
         Choice("docker_command", cli_support.DOCKER_COMMANDS),
         Choice("list_command", cli_support.LIST_COMMANDS),
         Choice("python_command", cli_support.PYTHON_COMMANDS),
+        Choice("trello_command", cli_support.TRELLO_COMMANDS),
         Choice("pip_command", cli_support.PIP_COMMANDS),
         Dictation("text"),
         ShortIntegerRef("n", 1, 11),

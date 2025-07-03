@@ -1,3 +1,17 @@
+TRELLO_COMMANDS = {
+    "help": "--help ",
+    "auth": "auth",
+    "board": "board",
+    "card": "card",
+    "list": "list",
+    "member": "member",
+    "search": "search",
+    "team": "team",
+    "token": "token",
+    "user": "user",
+    "sync": "sync",
+}
+
 OLLAMA_COMMANDS = {
     "list": "ollama list",
     "serve": "ollama serve",
