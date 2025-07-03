@@ -35,7 +35,7 @@ class WindsurfRule(MappingRule):
         "generate commit prompt": R(
             Key("cs-backtick") + # Create new terminal instance
             Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
-            Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/150, c-v/3")),
+            Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v/3")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
