@@ -85,7 +85,7 @@ class FileExplorerRule(MappingRule):
         "open location": R(Key("a-j, t, o")),
 
         # Extract - Compressed Folder Tools Ribbon
-        "extract all": R(Key("alt, right:8, enter")),
+        "extract all": R(Key("s-f10/30, t")),
 
     }
     extras = [
