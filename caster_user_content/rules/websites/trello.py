@@ -6,17 +6,29 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 class TrelloRule(MappingRule):
 
     mapping = {
+        "swipe [<n>]": # Scrolling right
+            R(Key("c-right:6/15")) * Repeat(extra='n'),
+        "lipe [<n>]": # Scrolling left
+            R(Key("c-left:6/15")) * Repeat(extra='n'),
+
         "sidebar": R(Key("[")),
         "board menu": R(Key("]")),
         "card new": R(Key("n")),
         "card archive": R(Key("c")),
         "due date": R(Key("d")),
         "checklist": R(Key("minus")),
-        "card over [<n>]": R(Key("</20")) * Repeat(extra='n'),
-        "card under [<n>]": R(Key(">/20")) * Repeat(extra='n'),
-        "move over [<n>]": R(Key("comma/20")) * Repeat(extra='n'),
-        "move under [<n>]": R(Key("./20")) * Repeat(extra='n'),
-        "label <color>": R(Key("l/40, %(color)s, tab, enter, escape")),
+
+        "card over [<n>]": # Move card to the bottom of the left list
+            R(Key("</20")) * Repeat(extra='n'),
+        "card under [<n>]": # Move card to the bottom of the right list
+            R(Key(">/20")) * Repeat(extra='n'),
+        "move over [<n>]": # Move card to the top of the left list
+            R(Key("comma/20")) * Repeat(extra='n'),
+        "move under [<n>]": # Move card to the top of the right list
+            R(Key("./20")) * Repeat(extra='n'),
+
+        "label <color>":
+            R(Key("l/40, %(color)s, tab, enter, escape")),
     }
 
     extras = [
