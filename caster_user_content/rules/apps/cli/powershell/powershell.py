@@ -167,6 +167,7 @@ class PowershellRule(MappingRule):
     defaults = {
         "list_command": cli_support.LIST_COMMANDS["names"],
         "n": 1,
+        "trello_command": "",
     }
 
 def get_rule():
