@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, Function, Clipboard, Pause, Key
+from dragonfly import MappingRule, Function, Clipboard, Key, Choice
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
@@ -15,7 +15,7 @@ else:
     _trello_tools_import_error = None
 
 
-def _safe_add_card():
+def _safe_add_card(list_name):
     """Wrapper that reads the clipboard and delegates to ``trello_tools.add_card``.
 
     board_name and list_name are fixed for now. The clipboard text becomes the
@@ -34,7 +34,7 @@ def _safe_add_card():
 
     trello_tools.add_card(
         board_name="Summer 2025",
-        list_name="To Sort",
+        list_name=list_name,
         card_name=card_name,
         card_desc="",  # description intentionally left blank for now
     )
@@ -42,9 +42,17 @@ def _safe_add_card():
 
 class TaskManagementRule(MappingRule):
     mapping = {
-        # Spoken: "add to to do list"
-        "add sure list": R(Key("c-c/30") + Function(_safe_add_card)),
+        "add sure <list_name>": R(Key("c-c/30") + Function(_safe_add_card, list_name="%(list_name)s")),
     }
+    extras = [
+        Choice("list_name", {
+            "to sort": "To Sort",
+            "to do": "To Do",
+            "caster": "Caster",
+            "for later": "For Later",
+            "projects | ideas": "Projects/Ideas",
+        }),
+    ]
 
 
 def get_rule():

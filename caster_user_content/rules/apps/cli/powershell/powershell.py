@@ -35,6 +35,9 @@ class PowershellRule(MappingRule):
         # Process
         "search process": R(Text("Get-Process | Where-Object { $_.Name -like \"\" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize", pause=0.0) + Key("left:70")),
 
+        # Installing software
+        "install current user": R(Text("Install-Module  -Scope CurrentUser") + Pause("20") + Key("left:19")),
+
         # File/Folder Operations
         "tree": R(Text("tree", pause=0.0)),
         "tree eff": R(Text("tree /f", pause=0.0)),
