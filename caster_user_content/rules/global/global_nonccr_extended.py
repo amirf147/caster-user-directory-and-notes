@@ -156,10 +156,6 @@ copy and paste it: ") + Key("c-v")),
         "insert future date":
             R(Text((datetime.now() + timedelta(days=21)).strftime("%d-%m-%Y"))),
 
-        # Application Switching
-        "switch to [caster] user": R(Function(switch_application.title, window_title="caster - Windsurf")),
-        "switch to power": R(Function(switch_application.title, window_title="Windows PowerShell")),
-
         "bring oh <program>": R(Key("win/30") + Text("%(program)s", pause=0.0) + Pause("30") + Key("enter")),
         "start screen copy": R(
             # After pressing alt-tab they pause needs to be separate otherwise it keeps the key combination pressed down
