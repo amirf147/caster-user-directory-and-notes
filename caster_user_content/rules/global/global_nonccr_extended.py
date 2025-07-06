@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 from caster_user_content import environment_variables as ev
 from caster_user_content.util import switch_application
 
+import os
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
@@ -161,6 +163,8 @@ copy and paste it: ") + Key("c-v")),
             # After pressing alt-tab they pause needs to be separate otherwise it keeps the key combination pressed down
             Key("w-r/30") + Text(f"\"{ev.PATHS['screen copy']}/scrcpy\"", pause=0.0) +
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
+        
+        "kil enable via cam": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\kill cam.lnk", pause=0.0) + Key("enter")),
     }
 
     extras = [

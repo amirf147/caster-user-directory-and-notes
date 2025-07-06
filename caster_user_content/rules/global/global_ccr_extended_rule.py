@@ -11,6 +11,9 @@ class GlobalCCRExtendedRule(MergeRule):
     pronunciation = "global ccr extended"
 
     mapping = {
+
+        "pose": R(Key("f11")), # EnableViaCam
+
         "name flash": R(Key("f2")),
         "scratch [<n101>]": R(Key("c-backspace:%(n101)d")),
         "dear [<n101>]": R(Key("c-del:%(n101)d")),
