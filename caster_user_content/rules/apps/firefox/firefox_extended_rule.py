@@ -117,7 +117,7 @@ class FirefoxExtendedRule(MappingRule):
         "duplicate page":
             R(Key("a-d/5, a-enter")),
         "pop out page":
-            R(Key("a-d/5, s-enter")),
+            R(Key("a-d/30, c-c, c-w, c-n/50, c-v, enter")),
 
         "show downloads":
             R(Key("c-j")),

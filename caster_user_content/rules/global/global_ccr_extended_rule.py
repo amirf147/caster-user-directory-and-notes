@@ -40,6 +40,7 @@ class GlobalCCRExtendedRule(MergeRule):
         "all cell": R(Key("c-a")),
         "alloy": R(Key("c-a, c-c")),
         "al dee": R(Key("c-a, delete")),
+        "al snip": R(Key("c-a, c-x")),
 
         # "shtep <n>": R(Text("Step %(n)s: ")),
         # "ie": R(Text("i.e. ")),
