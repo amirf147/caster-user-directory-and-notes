@@ -12,7 +12,7 @@ class TaskbarRule(MappingRule):
             R(Key("w-t/3, down:%(off1_1_20)s, enter/30") + Mouse("(0.5, 0.5)")),
         "drip [<off1_10_20>]":
             R(Key("w-t/3, down:%(off1_10_20)s, enter/30") + Mouse("(0.5, 0.5)")),
-        "drip minus [<off1_1_20>]":
+        "drip ness [<off1_1_20>]":
             R(Key("w-t/3, end, up:%(off1_1_20)s, enter/30") + Mouse("(0.5, 0.5)")),
         
         # Opening/focusing system tray icons
