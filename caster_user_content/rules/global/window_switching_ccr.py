@@ -25,7 +25,7 @@ class WindowSwitchingCCRRule(MergeRule):
             # when it believes the request came from a process that most recently generated genuine user input.
             # By pressing the alt key we ensure that the caster process is the one that generated the most
             # genuine recent user input.
-            R(Key("alt") + Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
+            R(Key("shift") + Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
     }
     extras = [
         ListRef("window_alias", window_aliases),

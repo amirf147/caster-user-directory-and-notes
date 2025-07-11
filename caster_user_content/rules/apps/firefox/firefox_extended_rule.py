@@ -98,9 +98,9 @@ class FirefoxExtendedRule(MappingRule):
 
         "page <n>":
             R(Key("c-%(n)d")),
-        "page (last | minus | minus one)":
+        "page (last | ness)":
             R(Key("c-9")),
-        "page minus <n_off_by_one>":
+        "page ness <n_off_by_one>":
             R(Key("c-9, c-pgup:%(n_off_by_one)s")),
         "page <nn>":
             R(Key("c-8/3, c-pgdown:%(nn)s")),
