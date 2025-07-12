@@ -56,7 +56,7 @@ class FileExplorerRule(MappingRule):
         "new shortcut": R(Key("a-h, w, s")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
-        "details pane": R(Key("a-v, d")),
+        "show details": R(Key("alt/30, right:10, enter, tab:2")),
         "invert selection": R(Key("a-h, s, i")),
         "deselect": R(Key("a-h, s, n")),
         "edit file": R(Key("a-h, e")),
