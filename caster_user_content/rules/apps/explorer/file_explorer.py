@@ -82,7 +82,7 @@ class FileExplorerRule(MappingRule):
         "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items
         
         # Manage - Shortcut Tools Ribbon
-        "open location": R(Key("a-j, t, o")),
+        "open location": R(Key("s-f10/30, i")),
 
         # Extract - Compressed Folder Tools Ribbon
         "extract all": R(Key("s-f10/30, t")),
