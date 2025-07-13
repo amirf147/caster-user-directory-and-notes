@@ -53,7 +53,7 @@ class FileExplorerRule(MappingRule):
 
         # Home Ribbon
         "copy path": R(Key("cs-c")),
-        "new shortcut": R(Key("a-h, w, s")),
+        "new shortcut": R(Key("alt/20, enter/30, down, enter")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
         "show details": R(Key("alt/30, right:10, enter, tab:2")),
