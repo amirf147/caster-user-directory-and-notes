@@ -72,6 +72,9 @@ class WriterRule(MappingRule):
         "text increase <n>": R(Key("c-]:%(n)d")), # Increases font size
         "text decrease <n>": R(Key("c-[:%(n)d")), # Decreases font size
 
+        # Proofreading
+        "proof ignore": R(Key("s-f10, i")),
+        "proof ignore all": R(Key("s-f10, g")),
 
         # File
         "template manager": R(Key("a-f, m:2")),
