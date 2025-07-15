@@ -69,14 +69,14 @@ class FileExplorerRule(MappingRule):
             R(Key("a-v/3, p")), # view ribbon interaction might require a pause after pressing a-v
         "sort by recent": R(Key("a-v, o, down, enter")),
         "sort by size": R(Key("a-v, o, down:3, enter")),
-        "view set extra large": R(Key("a-v, tab:6, enter, home, enter")),
-        "view set large": R(Key("a-v, tab:6, enter, home, tab:1, enter")),
-        "view set medium": R(Key("a-v, tab:6, enter, home, tab:2, enter")),
-        "view set small": R(Key("a-v, tab:6, enter, home, tab:3, enter")),
-        "view set list": R(Key("a-v, tab:6, enter, home, tab:4, enter")),
-        "view set details": R(Key("a-v, tab:6, enter, home, tab:5, enter")),
-        "view set tiles": R(Key("a-v, tab:6, enter, home, tab:6, enter")),
-        "view set content": R(Key("a-v, tab:6, enter, home, tab:7, enter")),
+        "view set extra large": R(Key("escape, alt/30, right:10, left:2, enter/20, enter, tab:2")),
+        "view set large": R(Key("escape, alt/30, right:10, left:2, enter/20, down:1, enter, tab:2")),
+        "view set medium": R(Key("escape, alt/30, right:10, left:2, enter/20, down:2, enter, tab:2")),
+        "view set small": R(Key("escape, alt/30, right:10, left:2, enter/20, down:3, enter, tab:2")),
+        "view set list": R(Key("escape, alt/30, right:10, left:2, enter/20, down:4, enter, tab:2")),
+        "view set details": R(Key("escape, alt/30, right:10, left:2, enter/20, down:5, enter, tab:2")),
+        "view set tiles": R(Key("escape, alt/30, right:10, left:2, enter/20, down:6, enter, tab:2")),
+        "view set content": R(Key("escape, alt/30, right:10, left:2, enter/20, down:7, enter, tab:2")),
 
         # Share Ribbon
         "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items
