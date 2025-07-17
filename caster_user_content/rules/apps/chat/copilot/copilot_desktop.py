@@ -9,7 +9,7 @@ from castervoice.lib.merge.state.short import R
 class CopilotDesktopRule(MappingRule):
     pronunciation = "copilot desktop"
     mapping = {
-        "max q": R(Key("tab:4, enter/100, tab:3")),
+        "expo": R(Key("a-q")),
         "previous chats": R(Key("tab:4, enter/100, tab:9")),
         "show settings": R(Key("tab:5, enter")),
         "close q": R(Key("a-f4")),
