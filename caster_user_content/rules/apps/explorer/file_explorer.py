@@ -54,6 +54,8 @@ class FileExplorerRule(MappingRule):
         # Home Ribbon
         "copy path": R(Key("cs-c")),
         "new shortcut": R(Key("alt/20, enter/30, down, enter")),
+        "create shortcut": # Create shortcut via context menu
+            R(Key("s-f10/20, w/20, s:2, enter")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
         "show details": R(Key("alt/30, right:10, enter, tab:2")),
@@ -86,6 +88,8 @@ class FileExplorerRule(MappingRule):
 
         # Extract - Compressed Folder Tools Ribbon
         "extract all": R(Key("s-f10/30, t")),
+
+        "open in wind": R(Key("s-f10/30, i")),
 
     }
     extras = [
