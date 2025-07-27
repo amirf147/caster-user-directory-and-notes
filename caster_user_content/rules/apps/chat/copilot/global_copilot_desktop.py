@@ -11,7 +11,7 @@ class GlobalCopilotDesktopRule(MappingRule):
     pronunciation = "global copilot desktop"
     mapping = {
         # Copilot from Microsoft
-        "(show | hide) q": R(Key("a-space")),
+        "(show | hide) q | cuse": R(Key("a-space")),
         "new q": R(Key("a-space/180")),
         "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, s-tab:3, enter")),

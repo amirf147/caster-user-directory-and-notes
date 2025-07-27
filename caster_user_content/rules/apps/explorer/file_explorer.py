@@ -39,6 +39,9 @@ class FileExplorerRule(MappingRule):
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
         "file type": R(Key("c-l, tab:7")),
+        "expand folder": R(Key("cs-e")),
+        "file preview": R(Key("a-p")),
+        "folder preview": R(Key("as-p")),
 
         # Navigating via address bar
         "go <path>":
@@ -67,8 +70,6 @@ class FileExplorerRule(MappingRule):
         # View Ribbon
         "show files | hide left":
             R(Key("a-v, n, space")),
-        "preview pane":         # I noticed that when the preview pane is open the
-            R(Key("a-v/3, p")), # view ribbon interaction might require a pause after pressing a-v
         "sort by recent": R(Key("a-v, o, down, enter")),
         "sort by size": R(Key("a-v, o, down:3, enter")),
         "view set extra large": R(Key("escape, alt/30, right:10, left:2, enter/20, enter, tab:2")),
