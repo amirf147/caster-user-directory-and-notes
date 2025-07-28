@@ -90,7 +90,7 @@ class FileExplorerRule(MappingRule):
         # Extract - Compressed Folder Tools Ribbon
         "extract all": R(Key("s-f10/30, t")),
 
-        "open in wind": R(Key("s-f10/30, i")),
+        "open in wind": R(Key("s-f10/50, i")),
 
     }
     extras = [
