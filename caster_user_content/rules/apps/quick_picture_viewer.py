@@ -30,6 +30,11 @@ class QuickPictureViewerRule(MappingRule):
         "flip horizontal": R(Key("c-h")),
         "flip vertical": R(Key("cs-h")),
         "crop image": R(Key("cs-x")),
+
+        # Open file with external app, the first two are not working
+        # "open with default": R(Key("c-e")),
+        # "open with paint": R(Key("cs-o")),
+        "open with choose": R(Key("cs-e")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
