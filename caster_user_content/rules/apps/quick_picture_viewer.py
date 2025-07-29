@@ -22,6 +22,14 @@ class QuickPictureViewerRule(MappingRule):
         "show settings": R(Key("c-comma")),
         "background color": R(Key("f3")),
         "show plugins": R(Key("f2")),
+
+        # Edit image
+        "rotate right": R(Key("c-g")),
+        "rotate left": R(Key("cs-g")),
+        "rotate one eighty": R(Key("c-j")),
+        "flip horizontal": R(Key("c-h")),
+        "flip vertical": R(Key("cs-h")),
+        "crop image": R(Key("cs-x")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
