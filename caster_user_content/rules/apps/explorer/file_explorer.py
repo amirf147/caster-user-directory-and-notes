@@ -67,19 +67,19 @@ class FileExplorerRule(MappingRule):
         "edit file": R(Key("a-h, e")),
         "open with": R(Key("a-h, p, e")),
 
-        # View Ribbon
+        # View
         "show files | hide left":
             R(Key("a-v, n, space")),
         "sort by recent": R(Key("a-v, o, down, enter")),
         "sort by size": R(Key("a-v, o, down:3, enter")),
-        "view set extra large": R(Key("escape, alt/30, right:10, left:2, enter/20, enter, tab:2")),
-        "view set large": R(Key("escape, alt/30, right:10, left:2, enter/20, down:1, enter, tab:2")),
-        "view set medium": R(Key("escape, alt/30, right:10, left:2, enter/20, down:2, enter, tab:2")),
-        "view set small": R(Key("escape, alt/30, right:10, left:2, enter/20, down:3, enter, tab:2")),
-        "view set list": R(Key("escape, alt/30, right:10, left:2, enter/20, down:4, enter, tab:2")),
-        "view set details": R(Key("escape, alt/30, right:10, left:2, enter/20, down:5, enter, tab:2")),
-        "view set tiles": R(Key("escape, alt/30, right:10, left:2, enter/20, down:6, enter, tab:2")),
-        "view set content": R(Key("escape, alt/30, right:10, left:2, enter/20, down:7, enter, tab:2")),
+        "view set extra large": R(Key("cs-1")),
+        "view set large": R(Key("cs-2")),
+        "view set medium": R(Key("cs-3")),
+        "view set small": R(Key("cs-4")),
+        "view set list": R(Key("cs-5")),
+        "view set details": R(Key("cs-6")),
+        "view set tiles": R(Key("cs-7")),
+        "view set content": R(Key("cs-8")),
 
         # Share Ribbon
         "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items

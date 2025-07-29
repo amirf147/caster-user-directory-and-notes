@@ -13,6 +13,7 @@ class GlobalCopilotDesktopRule(MappingRule):
         # Copilot from Microsoft
         "(show | hide) q | cuse": R(Key("a-space")),
         "new q": R(Key("a-space/180")),
+        "q max": R(Key("a-q")),
         "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, s-tab:3, enter")),
         "q clipboard": R(Key("a-space/180") + Key("c-v")),
