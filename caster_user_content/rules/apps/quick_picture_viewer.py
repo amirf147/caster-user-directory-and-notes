@@ -15,6 +15,7 @@ class QuickPictureViewerRule(MappingRule):
         "zoom in [<n2>]": R(Key("c-equals:%(n2)d")),
         "zoom out [<n2>]": R(Key("c-minus:%(n2)d")),
         "zoom auto": R(Key("cs-a")),
+        "zoom size": R(Key("c-0")),
 
         "slideshow": R(Key("s-f5")),
 
