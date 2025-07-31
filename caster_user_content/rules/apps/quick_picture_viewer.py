@@ -36,6 +36,12 @@ class QuickPictureViewerRule(MappingRule):
         # "open with default": R(Key("c-e")),
         # "open with paint": R(Key("cs-o")),
         "open with choose": R(Key("cs-e")),
+
+        # Effects
+        "effect blur": R(Key("cs-b")),
+        "effect grayscale": R(Key("a-g")),
+        "effect invert": R(Key("cs-i")),
+        "effect rainbow": R(Key("a-r")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
