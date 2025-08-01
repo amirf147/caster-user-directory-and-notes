@@ -18,11 +18,10 @@ class QuickPictureViewerRule(MappingRule):
         "zoom size": R(Key("c-0")),
 
         "slideshow": R(Key("s-f5")),
+        "checkerboard background": R(Key("c-b")),
+        "picture in picture": R(Key("cs-p")),
 
         "show info": R(Key("c-i")),
-        "show settings": R(Key("c-comma")),
-        "background color": R(Key("f3")),
-        "show plugins": R(Key("f2")),
 
         # Edit image
         "rotate right": R(Key("c-g")),
@@ -42,6 +41,18 @@ class QuickPictureViewerRule(MappingRule):
         "effect grayscale": R(Key("a-g")),
         "effect invert": R(Key("cs-i")),
         "effect rainbow": R(Key("a-r")),
+
+        # More options
+        "delete sure permanent": R(Key("s-delete")),
+        "file print": R(Key("c-p")),
+        "background color": R(Key("f3")),
+        "remove background color": R(Key("s-f3")),
+        "always on top": R(Key("c-t")),
+        "flameless mode": R(Key("f10")),
+        "new window": R(Key("c-n")),
+        "show plugins": R(Key("f2")),
+        "show settings": R(Key("c-comma")),
+        "show app info": R(Key("f1")),
     }
     extras = [
         ShortIntegerRef("n2", 1, 10),
@@ -52,3 +63,4 @@ class QuickPictureViewerRule(MappingRule):
 def get_rule():
     return QuickPictureViewerRule, RuleDetails(name="Quick Picture Viewer",
                                                executable="quick-picture-viewer")
+
