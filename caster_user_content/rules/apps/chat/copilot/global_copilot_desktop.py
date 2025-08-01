@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, Pause, Function, Dictation
+from dragonfly import MappingRule, Pause, Function, Dictation, Mimic
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -20,6 +20,10 @@ class GlobalCopilotDesktopRule(MappingRule):
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
+
+        "switch mode": R(Key("a-c")),
+        "conversation mode": R(Key("a-t/80") + Mimic("caster sleep")),
+        "vision mode": R(Key("a-s")),
     }
     extras = [
         Dictation("prompt")
