@@ -13,17 +13,12 @@ class GlobalCopilotDesktopRule(MappingRule):
         # Copilot from Microsoft
         "(show | hide) q | cuse": R(Key("a-space")),
         "new q": R(Key("a-space/180")),
-        "q max": R(Key("a-q")),
         "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
-        "new q max": R(Key("a-space/180, s-tab:3, enter")),
+        "new q max": R(Key("a-space/180, a-q")),
         "q clipboard": R(Key("a-space/180") + Key("c-v")),
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
-
-        "switch mode": R(Key("a-c")),
-        "conversation mode": R(Key("a-t/80") + Mimic("caster sleep")),
-        "vision mode": R(Key("a-s")),
     }
     extras = [
         Dictation("prompt")
