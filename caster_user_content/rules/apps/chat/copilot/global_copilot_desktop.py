@@ -19,6 +19,10 @@ class GlobalCopilotDesktopRule(MappingRule):
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
+
+        # TODO: Figure out how to check the state of copilot to see if it is in the foreground, expanded, etc.
+        # Consider using inspect.exe or uiautomation
+        
     }
     extras = [
         Dictation("prompt")
