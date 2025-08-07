@@ -1,10 +1,7 @@
-from dragonfly import MappingRule, Pause, Function, Dictation, Mimic
+from dragonfly import MappingRule, Pause, Function, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
-from castervoice.lib import utilities, navigation
-from castervoice.rules.core.navigation_rules import navigation_support
-
 from caster_user_content.util import switch_application
 
 class GlobalCopilotDesktopRule(MappingRule):
