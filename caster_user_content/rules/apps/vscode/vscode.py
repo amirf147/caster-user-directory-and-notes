@@ -354,6 +354,11 @@ class CustomVSCodeRule(MappingRule):
         "stage and view": R(Key("c-g, c-s/100, c-g, cs-s")), # First stages changes and then views stage
         "git sure commit": R(Key("c-g, c-c")), # git.commit
         "git sync": R(Key("c-g, a-s")), # git.sync
+        "git checkout": R(Key("c-g, a-g")), # git.checkout
+        "git stash": R(Key("c-g, as-s")), # git.stash
+        "git stash pop": R(Key("c-g, as-p")), # git.stashPop
+        "git stash view": R(Key("c-g, as-v")), # git.stashView
+
         "hide left": R(Key("c-b")),
 
         # Searching

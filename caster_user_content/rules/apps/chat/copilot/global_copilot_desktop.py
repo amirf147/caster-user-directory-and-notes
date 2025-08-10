@@ -2,6 +2,7 @@ from dragonfly import MappingRule, Pause, Function, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
+from castervoice.lib import utilities
 from caster_user_content.util import switch_application
 
 class GlobalCopilotDesktopRule(MappingRule):
@@ -16,6 +17,8 @@ class GlobalCopilotDesktopRule(MappingRule):
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
+        "min q": R(Key("shift") + # Overcome windows foreground lock
+            Function(switch_application.title, window_title="Copilot") + Pause("30") + Function(utilities.minimize_window)),
 
         # TODO: Figure out how to check the state of copilot to see if it is in the foreground, expanded, etc.
         # Consider using inspect.exe or uiautomation
