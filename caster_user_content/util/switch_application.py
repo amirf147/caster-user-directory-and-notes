@@ -1,10 +1,13 @@
 import pyautogui
+import win32gui
+import win32con
 import time
 import json
 import os
 from typing import Dict, NamedTuple
 from castervoice.lib.actions import Key
 from pathlib import Path
+from caster_user_content import environment_variables as ev
 
 
 def title(window_title):
@@ -150,6 +153,56 @@ def switch_to(window_alias: str) -> None:
         
     except Exception as e:
         print(f"Error switching: {e}")
+
+def _get_taskbar_windows_in_order():
+    """Get a list of window handles in taskbar order."""
+    windows = []
+
+    def enum_windows_proc(hwnd, lParam):
+        if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != "":
+            style = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+            if not (style & win32con.WS_EX_TOOLWINDOW):
+                windows.append(hwnd)
+        return True
+
+    win32gui.EnumWindows(enum_windows_proc, None)
+    return windows
+
+def switch_to_app_instance(window_alias: str, n: int = None) -> None:
+    """Switch to a specific instance of an application by alias."""
+    if n is None:
+        n = 1  # Default to the first instance
+
+    title_fragments = None
+    for alias_entry in ev.WINDOW_ALIASES:
+        if alias_entry[0] == window_alias:
+            title_fragments = alias_entry[1]
+            break
+    if not title_fragments:
+        print(f"No window titles defined for alias '{window_alias}'")
+        return
+
+    all_handles = _get_taskbar_windows_in_order()
+    matching_handles = []
+    for hwnd in all_handles:
+        window_title = win32gui.GetWindowText(hwnd)
+        if any(frag.lower() in window_title.lower() for frag in title_fragments):
+            matching_handles.append(hwnd)
+
+    if not matching_handles:
+        print(f"No open windows found for alias '{window_alias}'")
+        return
+
+    if 1 <= n <= len(matching_handles):
+        target_hwnd = matching_handles[n - 1]
+        try:
+            win32gui.SetForegroundWindow(target_hwnd)
+            title = win32gui.GetWindowText(target_hwnd)
+            print(f"Switched to instance {n} of '{window_alias}': {title}")
+        except Exception as e:
+            print(f"Failed to activate window: {e}")
+    else:
+        print(f"Instance {n} not found for '{window_alias}'. Found {len(matching_handles)} instances.")
 
 # Load aliases when module is imported
 load_aliases()
