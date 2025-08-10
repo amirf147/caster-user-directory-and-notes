@@ -273,7 +273,7 @@ class CustomVSCodeRule(MappingRule):
         "(unfold | uncollapse) [all] subregions":
             R(Key("c-k, c-rbracket")),
         "(fold | collapse) [all] regions":
-            R(Key("c-k, c-0")),
+            R(Key("c-k, cs-f")),
         "(unfold | uncollapse) [all] regions":
             R(Key("c-k, c-j")),
         "[toggle] word wrap":
