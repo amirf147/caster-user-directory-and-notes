@@ -8,7 +8,19 @@ from caster_user_content import environment_variables as ev
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(ev.WINDOW_ALIASES)
+# Merge aliases from environment, defaults, and saved runtime aliases
+_merged_aliases = set(getattr(ev, "WINDOW_ALIASES", []))
+_merged_aliases.update(switch_application.get_default_aliases().keys())
+_merged_aliases.update(switch_application.aliases.keys())
+window_aliases.set(list(_merged_aliases))
+
+def refresh_aliases():
+    """Rebuild the window_aliases Dragonfly list at runtime."""
+    merged = set(getattr(ev, "WINDOW_ALIASES", []))
+    merged.update(switch_application.get_default_aliases().keys())
+    merged.update(switch_application.aliases.keys())
+    window_aliases.set(list(merged))
+    print(f"Refreshed alias list with {len(merged)} entries.")
 
 def list_aliases():
     """Print all current aliases"""
@@ -27,6 +39,8 @@ class WindowSwitchingRule(MappingRule):
         
         # Utility command
         "list aliases": R(Function(list_aliases)),
+        "list instances <window_alias>": R(Function(switch_application.list_instances)),
+        "refresh aliases": R(Function(refresh_aliases)),
     }
 
     extras = [
