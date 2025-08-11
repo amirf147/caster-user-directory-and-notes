@@ -1,4 +1,4 @@
-from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key
 
