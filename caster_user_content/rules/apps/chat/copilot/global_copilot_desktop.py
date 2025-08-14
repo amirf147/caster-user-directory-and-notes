@@ -14,14 +14,19 @@ class GlobalCopilotDesktopRule(MappingRule):
         "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, a-q")),
         "q clipboard": R(Key("a-space/180") + Key("c-v")),
+        "chats": # TODO: Investigate the apparent blocking by windows to switch to the application
+                 # when it has been previously minimized from within the application. Perhaps start
+                 # by investigating a different way to switch to the application.
+            R(Key("shift") + Function(switch_application.title, window_title="Copilot")),
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
         "min q": R(Key("shift") + # Overcome windows foreground lock
-            Function(switch_application.title, window_title="Copilot") + Pause("30") + Function(utilities.minimize_window)),
+            Function(switch_application.title, window_title="Copilot") + Pause("30") +
+            Function(utilities.minimize_window)),
 
-        # TODO: Figure out how to check the state of copilot to see if it is in the foreground, expanded, etc.
-        # Consider using inspect.exe or uiautomation
+        # TODO: Figure out how to check the state of copilot to see if it is in the foreground,
+        # expanded, etc. Consider using inspect.exe or uiautomation
         
     }
     extras = [
