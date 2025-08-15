@@ -1,6 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Dictation
-
-from castervoice.lib.actions import Key, Text
+from castervoice.lib.actions import Key
 
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
