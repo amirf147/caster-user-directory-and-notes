@@ -11,6 +11,9 @@ from caster_user_content import environment_variables as ev
 
 class FileExplorerRule(MappingRule):
     mapping = {
+        "page over [<n>]": R(Key("c-tab:%(n)d")),
+        "page under [<n>]": R(Key("cs-tab:%(n)d")),
+
         "show properties": R(Key("a-enter")),
         "show settings": R(Key("a-v, y, o")),
         "address bar":
