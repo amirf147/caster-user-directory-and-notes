@@ -38,7 +38,7 @@ class ScreenCopyRule(MappingRule):
         "open <app>": R(
             Key("a-h") + Pause("50") +
             Mouse("(0.5, 0.85)/20, left:down/20, <0, -800>/20, left:up") + Pause("70") +
-            Text("%(app)s") + Pause("50") + Key("tab:2, enter")),
+            Key("s-tab:2, enter") + Pause("100") + Text("%(app)s") + Pause("30") + Key("enter:2")),
     }
     extras = [
         Choice("app", ev.APP_NAMES),
