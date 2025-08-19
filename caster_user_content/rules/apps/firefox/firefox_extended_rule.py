@@ -206,11 +206,11 @@ class FirefoxExtendedRule(MappingRule):
         
         # Translations    
         "translate that": # Translates the selection via the context menu
-            R(Key("s-f10/3, down:6, enter")),
+            R(Key("s-f10/30, n")),
         "translate page": # Presses the translate button in the address bar and enables page translation
-            R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:3, enter")),
+            R(Key("a-d/50, tab, right:4, left:2, enter/50, tab:3, enter")),
         "remove translation":
-            R(Key("a-d/5, tab, right:4, left:2, enter/50, tab:2, enter")),
+            R(Key("a-d/50, tab, right:4, left:2, enter/50, tab:2, enter")),
 
         # Job search automation
         "text to job postings": R(Store() + Function(_save_to_job_postings), 
