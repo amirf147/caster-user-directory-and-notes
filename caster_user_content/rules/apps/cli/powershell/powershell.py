@@ -89,7 +89,7 @@ class PowershellRule(MappingRule):
         "see exit": R(Text(".exit", pause=0.0) + Key("enter")),
 
         "wiper": R(Text("clear", pause=0.0) + Key("enter")),
-        "remove recursive": R(Text("Remove-Item -Recurse -Force -Path", pause=0.0) + Key("space")),
+        "remove sure recursive": R(Text("Remove-Item -Recurse -Force -Path", pause=0.0) + Key("space")),
 
         # Parrot.py
         "remove sure data": R(Text("Remove-Item -Recurse -Force -Path data\\recordings\\") + Key("tab:2")),
