@@ -37,6 +37,7 @@ class FileDialogRule(MappingRule):
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
         "file type": R(Key("c-l, tab:7")),
+        "show preview": R(Key("a-p")),
 
         # Navigating via address bar
         "go <path>":
