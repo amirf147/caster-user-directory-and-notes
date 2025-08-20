@@ -85,12 +85,12 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-k, p")),
         "[open] commander [<text>]":
             R(Key("cs-p/3") + Text("%(text)s"), rdescript="VS Code: Command Palette"),
-        "(open file | go to [tab]) [<text>]":
-            R(Key("c-p") + Text("%(text)s"), rdescript="VS Code: Go to File without using dialogbox"),
-        "open project [<text>]":
-            R(Key("c-r") + Pause("30") + Text("%(text)s")),
-        "open dialogue":
-            R(Key("c-o"), rdescript="VS Code: open file dialogbox"),
+        # "(open file | go to [tab]) [<text>]":
+        #     R(Key("c-p") + Text("%(text)s"), rdescript="VS Code: Go to File without using dialogbox"),
+        # "open project [<text>]":
+        #     R(Key("c-r") + Pause("30") + Text("%(text)s")),
+        # "open dialogue":
+        #     R(Key("c-o"), rdescript="VS Code: open file dialogbox"),
         "open folder":
             R(Key("c-k, c-o"), rdescript="VS Code: Open folder"),
         "Save and close":
