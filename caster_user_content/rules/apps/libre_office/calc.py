@@ -16,6 +16,7 @@ class CalcRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
         "open recent": R(Key("a-f, u")),
+        "file print": R(Key("c-p")),
         
         # Copied over and modified from builtin Excel rule
         # Credit: Alex Boche 2019

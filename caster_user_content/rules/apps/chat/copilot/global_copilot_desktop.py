@@ -17,11 +17,14 @@ class GlobalCopilotDesktopRule(MappingRule):
         "chats": # TODO: Investigate the apparent blocking by windows to switch to the application
                  # when it has been previously minimized from within the application. Perhaps start
                  # by investigating a different way to switch to the application.
-            R(Key("shift") + Function(switch_application.title, window_title="Copilot")),
+
+                 # Update: The switch application has been modified to use pwinauto for more reliable
+                 # window activation. The shift key is no longer necessary. Hopefully...
+            R(Function(switch_application.title, window_title="Copilot")),
         "close q": R(
             Function(switch_application.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
-        "min q": R(Key("shift") + # Overcome windows foreground lock
+        "min q": R(
             Function(switch_application.title, window_title="Copilot") + Pause("30") +
             Function(utilities.minimize_window)),
 
