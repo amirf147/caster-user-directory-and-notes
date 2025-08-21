@@ -154,6 +154,8 @@ class PowershellRule(MappingRule):
 
         # Trello https://github.com/mheap/trello-cli
         "trell [<trello_command>]": R(Text("trello %(trello_command)s")),
+
+        "code here": R(Text("windsurf .") + Key("enter")),
     }
     extras = [
         Choice("path", ev.PATHS),
