@@ -32,6 +32,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("devmgmt.msc") + Key("enter")),
         "show m s config": # Opens the Microsoft Configuration utility via run dialog
             R(Key("w-r/50") + Text("msconfig") + Key("enter")),
+        "show display settings": # Opens the Display Settings utility via run dialog
+            R(Key("w-r/50") + Text("ms-settings:display") + Key("enter")),
 
         "begin dictation": # Activate windows dictation mode and sleeps caster windows
             R(Key("w-h") + Mimic("caster sleep")),
@@ -70,19 +72,6 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "focus taskbar": R(Key("w-t")),
 
-        # Putting computer to sleep via start menu
-        "computer go to sleep":
-            R(Key("win") +
-            Pause("80") + Key("tab") + Pause("30") + Key("down") +
-            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
-            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
-            Pause("30") + Key("enter/30, enter")),
-        "show power options": # Showing power and sleep options from windows button menu
-            R(Key("win") +
-            Pause("80") + Key("tab") + Pause("30") + Key("down") +
-            Pause("30") + Key("down:2") + Pause("30") + Key("down") +
-            Pause("30") + Key("down:2") + Pause("30") + Key("down, enter")),
-
         # Placing mouse cursor in one of 4 quadrants on the screen
         "zone one":
             R(Mouse("[500, 262]")),
@@ -98,16 +87,22 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Mouse("[2351, 1525]")),
         "zone seven":
             R(Mouse("[2906, 1567]")),
+ 
+        # TODO: Make this work
+        # "pool": R(Function(navigation.wheel_scroll, direction="down", nnavi500=9)),
+        # "cool": R(Function(navigation.wheel_scroll, direction="up", nnavi500=9)),
 
         # Moving mouse cursor and then scrolling in one utterance
-        "zone one scree <direction> [<nnavi500>]":
-            R(Mouse("[500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "zone two scree <direction> [<nnavi500>]":
-            R(Mouse("[1500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "zone six scree <direction> [<nnavi500>]":
-            R(Mouse("[2351, 1525]") + Pause("30") + Function(navigation.wheel_scroll)),
-        "zone seven scree <direction> [<nnavi500>]":
-            R(Mouse("[2906, 1567]") + Pause("30") + Function(navigation.wheel_scroll)),
+        # "zone one scree <direction> [<nnavi500>]":
+        #     R(Mouse("[500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
+        # "zone two scree <direction> [<nnavi500>]":
+        #     R(Mouse("[1500, 262]") + Pause("30") + Function(navigation.wheel_scroll)),
+        # "zone six scree <direction> [<nnavi500>]":
+        #     R(Mouse("[2351, 1525]") + Pause("30") + Function(navigation.wheel_scroll)),
+        # "zone seven scree <direction> [<nnavi500>]":
+        #     R(Mouse("[2906, 1567]") + Pause("30") + Function(navigation.wheel_scroll)),
+
+        
 
         # Mirroring a window to all workspaces for my secondary monitor
         "mirror space window":
