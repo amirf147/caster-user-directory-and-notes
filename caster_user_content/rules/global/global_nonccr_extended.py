@@ -39,7 +39,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-h") + Mimic("caster sleep")),
         
         # Hunt and Peck activation
-        "show hints":
+        "[show] hints":
             R(Key("a-semicolon")),
 
         "open snipping tool":
