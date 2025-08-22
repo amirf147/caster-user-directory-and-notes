@@ -35,6 +35,7 @@ class WriterRule(MappingRule):
 
         # Insert
         "show bookmarks": R(Key("a-i, k")),
+        "image insert | insert image": R(Key("a-i, i")),
         
         # View
         "web view": R(Key("a-v, w")),
