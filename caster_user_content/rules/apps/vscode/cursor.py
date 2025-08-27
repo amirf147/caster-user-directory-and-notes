@@ -1,8 +1,7 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Dictation, MappingRule, ShortIntegerRef
 
-from castervoice.lib.actions import Key, Mouse
+from castervoice.lib.actions import Key
 
-from castervoice.lib import navigation
 from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
