@@ -142,11 +142,11 @@ copy and paste it: ") + Key("c-v")),
 
         # Double click actions
         "slacks [<n_off_by_one>]": # Cuts the word under the mouse cursor and n words after that
-            R(Mouse("left")*Repeat(2) + Key("cs-right:%(n_off_by_one)d/30") + Key("s-left, c-x")),
+            R(Mouse("left")*Repeat(2) + Key("cs-right:%(n_off_by_one)d/30") + Key("c-x")),
         "slubs [<n_off_by_one>]": # Selects the word under the mouse cursor and n words after that
-            R(Mouse("left")*Repeat(2) + Key("cs-right:%(n_off_by_one)d/30") + Key("s-left")),
+            R(Mouse("left")*Repeat(2) + Key("cs-right:%(n_off_by_one)d/30")),
         "garbs [<n_off_by_one>]": # Copies the word under the mouse cursor and n words after that
-            R(Mouse("left:2") + Key("cs-right:%(n_off_by_one)d/30") + Key("s-left, c-c")),
+            R(Mouse("left:2") + Key("cs-right:%(n_off_by_one)d/30") + Key("c-c")),
         # Date Insertion
         "insert date":
             R(Text(datetime.now().strftime("%d-%m-%Y"))),
@@ -202,6 +202,7 @@ copy and paste it: ") + Key("c-v")),
         "n": 1,
         "n0": 0,
         "nnavi500": 1,
+        "n_off_by_one": 0,
     }
 
 def get_rule():
