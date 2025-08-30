@@ -358,6 +358,7 @@ class CustomVSCodeRule(MappingRule):
         "git stash": R(Key("c-g, as-s")), # git.stash
         "git stash pop": R(Key("c-g, as-p")), # git.stashPop
         "git stash view": R(Key("c-g, as-v")), # git.stashView
+        "get discard changes": R(Key("c-g, c-d")), # git.clean
 
         "hide left": R(Key("c-b")),
 

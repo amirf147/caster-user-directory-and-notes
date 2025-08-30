@@ -20,10 +20,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "show [me] calendar":
             R(Key("w-b, up/3, enter")),
-        "show sounds": # Opens the Windows Sounds utility via run dialog
-            R(Key("w-r/50") + Text("mmsys.cpl") + Key("enter")),
-        "show mixer": # Opens the Windows Sound Mixer via run dialog
-            R(Key("w-r/50") + Text("sndvol.exe") + Key("enter")),
+        "show sounds":
+            R(RunCommand("rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl")),
         "show network connections": # Opens the Windows Network Connections utility via run dialog
             R(Key("w-r/50") + Text("ncpa.cpl") + Key("enter")),
         "show m s info": # Opens the Microsoft Information utility via run dialog
