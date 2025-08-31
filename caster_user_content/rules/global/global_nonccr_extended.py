@@ -12,19 +12,23 @@ from caster_user_content.util import switch_application
 import os
 
 
-def _show_taskbar_info():
+def _get_taskbar_info() -> list:
     from pywinauto import Desktop
-    for i, btn in enumerate(Desktop(backend="uia").window(class_name="Shell_TrayWnd")\
-        .children(control_type="ToolBar")[0].children(control_type="Button")):
+    return [btn for i, btn in enumerate(Desktop(backend="uia").window(class_name="Shell_TrayWnd")\
+        .children(control_type="ToolBar")[0].children(control_type="Button"))]
+
+
+def _show_taskbar_info():
+    for i, btn in enumerate(_get_taskbar_info()):
         print(f"\n--- Button {i+1} ---")
         print("Text:", btn.window_text())
         print("Class:", btn.class_name())
         print("Rectangle:", btn.rectangle())
-    print("Enabled:", btn.is_enabled())
-    print("Visible:", btn.is_visible())
-    print("Properties:")
-    for k, v in btn.get_properties().items():
-        print(f"  {k}: {v}")
+        print("Enabled:", btn.is_enabled())
+        print("Visible:", btn.is_visible())
+        print("Properties:")
+        for k, v in btn.get_properties().items():
+            print(f"  {k}: {v}")
 
 
 class GlobalNonCCRExtendedRule(MappingRule):
