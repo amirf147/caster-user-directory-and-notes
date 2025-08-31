@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, Pause, Function, Dictation, Mimic, Mouse, Repeat, IntegerRef, ShortIntegerRef, Choice
+from dragonfly import MappingRule, Pause, Function, Dictation, Mimic, Mouse, Repeat, IntegerRef, ShortIntegerRef, Choice, RunCommand
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
@@ -11,9 +11,27 @@ from caster_user_content.util import switch_application
 
 import os
 
+
+def _show_taskbar_info():
+    from pywinauto import Desktop
+    for i, btn in enumerate(Desktop(backend="uia").window(class_name="Shell_TrayWnd")\
+        .children(control_type="ToolBar")[0].children(control_type="Button")):
+        print(f"\n--- Button {i+1} ---")
+        print("Text:", btn.window_text())
+        print("Class:", btn.class_name())
+        print("Rectangle:", btn.rectangle())
+    print("Enabled:", btn.is_enabled())
+    print("Visible:", btn.is_visible())
+    print("Properties:")
+    for k, v in btn.get_properties().items():
+        print(f"  {k}: {v}")
+
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
+
+        "show taskbar info": R(Function(_show_taskbar_info)),
 
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
