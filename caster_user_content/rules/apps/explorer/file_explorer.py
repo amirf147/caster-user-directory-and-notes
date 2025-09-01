@@ -28,11 +28,11 @@ class FileExplorerRule(MappingRule):
         "(show | file | folder) properties":
             R(Key("a-enter")),
         "dirrup [<n>]":
-            R(Key("a-up:%(n)d")),
+            R(Key("a-up/20:%(n)d")),
         "go back [<n>]":
-            R(Key("a-left:%(n)d")),
+            R(Key("a-left/20:%(n)d")),
         "go forward [<n>]":
-            R(Key("a-right:%(n)d")),
+            R(Key("a-right/20:%(n)d")),
         "search [<text>]":
             R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
