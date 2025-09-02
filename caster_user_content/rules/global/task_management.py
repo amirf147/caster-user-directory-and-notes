@@ -33,7 +33,7 @@ def _safe_add_card(list_name):
         raise ValueError("Clipboard is empty – nothing to add to the To-Do list.")
 
     trello_tools.add_card(
-        board_name="Summer 2025",
+        board_name="Classes",
         list_name=list_name,
         card_name=card_name,
         card_desc="",  # description intentionally left blank for now
@@ -51,6 +51,7 @@ class TaskManagementRule(MappingRule):
             "caster": "Caster",
             "for later": "For Later",
             "projects | ideas": "Projects/Ideas",
+            "statistics": "Statistical Data Analysis",
         }),
     ]
 
