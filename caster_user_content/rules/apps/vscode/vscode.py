@@ -360,6 +360,10 @@ class CustomVSCodeRule(MappingRule):
         "git stash view": R(Key("c-g, as-v")), # git.stashView
         "get discard changes": R(Key("c-g, c-d")), # git.clean
 
+        # Jupyter Notebooks
+        "jupiter new": R(Key("c-;, c-n")), # ipynb.newUntitledIpynb
+        "run cells": R(Key("c-;, ca-a")), # notebook.execute
+
         "hide left": R(Key("c-b")),
 
         # Searching
