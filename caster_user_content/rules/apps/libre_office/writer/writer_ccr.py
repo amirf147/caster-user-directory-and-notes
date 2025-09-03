@@ -14,10 +14,12 @@ class WriterCCR(MergeRule):
     mapping = {
 
         # Navigating to specific lines
-        "liner <n_off_by_one>": R(Key("c-pgup, down:%(n_off_by_one)d")),
+        "liner <n_off_by_one>": # First moves text cursor to the top of the page 
+                                # then moves it down by <n_off_by_one>
+            R(Key("c-pgup, down:%(n_off_by_one)d")),
 
         # Editing
-        "format bold": R(Key("c-b")),
+        "format bold | bowley": R(Key("c-b")),
         "format italic": R(Key("c-i")),
         "format underline": R(Key("c-u")),
         "format super": R(Key("cs-p")),
@@ -25,7 +27,7 @@ class WriterCCR(MergeRule):
         "norse": R(Key("c-m")), # Removes all formatting
 
         # Styles
-        "apply heading <n3>": R(Key("c-%(n3)d")),
+        "(apply heading | header) <n3>": R(Key("c-%(n3)d")),
         "apply normal": R(Key("c-0")),
 
         # "color reset":
@@ -70,27 +72,27 @@ class WriterCCR(MergeRule):
             "twenty seven": 26,
             "twenty eight": 27,
             "twenty nine": 28,
-            "thirty": 30,
-            "thirty one": 31,
-            "thirty two": 32,
-            "thirty three": 33,
-            "thirty four": 34,
-            "thirty five": 35,
-            "thirty six": 36,
-            "thirty seven": 37,
-            "thirty eight": 38,
-            "thirty nine": 39,
-            "forty": 40,
-            "forty one": 41,
-            "forty two": 42,
-            "forty three": 43,
-            "forty four": 44,
-            "forty five": 45,
-            "forty six": 46,
-            "forty seven": 47,
-            "forty eight": 48,
-            "forty nine": 49,
-            "fifty": 50,
+            "thirty": 29,
+            "thirty one": 30,
+            "thirty two": 31,
+            "thirty three": 32,
+            "thirty four": 33,
+            "thirty five": 34,
+            "thirty six": 35,
+            "thirty seven": 36,
+            "thirty eight": 37,
+            "thirty nine": 38,
+            "forty": 39,
+            "forty one": 40,
+            "forty two": 41,
+            "forty three": 42,
+            "forty four": 43,
+            "forty five": 44,
+            "forty six": 45,
+            "forty seven": 46,
+            "forty eight": 47,
+            "forty nine": 48,
+            "fifty": 49,
         }),
         Choice("text", ev.INSERTABLE_TEXT),
     ]
