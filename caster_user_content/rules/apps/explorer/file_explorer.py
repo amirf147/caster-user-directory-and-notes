@@ -27,12 +27,19 @@ class FileExplorerRule(MappingRule):
             R(Key("a-f, w, t")),
         "(show | file | folder) properties":
             R(Key("a-enter")),
+
+        # Folder Navigation Shortcuts
+        # Simply just doing a key press a-up/down/left/right no longer works reliably
+        # in the new Windows 11 file explorer. By first holding down the alt key and then 
+        # pressing the up/down/left/right keys, it works more reliably. A longer pause is
+        # also necessary in order to wait for the GUI to refresh in between.
         "dirrup [<n>]":
-            R(Key("a-up/20:%(n)d")),
+            R(Key("alt:down, up, alt:up") + Pause("30")) * Repeat(extra='n'),
         "go back [<n>]":
-            R(Key("a-left/20:%(n)d")),
+            R(Key("alt:down, left, alt:up") + Pause("30")) * Repeat(extra='n'),
         "go forward [<n>]":
-            R(Key("a-right/20:%(n)d")),
+            R(Key("alt:down, right, alt:up") + Pause("30")) * Repeat(extra='n'),
+
         "search [<text>]":
             R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
