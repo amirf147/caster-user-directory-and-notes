@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Dict, Any
 import time
-
+from caster_user_content.environment_variables import WINDOWS_APP_NAMES
 from pywinauto import Desktop
 from pywinauto.controls.uia_controls import ButtonWrapper
 
@@ -15,28 +15,34 @@ from pywinauto.controls.uia_controls import ButtonWrapper
 # --------------------------------------------------------------------------
 _SEPARATORS = (" - ", " – ", " — ")  # ASCII dash, en-dash, em-dash
 
+
 def extract_app_name(caption: str) -> str:
     if not caption:
         return "<blank>"
 
     caption = caption.strip()
 
-    # Special cases
-    # TODO: find a different way of deriving the application name when it's not in title
-    if caption.lower().startswith(("windows powershell", "caster: status window")):
+    # First, check for known app names
+    for name in WINDOWS_APP_NAMES:
+        if name.lower() in caption.lower():
+            return name
+
+    # Special case: Windows PowerShell
+    if caption.lower().startswith("windows powershell"):
         return "Windows PowerShell"
+
+    # Special case: Copilot
     if caption.lower().startswith("copilot"):
         return "Copilot"
 
-    # Split by known separators
+    # Fallback: use separator logic
     for sep in _SEPARATORS:
         if sep in caption:
             parts = caption.split(sep)
             if len(parts) >= 2:
-                return parts[1].strip()  # Return second segment only
-            break
+                return parts[1].strip()
 
-    return caption  # Fallback: return full caption
+    return caption
 
 def extract_total_instances(caption: str) -> int:
     try:
