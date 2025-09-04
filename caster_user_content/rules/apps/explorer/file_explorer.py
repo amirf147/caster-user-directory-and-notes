@@ -1,5 +1,5 @@
 # TODO: replace ribbon navigation commands with windows 11 compatible macros
-from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Pause, Repeat
 
 from castervoice.lib.actions import Key
 
