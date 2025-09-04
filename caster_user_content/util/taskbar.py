@@ -22,7 +22,8 @@ def extract_app_name(caption: str) -> str:
     caption = caption.strip()
 
     # Special cases
-    if caption.lower().startswith("windows powershell"):
+    # TODO: find a different way of deriving the application name when it's not in title
+    if caption.lower().startswith(("windows powershell", "caster: status window")):
         return "Windows PowerShell"
     if caption.lower().startswith("copilot"):
         return "Copilot"
