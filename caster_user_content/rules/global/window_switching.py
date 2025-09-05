@@ -1,4 +1,5 @@
-from dragonfly import MappingRule, Function, List, ListRef, ShortIntegerRef, Choice
+from dragonfly import MappingRule, Function, List, ListRef, ShortIntegerRef, Choice, Pause, Mouse
+from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
@@ -33,7 +34,10 @@ class WindowSwitchingRule(MappingRule):
         "list aliases": R(Function(list_aliases)),
 
         "show taskbar info": R(Function(lambda: taskbar.show_taskbar_info(taskbar.get_taskbar_items()))),
-        "<app_name> [<instance>]": R(Function(_switch_to_app)),
+        "<app_name> [<instance>]": R(Function(_switch_to_app) + Pause("30") + Mouse("(0.5, 0.5)")),
+        # + Pause("200") + 
+        # Key("w-t/50, escape/30, a-tab")), # Quick and dirty fix for microsoft UIA gui focus artifacts that remain on the taskbar
+        # Never mind, that didn't work.
     }
 
     extras = [

@@ -71,6 +71,8 @@ class WriterRule(MappingRule):
         "font black": R(Key("cs-c, space, left:120, enter, tab, enter")),
         "font red": R(Key("cs-c, space, tab:2, down:6, right:4, enter, tab, enter")),
         "font dialog": R(Key("a-o, h")),
+        "font reset": R(Key("cs-c, space, s-tab:2, space, tab, enter")),
+
         "text increase <n>": R(Key("c-]:%(n)d")), # Increases font size
         "text decrease <n>": R(Key("c-[:%(n)d")), # Decreases font size
 
