@@ -34,6 +34,8 @@ class WriterCCR(MergeRule):
         #     R(Key("a-h/3, f, c, a")),
         "ruge": # Changes the font color to red via the character dialog
             R(Key("a-o, h, enter, tab, home, down, tab, end, left, enter, tab, enter")),
+        "color reset": # Requires user defined key binding: "Font Color" (second one)
+            R(Key("cs-c, space, s-tab:2, space, tab, enter")),
         
         # # Find tab of Find and Replace dialog
         # "etsype": R(Key("c-h/5, s-tab, left")),
