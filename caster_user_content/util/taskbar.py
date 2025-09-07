@@ -28,7 +28,7 @@ def extract_app_name(caption: str) -> str:
             return name
 
     # Special case: Windows PowerShell
-    if caption.lower().startswith("windows powershell"):
+    if caption.lower().startswith(("windows powershell", "caster: status window")):
         return "Windows PowerShell"
 
     # Special case: Copilot
