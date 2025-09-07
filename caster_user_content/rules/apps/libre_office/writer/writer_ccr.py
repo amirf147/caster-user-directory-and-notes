@@ -27,7 +27,7 @@ class WriterCCR(MergeRule):
         "norse": R(Key("c-m")), # Removes all formatting
 
         # Styles
-        "(apply heading | header) <n3>": R(Key("c-%(n3)d")),
+        "(apply heading | header) <n6>": R(Key("c-%(n6)d")),
         "apply normal": R(Key("c-0")),
 
         # "color reset":
@@ -41,7 +41,7 @@ class WriterCCR(MergeRule):
         "insert <text>": R(Text("%(text)s")),
     }
     extras = [
-        IntegerRef("n3", 1, 4),
+        IntegerRef("n6", 1, 7),
         Choice("n_off_by_one", {
             "one": 0,
             "two": 1,

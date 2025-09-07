@@ -32,6 +32,7 @@ class WriterRule(MappingRule):
         "center align": R(Key("c-e")),
         "ray align": R(Key("c-r")),
         "justify align": R(Key("c-j")),
+        "fold section": R(Key("as-f")), # Requires user define key binding: "Toggle Outline Folding"
 
         # Insert
         "show bookmarks": R(Key("a-i, k")),
