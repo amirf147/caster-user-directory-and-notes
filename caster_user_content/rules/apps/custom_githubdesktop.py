@@ -47,7 +47,8 @@ class CustomGitHubDeskRule(MappingRule):
         "switch to <repository>":
             R(Key("escape/3, c-t") + Pause("30") + Text("%(repository)s") + Key("enter")),
         "fast update":
-            R(Key("a-f/3, escape, tab:10") + Text("update") + Pause("30") + Key("tab:2/3, tab")),
+            # R(Key("a-f/3, escape, tab:10") + Text("update") + Pause("30") + Key("tab:2/3, tab")),
+            R(Key("tab:13, enter")), # just use the generate commit prompt button
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
