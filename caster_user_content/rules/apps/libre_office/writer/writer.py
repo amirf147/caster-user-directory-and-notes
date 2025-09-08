@@ -41,9 +41,11 @@ class WriterRule(MappingRule):
         # View
         "web view": R(Key("a-v, w")),
         "normal view": R(Key("a-v, n")),
-        "zoom entire page": R(Key("a-v, z, e")),
+        "zoom page": R(Key("a-v, z, e")),
         "zoom seventy five": R(Key("a-v, z, 7")),
-        "zoom [page] width": R(Key("a-v, z, p")),
+        "zoom width": R(Key("a-v, z, p")),
+        "zoom dialog": R(Key("a-v, z")),
+        "zoom reset": R(Key("a-v, z, 1")),
         "(show | hide) grid": R(Key("a-v, i:2, d")),
         "show paragraph": R(Key("c-f10")),
 
