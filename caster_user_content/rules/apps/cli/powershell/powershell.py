@@ -126,6 +126,10 @@ class PowershellRule(MappingRule):
         "pi ten repple": R(Text(PYTHON_10) + Key("enter")),
         "pi twelve repple": R(Text(PYTHON_12) + Key("enter")),
 
+        # Pandas
+        "column list names": R(Text("[col for col in df.columns]")),
+        "column list subset": R(Text("[col for col in df.columns if set(df[col].dropna().unique()).issubset({'t', 'f'})]")),
+
         # pyreverse
         "pi rev": R(Text("pyreverse -o png -p") + Key("space")),
         "pi rev detailed": R(Text("pyreverse -o png -p  -ASmy") + Key("left:6")),
