@@ -6,7 +6,7 @@ from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
-from caster_user_content import environment_variables as ev
+from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT
 from caster_user_content.util import switch_application
 
 import os
@@ -155,7 +155,7 @@ copy and paste it: ") + Key("c-v")),
         "bring oh <program>": R(Key("win/30") + Text("%(program)s", pause=0.0) + Pause("30") + Key("enter")),
         "start screen copy": R(
             # After pressing alt-tab they pause needs to be separate otherwise it keeps the key combination pressed down
-            Key("w-r/30") + Text(f"\"{ev.PATHS['screen copy']}/scrcpy\"", pause=0.0) +
+            Key("w-r/30") + Text(f"\"{PATHS['screen copy']}/scrcpy\"", pause=0.0) +
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
         
         "kil enable via cam": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\kill cam.lnk", pause=0.0) + Key("enter")),
@@ -165,11 +165,11 @@ copy and paste it: ") + Key("c-v")),
     }
 
     extras = [
-        Choice("text", ev.INSERTABLE_TEXT),
+        Choice("text", INSERTABLE_TEXT),
         Dictation("prompt"),
         IntegerRef("n", 1, 10),
         IntegerRef("n0", 0, 10),
-        Choice("program", ev.PROGRAM_NAMES),
+        Choice("program", PROGRAM_NAMES),
         Choice("n_off_by_one", {
             "one": 0,
             "two": 1,

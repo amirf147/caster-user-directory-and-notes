@@ -4,12 +4,12 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content.util import switch_application, taskbar
-from caster_user_content import environment_variables as ev
+from caster_user_content.environment_variables import WINDOW_ALIASES, WINDOWS_APP_ALIASES
 
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")
-window_aliases.set(ev.WINDOW_ALIASES)
+window_aliases.set(WINDOW_ALIASES)
 
 def list_aliases():
     """Print all current aliases"""
@@ -43,7 +43,7 @@ class WindowSwitchingRule(MappingRule):
     extras = [
         ListRef("window_alias", window_aliases),
         ShortIntegerRef("instance", 1, 10),
-        Choice("app_name", ev.WINDOWS_APP_ALIASES),
+        Choice("app_name", WINDOWS_APP_ALIASES),
     ]
     defaults = {
         "instance": 1,
