@@ -36,6 +36,9 @@ class WindsurfRule(MappingRule):
             Key("cs-backtick") + # Create new terminal instance
             Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
+
+        "snooze auto": R(Key("c-k, c-z")), # windsurf.snoozeAutocomplete
+        "unsnooze auto": R(Key("c-k, cs-z")), # windsurf.cancelSnoozeAutocomplete
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
