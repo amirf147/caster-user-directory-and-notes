@@ -49,6 +49,7 @@ class GlobalCCRExtendedRule(MergeRule):
 
         # Formatted Operators
         "eco": R(Text(" = ", pause=0.0)),
+        "double eco": R(Text(" == ", pause=0.0)),
         "plooz": R(Text(" + ", pause=0.0)),
         "meece": R(Text(" - ", pause=0.0)),
         "peep": R(Text(" | ", pause=0.0)),
