@@ -36,7 +36,6 @@ class CommandLineRule(MappingRule):
     }
 
 _executables = [
-    "WindowsTerminal",
     "cmd",
 ]
 def get_rule():

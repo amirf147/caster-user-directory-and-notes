@@ -16,18 +16,6 @@ PYTHON_10 = ev.EXECUTABLES["pi ten"]
 
 class PowershellRule(MappingRule):
     mapping = {
-        "show (settings | options)": R(Key("a-space, p")),
-        "show font": R(Key("a-space, p/5, s-tab, right")),
-        "show layout": R(Key("a-space, p/5, s-tab, right:2")),
-        "show colors": R(Key("a-space, p/5, s-tab, right:3")),
-        "show terminal": R(Key("a-space, p/5, s-tab, right:4")),
-        
-        # Editing Modes
-        "scroll mode": R(Key("a-space, e, l")),
-
-        "zoom in [<n>]": R(Key("a-space, p/5, s-tab, right, tab, down:%(n)d, enter")),
-        "zoom out [<n>]": R(Key("a-space, p/5, s-tab, right, tab, up:%(n)d, enter")),
-
         "go <path>": R(Text("Push-Location \"%(path)s\"", pause=0.0) + Key("enter")),
         "go clipboard": R(Text("Push-Location \"\"", pause=0.0) + Key("left, c-v/3, enter")),
         "go back": R(Text("Pop-Location", pause=0.0) + Key("enter")),

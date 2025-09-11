@@ -40,7 +40,7 @@ class FileDialogRule(MappingRule):
         "show preview": R(Key("a-p")),
 
         # Navigating via address bar
-        "go <path>":
+        "(go | navigate) <path>":
             R(Key("a-d/5") + Text("%(path)s", pause=0.0) + Key("enter, tab:6")),
         "go clipboard":
             R(Key("a-d/5, c-v, enter")),
@@ -61,6 +61,7 @@ def get_rule():
         title=[
             "open", "save", "select", "file upload", 
             "Insert Picture", "Insert Image", "Export", 
-            "Another Application", "Install from VSIX"
+            "Another Application", "Install from VSIX",
+            "Save As"
         ]
     )
