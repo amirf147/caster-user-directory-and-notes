@@ -12,6 +12,13 @@ from caster_user_content.util import switch_application
 import os
 
 
+def _generate_number_list(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
+    numbers = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10]
+    numbers = [str(value) for value in numbers if value is not None]
+    list_str = "[" + ", ".join(numbers) + "]"
+    Text(list_str).execute()
+
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
@@ -162,6 +169,10 @@ copy and paste it: ") + Key("c-v")),
 
         "computer lock screen": # Locks the computer via the start menu power button
             R(Key("win/50, tab/30:3/30, right/30, enter/30, enter")),
+
+        # Programming
+            "list gen [<n1>] [<n2>] [<n3>] [<n4>] [<n5>] [<n6>] [<n7>] [<n8>] [<n9>] [<n10>]":
+            Function(_generate_number_list),
     }
 
     extras = [
@@ -194,6 +205,16 @@ copy and paste it: ") + Key("c-v")),
         }),
         navigation_support.get_direction_choice("direction"),
         ShortIntegerRef("nnavi500", 1, 500),
+        IntegerRef("n1", 0, 512),
+        IntegerRef("n2", 0, 512),
+        IntegerRef("n3", 0, 512),
+        IntegerRef("n4", 0, 512),
+        IntegerRef("n5", 0, 512),
+        IntegerRef("n6", 0, 512),
+        IntegerRef("n7", 0, 512),
+        IntegerRef("n8", 0, 512),
+        IntegerRef("n9", 0, 512),
+        IntegerRef("n10", 0, 512),
 
 
     ]
@@ -202,6 +223,16 @@ copy and paste it: ") + Key("c-v")),
         "n0": 0,
         "nnavi500": 1,
         "n_off_by_one": 0,
+        "n1": None,
+        "n2": None,
+        "n3": None,
+        "n4": None,
+        "n5": None,
+        "n6": None,
+        "n7": None,
+        "n8": None,
+        "n9": None,
+        "n10": None,
     }
 
 def get_rule():
