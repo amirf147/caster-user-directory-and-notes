@@ -170,9 +170,11 @@ copy and paste it: ") + Key("c-v")),
         "computer lock screen": # Locks the computer via the start menu power button
             R(Key("win/50, tab/30:3/30, right/30, enter/30, enter")),
 
-        # Programming
-            "list gen [<n1>] [<n2>] [<n3>] [<n4>] [<n5>] [<n6>] [<n7>] [<n8>] [<n9>] [<n10>]":
+        # Python Programming
+        "list gen [<n1>] [<n2>] [<n3>] [<n4>] [<n5>] [<n6>] [<n7>] [<n8>] [<n9>] [<n10>]":
             Function(_generate_number_list),
+        "nice print": R(Text("print(, end='\\n\\n')") + Key("left:13")),
+        "pan loke": R(Text("df.iloc[]") + Key("left:1")), # Pandas data frame indexing
     }
 
     extras = [
