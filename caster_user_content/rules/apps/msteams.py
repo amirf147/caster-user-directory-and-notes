@@ -1,9 +1,8 @@
 from dragonfly import ShortIntegerRef 
-from castervoice.lib.actions import Key, Text, Mouse
+from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
-from dragonfly import (AppContext, Choice, Dictation, Function, MappingRule,
-                       Repeat)
+from dragonfly import MappingRule
 
 class CustomMSTeamsRule(MappingRule):
     pronunciation = "custom teams"
