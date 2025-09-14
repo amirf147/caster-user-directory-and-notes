@@ -24,7 +24,7 @@ It is specifically designed to solve the common hardware issue where the pedal s
 The script assigns the following "smart" actions to each pedal, with visual tooltips for feedback:
 
 *   **Right Pedal (`F15`): Smart Left Click**
-    *   **Short Tap (First Time):** Sends `F11`. This is useful for a one-time setup action, like triggering a primary scene or camera in OBS.
+    *   **Short Tap (First Time):** Sends `F11`. This is useful for a one-time setup action. Specifically, **Enable ViaCam** with the cursor control keyboard shortcut (default: `F11`).
     *   **Short Tap (Subsequent):** Acts as a standard **Left Mouse Click**.
     *   **Press and Hold:** Initiates a **Left Mouse Drag**. Release the pedal to drop.
 
