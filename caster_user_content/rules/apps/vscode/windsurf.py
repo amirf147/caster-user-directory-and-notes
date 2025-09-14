@@ -14,18 +14,18 @@ class WindsurfRule(MappingRule):
     mapping = {
         # Cascade Chat Initialization/Toggling
         "show chat": R(Key("c-l")),
-        "hide right": R(Key("c-l:2")),
+        "hide right": R(Key("c-l/30:2")),
         "new chat": R(Key("cs-l")),
         "switch mode": R(Key("c-.")),
         "chat here": # Opens a new chat with the last focused file
             R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
-        "edit here": R(Key("ca-k")),
+        "edit here": R(Key("ca-k")), # Windsurf (fast) edit
         "stop gen": R(Key("ca-c")),
         "change over": R(Key("a-k")),
         "change under": R(Key("a-j")),
         "accept change": R(Key("a-enter")),
         "reject change": R(Key("sa-backspace")),
-        "reject all": R(Key("")), # windsurf.terminalCommand.reject
+        "reject that": R(Key("c-k, c-backspace")), # Rejecting Windsurf (fast) proposed changes
         "accept all": R(Key("c-enter")),
 
         # Cascade Chat Context
@@ -37,6 +37,8 @@ class WindsurfRule(MappingRule):
             Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
 
+        # I thought these were supposed to totally stop the autocomplete feature but they don't
+        # In fact, they seemingly do nothing
         "snooze auto": R(Key("c-k, c-z")), # windsurf.snoozeAutocomplete
         "unsnooze auto": R(Key("c-k, cs-z")), # windsurf.cancelSnoozeAutocomplete
     }
