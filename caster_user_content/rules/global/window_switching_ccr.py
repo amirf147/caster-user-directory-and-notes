@@ -9,6 +9,9 @@ from castervoice.lib.const import CCRType
 from caster_user_content import environment_variables as ev
 from caster_user_content.util import switch_application
 
+# TODO: Remove list creation within the rule and make it be created when caster starts up?
+# Because i got some errors when trying to enable rules
+# Disabling this rule as well as the non-ccr version has resolved that rule enabling issue
 
 # Create a Dragonfly List for aliases
 window_aliases = List("window_alias")

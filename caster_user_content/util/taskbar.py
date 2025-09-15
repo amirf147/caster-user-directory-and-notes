@@ -2,6 +2,8 @@
 # taskbar.py
 # Written with GPT-5/o3/Microsoft copilot (smart mode)
 
+
+# TODO: make it so that saying application alias name will activate the most recently used instance of that application
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Dict, Any
