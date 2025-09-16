@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # taskbar.py
-# Written with GPT-5/o3/Microsoft copilot (smart mode)
+# Initially written with GPT-5/o3/Microsoft copilot (smart mode)
 
 
 # TODO: make it so that saying application alias name will activate the most recently used instance of that application
@@ -68,10 +68,18 @@ class TaskbarItem:
     total_instances: int = 1
 
     def invoke(self):
+        """
+        Activates the taskbar item.
+        Using click_input() is more reliable for focus handling than invoke().
+        It simulates a real mouse click, ensuring focus properly transfers
+        to the target application and doesn't leave a "residual focus" on
+        the taskbar button itself.
+        """
         try:
-            self.control.invoke()
+            # --- THIS IS THE KEY CHANGE ---
+            self.control.click_input()
         except Exception as e:
-            print(f"Invoke failed for {self.text!r}: {e}")
+            print(f"Activation failed for {self.text!r}: {e}")
 
     def label(self) -> str:
         if self.total_instances > 1:
@@ -81,9 +89,6 @@ class TaskbarItem:
 # --------------------------------------------------------------------------
 # low-level discovery
 # --------------------------------------------------------------------------
-# For use with explorerpatcher taskbar
-# Written with Gemini 2.5 Pro
-
 def _get_taskbar_buttons() -> List[ButtonWrapper]:
     try:
         taskbar = Desktop(backend="uia").window(class_name="Shell_TrayWnd")
@@ -92,22 +97,17 @@ def _get_taskbar_buttons() -> List[ButtonWrapper]:
             return []
 
         # Use .descendants() to find the toolbar no matter how deeply nested it is.
-        # This is the key change to fix the issue on your specific system.
-        # We search for a toolbar with the specific title 'Running applications'.
+        # This is the correct fix for systems with customized taskbars.
         all_toolbars = taskbar.descendants(control_type="ToolBar")
         
         button_container = None
         for tb in all_toolbars:
             if tb.window_text() == "Running applications":
                 button_container = tb
-                # print("Found 'Running applications' toolbar.") # <-- Uncomment for debugging
                 break
         
         if not button_container:
             print("Error: Could not find the 'Running applications' toolbar within the taskbar.")
-            # For debugging, let's see what was actually found.
-            # print("All toolbars found:", [t.window_text() for t in all_toolbars])
-            # taskbar.print_control_identifiers(depth=4)
             return []
 
         buttons = button_container.children(control_type="Button")
@@ -118,6 +118,7 @@ def _get_taskbar_buttons() -> List[ButtonWrapper]:
     except Exception as e:
         print(f"Error accessing taskbar: {e}")
         return []
+
 # --------------------------------------------------------------------------
 # build TaskbarItem list with grouping info
 # --------------------------------------------------------------------------
@@ -160,9 +161,9 @@ def show_taskbar_info(items: List[TaskbarItem]):
         print("Rectangle :", it.rectangle)
         print("Enabled   :", it.is_enabled)
         print("Visible   :", it.is_visible)
-        print("Properties:")
-        for k, v in it.properties.items():
-            print(f"  {k}: {v}")
+        # print("Properties:") # This is very verbose, can be commented out for normal use
+        # for k, v in it.properties.items():
+        #     print(f"  {k}: {v}")
 
 def cycle_taskbar_items(items: List[TaskbarItem], pause: float = 2.0):
     print("\nCycling through task-bar items:")
@@ -202,5 +203,6 @@ if __name__ == "__main__":
         print(f"Found {len(tbl_items)} buttons across "
               f"{len(set(it.app_name for it in tbl_items))} applications.")
         show_taskbar_info(tbl_items)
-        activate_taskbar_instance("Windsurf", instance=2)
+        # Example activation:
+        # activate_taskbar_instance("Notepad", instance=1)
     print("\nDone.")
