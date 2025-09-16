@@ -6,13 +6,8 @@ from castervoice.lib.merge.state.short import R
 from caster_user_content.util import switch_application, taskbar
 from caster_user_content.environment_variables import WINDOW_ALIASES, WINDOWS_APP_ALIASES
 
-# TODO: Remove list creation within the rule and make it be created when caster starts up?
-# Because i got some errors when trying to enable rules
-# Disabling this rule as well as the ccr version has resolved that rule enabling issue
-
-# Create a Dragonfly List for aliases
-window_aliases = List("window_alias")
-window_aliases.set(WINDOW_ALIASES)
+# Import the shared window_aliases from the package
+from . import window_aliases
 
 def list_aliases():
     """Print all current aliases"""

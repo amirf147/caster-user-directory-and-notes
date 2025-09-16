@@ -81,12 +81,43 @@ class TaskbarItem:
 # --------------------------------------------------------------------------
 # low-level discovery
 # --------------------------------------------------------------------------
-def _get_taskbar_buttons() -> List[ButtonWrapper]:
-    return (Desktop(backend="uia")
-            .window(class_name="Shell_TrayWnd")
-            .children(control_type="ToolBar")[0]
-            .children(control_type="Button"))
+# For use with explorerpatcher taskbar
+# Written with Gemini 2.5 Pro
 
+def _get_taskbar_buttons() -> List[ButtonWrapper]:
+    try:
+        taskbar = Desktop(backend="uia").window(class_name="Shell_TrayWnd")
+        if not taskbar.exists():
+            print("Error: Could not find taskbar window")
+            return []
+
+        # Use .descendants() to find the toolbar no matter how deeply nested it is.
+        # This is the key change to fix the issue on your specific system.
+        # We search for a toolbar with the specific title 'Running applications'.
+        all_toolbars = taskbar.descendants(control_type="ToolBar")
+        
+        button_container = None
+        for tb in all_toolbars:
+            if tb.window_text() == "Running applications":
+                button_container = tb
+                # print("Found 'Running applications' toolbar.") # <-- Uncomment for debugging
+                break
+        
+        if not button_container:
+            print("Error: Could not find the 'Running applications' toolbar within the taskbar.")
+            # For debugging, let's see what was actually found.
+            # print("All toolbars found:", [t.window_text() for t in all_toolbars])
+            # taskbar.print_control_identifiers(depth=4)
+            return []
+
+        buttons = button_container.children(control_type="Button")
+        if not buttons:
+            print("Warning: No application buttons found in the 'Running applications' toolbar.")
+            
+        return buttons or []
+    except Exception as e:
+        print(f"Error accessing taskbar: {e}")
+        return []
 # --------------------------------------------------------------------------
 # build TaskbarItem list with grouping info
 # --------------------------------------------------------------------------
