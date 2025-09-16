@@ -5,7 +5,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.temporary import Store, Retrieve
 from castervoice.lib import utilities
 
-from caster_user_content import environment_variables as ev
+from caster_user_content.environment_variables import PATHS, WEBSITES, INSERTABLE_TEXT, RESUME
 from caster_user_content.util.generate_rdescript import generate_rdescript
 from caster_user_content.util.text import text_to_clipboard
 
@@ -25,8 +25,8 @@ def _search_youtube(query):
 def _save_to_job_postings():
     try:
         # Check if directory exists
-        if not os.path.exists(ev.PATHS["job postings"]):
-            print(f"Error: Directory does not exist: {ev.PATHS['job postings']}")
+        if not os.path.exists(PATHS["job postings"]):
+            print(f"Error: Directory does not exist: {PATHS['job postings']}")
             return
 
         content = pyperclip.paste()
@@ -46,7 +46,7 @@ def _save_to_job_postings():
             process = subprocess.Popen([
                 sys.executable, 
                 script_path, 
-                ev.PATHS["job postings"],
+                PATHS["job postings"],
                 "--always-on-top"  # Add this flag to be handled in save_to_text.py
             ], stdin=subprocess.PIPE,
                text=True,
@@ -216,11 +216,11 @@ class FirefoxExtendedRule(MappingRule):
         "text to job postings": R(Store() + Function(_save_to_job_postings), 
             rdescript=generate_rdescript("text to job postings", "JOB SEARCH AUTOMATION", "Save selected text to job postings")),
 
-        "cover letter prompt": R(Function(text_to_clipboard, text=ev.RESUME) + Pause("50") + 
+        "cover letter prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") + 
             Text("Can you write me a cover letter for this job posting, here is my resume:"), 
             Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting:"), 
             rdescript=generate_rdescript("cover letter prompt", "JOB SEARCH AUTOMATION", "Prompt for cover letter with resume context")),
-        "résumé prompt": R(Function(text_to_clipboard, text=ev.RESUME) + Pause("50") + 
+        "résumé prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") + 
             Text(" Here is my resume:") + Pause("50") + Key("c-v/5, c-home"), 
             rdescript=generate_rdescript("resume prompt", "JOB SEARCH AUTOMATION", "Prompt to include resume text")),
         
@@ -296,9 +296,9 @@ class FirefoxExtendedRule(MappingRule):
             "twenty nine": "21",
             "thirty": "22",
         }),
-        Choice("website", ev.WEBSITES),
+        Choice("website", WEBSITES),
         Dictation("query"),
-        Choice("text", ev.INSERTABLE_TEXT),
+        Choice("text", INSERTABLE_TEXT),
     ]
     defaults = {"n": 1,}
 
