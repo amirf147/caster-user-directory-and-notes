@@ -5,14 +5,14 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-from caster_user_content import environment_variables as ev
+from caster_user_content.environment_variables import PATHS, EXECUTABLES, POWERSHELL_COMMIT_PROMPT_BUILDER
 from caster_user_content.rules.apps.cli import cli_support
 from caster_user_content.util.generate_rdescript import generate_rdescript
 from caster_user_content.util.text import text_to_clipboard
 
-PYTHON_12 = ev.EXECUTABLES["pi twelve"]
-PYTHON_10 = ev.EXECUTABLES["pi ten"]
-# PYTHON_8 = ev.EXECUTABLES["pi eight"]
+PYTHON_12 = EXECUTABLES["pi twelve"]
+PYTHON_10 = EXECUTABLES["pi ten"]
+# PYTHON_8 = EXECUTABLES["pi eight"]
 
 class PowershellRule(MappingRule):
     mapping = {
@@ -136,7 +136,7 @@ class PowershellRule(MappingRule):
         "generate commit prompt": R(
             # Places the prompt builder text and commands into the clipboard for faster output
             # This is much faster than using Text("")
-            Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
+            Function(text_to_clipboard, text=POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("20") + Key("c-v/3,enter")),
 
         # String Manipulation
@@ -150,7 +150,7 @@ class PowershellRule(MappingRule):
         "code here": R(Text("windsurf .") + Key("enter")),
     }
     extras = [
-        Choice("path", ev.PATHS),
+        Choice("path", PATHS),
         Choice("ollama_command", cli_support.OLLAMA_COMMANDS),
         Choice("docker_command", cli_support.DOCKER_COMMANDS),
         Choice("list_command", cli_support.LIST_COMMANDS),
