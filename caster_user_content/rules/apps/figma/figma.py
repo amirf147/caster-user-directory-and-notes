@@ -34,7 +34,8 @@ class FigmaRule(MappingRule):
         "duplicate": R(Key("c-d")),
 
         # Cursor
-        # "duplicate": R(Key("alt:down"))
+        "mode pan | mope": R(Key("space:down")),
+        "mode not | maze": R(Key("space:up, alt:up")),
 
     }
     extras = [
