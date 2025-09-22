@@ -23,6 +23,11 @@ class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
 
+        # In Reading View with PowerPoint + text editor split windowed, these commands alt-tab to PowerPoint,
+        # change slide, then return to the editor. TODO: refine with targeted app switching.
+        "slide next": R(Key("a-tab") + Pause("30") + Key("down/30, a-tab")),
+        "slide previous": R(Key("a-tab") + Pause("30") + Key("up/30, a-tab")),
+        
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
         

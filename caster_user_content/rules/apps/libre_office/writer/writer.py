@@ -35,8 +35,9 @@ class WriterRule(MappingRule):
         "fold section": R(Key("as-f")), # Requires user define key binding: "Toggle Outline Folding"
 
         # Insert
+        "hint insert": R(Key("a-i")),
         "show bookmarks": R(Key("a-i, k")),
-        "image insert | insert image": R(Key("a-i, i")),
+        "(image insert) | (insert image)": R(Key("a-i, i")),
         
         # View
         "web view": R(Key("a-v, w")),
@@ -61,6 +62,8 @@ class WriterRule(MappingRule):
         "key search": R(Key("a-t, c:2, enter, tab:6/50") + Text("%(text)s")),
         "show line numbers": # Line numbering that restarts at the beginning of each page
             R(Key("a-t, l, space, tab:5, 1, tab:4, space, enter")),
+        "fix line numbers": # Make the current line numbers that are showing restart on each page
+            R(Key("a-t, l, tab:9, space, enter")),
         "remove line numbers": R(Key("a-t, l, space, enter")),
         "line numbers dialog": R(Key("a-t, l")),
         "show settings": R(Key("a-t, o")),

@@ -14,10 +14,22 @@ class WriterCCR(MergeRule):
     mapping = {
 
         # Navigating to specific lines
-        "liner <n_off_by_one>": # First moves text cursor to the top of the page 
+        "linda <n_off_by_one>": # First moves text cursor to the top of the page 
                                 # then moves it down by <n_off_by_one>
             R(Key("c-pgup, down:%(n_off_by_one)d")),
-
+        "liner <n_off_by_one>": # First moves text cursor to the top of the page 
+                                # then moves it down by <n_off_by_one>
+                                # then moves the cursor to the end of the line
+            R(Key("c-pgup, down:%(n_off_by_one)d, end")),
+        "linda previous <n_off_by_one>": # navigating line numbers of the previous page
+            R(Key("a-pgup, down:%(n_off_by_one)d")),
+        "linda next <n_off_by_one>": # navigating line numbers of the next page
+            R(Key("a-pgdown, down:%(n_off_by_one)d")),
+        "liner previous <n_off_by_one>": # navigating line numbers of the previous page
+            R(Key("a-pgup, down:%(n_off_by_one)d, end")),
+        "liner next <n_off_by_one>": # navigating line numbers of the next page
+            R(Key("a-pgdown, down:%(n_off_by_one)d, end")),
+            
         # Editing
         "format bold | bowley": R(Key("c-b")),
         "format italic": R(Key("c-i")),
