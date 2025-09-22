@@ -17,10 +17,14 @@ class FileExplorerRule(MappingRule):
 
         "show properties": R(Key("a-enter")),
         "show settings": R(Key("a-v, y, o")),
-        "address bar":
-            R(Key("a-d")),
+        "address bar": # Focusing the address bar is typically done with "a-d" but it no
+        # longer works reliably in the new Windows 11 file explorer. Attempts have been
+        # made to hold down the alt key and then pressing the "d" key, but it does not
+        # work reliably. Same goes for "c-l" keyboard shortcut. For now it seems that
+        # pressing F4 key works better.
+            R(Key("f4/50")),
         "copy address":
-            R(Key("a-d/5, c-c")),
+            R(Key("f4/50, c-c")),
         "folder new":
             R(Key("cs-n")),
         "file new":
@@ -34,18 +38,18 @@ class FileExplorerRule(MappingRule):
         # pressing the up/down/left/right keys, it works more reliably. A longer pause is
         # also necessary in order to wait for the GUI to refresh in between.
         "dirrup [<n>]":
-            R(Key("alt:down, up, alt:up") + Pause("30")) * Repeat(extra='n'),
+            R(Key("alt:down/30, up/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
         "go back [<n>]":
-            R(Key("alt:down, left, alt:up") + Pause("30")) * Repeat(extra='n'),
+            R(Key("alt:down/30, left/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
         "go forward [<n>]":
-            R(Key("alt:down, right, alt:up") + Pause("30")) * Repeat(extra='n'),
+            R(Key("alt:down/30, right/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
 
         "search [<text>]":
-            R(Key("a-d, tab:1") + Text("%(text)s", pause=0.0)),
+            R(Key("f4/50, tab:1") + Text("%(text)s", pause=0.0)),
         "(navigation | nav | left) pane":
-            R(Key("a-d, tab:1")),
+            R(Key("f4/50, tab:1")),
         "(center pane | (file | folder) (pane | list))":
-            R(Key("a-d, tab:2")),
+            R(Key("f4/50, tab:2")),
         "organize": R(Key("c-l, tab:2")),
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
@@ -56,9 +60,9 @@ class FileExplorerRule(MappingRule):
 
         # Navigating via address bar
         "go <path>":
-            R(Key("a-d/5") + Text("%(path)s", pause=0.0) + Key("enter")),
+            R(Key("f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
         "go clipboard":
-            R(Key("a-d/5, c-v/3, enter")),
+            R(Key("f4/50, c-v/3, enter")),
         
         "fit column":
             R(Key("a-v, s, f")),

@@ -53,6 +53,8 @@ class PowerPointRule(MappingRule):
         "format bold":
             R(Key("c-b")),
 
+        # View
+        "reading view": R(Key("a-w, d")),
 
         # Table
         "merge cells":
