@@ -25,9 +25,13 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
+        
+        "toggle night [mode]": R(Key("w-a/50, down:2, enter/30, escape")),
+        "brightness zero": R(Key("w-a/50, tab/20:4, home, escape")),
+        "brightness max": R(Key("w-a/50, tab/20:4, end, escape")),
 
         "show [me] calendar":
-            R(Key("w-b, up/3, enter")),
+            R(Key("w-b, up:2, enter")),
         "show sounds":
             R(RunCommand("rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl")),
         "show network connections": # Opens the Windows Network Connections utility via run dialog
