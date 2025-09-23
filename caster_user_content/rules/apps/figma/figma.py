@@ -10,7 +10,9 @@ class FigmaRule(MappingRule):
     pronunciation = "figma"
     mapping = {
         "[show] keyboard shorts": R(Key("cs-?")),
-        "show ui": R(Key("c-\\")),
+        "show ui": R(Key("c-\\")), # Shows/Hides all Figma UI elements
+        "(show | hide) left": R(Key("cs-\\")), # Shows/Hides left panel
+        
         "commander": R(Key("c-k")),
         "reopen tab": R(Key("cs-t")),
         "zoom out [<n>]": R(Key("control:down") + Mouse("wheeldown:%(n)d") + Key("control:up")),
@@ -26,10 +28,12 @@ class FigmaRule(MappingRule):
         # "color picker mode": R(Key("i")),
         
         # View
-        "show layers": R(Key("a-1")),
+        "show files": R(Key("a-1")),
         "show assets": R(Key("a-2")),
         "show (libraries | library)": R(Key("a-3")),
-
+        "show design": R(Key("a-8")),
+        "show prototype": R(Key("a-9")),
+        
         # Edit
         "duplicate": R(Key("c-d")),
 
