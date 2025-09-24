@@ -59,7 +59,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "[show] hints":
             R(Key("a-semicolon")),
 
-        "open snipping tool":
+        "snipping tool":
             R(Key("ws-s")),
         "full screenshot":
             R(Key("ws-s") + Pause("160") + Key("tab/3, right:3, enter")),
