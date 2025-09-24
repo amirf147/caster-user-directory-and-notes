@@ -31,10 +31,12 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
         
+        # Quick Settings menu - Windows 11
         "toggle night [mode]": R(Key("w-a/50, down:2, enter/30, escape")),
         "brightness zero": R(Key("w-a/50, tab/20:4, home, escape")),
-        "brightness max": R(Key("w-a/50, tab/20:4, end, escape")),
-
+        "brightness (max | one hundred)": R(Key("w-a/50, tab/20:4, end, escape")),
+        "brightness dialog": R(Key("w-a/50, tab/20:4")),
+        
         "show [me] calendar":
             R(Key("w-b, up:2, enter")),
         "show sounds":
