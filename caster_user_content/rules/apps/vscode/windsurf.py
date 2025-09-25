@@ -14,7 +14,7 @@ class WindsurfRule(MappingRule):
     mapping = {
         # Cascade Chat Initialization/Toggling
         "show chat": R(Key("c-l")),
-        "hide right": R(Key("c-l/30:2")),
+        "hide right": R(Key("c-l/50:2")),
         "new chat": R(Key("cs-l")),
         "switch mode": R(Key("c-.")),
         "chat here": # Opens a new chat with the last focused file
