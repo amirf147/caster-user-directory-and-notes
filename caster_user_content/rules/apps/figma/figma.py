@@ -29,7 +29,7 @@ class FigmaRule(MappingRule):
         
         # View
         "show files": R(Key("a-1")),
-        "show assets": R(Key("a-2")),
+        "show assets": R(Key("a-2/100, tab:3")), # focuses the assets after switching to the assets panel
         "show (libraries | library)": R(Key("a-3")),
         "show design": R(Key("a-8")),
         "show prototype": R(Key("a-9")),

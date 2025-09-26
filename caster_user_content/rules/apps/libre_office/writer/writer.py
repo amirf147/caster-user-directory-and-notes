@@ -13,6 +13,11 @@ class WriterRule(MappingRule):
         "file custom retain": R(Key("cs-s")),
         "open recent": R(Key("a-f, u")),
         "file export pdf": R(Key("a-f, e, d")),
+
+        # Bookmarks
+        "insert bookmark": R(Key("a-i, k, enter")),
+        "book under [<n>]": R(Key("ca-n:%(n)d")), #Requires user define key binding: "To Next Bookmark"
+        "book over [<n>]": R(Key("ca-p:%(n)d")), #Requires user define key binding: "To Previous Bookmark"
         
         # Styles
         "show styles": R(Key("a-y, y")),
