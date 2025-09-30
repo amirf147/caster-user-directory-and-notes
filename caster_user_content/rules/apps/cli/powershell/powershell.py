@@ -50,7 +50,11 @@ class PowershellRule(MappingRule):
             R(Text("Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard", pause=0.0)
             + Pause("20") + Key("enter"),
             rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
+        "expand archive": R(Text("Expand-Archive  -DestinationPath") + Key("left:17")),
         
+        # Java uml reverse mapper
+        "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
+
         # Policies/Permissions
         "[show] policy": R(Text("Get-ExecutionPolicy -List", pause=0.0)),
         "policy set": R(Text("Set-ExecutionPolicy ", pause=0.0)),
