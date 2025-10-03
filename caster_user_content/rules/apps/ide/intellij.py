@@ -10,9 +10,10 @@ class IntelliJRule(MappingRule):
 
         "zoom in [<n>]": R(Key("as-=:%(n)d")),
         "zoom out [<n>]": R(Key("as-minus:%(n)d")),
+        "zoom (reset | one hundred)": R(Key("as-0")),
 
         # Diagram related commands
-        "show diagram": R(Key("cas-u")),
+        "show diagram": R(Key("cas-u")), # Requires Ultimate version
         "find usages": R(Key("a-f7")),
 
         "collapse methods": R(Key("cs-minus")),
