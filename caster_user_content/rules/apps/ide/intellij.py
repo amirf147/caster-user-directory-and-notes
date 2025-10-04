@@ -14,7 +14,7 @@ class IntelliJRule(MappingRule):
 
         # Diagram related commands
         "show diagram": R(Key("cas-u")), # Requires Ultimate version
-        "find usages": R(Key("a-f7")),
+        "(find | show) usages": R(Key("a-f7")),
 
         "collapse methods": R(Key("cs-minus")),
         "expand methods": R(Key("cs-plus")),
