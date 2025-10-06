@@ -54,6 +54,7 @@ class FigmaRule(MappingRule):
         Choice("plugin", {
             "colors": "coolors",
             "icons": "flaticon",
+            "images": "unsplash",
         })
     ]
     defaults = {"n": 1}
