@@ -1,6 +1,6 @@
-from dragonfly import MappingRule, ShortIntegerRef, Mouse
+from dragonfly import MappingRule, ShortIntegerRef, Mouse, Pause
 
-from castervoice.lib.actions import Key
+from castervoice.lib.actions import Key, Text
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -40,6 +40,9 @@ class FigmaRule(MappingRule):
         # Cursor
         "mode pan | mope": R(Key("space:down") + Mouse("left:down")),
         "mode not | maze": R(Key("space:up") + Mouse("left:up")),
+
+        # Plugins
+        "plug colors": R(Key("c-p/30") + Text("coolors") + Pause("30") + Key("enter")),
 
     }
     extras = [
