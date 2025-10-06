@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, ShortIntegerRef, Mouse, Pause
+from dragonfly import MappingRule, ShortIntegerRef, Mouse, Pause, Choice
 
 from castervoice.lib.actions import Key, Text
 
@@ -42,11 +42,19 @@ class FigmaRule(MappingRule):
         "mode not | maze": R(Key("space:up") + Mouse("left:up")),
 
         # Plugins
-        "plug colors": R(Key("c-p/30") + Text("coolors") + Pause("30") + Key("enter")),
+        "plug <plugin>": R(Key("c-p/30") + Text("%(plugin)s") + Pause("30") + Key("enter")),
+
+        # Arrangement
+        "layer under": R(Key("c-[")),
+        "layer over": R(Key("c-]")),
 
     }
     extras = [
         ShortIntegerRef("n", 1, 41),
+        Choice("plugin", {
+            "colors": "coolors",
+            "icons": "flaticon",
+        })
     ]
     defaults = {"n": 1}
 
