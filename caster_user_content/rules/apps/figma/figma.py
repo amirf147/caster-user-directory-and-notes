@@ -10,7 +10,7 @@ class FigmaRule(MappingRule):
     pronunciation = "figma"
     mapping = {
         "[show] keyboard shorts": R(Key("cs-?")),
-        "show ui": R(Key("c-\\")), # Shows/Hides all Figma UI elements
+        "(show | hide) ui": R(Key("c-\\")), # Shows/Hides all Figma UI elements
         "(show | hide) left": R(Key("cs-\\")), # Shows/Hides left panel
         
         "commander": R(Key("c-k")),
@@ -24,8 +24,8 @@ class FigmaRule(MappingRule):
         # Tools
         "move tool": R(Key("v")),
         "text tool": R(Key("t")),
-        # "framer": R(Key("f")),
-        # "color picker mode": R(Key("i")),
+        "frame tool": R(Key("f")),
+        "color picker": R(Key("i")),
         
         # View
         "show files": R(Key("a-1")),
