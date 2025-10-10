@@ -17,16 +17,18 @@ class CustomMSWordRule(MappingRule):
                           Text("%(query)s") + Key("enter")),
 
         "update field": R(Key("f9")),
-        "update table": R(Key("f9/5, down, enter")),
+        "update table": R(Key("f9/50, down, enter")),
 
         # Read aloud
-        "reading mode": R(Key("ca-space")),
+        "read aloud": R(Key("ca-space")),
         "(pause | resume | start | stop) reading": R(Key("c-space")),
         "next paragraph": R(Key("c-right")),
         "previous paragraph": R(Key("c-left")),
 
+        "reading mode": R(Key("a-w/10, f")),
+
         "insert image": R(Key("alt, n, p")),
-        "file open": R(Key("c-o/3, a-o/100, o")),
+        "file open": R(Key("c-o/30, a-o/100, o")),
         "file retain": R(Key("c-s")),
         "file new": R(Key("c-n")),
         "file export": R(Key("a-f/100, e")),
@@ -60,6 +62,7 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-w/50, j")),
         "zoom dialogue":
             R(Key("a-w/50, q")),
+        "zoom width": R(Key("a-w/50, i")),
 
         # Editing
         "remove formatting":
