@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Dictation
+from dragonfly import IntegerRef
 
 from castervoice.lib.actions import Key, Text
 
@@ -12,8 +12,10 @@ class MSWordCcrRule(MergeRule):
 
     mapping = {
 
+        "(apply heading) | header <n3>": R(Key("ac-%(n3)d")),
+        
         # Editing
-        "format bold":
+        "format bold | bowley":
             R(Key("c-b")),
         "format italic":
             R(Key("c-i")),
@@ -25,6 +27,10 @@ class MSWordCcrRule(MergeRule):
         # Find tab of Find and Replace dialog
         "etsype": R(Key("c-h/5, s-tab, left")),
     }
+    extras = [
+        IntegerRef("n3", 1, 4),
+    ]
+
 def get_rule():
     details = RuleDetails(executable="winword",
                           title="Word",

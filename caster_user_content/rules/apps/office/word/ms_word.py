@@ -45,7 +45,7 @@ class CustomMSWordRule(MappingRule):
             R(Key("s-f10/3, t")),
 
         # Cycle through case formatting for highlighted text
-        "cycle caps":
+        "cycle case":
             R(Key("s-f3")),
 
 
@@ -132,8 +132,6 @@ class CustomMSWordRule(MappingRule):
         # Applying styles
         "apply normal [style]":
             R(Key("cs-n")),
-        "apply heading <n3>":
-            R(Key("ac-%(n3)d")),
 
         # Page Layout
         # Add line numbers with option: "Restart Each Page"
@@ -207,7 +205,6 @@ class CustomMSWordRule(MappingRule):
     extras = [
         Dictation("query"),
         ShortIntegerRef("n", 1, 100),
-        IntegerRef("n3", 1, 4),
 
     ]
     defaults = {"n": 1, "query": "",}
