@@ -36,6 +36,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "brightness zero": R(Key("w-a/50, tab/20:4, home, escape")),
         "brightness (max | one hundred)": R(Key("w-a/50, tab/20:4, end, escape")),
         "brightness dialog": R(Key("w-a/50, tab/20:4")),
+        "toggle bed": R(Mimic("toggle night") + Pause("150") + Mimic("brightness zero")),
+        "toggle day": R(Mimic("toggle night") + Pause("150") + Mimic("brightness one hundred")),
         
         "show [me] calendar":
             R(Key("w-b, up:2, enter")),
