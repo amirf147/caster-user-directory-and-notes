@@ -15,8 +15,8 @@ class FigmaRule(MappingRule):
         
         "commander": R(Key("c-k")),
         "reopen tab": R(Key("cs-t")),
-        "zoom out [<n>]": R(Key("control:down") + Mouse("wheeldown:%(n)d") + Key("control:up")),
-        "zoom in [<n>]": R(Key("control:down") + Mouse("wheelup:%(n)d") + Key("control:up")),
+        "zoom out [<n40>]": R(Key("control:down") + Mouse("wheeldown:%(n40)d") + Key("control:up")),
+        "zoom in [<n40>]": R(Key("control:down") + Mouse("wheelup:%(n40)d") + Key("control:up")),
         "zoom fit": R(Key("s-1")),
         "zoom (select | selection)": R(Key("s-2")),
         "zoom one hundred": R(Key("c-0")),
@@ -37,6 +37,12 @@ class FigmaRule(MappingRule):
         # Edit
         "duplicate": R(Key("c-d")),
 
+        # Transform
+        "rake [<n500>]": R(Key("c-right:%(n500)d")), # Expands the width of the selected element
+        "lake [<n500>]": R(Key("c-left:%(n500)d")), # Contracts the width of the selected element
+        "stretch [<n500>]": R(Key("c-down:%(n500)d")), # Expands the height of the selected element
+        "squeeze [<n500>]": R(Key("c-up:%(n500)d")), # Contracts the height of the selected element
+
         # Cursor
         "mode pan | mope": R(Key("space:down") + Mouse("left:down")),
         "mode not | maze": R(Key("space:up") + Mouse("left:up")),
@@ -48,9 +54,13 @@ class FigmaRule(MappingRule):
         "layer under": R(Key("c-[")),
         "layer over": R(Key("c-]")),
 
+        # Component
+        "create component": R(Key("ca-k")),
+
     }
     extras = [
-        ShortIntegerRef("n", 1, 41),
+        ShortIntegerRef("n40", 1, 41),
+        ShortIntegerRef("n500", 1, 501),
         Choice("plugin", {
             "colors": "coolors",
             "icons": "flaticon",
@@ -58,7 +68,7 @@ class FigmaRule(MappingRule):
             "able": "able friction",
         })
     ]
-    defaults = {"n": 1}
+    defaults = {"n40": 1, "n500": 1}
 
 
 def get_rule():
