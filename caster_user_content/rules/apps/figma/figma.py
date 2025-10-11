@@ -55,6 +55,7 @@ class FigmaRule(MappingRule):
             "colors": "coolors",
             "icons": "flaticon",
             "images": "unsplash",
+            "able": "able friction",
         })
     ]
     defaults = {"n": 1}
