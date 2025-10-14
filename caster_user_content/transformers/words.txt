@@ -63,7 +63,7 @@ navigation
     # CCR Mouse commands
     # For some reason enabling this transformer, stops the other navigationnon
     # from working
-    # kick -> yep
+    kick -> yeps
 
     #psychic -> are yeah
     #(kick double|double kick) -> double yep

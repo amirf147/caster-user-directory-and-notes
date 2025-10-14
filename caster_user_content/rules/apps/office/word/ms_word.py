@@ -139,6 +139,10 @@ class CustomMSWordRule(MappingRule):
             R(Key("a-p/3, l, n, r")),
         "remove line numbers":
             R(Key("a-p/3, l, n, n")),
+        "landscape layout":
+            R(Key("a-p/10, o, down, enter")),
+        "portrait layout":
+            R(Key("a-p/10, o, enter")),
 
         # Expand/Collapse text under a heading
         "expand text":
