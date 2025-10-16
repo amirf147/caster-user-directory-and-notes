@@ -40,9 +40,11 @@ class CustomMSWordRule(MappingRule):
         "navigate headings":
             R(Key("c-f/100, backspace, tab:2/3, left:2/3, tab:2")),
 
-        # Pasting only text without formatting
-        "paste text":
-            R(Key("s-f10/3, t")),
+        # Pasting
+        "paste text": # without formatting
+            R(Key("s-f10/10, t, enter")),
+        "merge paste": # merge formatting
+            R(Key("s-f10/10, m, enter")),
 
         # Cycle through case formatting for highlighted text
         "cycle case":
