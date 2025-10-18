@@ -12,7 +12,7 @@ class MSWordCcrRule(MergeRule):
 
     mapping = {
 
-        "(apply heading) | header <n3>": R(Key("ac-%(n3)d")),
+        "((apply heading) | header) <n3>": R(Key("ac-%(n3)d")),
         
         # Editing
         "format bold | bowley":
