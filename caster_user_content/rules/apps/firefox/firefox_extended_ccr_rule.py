@@ -10,15 +10,23 @@ from castervoice.lib.merge.state.short import R
 from caster_user_content import environment_variables as ev
 
 class FirefoxCcrRule(MergeRule):
-    pronunciation = "custom fire fox ccr"
+    pronunciation = "custom fire fox c c r"
 
     mapping = {
         "switch focus":
             R(Key("f6/3")),
         "copy address":
             R(Key("a-d/5, c-c, escape, f6, tab/5, tab")),
-        "netspell":
-            R(Key("a-d/5")),
+        
+        # CCR versions of a focusing address so you can continue to type characters without pausing
+        # Web search
+        "netspell": R(Key("a-d/5")),
+        "netspell tab": R(Key("c-t/50")),
+        
+        # History search
+        "hispell": R(Key("a-d/20, ^")),
+        "hispell tab": R(Key("c-t/50, ^")),
+        
         # "insert <text>": R(Text("%(text)s")), # Not working for some reason
     }
     extras = [
