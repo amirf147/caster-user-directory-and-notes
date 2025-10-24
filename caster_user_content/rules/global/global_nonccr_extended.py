@@ -55,6 +55,8 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-r/50") + Text("msconfig") + Key("enter")),
         "show display settings": # Opens the Display Settings utility via run dialog
             R(Key("w-r/50") + Text("ms-settings:display") + Key("enter")),
+        "show add remove programs": # Opens Apps & Features (Add/Remove Programs) in Windows 11
+            R(Key("w-r/50") + Text("ms-settings:appsfeatures") + Key("enter")),
 
         "begin dictation": # Activate windows dictation mode and sleeps caster windows
             R(Key("w-h") + Mimic("caster sleep")),
