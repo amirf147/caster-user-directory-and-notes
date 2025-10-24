@@ -28,6 +28,8 @@ class FirefoxCcrRule(MergeRule):
         "hispell tab": R(Key("c-t/50, ^")),
         
         # "insert <text>": R(Text("%(text)s")), # Not working for some reason
+
+        "juice": R(Key("c-f/20")), # for spelling into find dialog
     }
     extras = [
         # Choice("text", ev.INSERTABLE_TEXT),
