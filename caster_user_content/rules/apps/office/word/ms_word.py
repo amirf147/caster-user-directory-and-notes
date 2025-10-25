@@ -57,9 +57,11 @@ class CustomMSWordRule(MappingRule):
 
         # Zooming
         "zoom in [<n>]":
-            R(Key("a-w/50, q/3, tab:2, up:%(n)d, enter")),
+            # R(Key("a-w/50, q/3, tab:2, up:%(n)d, enter")),
+            R(Key("c-=:%(n)d")),
         "zoom out [<n>]":
-            R(Key("a-w/50, q/3, tab:2, down:%(n)d, enter")),
+            # R(Key("a-w/50, q/3, tab:2, down:%(n)d, enter")),
+            R(Key("c-minus:%(n)d")),
         "zoom reset":
             R(Key("a-w/50, j")),
         "zoom dialogue":
