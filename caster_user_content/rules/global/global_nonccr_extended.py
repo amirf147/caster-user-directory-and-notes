@@ -125,13 +125,15 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # "zone seven scree <direction> [<nnavi500>]":
         #     R(Mouse("[2906, 1567]") + Pause("30") + Function(navigation.wheel_scroll)),
 
-        
-
         # Mirroring a window to all workspaces
         "mirror space window": # Secondary monitor
-            R(Key("w-tab/150") + Key("tab/3")*Repeat(3) + Key("s-f10/40, down/40, down/2, down/2, enter, escape")),
+            R(Key("w-tab/150, tab/30:3, s-f10/40, down/40, down/2, down/2, enter, escape")),
         "mirror window": # Primary monitor
             R(Key("w-tab/150, s-f10/40, down/40, down:2, enter, escape")),
+        
+        # Doesn't work, investigate later
+        # "mirror hud": # Multi-step command for caster status window
+        #     R(Mimic("monitor left") + Pause("200") + Mimic("window left") + Pause("200") + Mimic("mirror space window")),
         
         # Combining the previous two words into one word
         "last join":

@@ -46,6 +46,8 @@ class ExcelRule(MappingRule):
         "fit width": R(Key("a-h, o, i")),
         "fit height": R(Key("a-h, o, a")),
 
+        "insert column": R(Key("a-h, i, c")),
+
     }
     extras = [
         ShortIntegerRef("row_1", 1, 100),
