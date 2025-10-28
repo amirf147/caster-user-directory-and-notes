@@ -64,8 +64,8 @@ LIST_COMMANDS = {
 
 PYTHON_COMMANDS = {
     "create virtual": "-m venv .venv",
-    "pip": "pip ",
-    "pip install": "pip install ",
+    "pip": "-m pip ",
+    "pip install": "-m pip install ",
 }
 
 PIP_COMMANDS = {
