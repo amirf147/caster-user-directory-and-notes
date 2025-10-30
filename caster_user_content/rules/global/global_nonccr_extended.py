@@ -187,6 +187,7 @@ copy and paste it: ") + Key("c-v")),
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
         
         "kil enable via cam": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\kill cam.lnk", pause=0.0) + Key("enter")),
+        "restart explorer": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\restart_explorer.bat", pause=0.0) + Key("enter")),
 
         "computer lock screen": # Locks the computer via the start menu power button
             R(Key("win/50, tab/30:3/30, right/30, enter/30, enter")),
