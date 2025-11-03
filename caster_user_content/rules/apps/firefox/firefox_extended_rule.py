@@ -257,6 +257,10 @@ class FirefoxExtendedRule(MappingRule):
 
         "copy back address": # Copy address bar contents and switch back to previous application
             R(Key("a-d/5, c-c/3, f6/3, a-tab")),
+
+        "log pross": # Speed up school website navigation
+            R(Key("down/20, tab/30, tab/20:2, enter/50, tab:2, enter/50") +
+              Mouse("(0.5, 0.5), left") + Pause("50") + Key("enter/50")),
     }
     
     extras = [
