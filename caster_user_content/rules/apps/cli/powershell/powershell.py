@@ -27,6 +27,7 @@ class PowershellRule(MappingRule):
         "install current user": R(Text("Install-Module  -Scope CurrentUser") + Pause("20") + Key("left:19")),
 
         # File/Folder Operations
+        "folder new": R(Text("New-Item -ItemType Directory -Path ", pause=0.0)),
         "tree": R(Text("tree", pause=0.0)),
         "tree eff": R(Text("tree /f", pause=0.0)),
         "tree eff to clipboard": R(Text("tree /f | Set-Clipboard", pause=0.0)),
