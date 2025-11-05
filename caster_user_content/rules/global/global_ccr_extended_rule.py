@@ -26,8 +26,9 @@ class GlobalCCRExtendedRule(MergeRule):
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
 
         # Clicking on left and right of screen for faster split-windowed switching
-        "cheek": R(Mouse("[500, 262], left")),
-        "chook": R(Mouse("[1500, 262], left")),
+        # Commented out because being wrongfully triggered when in mid dictation saying the word cheat
+        # "cheek": R(Mouse("[500, 262], left")),
+        # "chook": R(Mouse("[1500, 262], left")),
         
         # Clicking on screen sextants
         "zick one": R(Mouse("[192, 199], left"), rdescript="Click sextant 1"),

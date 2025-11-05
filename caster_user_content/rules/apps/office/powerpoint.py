@@ -54,7 +54,9 @@ class PowerPointRule(MappingRule):
             R(Key("c-b")),
 
         # View
-        "reading view": R(Key("a-w, d")),
+        "reading view": R(Key("a-w/30, d")),
+        "outline view": R(Key("a-w/30, p, o")),
+        "normal view": R(Key("a-w/30, l")),
 
         # Table
         "merge cells":
