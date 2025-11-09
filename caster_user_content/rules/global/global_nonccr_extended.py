@@ -30,7 +30,10 @@ class GlobalNonCCRExtendedRule(MappingRule):
         
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
-        
+
+        # Windows key querying
+        "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s", pause=0.0)),
+
         # Quick Settings menu - Windows 11
         "toggle night [mode]": R(Key("w-a/100, down/30:2, enter/30, escape")),
         "brightness zero": R(Key("w-a/100, tab/20:4, home, escape")),
@@ -239,7 +242,7 @@ copy and paste it: ") + Key("c-v")),
         IntegerRef("n8", 0, 512),
         IntegerRef("n9", 0, 512),
         IntegerRef("n10", 0, 512),
-
+        Dictation("query"),
 
     ]
     defaults = {
@@ -257,6 +260,7 @@ copy and paste it: ") + Key("c-v")),
         "n8": None,
         "n9": None,
         "n10": None,
+        "query": "",
     }
 
 def get_rule():
