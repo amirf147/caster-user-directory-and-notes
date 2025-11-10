@@ -17,6 +17,8 @@ class PowershellCCRRule(MergeRule):
 
         # Executables/Commands
         "<exe>": R(Text("%(exe)s") + Key("space")),
+        "rename": # Renaming a file or folder
+            R(Text("Rename-Item -Path  -NewName") + Key("left:9")),
 
         "mark mode": R(Key("a-space, e, k")),
 
