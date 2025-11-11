@@ -75,6 +75,8 @@ class WriterRule(MappingRule):
 
         # Table
         "insert table": R(Key("c-f12")),
+        "insert row above": R(Key("s-f10, i, a")),
+        "merge cells": R(Key("s-f10, g")),
 
         # Font
         # Requires user define key binding: "Font Color" (second one)
