@@ -76,6 +76,7 @@ class WriterRule(MappingRule):
         # Table
         "insert table": R(Key("c-f12")),
         "insert row above": R(Key("s-f10, i, a")),
+        "insert row below": R(Key("s-f10, i, b")),
         "merge cells": R(Key("s-f10, g")),
         "insert column after": R(Key("s-f10, i, f")),
         "insert column before": R(Key("s-f10, i, e")),
