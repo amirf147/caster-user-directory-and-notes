@@ -80,6 +80,8 @@ class WriterRule(MappingRule):
         "merge cells": R(Key("s-f10, g")),
         "insert column after": R(Key("s-f10, i, f")),
         "insert column before": R(Key("s-f10, i, e")),
+        "delete row": R(Key("s-f10, d, r")),
+        "delete column": R(Key("s-f10, d, c")),
 
         # Font
         # Requires user define key binding: "Font Color" (second one)
