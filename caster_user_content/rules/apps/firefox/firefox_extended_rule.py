@@ -181,6 +181,10 @@ class FirefoxExtendedRule(MappingRule):
         "go sprite clipboard": # Opens clipboard content in new window and splits windows vertically
             R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50, c-v, enter")),
 
+        "file open": R(Key("c-o")),
+        "file open tab": R(Key("c-t/30, c-o")),
+        "file open window": R(Key("c-n/120, c-o")),
+        
         # Link navigation
         "jink <query>":
             R(Key("c-f/5") + Text("%(query)s", pause=0.0) + Key("enter/5, escape/3, enter")),
