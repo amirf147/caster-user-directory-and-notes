@@ -82,6 +82,7 @@ class WriterRule(MappingRule):
         "insert column before": R(Key("s-f10, i, e")),
         "delete row": R(Key("s-f10, d, r")),
         "delete column": R(Key("s-f10, d, c")),
+        "table dialog": R(Key("a-a, p")),
 
         # Font
         # Requires user define key binding: "Font Color" (second one)
