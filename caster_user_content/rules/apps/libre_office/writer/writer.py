@@ -72,6 +72,7 @@ class WriterRule(MappingRule):
         "remove line numbers": R(Key("a-t, l, space, enter")),
         "line numbers dialog": R(Key("a-t, l")),
         "show settings": R(Key("a-t, o")),
+        "show heading numbering": R(Key("a-t, n")),
 
         # Table
         "insert table": R(Key("c-f12")),
