@@ -45,8 +45,12 @@ class ExcelRule(MappingRule):
         "hint home": R(Key("a-h")),
         "fit width": R(Key("a-h, o, i")),
         "fit height": R(Key("a-h, o, a")),
+        "word wrap": R(Key("a-h, w")),
 
         "insert column": R(Key("a-h, i, c")),
+
+        "queen [<text>]": # Microsoft Search querying for quickly accessing settings/functions
+            R(Key("a-q/30") + Text("%(text)s")),
 
     }
     extras = [
