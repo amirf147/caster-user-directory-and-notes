@@ -62,6 +62,6 @@ def get_rule():
             "open", "save", "select", "file upload", 
             "Insert Picture", "Insert Image", "Export", 
             "Another Application", "Install from VSIX",
-            "Save As"
+            "Save As", "Create File",
         ]
     )
