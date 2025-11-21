@@ -154,6 +154,11 @@ class PowershellRule(MappingRule):
         "trell [<trello_command>]": R(Text("trello %(trello_command)s")),
 
         "code here": R(Text("windsurf .") + Key("enter")),
+
+        "you in it": R(Text("uv init") + Key("enter")),
+        "you pi pin": R(Text("uv python pin ")),
+        "you add": R(Text("uv add ")),
+        "you add git": R(Text("uv add git+")),
     }
     extras = [
         Choice("path", PATHS),
