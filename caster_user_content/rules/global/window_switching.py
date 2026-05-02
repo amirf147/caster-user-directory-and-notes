@@ -3,7 +3,7 @@ from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-from caster_user_content.util import switch_application, taskbar
+from caster_user_content.util import switch_application, taskbar, app_switcher
 from caster_user_content.environment_variables import WINDOW_ALIASES, WINDOWS_APP_ALIASES
 
 # Import the shared window_aliases from the package
@@ -28,6 +28,7 @@ class WindowSwitchingRule(MappingRule):
         # "list aliases": R(Function(list_aliases)),
 
         "show taskbar info": R(Function(lambda: taskbar.show_taskbar_info(taskbar.get_taskbar_items()))),
+        "show app info": R(Function(app_switcher.show_window_info)),
     }
 
     extras = [

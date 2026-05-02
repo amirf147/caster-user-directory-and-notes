@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # taskbar.py
 # Initially written with GPT-5/o3/Microsoft copilot (smart mode)
+#
+# NOTE: This is a legacy script. It was used when operating with a modified Windows taskbar
+# (customized via Windhawk) that featured labeled taskbar buttons. 
+# The current and actively used approach for application/window switching is now located in `app_switcher.py`.
 
 
 # TODO: make it so that saying application alias name will activate the most recently used instance of that application
