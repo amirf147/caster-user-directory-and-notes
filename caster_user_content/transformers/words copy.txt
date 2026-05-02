@@ -1,0 +1,105 @@
+# Reference: https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
+
+# The left side of the arrow represents the original mappings 
+# (what the system currently listens for),
+# while the right side represents the new mappings (what the system will listen for after modification).
+
+# These modifications are related to the alphabet specifications defined in the 
+# caster_alphabet function within the alphabet_support.py file.
+
+alphabet
+    <<<ANY>>>  # Represents the mode change: specs, extras, and defaults 
+    
+    # Talon alphabet adjustments:
+    # On the left are the original phonetic words; on the right are the modified ones.
+    # Example: 'Sierra' was changed to 'sun', and 'victor' was changed to 'vest'.
+    # The ones that are commented out are left unchanged.
+    
+    # arch -> air
+    # brov -> bat
+    # char -> cap
+    delta -> drum  # Original: 'delta', New: 'drum'
+    echo -> each   # Original: 'echo', New: 'each'
+    foxy -> fine
+    goof -> gust
+    hotel -> harp 
+    India -> sit 
+    julia -> jury 
+    kilo -> crunch
+    Lima -> look
+    Mike -> made
+    Novakeen -> near
+    oscar -> odd
+    # prime -> pit  # Uncomment to activate this change
+    Quebec -> quench
+    Romeo -> read
+    Sierra -> sun
+    tango -> trap
+    uniform -> urge
+    victor -> vest
+    whiskey -> whale
+    x-ray -> plex
+    yankee -> yank
+    Zulu -> zip
+
+navigation
+    # special keystroke commands
+    <<<ANY>>>
+    sauce wally -> topper
+    dunce wally -> bottom
+    firch -> jump
+
+    # button_dictionary_500_no_prefix_no_modifier
+    <<<ANY>>>
+    clear -> backs
+    lease -> left
+    ross -> right
+
+    # keyboard shortcuts
+    <<<ANY>>>
+    # cut -> cuts
+    save -> file retain
+
+    # CCR Mouse commands
+    # For some reason enabling this transformer, stops the other navigationnon
+    # from working
+    kick -> yeps
+
+    #psychic -> are yeah
+    #(kick double|double kick) -> double yep
+
+navigationnon
+    <<<ANY>>>
+    next tab -> page under
+    prior tab -> page over
+    find -> finder
+    drop -> dropper
+    
+    # made this one longer to stop misrecognitions with "backs"
+    maxiwin -> make maximizing
+
+keyboard
+    <<<ANY>>>
+    (tab | tabby) -> tab
+    (backspace | clear) -> backs
+    (delete | deli) -> delete
+    page (down | dunce) -> fell
+    page (up | sauce) -> flow
+    (home | lease wally | latch) -> (home | homer | lease wally)
+    (end | ross wally | ratch) -> (end | sequel | ross wally)
+
+punctuation
+    <<<ANY>>>
+    brax -> bracket
+    minus -> (minus | dash)
+    plus -> plus sign
+    (atty | at symbol) -> at symbol
+    (back | shin) tabby -> shin tab
+    
+    # text_punc_dict()
+    Dolly -> dollar sign
+    clamor -> exclamation [mark|point]
+    deckle -> colon
+    questo -> question mark
+    period | dot -> period
+    equals -> equal
