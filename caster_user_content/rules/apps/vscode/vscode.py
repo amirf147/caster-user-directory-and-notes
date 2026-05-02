@@ -323,8 +323,9 @@ class CustomVSCodeRule(MappingRule):
         "open <text>":
             R(Key("c-e/5") + Text("%(text)s")),
 
-        "go <file>":
-            R(Key("c-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
+        # Commenting out because Antigravity needs a different keyboard shortcut
+        # "go <file>":
+        #     R(Key("c-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
         
         # Requires Extension: jumpy
         # Requires user defined key binding: "command": "extension.jumpy-exit"

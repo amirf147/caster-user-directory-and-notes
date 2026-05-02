@@ -1,4 +1,4 @@
-from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key
 
@@ -34,10 +34,14 @@ class AntigravityRule(MappingRule):
             Key("cs-backtick") + # Create new terminal instance
             Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
             Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
+
+        "go <file>":
+            R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
         Dictation("text"),
+        Choice("file", ev.CASTER_FILE_NAMES),
     ]
     defaults = {
         "n": 1,
