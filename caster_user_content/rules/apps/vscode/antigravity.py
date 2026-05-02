@@ -30,10 +30,12 @@ class AntigravityRule(MappingRule):
         "reject change": R(Key("sa-backspace")),
 
         # Custom Commands
+        # "generate commit prompt": R(
+        #     Key("cs-backtick") + # Create new terminal instance
+        #     Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
+        #     Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
         "generate commit prompt": R(
-            Key("cs-backtick") + # Create new terminal instance
-            Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
-            Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
+            Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
 
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
