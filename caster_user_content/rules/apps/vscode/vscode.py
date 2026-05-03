@@ -137,7 +137,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-f")),
         "replace":
             R(Key("c-h")),
-        "find in files":
+        "super find":
             R(Key("cs-f")),
         "replace in files":
             R(Key("cs-h")),
@@ -368,8 +368,8 @@ class CustomVSCodeRule(MappingRule):
         "hide left": R(Key("c-b")),
 
         # Searching
-        "suds <text>": R(Key("cs-f/3") + Text("%(text)s")),
-        "fly <text>": R(Key("c-f/3") + Text("%(text)s")),
+        "sue fye <text>": R(Key("cs-f/3") + Text("%(text)s")),
+        "sly <text>": R(Key("c-f/3") + Text("%(text)s")),
         "match whole": R(Key("a-w")),
         "match case": R(Key("a-c")),
             

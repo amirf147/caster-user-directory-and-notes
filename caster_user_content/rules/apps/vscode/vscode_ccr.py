@@ -127,8 +127,7 @@ class CustomVSCodeCcrRule(MergeRule):
             R(Key("cs-k:%(n)d")),
         "selina [<n101>]":
             R(Key("c-l:%(n101)d")),
-        "super find":
-            R(Key("cs-f")),
+
         "move up [<n101>]": R(Key("a-up:%(n101)d")),
         "move down [<n101>]": R(Key("a-down:%(n101)d")),
         "open spell": R(Key("c-e/5")), # Allows me to directly start spelling the filename
