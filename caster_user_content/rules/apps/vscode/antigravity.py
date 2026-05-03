@@ -1,4 +1,4 @@
-from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef, Choice
+from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef, Choice, Mimic
 
 from castervoice.lib.actions import Key
 
@@ -39,6 +39,8 @@ class AntigravityRule(MappingRule):
 
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
+
+        "voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
