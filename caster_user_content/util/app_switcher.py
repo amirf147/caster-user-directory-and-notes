@@ -99,20 +99,30 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     
     # Switch to the window
     try:
-        # Hack to allow SetForegroundWindow to work reliably
-        shell = win32com.client.Dispatch("WScript.Shell")
-        shell.SendKeys('%')
-        
-        # If minimized, restore it
+        # If minimized, restore it first via win32gui
         placement = win32gui.GetWindowPlacement(target_hwnd)
         if placement[1] == win32con.SW_SHOWMINIMIZED:
             win32gui.ShowWindow(target_hwnd, win32con.SW_RESTORE)
             
-        win32gui.SetForegroundWindow(target_hwnd)
+        # Use pywinauto to reliably set focus (prevents flashing taskbar icon / residual focus)
+        from pywinauto import Application
+        app = Application().connect(handle=target_hwnd)
+        app.window(handle=target_hwnd).set_focus()
+        
         return True
     except Exception as e:
-        print(f"Failed to switch to window: {e}")
-        return False
+        print(f"Failed to switch to window using pywinauto: {e}")
+        
+        # Fallback to win32gui and WScript.Shell hack
+        try:
+            import win32com.client
+            shell = win32com.client.Dispatch("WScript.Shell")
+            shell.SendKeys('%')
+            win32gui.SetForegroundWindow(target_hwnd)
+            return True
+        except Exception as fallback_e:
+            print(f"Fallback focus method also failed: {fallback_e}")
+            return False
 
 if __name__ == "__main__":
     show_window_info()
