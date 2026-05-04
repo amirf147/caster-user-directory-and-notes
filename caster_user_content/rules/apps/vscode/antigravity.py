@@ -20,8 +20,6 @@ class AntigravityRule(MappingRule):
         "chat here": 
             R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
         
-        # Voice recording (No default keybinding found in Antigravity, so placeholder for now)
-        # "start voice": R(Key("...")),
 
         # Agent Hunk / Edits Navigation
         "change over": R(Key("a-k")),
@@ -34,8 +32,11 @@ class AntigravityRule(MappingRule):
         #     Key("cs-backtick") + # Create new terminal instance
         #     Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
         #     Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
-        "generate commit prompt": R(
-            Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
+        # "generate commit prompt": R(
+        #     Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
+
+        # First stages changes and opens stage, then inputs /commit into agent chat window to get commit message.
+        "generate commit message": R(Key("c-g, c-s/50, c-g, cs-s/50, cs-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
 
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
