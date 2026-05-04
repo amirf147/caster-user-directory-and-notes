@@ -377,12 +377,12 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-m, delete")),
 
         # Codeium
-        "next Completion": R(Key("a-]")),
-        "previous Completion": R(Key("a-[")),
-        "generate commit message": # (Codeium: Generate Commit Message (beta))
-            R(Key("c-m, cs-c")),
-        "ice <text>": R(Key("c-i/100") + Text("%(text)s", pause=0.0), rdescript="VS Code: Codeium Instruction"),
-        "reject": R(Key("c-k, c-backspace"), rdescript="VS Code: Reject Codeium Instruction"), # windsurf.command.reject
+        # "next Completion": R(Key("a-]")),
+        # "previous Completion": R(Key("a-[")),
+        # "generate commit message": # (Codeium: Generate Commit Message (beta))
+        #     R(Key("c-m, cs-c")),
+        # "ice <text>": R(Key("c-i/100") + Text("%(text)s", pause=0.0), rdescript="VS Code: Codeium Instruction"),
+        # "reject": R(Key("c-k, c-backspace"), rdescript="VS Code: Reject Codeium Instruction"), # windsurf.command.reject
 
         # Text formatting
         "title case": R(Key("c-m, a-t")), # editor.action.transformToTitlecase

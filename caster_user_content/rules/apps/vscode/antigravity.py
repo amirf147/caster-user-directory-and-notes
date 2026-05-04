@@ -41,7 +41,10 @@ class AntigravityRule(MappingRule):
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
 
-        "voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
+
+        "agent manager": R(Key("c-e")),
     }
     extras = [
         ShortIntegerRef("n", 1, 101),

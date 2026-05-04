@@ -8,6 +8,7 @@ from castervoice.lib.merge.state.short import R
 from caster_user_content import environment_variables as ev
 from caster_user_content.util import variable_tracker
 
+# TODO: improve and make this work in antigravity
 
 def go_to_variable(env_var): # Currently this is for just the environment variables file but maybe we can generalize it in the future
     """Jump to the line where a variable is defined"""

@@ -86,8 +86,8 @@ class PowershellRule(MappingRule):
         "remove recursive": R(Text("Remove-Item -Recurse -Force -Path", pause=0.0) + Key("space")),
 
         # Parrot.py
-        "remove sure data": R(Text("Remove-Item -Recurse -Force -Path data\\recordings\\") + Key("tab:2")),
-        "start parrot": R(Text("python settings.py") + Key("enter")),
+        #"remove sure data": R(Text("Remove-Item -Recurse -Force -Path data\\recordings\\") + Key("tab:2")),
+        #"start parrot": R(Text("python settings.py") + Key("enter")),
 
         # Redmine
         "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production", pause=0.0) + Key("enter")),
