@@ -43,7 +43,8 @@ class AntigravityRule(MappingRule):
 
         "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
-
+        "voice chat here": R(Key("tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "agent settings": R(Key("c-comma")),
         "agent manager": R(Key("c-e")),
     }
     extras = [

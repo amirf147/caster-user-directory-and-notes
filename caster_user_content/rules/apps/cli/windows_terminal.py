@@ -22,8 +22,8 @@ class WindowsTerminalRule(MappingRule):
         "close shell": R(Key("cs-w")),
         "reopen shell": R(Key("cs-t")),
         "pop out shell": R(Key("csa-t")), # Move pane into new window
-        "shell over [<n>]": R(Key("c-tab:%(n)d")),
-        "shell under [<n>]": R(Key("cs-tab:%(n)d")),
+        "shell under [<n>]": R(Key("control:down") + Key("tab:%(n)d, control:up")),
+        "shell over [<n>]": R(Key("control:down, shift:down") + Key("tab:%(n)d, control:up, shift:up")),
         "new power | shell new": R(Key("cs-1")),
         "new (command | c m d | command prompt)": R(Key("cs-2")),
         "new git bash": R(Key("cs-6")),

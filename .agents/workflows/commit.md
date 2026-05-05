@@ -15,5 +15,5 @@ description: Generates a copy-paste ready commit message for Caster User Directo
    - **Conclusion**: State the benefit to your speed or accessibility.
 
 # Execution
-- Generate the message in a single code block for easy copying.
+- Generate the message in a single code block without markdown formatting for easy copying.
 - Do NOT run the `git commit` command.

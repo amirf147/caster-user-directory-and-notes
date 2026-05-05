@@ -53,7 +53,10 @@ class PowershellRule(MappingRule):
             rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
         "expand archive": R(Text("Expand-Archive  -DestinationPath") + Key("left:17")),
         "file move": R(Text("Move-Item -Path  -Destination") + Key("left:13")),
-        
+        "file copy": R(Text("Copy-Item -Path  -Destination") + Key("left:13")),
+        "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
+
+
         # Java uml reverse mapper
         "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
 
