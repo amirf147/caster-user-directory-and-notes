@@ -3,6 +3,14 @@ import win32con
 import win32com.client
 from caster_user_content.environment_variables import WINDOWS_APP_ALIASES, WINDOWS_APP_NAMES
 
+# Try to import pyvda for Virtual Desktop tracking
+try:
+    from pyvda import AppView, VirtualDesktop
+    PYVDA_AVAILABLE = True
+except ImportError:
+    PYVDA_AVAILABLE = False
+    print("WARNING: pyvda not installed. Workspace awareness will be disabled. Run: pip install pyvda")
+
 _SEPARATORS = (" - ", " – ", " — ")
 
 def extract_app_name(caption: str) -> str:
@@ -48,6 +56,14 @@ def get_open_windows():
 
 def show_window_info():
     print("\n--- Open Windows Info ---")
+    
+    current_desktop_id = None
+    if PYVDA_AVAILABLE:
+        try:
+            current_desktop_id = VirtualDesktop.current().id
+        except Exception:
+            pass
+
     windows = get_open_windows()
     for hwnd, title in windows:
         app_name = extract_app_name(title)
@@ -63,8 +79,19 @@ def show_window_info():
                 if val.lower() == app_name.lower():
                     alias = key
                     break
+        
+        # Add workspace info to debug output
+        workspace_status = ""
+        if PYVDA_AVAILABLE and current_desktop_id:
+            try:
+                if AppView(hwnd=hwnd).desktop_id == current_desktop_id:
+                    workspace_status = "[Current WS]"
+                else:
+                    workspace_status = "[Other WS]"
+            except Exception:
+                pass
                 
-        print(f"HWND: {hwnd:<8} | Alias: {alias:<10} | App: {app_name:<20} | Title: {title}")
+        print(f"HWND: {hwnd:<8} {workspace_status:<12} | Alias: {alias:<10} | App: {app_name:<20} | Title: {title}")
 
 def switch_to_app(app_name, instance: int = 1) -> bool:
     if isinstance(app_name, (list, tuple)):
@@ -76,23 +103,46 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         
     windows = get_open_windows()
     
-    # Filter windows by app_name
+    # 1. Identify current Virtual Desktop ID
+    current_desktop_id = None
+    if PYVDA_AVAILABLE:
+        try:
+            current_desktop_id = VirtualDesktop.current().id
+        except Exception as e:
+            print(f"Failed to get current Virtual Desktop ID: {e}")
+
+    # 2. Filter windows by app_name AND restrict to current workspace
     matching_windows = []
+    other_workspace_windows = 0
+
     for hwnd, title in windows:
         if extract_app_name(title).lower() in app_names_lc:
-            matching_windows.append((hwnd, title))
+            if PYVDA_AVAILABLE and current_desktop_id:
+                try:
+                    app_view = AppView(hwnd=hwnd)
+                    if app_view.desktop_id == current_desktop_id:
+                        matching_windows.append((hwnd, title))
+                    else:
+                        other_workspace_windows += 1
+                except Exception:
+                    # Fallback if pyvda fails to read this specific handle
+                    matching_windows.append((hwnd, title))
+            else:
+                matching_windows.append((hwnd, title))
             
     if not matching_windows:
-        print(f"No windows found for application(s) '{app_name_display}'.")
+        if other_workspace_windows > 0:
+            print(f"Found {other_workspace_windows} instance(s) of '{app_name_display}' on OTHER workspaces. Ignoring to prevent snap-back.")
+        else:
+            print(f"No windows found for application(s) '{app_name_display}'.")
         return False
         
     if instance < 1 or instance > len(matching_windows):
         print(f"Application '{app_name_display}' only has {len(matching_windows)} "
-              f"instance(s); requested #{instance}.")
+              f"instance(s) on the CURRENT workspace; requested #{instance}.")
         return False
         
-    # By default EnumWindows returns windows in Z-order (top to bottom).
-    # Instance 1 is the most recently used matching window.
+    # Target is strictly pulled from current workspace matches
     target_hwnd, target_title = matching_windows[instance - 1]
     
     print(f"Switching to HWND: {target_hwnd} | Title: {target_title}")
@@ -104,7 +154,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         if placement[1] == win32con.SW_SHOWMINIMIZED:
             win32gui.ShowWindow(target_hwnd, win32con.SW_RESTORE)
             
-        # Use pywinauto to reliably set focus (prevents flashing taskbar icon / residual focus)
+        # Use pywinauto to reliably set focus
         from pywinauto import Application
         app = Application().connect(handle=target_hwnd)
         app.window(handle=target_hwnd).set_focus()
@@ -115,7 +165,6 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         
         # Fallback to win32gui and WScript.Shell hack
         try:
-            import win32com.client
             shell = win32com.client.Dispatch("WScript.Shell")
             shell.SendKeys('%')
             win32gui.SetForegroundWindow(target_hwnd)
@@ -126,4 +175,3 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
 
 if __name__ == "__main__":
     show_window_info()
-
