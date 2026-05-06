@@ -283,6 +283,9 @@ class CustomVSCodeRule(MappingRule):
         "pi run":
             R(Key("c-k/3, f5")),
 
+        "file run":
+            R(Key("c-f5")),
+
         "run this line":
             R(Key("csa-l")),
         "join line":
@@ -348,6 +351,7 @@ class CustomVSCodeRule(MappingRule):
 
         # Source Control
         "source control": R(Key("cs-g")),
+        "git changes": R(Key("c-g, a-o")), # git.viewChanges
         "show changes": R(Key("c-g, c-o")), # git.openAllChanges
         "stage changes | git stage": R(Key("c-g, c-s")), # git.stageAll
         "show stage": R(Key("c-g, cs-s")), # git.viewStagedChanges

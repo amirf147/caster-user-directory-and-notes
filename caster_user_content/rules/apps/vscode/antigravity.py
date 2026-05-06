@@ -19,13 +19,19 @@ class AntigravityRule(MappingRule):
         "switch mode": R(Key("c-.")),
         "chat here": 
             R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
-        
+        "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "voice chat here": R(Key("tab:4/50") + Mimic("caster sleep") + Key("enter")),
+        "agent settings": R(Key("c-comma")),
+        "agent manager": R(Key("c-e")),
 
         # Agent Hunk / Edits Navigation
         "change over": R(Key("a-k")),
         "change under": R(Key("a-j")),
         "accept change": R(Key("a-enter")),
         "reject change": R(Key("sa-backspace")),
+
+        "debug console": R(Key("cs-y")),
 
         # Custom Commands
         # "generate commit prompt": R(
@@ -41,11 +47,8 @@ class AntigravityRule(MappingRule):
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
 
-        "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
-        "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
-        "voice chat here": R(Key("tab:4/50") + Mimic("caster sleep") + Key("enter")),
-        "agent settings": R(Key("c-comma")),
-        "agent manager": R(Key("c-e")),
+        "hide panel": R(Key("c-j")), # Hides bottom the panel
+        "show problems": R(Key("cs-m")), # Shows the problems panel
     }
     extras = [
         ShortIntegerRef("n", 1, 101),

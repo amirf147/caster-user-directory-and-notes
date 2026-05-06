@@ -23,7 +23,7 @@ class GeminiRule(MappingRule):
         "fast mode": # Requires that you are in the message composer box, switches to fast mode from pro mode 
             R(Key("tab:3/50, space/50, enter")),
         "voice chat": # Requires that you are in the message composer box, starts the voice chat interface 
-            R(Key("tab:4/50") + Mimic("caster sleep") + Pause("100") + Key("space")),      
+            R(Key("tab:4/50") + Mimic("caster sleep") + Pause("50") + Key("space")),      
     }
 
 def get_rule():
