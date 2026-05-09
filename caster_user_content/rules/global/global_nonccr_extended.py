@@ -189,7 +189,7 @@ copy and paste it: ") + Key("c-v")),
             Key("w-r/30") + Text(f"\"{PATHS['screen copy']}/scrcpy\"", pause=0.0) +
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
         
-        "kil enable via cam": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\kill cam.lnk", pause=0.0) + Key("enter")),
+        "kil enable via cam": R(Key("w-r/30") + Text("powershell -Command \"Start-Process powershell -ArgumentList 'Stop-Process -Name *eviacam* -Force' -Verb RunAs\"", pause=0.0) + Key("enter")),
         "restart explorer": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\restart_explorer.bat", pause=0.0) + Key("enter")),
 
         "computer lock screen": # Locks the computer via the start menu power button
