@@ -6,7 +6,7 @@ from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
-from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT
+from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT, RUN_COMMANDS
 from caster_user_content.util import switch_application
 
 import os
@@ -189,8 +189,9 @@ copy and paste it: ") + Key("c-v")),
             Key("w-r/30") + Text(f"\"{PATHS['screen copy']}/scrcpy\"", pause=0.0) +
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
         
-        "kil enable via cam": R(Key("w-r/30") + Text("powershell -Command \"Start-Process powershell -ArgumentList 'Stop-Process -Name *eviacam* -Force' -Verb RunAs\"", pause=0.0) + Key("enter")),
-        "restart explorer": R(Key("w-r/30") + Text(f"{os.getenv('USERPROFILE')}\\Desktop\\restart_explorer.bat", pause=0.0) + Key("enter")),
+        "kil enable via cam": R(Key("w-r/30") + Text(RUN_COMMANDS["kill enable via cam"], pause=0.0) + Key("enter")),
+        "restart explorer": R(Key("w-r/30") + Text(RUN_COMMANDS["restart explorer"], pause=0.0) + Key("enter")),
+        "restore window positions": R(Key("w-r/30") + Text(RUN_COMMANDS["restore window positions"], pause=0.0) + Key("enter")),
 
         "computer lock screen": # Locks the computer via the start menu power button
             R(Key("win/50, tab/30:3/30, right/30, enter/30, enter")),

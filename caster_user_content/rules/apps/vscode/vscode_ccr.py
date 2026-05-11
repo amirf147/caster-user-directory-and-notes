@@ -84,6 +84,8 @@ class CustomVSCodeCcrRule(MergeRule):
         "curse it [<n>]":
             R(Key("c-d")*Repeat(extra='n'),
               rdescript="VS Code: Add Cursor to Next Occurrence of Current Selection"),
+        "curse previous [<n>]": # editor.action.addSelectionToPreviousFindMatch
+            R(Key("ca-d:%(n)d")),
         "skip next cursor [<n>]":
             R(Key("c-k,c-d") * Repeat(extra="n"),
             rdescript="VS Code: Skip Selection and Add Cursor to Next Occurrence of Current Selection",
@@ -131,12 +133,6 @@ class CustomVSCodeCcrRule(MergeRule):
         "move up [<n101>]": R(Key("a-up:%(n101)d")),
         "move down [<n101>]": R(Key("a-down:%(n101)d")),
         "open spell": R(Key("c-e/5")), # Allows me to directly start spelling the filename
-        
-        # Requires user-defined key bindings
-        # Command: Add selection to previous find match
-        "curse previous [<n>]":
-            R(Key("ca-d:%(n)d")),
-
     }
     extras = [
         Dictation("text"),
