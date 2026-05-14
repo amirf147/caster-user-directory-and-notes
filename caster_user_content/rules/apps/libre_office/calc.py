@@ -15,6 +15,8 @@ def _select_cell(column_1, row_1):
 class CalcRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
+        "file custom retain": R(Key("cs-s")),
+        "file retain": R(Key("c-s")),
         "open recent": R(Key("a-f, u")),
         "file print": R(Key("c-p")),
         

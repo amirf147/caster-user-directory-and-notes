@@ -197,6 +197,13 @@ class FirefoxExtendedRule(MappingRule):
         "google that window":
             R(Store(remove_cr=True) + Key("c-n/120") + Retrieve() + Key("enter")),
 
+        # GitHub searching
+        "git search <query>":
+            R(Function(_search_github)),
+        "git search window <query>":
+            R(Key("c-n/60") + Function(_search_github)),
+        "git search tab <query>":
+            R(Key("c-t") + Function(_search_github)),
 
         # Searching YouTube
         "you search <query>":
@@ -207,7 +214,18 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-t") + Function(_search_youtube)),
         "you search sprite <query>":
             R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("%(query)s", pause=0.0) + Key("enter")),
-        
+
+        # Querying gemini
+        # Navigates to Gemini webapp, waits for it to loads then types the query into the chat input and presses enter
+        "gemzer <query>":
+            R(Key("a-d/50") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
+        # "gemzer sprite <query>": # Not Working Needs Work
+            # R(Function(utilities.maximize_window) + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "gemzer tab <query>":
+            R(Key("c-t/50") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "gemzer window <query>":
+            R(Key("c-n/120") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
+            
         # Translations    
         "translate that": # Translates the selection via the context menu
             R(Key("s-f10/30, n")),
@@ -240,14 +258,6 @@ class FirefoxExtendedRule(MappingRule):
         "tool over": R(Key("c-[")),
 
         "show process": R(Key("s-escape")),
-
-        # GitHub searching
-        "git search <query>":
-            R(Function(_search_github)),
-        "git search window <query>":
-            R(Key("c-n/60") + Function(_search_github)),
-        "git search tab <query>":
-            R(Key("c-t") + Function(_search_github)),
 
         "all replace": R(Mouse("left") + Pause("20") + Key("c-a/3, c-v")),
 
