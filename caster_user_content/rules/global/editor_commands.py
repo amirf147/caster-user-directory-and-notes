@@ -8,7 +8,6 @@ from castervoice.lib.merge.state.short import R
 from caster_user_content import environment_variables as ev
 from caster_user_content.util import variable_tracker
 
-# TODO: improve and make this work in antigravity
 
 def go_to_variable(env_var): # Currently this is for just the environment variables file but maybe we can generalize it in the future
     """Jump to the line where a variable is defined"""
@@ -16,12 +15,12 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
     line_number = str(variable_tracker.var_tracker.get_line_number(env_var))
     if line_number:
         Key("w-r/50").execute()
-        Text(f"windsurf {ev.ENVIRONMENT_FILE}").execute()
+        Text(f"antigravity {ev.ENVIRONMENT_FILE}").execute()
         Pause("30").execute()
         Key("enter").execute()
         Pause("150").execute()
         print(f"Jumping to line {line_number} for variable {env_var}")
-        Key("cas-g/50").execute()
+        Key("cas-g/50").execute() # workbench.action.gotoLineh
         Text(line_number).execute()
         Key("enter").execute()
     else:
@@ -30,7 +29,7 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
 class EditorCommandsRule(MappingRule):
     pronunciation = "editor commands"
     mapping = {
-        "edit <file_path>": R(Key("w-r/50") + Text(f"windsurf %(file_path)s") + Pause("50") + Key("enter")),
+        "edit <file_path>": R(Key("w-r/50") + Text(f"antigravity %(file_path)s") + Pause("50") + Key("enter")),
         "modify <env_var>": Function(go_to_variable), # Opens the environment variables file and jumps to the specified variable for faster editing
     }
     extras = [
