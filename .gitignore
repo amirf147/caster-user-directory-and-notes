@@ -19,3 +19,5 @@ window_aliases.json
 # Ignore pylint config file
 .pylintrc
 
+# Ignore pyrefly config file
+pyrefly.toml

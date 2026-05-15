@@ -350,7 +350,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("c-k, cs-f")),
 
         # Source Control
-        "source control": R(Key("cs-g")),
+        "source control": R(Key("cs-g, g")), # workbench.view.scm
         "git changes": R(Key("c-g, a-o")), # git.viewChanges
         "show changes": R(Key("c-g, c-o")), # git.openAllChanges
         "stage changes | git stage": R(Key("c-g, c-s")), # git.stageAll
