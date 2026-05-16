@@ -56,6 +56,9 @@ class PowershellRule(MappingRule):
         "file copy": R(Text("Copy-Item -Path  -Destination") + Key("left:13")),
         "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
 
+        # Wrapping a file in XML and putting it into clipboard for LLM ingestion
+        "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") + 
+                           Key("home, right:4")),
 
         # Java uml reverse mapper
         "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
