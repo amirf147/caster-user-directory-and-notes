@@ -19,8 +19,8 @@ def extract_app_name(caption: str) -> str:
 
     caption = caption.strip()
 
-    # First, check for known app names
-    for name in WINDOWS_APP_NAMES:
+    # First, check for known app names (sorted by length descending to match longer names first and prevent partial collisions)
+    for name in sorted(WINDOWS_APP_NAMES, key=len, reverse=True):
         if name.lower() in caption.lower():
             return name
 

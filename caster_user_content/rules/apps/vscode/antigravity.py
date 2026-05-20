@@ -61,5 +61,5 @@ class AntigravityRule(MappingRule):
 
 def get_rule():
     return AntigravityRule, RuleDetails(name="Antigravity",
-                                      executable="antigravity",
-                                      title="Antigravity")
+                                      executable="Antigravity IDE",
+                                      title="Antigravity IDE")

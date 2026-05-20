@@ -15,7 +15,7 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
     line_number = str(variable_tracker.var_tracker.get_line_number(env_var))
     if line_number:
         Key("w-r/50").execute()
-        Text(f"antigravity {ev.ENVIRONMENT_FILE}").execute()
+        Text(f"antigravity-ide {ev.ENVIRONMENT_FILE}").execute()
         Pause("30").execute()
         Key("enter").execute()
         Pause("150").execute()
@@ -29,7 +29,7 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
 class EditorCommandsRule(MappingRule):
     pronunciation = "editor commands"
     mapping = {
-        "edit <file_path>": R(Key("w-r/50") + Text(f"antigravity %(file_path)s") + Pause("50") + Key("enter")),
+        "edit <file_path>": R(Key("w-r/50") + Text(f"antigravity-ide %(file_path)s") + Pause("50") + Key("enter")),
         "modify <env_var>": Function(go_to_variable), # Opens the environment variables file and jumps to the specified variable for faster editing
     }
     extras = [

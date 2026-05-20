@@ -18,7 +18,7 @@ except Exception:
 
 # Define application groups by their window title identifiers
 CTRL_TAB_APPS = ['Waterfox', 'Firefox', 'Windows Terminal']
-CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code']
+CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code', 'Antigravity IDE']
 
 
 class WindowInfo(NamedTuple):

@@ -19,7 +19,7 @@ class AntigravityCCRRule(MergeRule):
     ]
 
 def get_rule():
-    details = RuleDetails(executable="antigravity",
-                          title="Antigravity",
+    details = RuleDetails(executable="Antigravity IDE",
+                          title="Antigravity IDE",
                           ccrtype=CCRType.APP)
     return AntigravityCCRRule, details
