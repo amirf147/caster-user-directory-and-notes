@@ -20,10 +20,10 @@ class PowershellCCRRule(MergeRule):
         "rename": # Renaming a file or folder
             R(Text("Rename-Item -Path  -NewName") + Key("left:9")),
 
-        "mark mode": R(Key("a-space, e, k")),
+        # "mark mode": R(Key("a-space, e, k")),
 
         # SQL
-        "ghost": R(Key("G, O, enter")),
+        # "ghost": R(Key("G, O, enter")),
     }
     extras = [
         Choice("exe", ev.EXECUTABLES),

@@ -54,11 +54,14 @@ class PowershellRule(MappingRule):
         "expand archive": R(Text("Expand-Archive  -DestinationPath") + Key("left:17")),
         "file move": R(Text("Move-Item -Path  -Destination") + Key("left:13")),
         "file copy": R(Text("Copy-Item -Path  -Destination") + Key("left:13")),
+        "folder copy": R(Text("Copy-Item -Path  -Destination -Recurse") + Key("left:22")),
         "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
 
         # Wrapping a file in XML and putting it into clipboard for LLM ingestion
         "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") + 
                            Key("home, right:4")),
+        "folder xml [wrap]": R(Text("$d=''; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+                             Key("home, right:4")),
 
         # Java uml reverse mapper
         "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
