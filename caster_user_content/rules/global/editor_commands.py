@@ -20,7 +20,7 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
         Key("enter").execute()
         Pause("150").execute()
         print(f"Jumping to line {line_number} for variable {env_var}")
-        Key("cas-g/50").execute() # workbench.action.gotoLineh
+        Key("cas-g/50").execute() # workbench.action.gotoLine
         Text(line_number).execute()
         Key("enter").execute()
     else:

@@ -63,7 +63,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
 
         "begin dictation": # Activate windows dictation mode and sleeps caster windows
             R(Key("w-h") + Mimic("caster sleep")),
-        
+
         # Hunt and Peck activation
         "[show] hints":
             R(Key("a-semicolon")),

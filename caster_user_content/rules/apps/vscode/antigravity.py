@@ -42,7 +42,11 @@ class AntigravityRule(MappingRule):
         #     Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
 
         # First stages changes and opens stage, then inputs /commit into agent chat window to get commit message.
+        # new chat session
         "generate commit message": R(Key("c-g, c-s/50, c-g, cs-s/50, cs-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
+        # In open chat window
+        "generate commit message here": R(Key("c-g, c-s/50, c-g, cs-s/50, c-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
+        
 
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),

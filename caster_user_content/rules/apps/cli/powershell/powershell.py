@@ -60,8 +60,10 @@ class PowershellRule(MappingRule):
         # Wrapping a file in XML and putting it into clipboard for LLM ingestion
         "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") + 
                            Key("home, right:4")),
-        "folder xml [wrap]": R(Text("$d=''; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
-                             Key("home, right:4")),
+        "folder xml see sharp [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+                            Key("home, right:4")),
+        "folder xml python [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+                            Key("home, right:4")),
 
         # Java uml reverse mapper
         "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
