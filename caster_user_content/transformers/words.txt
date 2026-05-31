@@ -1,0 +1,141 @@
+# Changing "rules' specs" using simplified transformers:
+# https://caster.readthedocs.io/en/latest/readthedocs/Customize_Caster/Customizing_Starter_Rules/#use-simplified-transformers
+
+# Modifications to specs that are defined in the caster_alphabet
+# function in alphabet_support.py
+alphabet
+    <<<ANY>>>
+    # arch -> alpha
+    # brov -> (bravo|brav|brov)
+    # char -> (char|charlie)
+    # foxy -> (fox|foxtrot)
+    # goof -> golf
+    # julia -> (julia|juliet)
+    # Novakeen -> november
+    # prime -> (prime|papa|poppa)
+    
+    # Talon alphabet
+    # arch -> air
+    # brov -> bat
+    # char -> cap
+    delta -> drum
+    echo -> each
+    foxy -> fine
+    goof -> gust
+    hotel -> harp 
+    India -> sit 
+    julia -> jury 
+    kilo -> crunch
+    Lima -> look
+    Mike -> made
+    Novakeen -> near
+    oscar -> odd
+    # prime -> pit
+    Quebec -> quench
+    Romeo -> read
+    Sierra -> sun
+    tango -> trap
+    uniform -> urge
+    victor -> vest
+    whiskey -> whale
+    x-ray -> plex
+    yankee -> yank
+    Zulu -> zip
+
+navigation
+    # special keystroke commands
+    <<<ANY>>>
+    # (lease wally | latch) ->  (homer | lease wally)
+    # (ross wally | ratch) -> (sequel | ross wally)
+    #(lease wally | latch) ->  lice
+    #(ross wally | ratch) -> rice
+    
+    sauce wally -> topper
+    dunce wally -> bottom
+    # bird -> blush
+    firch -> jump
+
+    # button_dictionary_500_no_prefix_no_modifier
+    <<<ANY>>>
+    # tabby -> tab 
+    clear -> backs
+    # deli -> delete
+    # shock -> enter
+    # lease -> left
+    # ross -> right
+    page (down | dunce) -> fell
+    page (up | sauce) -> flow
+
+    # keyboard shortcuts
+    <<<ANY>>>
+    # stoosh -> copy
+    # cut -> cuts
+    # spark -> puts 
+    save -> file retain
+    # kick -> yeps
+    # (kick double|double kick) -> (yeps double|double yeps)
+
+    # text formatting
+    <<<ANY>>>
+    # dredge -> switchback
+
+navigationnon
+    <<<ANY>>>
+    next tab -> page under
+    prior tab -> page over
+    find -> finder
+    drop -> dropper
+    # kick mid -> yeps mid
+    
+    # I just want to stop this command from being recognized so I made it longer
+    maxiwin -> make maximizing
+
+keyboard
+    <<<ANY>>>
+    (tab | tabby) -> tab
+    (backspace | clear) -> backs
+    (delete | deli) -> delete
+    # page (down | dunce) -> page [down | dunce]
+    # page (up | sauce) -> page (up | sauce)
+    # page (down | dunce) -> flis
+    # page (up | sauce) -> floss
+    page (down | dunce) -> fell
+    page (up | sauce) -> flow
+    (home | homer | lease wally) -> latch
+    (end | sequel | ross wally) -> ratch
+    # (right | ross) -> right
+    # (left | lease) -> left
+
+punctuation
+    <<<ANY>>>
+    brax -> bracket
+    # ace -> space
+    minus -> (minus | dash)
+    plus -> plus sign
+    (atty | at symbol) -> at symbol
+    (back | shin) tabby -> shin tab
+    
+    # text_punc_dict()
+    Dolly -> dollar sign
+    clamor -> exclamation [mark|point]
+    deckle -> colon
+    questo -> question mark
+    period | dot -> period
+    equals -> equal
+    quotes -> cutes
+    thin quotes -> thin cutes
+
+vscodeccr
+    <<<ANY>>>
+    [show] terminal -> shell
+    copy line up -> same above
+    copy line down -> same below
+    next cursor -> curse it
+    command palette -> commander
+
+vscodenonccr
+    <<<ANY>>>
+    toggle word wrap -> word wrap
+    explorer -> show files
+    keyboard shortcuts -> keyboard mappings
+    (show hover|mouse hover|hover mouse) -> clarify [error]
