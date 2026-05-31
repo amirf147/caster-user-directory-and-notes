@@ -7,7 +7,7 @@ from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
 from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT, RUN_COMMANDS
-from caster_user_content.util import switch_application
+from caster_user_content.util import app_switcher
 
 import os
 

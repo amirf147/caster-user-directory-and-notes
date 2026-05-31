@@ -60,7 +60,7 @@ class CustomVSCodeRule(MappingRule):
         "key mappings":
             R(Key("c-k, c-s:2")),
         "show settings":
-            R(Key("a-f, p, s, enter"), rdescript="VS Code: User/workspace Settings"),
+            R(Key("c-comma"), rdescript="VS Code: User/workspace Settings"),
         "show snippets":
             R(Key("a-f, p, s:2, enter"), rdescript="VS Code: User Snippets"),
         "show extensions":

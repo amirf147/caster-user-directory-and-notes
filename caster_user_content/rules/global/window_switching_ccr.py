@@ -5,11 +5,8 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
 
-from caster_user_content.util import switch_application, taskbar, app_switcher
-from caster_user_content.environment_variables import WINDOWS_APP_ALIASES
-
-# Import the shared window_aliases from the package
-# from . import window_aliases
+from caster_user_content.util import app_switcher
+from caster_user_content.environment_variables import WINDOW_ALIASES, WINDOWS_APP_ALIASES
 
 def _switch_to_app(app_name, instance):
     app_switcher.switch_to_app(app_name, instance)
@@ -19,12 +16,12 @@ class WindowSwitchingCCRRule(MergeRule):
 
     mapping = {
         # Switching command
-        # "[switch [to]] <window_alias>":
-        #     R(Function(switch_application.switch_to) + Mouse("(0.5, 0.5)")),
+        "[switch [to]] <window_alias>":
+            R(Function(app_switcher.switch_to_alias) + Mouse("(0.5, 0.5)")),
         "<app_name> [<instance>]": R(Function(_switch_to_app) + Mouse("(0.5, 0.5)")),
     }
     extras = [
-        # ListRef("window_alias", window_aliases),
+        Choice("window_alias", {a: a for a in WINDOW_ALIASES}),
         ShortIntegerRef("instance", 1, 10),
         Choice("app_name", WINDOWS_APP_ALIASES),
     ]

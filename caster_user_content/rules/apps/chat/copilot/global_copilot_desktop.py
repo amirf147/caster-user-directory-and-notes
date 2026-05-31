@@ -3,7 +3,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities
-from caster_user_content.util import switch_application
+from caster_user_content.util import app_switcher
 
 class GlobalCopilotDesktopRule(MappingRule):
     pronunciation = "global copilot desktop"
@@ -20,12 +20,12 @@ class GlobalCopilotDesktopRule(MappingRule):
 
                  # Update: The switch application has been modified to use pwinauto for more reliable
                  # window activation. The shift key is no longer necessary. Hopefully...
-            R(Function(switch_application.title, window_title="Copilot") + Pause("50") + Mouse("(0.5, 0.5)")),
+            R(Function(app_switcher.title, window_title="Copilot") + Pause("50") + Mouse("(0.5, 0.5)")),
         "close q": R(
-            Function(switch_application.title, window_title="Copilot") +
+            Function(app_switcher.title, window_title="Copilot") +
             Pause("30") + Key("a-f4")),
         "min q | minx": R(
-            Function(switch_application.title, window_title="Copilot") + Pause("30") +
+            Function(app_switcher.title, window_title="Copilot") + Pause("30") +
             Function(utilities.minimize_window)),
 
         # TODO: Figure out how to check the state of copilot to see if it is in the foreground,

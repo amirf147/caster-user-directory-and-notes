@@ -64,6 +64,8 @@ class PowershellRule(MappingRule):
                             Key("home, right:4")),
         "folder xml python [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
                             Key("home, right:4")),
+        "folder xml all [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+                            Key("home, right:4")),
 
         # Java uml reverse mapper
         "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),

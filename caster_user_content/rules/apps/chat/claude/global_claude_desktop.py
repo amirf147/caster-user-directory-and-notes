@@ -5,7 +5,7 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities, navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 
-from caster_user_content.util import switch_application
+from caster_user_content.util import app_switcher
 
 class GlobalClaudeDesktopRule(MappingRule):
     pronunciation = "claude global"
@@ -17,7 +17,7 @@ class GlobalClaudeDesktopRule(MappingRule):
         # "new q max": R(Key("a-space/180, s-tab:3, enter")),
         # "q clipboard": R(Key("a-space/180") + Key("c-v")),
     #     "close q": R(
-    #         Function(switch_application.title, window_title="Copilot") +
+    #         Function(app_switcher.title, window_title="Copilot") +
     #         Pause("30") + Key("a-f4")),
     }
     extras = [
