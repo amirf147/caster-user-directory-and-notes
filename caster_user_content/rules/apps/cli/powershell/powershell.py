@@ -39,6 +39,9 @@ class PowershellRule(MappingRule):
             Text("Get-ChildItem -Recurse -Filter ", pause=0.0)),
         "search file here": R( # Search for a file in the current directory
             Text("Get-ChildItem -Filter ", pause=0.0)),
+        "x e search": R(
+            Text("Get-ChildItem -Path C:\\ -Filter \".exe\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName", pause=0.0) +
+            Key("left:69")),
         "search word": R( # Search for a string in all files
             Text("Get-ChildItem -Recurse -File | Select-String -Pattern \"\" -SimpleMatch") + Key("left:14")),
         "search word python": R( # Search for a string in python files
