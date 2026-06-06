@@ -9,6 +9,7 @@ I am able to use my arms and everything else, but I just have these extra comman
 Here are the various tools and scripts configured in this environment:
 
 - **[Foot Pedal Control](docs/foot_pedal.md)**: Advanced debouncing and long-press support for my Olympus RS31H USB foot pedal.
+- **[Caster Toggle IPC](docs/caster_toggle.md)**: Fast and reliable hands-free toggling of Caster's microphone state between active and sleep modes via XML-RPC IPC.
 - **[App & Window Switcher](docs/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
 
 ## Caster Extension

@@ -36,6 +36,30 @@ showCue(msg, dur:=800) {
     SetTimer () => ToolTip(), -dur
 }
 
+toggleCaster() {
+    try {
+        ; Create a WinHTTP request object
+        whr := ComObject("WinHttp.WinHttpRequest.5.1")
+        
+        ; Set timeouts: resolve, connect, send, receive (in milliseconds)
+        whr.SetTimeouts(500, 500, 500, 500)
+        
+        ; Open connection synchronously (false parameter)
+        whr.Open("POST", "http://127.0.0.1:8341/", false)
+        whr.SetRequestHeader("Content-Type", "text/xml")
+        
+        ; XML-RPC methodCall payload
+        xmlData := "<?xml version='1.0'?><methodCall><methodName>toggle_mic_mode</methodName><params></params></methodCall>"
+        whr.Send(xmlData)
+        
+        ; Display a visual cue near the mouse cursor
+        showCue("🎤 Caster Toggle Sent")
+    } catch Error as err {
+        showCue("❌ Caster Toggle Failed: " . err.Message, 1000)
+    }
+}
+
+
 ; ---------------- F15 (Left Click / Drag) ----------------
 *F15::
 {
@@ -109,8 +133,9 @@ F13_Monitor() {
     } else {
         SetTimer F13_Monitor, 0
         if !F13_LongHoldActionFired {
-            Send "{RButton}"
-            showCue("Right Click")
+            ; Send "{RButton}"
+            ; showCue("Right Click")
+            toggleCaster()
         }
         F13_IsDown := false
     }

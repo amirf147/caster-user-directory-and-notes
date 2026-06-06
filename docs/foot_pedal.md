@@ -28,9 +28,9 @@ The script assigns the following "smart" actions to each pedal, with visual tool
     *   **Short Tap:** Scrolls up one increment (`WheelUp`).
     *   **Press and Hold:** Scrolls up continuously until released.
 
-*   **Left Pedal (`F13`): Smart Right Click & Reset**
-    *   **Short Tap:** Acts as a standard **Right Mouse Click**.
-    *   **Long Press:** Resets the state of the **Left Pedal (`F15`)** back to its "first tap sends `F11`" behavior. It also sends an `F11` immediately upon reset.
+*   **Left Pedal (`F13`): Caster Microphone Toggle & Reset**
+    *   **Short Tap:** Toggles Caster's microphone state between active and sleeping (via XML-RPC IPC, see [Caster Microphone Toggle](caster_toggle.md)).
+    *   **Long Press:** Resets the state of the Right Pedal (`F15`) back to its "first tap sends `F11`" behavior. It also sends an `F11` immediately upon reset.
 
 ## Configuration
 
@@ -41,4 +41,4 @@ All timing and behavior can be easily adjusted by editing the variables in the `
 *   `Scroll_HoldDelay`: Time in milliseconds to hold a scroll pedal before continuous scrolling begins.
 *   `Scroll_RepeatRate`: Time in milliseconds between each scroll tick during a hold. **A smaller value results in faster scrolling.**
 
-Note: Yes, I prefer to use my right foot for clicking and my left foot for right clicking and stopping cursor tracking
+Note: Yes, I prefer to use my right foot for clicking and my left foot for toggling Caster and resetting cursor tracking.
