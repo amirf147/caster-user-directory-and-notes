@@ -395,6 +395,8 @@ class CustomVSCodeRule(MappingRule):
         "snap terminal right": R(Key("c-k, a-t/100, ws-right/100, w-right")),
 
         "restart to update": R(Key("c-k, ca-w")), # update.restartToUpdate
+
+        "toggle blur secrets": R(Key("c-k, as-s")), # env-secrets-blur.toggleBlur
     }
     extras = [
         Dictation("text"),
