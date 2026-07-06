@@ -192,7 +192,7 @@ copy and paste it: ") + Key("c-v")),
         "kil enable via cam": R(Key("w-r/30") + Text(RUN_COMMANDS["kill enable via cam"], pause=0.0) + Key("enter")),
         "restart explorer": R(Key("w-r/30") + Text(RUN_COMMANDS["restart explorer"], pause=0.0) + Key("enter")),
         "position restore": R(Key("w-r/30") + Text(RUN_COMMANDS["restore window positions"], pause=0.0) + Key("enter")),
-        "position save": R(Key("w-r/30") + Text(RUN_COMMANDS["save window positions"], pause=0.0) + Key("enter")),
+        "position retain": R(Key("w-r/30") + Text(RUN_COMMANDS["save window positions"], pause=0.0) + Key("enter")),
         "position list": R(Key("w-r/30") + Text(RUN_COMMANDS["list window positions"], pause=0.0) + Key("enter")),
 
         "computer lock screen": # Locks the computer via the start menu power button
