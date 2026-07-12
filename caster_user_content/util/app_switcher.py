@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Dict, NamedTuple, List, Tuple, Any
 
 from castervoice.lib.actions import Key
+from castervoice.lib import printer
 from pywinauto import Desktop
 from pywinauto.findwindows import ElementNotFoundError
 
@@ -329,10 +330,12 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
             
     if not matching_windows:
         print(f"No windows found for '{app_name_display}'.")
+        printer.out("Failed to switch window")
         return False
         
     if instance < 1 or instance > len(matching_windows):
         print(f"App '{app_name_display}' only has {len(matching_windows)} instances; requested #{instance}.")
+        printer.out("Failed to switch window")
         return False
         
     target_hwnd, target_title = matching_windows[instance - 1]
@@ -340,6 +343,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     # Tier 1: Pywinauto / Win32gui
     if os_env.restore_and_focus(target_hwnd):
         print(f"Tier 1: Successfully focused {target_title}")
+        printer.out(f"Successfully switched to '{target_title}' using window focus APIs")
         return True
     else:
         print(f"Tier 1 focus failed for {target_title}. Trying Tier 2...")
@@ -356,6 +360,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
             # Verify if click succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.0):
                 print(f"Tier 2: Successfully focused {target_title} via Taskbar click")
+                printer.out(f"Successfully switched to '{target_title}' using taskbar click")
                 return True
     except Exception as e:
         print(f"Tier 2 Taskbar UIA failed: {e}")
@@ -380,11 +385,13 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
             # Verify if keyboard macro succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.5):
                 print(f"Tier 3: Successfully focused {target_title} via Keyboard Macro")
+                printer.out(f"Successfully switched to '{target_title}' using keyboard keys")
                 return True
     except Exception as e:
         print(f"Tier 3 Keyboard Macro failed: {e}")
         
     print(f"Failed to focus '{app_name_display}' after all 3 tiers.")
+    printer.out("Failed to switch window")
     return False
 
 def title(window_title: str):
@@ -395,14 +402,17 @@ def title(window_title: str):
                 if window_title in w.window_text():
                     handle = int(w.handle)
                     if os_env.restore_and_focus(handle):
+                        printer.out(f"Successfully switched to window matching '{window_title}' using window focus APIs")
                         return
             except Exception: continue
+        printer.out("Failed to switch window")
     except Exception as e:
         print(f"Error activating by title: {e}")
+        printer.out("Failed to switch window")
 
 def switch_to_alias(window_alias: str) -> None:
     if window_alias not in aliases:
-        print(f"No alias found for '{window_alias}'")
+        printer.out(f"No alias found for '{window_alias}'")
         return
         
     info = aliases[window_alias]
@@ -410,7 +420,9 @@ def switch_to_alias(window_alias: str) -> None:
         w = os_env.get_window_by_handle(info.handle)
         
         # Failsafe for alias
-        if not os_env.restore_and_focus(info.handle):
+        if os_env.restore_and_focus(info.handle):
+            printer.out(f"Successfully switched to alias '{window_alias}' ('{info.title}') using window focus APIs")
+        else:
             app_name = extract_app_name(info.title)
             print(f"Falling back to switch_to_app for {app_name}")
             if not switch_to_app(app_name):
@@ -421,11 +433,12 @@ def switch_to_alias(window_alias: str) -> None:
             find_tab(info.title, info.window_type)
             
     except ElementNotFoundError:
-        print(f"Window for alias '{window_alias}' not found, dropping alias.")
+        printer.out(f"Window for alias '{window_alias}' not found, dropping alias.")
         aliases.pop(window_alias, None)
         save_aliases()
     except Exception as e:
         print(f"Error switching: {e}")
+        printer.out("Failed to switch window")
 
 if __name__ == "__main__":
     show_window_info()
