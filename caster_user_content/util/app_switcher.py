@@ -218,8 +218,8 @@ class WindowsOSAdapter:
         print("Standard focus failed or blocked. Attempting Thread Attachment and Alt-key bypass...")
         try:
             fore_hwnd = win32gui.GetForegroundWindow()
-            fore_thread = win32process.GetWindowThreadProcessId(fore_hwnd, None)
-            target_thread = win32process.GetWindowThreadProcessId(handle, None)
+            fore_thread, _ = win32process.GetWindowThreadProcessId(fore_hwnd)
+            target_thread, _ = win32process.GetWindowThreadProcessId(handle)
             current_thread = win32api.GetCurrentThreadId()
 
             if fore_thread != target_thread:
