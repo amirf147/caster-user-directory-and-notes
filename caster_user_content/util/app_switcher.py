@@ -437,7 +437,7 @@ def switch_to_alias(window_alias: Any) -> None:
         
     info = aliases[window_alias]
     try:
-        w = os_env.get_window_by_handle(info.handle)
+        os_env.get_window_by_handle(info.handle)
         
         # Failsafe for alias
         if os_env.restore_and_focus(info.handle):

@@ -1,0 +1,23 @@
+# Ruff Configuration for Caster User Rules
+
+# Target Python version
+target-version = "py310"
+
+# Allow line lengths up to 120 characters
+line-length = 120
+
+[lint]
+# Enable standard Pyflakes (F) and Pycodestyle (E, W) rules
+select = ["F", "E", "W"]
+
+# Ignore stylistic rules that conflict with Caster/Dragonfly single-line mapping format
+ignore = [
+    "E701", # Multiple statements on one line (colon) e.g., "if condition: return"
+    "E501", # Line too long
+]
+
+# Exclude legacy code and files we don't want to lint
+extend-exclude = [
+    "attic/",
+    "old/",
+]

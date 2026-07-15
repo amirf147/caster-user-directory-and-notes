@@ -1,9 +1,7 @@
 # Currently just does the environment variables file
 # TODO: Generalize to other files
 
-import os
 import json
-import ast
 from pathlib import Path
 from caster_user_content import environment_variables as ev
 

@@ -1,4 +1,4 @@
-from tkinter import simpledialog, Tk
+from tkinter import simpledialog
 import sys
 import os
 from datetime import datetime
