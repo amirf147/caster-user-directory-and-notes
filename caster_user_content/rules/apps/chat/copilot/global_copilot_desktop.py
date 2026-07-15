@@ -30,7 +30,7 @@ class GlobalCopilotDesktopRule(MappingRule):
 
         # TODO: Figure out how to check the state of copilot to see if it is in the foreground,
         # expanded, etc. Consider using inspect.exe or uiautomation
-        
+
     }
     extras = [
         Dictation("prompt")
@@ -40,4 +40,3 @@ class GlobalCopilotDesktopRule(MappingRule):
 def get_rule():
     details = RuleDetails(name="Global Copilot Desktop")
     return GlobalCopilotDesktopRule, details
-    

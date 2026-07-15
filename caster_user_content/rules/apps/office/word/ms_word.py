@@ -1,4 +1,4 @@
-from dragonfly import Dictation, MappingRule, ShortIntegerRef, IntegerRef
+from dragonfly import Dictation, MappingRule, ShortIntegerRef
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -11,7 +11,7 @@ class CustomMSWordRule(MappingRule):
 
         "go to page <n>":
             R(Key("f5/50") + Text("%(n)d") + Key("enter, escape")),
-        
+
         "find and replace": R(Key("c-h")),
         "etsy <query>": R(Key("c-h/5, s-tab, left") +
                           Text("%(query)s") + Key("enter")),

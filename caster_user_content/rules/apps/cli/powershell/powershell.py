@@ -34,7 +34,7 @@ class PowershellRule(MappingRule):
         "copy address": # Copy current directory path to clipboard
             R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
         "copy path":
-            R(Text("Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")),
+            R(Text(r"Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")),
         "search file are": R( # Search for a file in the current directory and all sub directories
             Text("Get-ChildItem -Recurse -Filter ", pause=0.0)),
         "search file here": R( # Search for a file in the current directory
@@ -48,7 +48,7 @@ class PowershellRule(MappingRule):
             Text("Get-ChildItem -Recurse -File -Include \"*.py\" | Select-String -Pattern \"\" -SimpleMatch") + Key("left:14")),
         "copy recent name":
             R(Text("(Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name -replace '[\\r\\n]' | Set-Clipboard", pause=0.0) +
-            Pause("20") + Key("enter"), 
+            Pause("20") + Key("enter"),
             rdescript=generate_rdescript("copy recent name", "FILE/FOLDER OPERATIONS", "Get the most recently modified file in the current directory")),
         "copy recent contents":
             R(Text("Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard", pause=0.0)
@@ -61,13 +61,13 @@ class PowershellRule(MappingRule):
         "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
 
         # Wrapping a file in XML and putting it into clipboard for LLM ingestion
-        "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") + 
+        "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") +
                            Key("home, right:4")),
-        "folder xml see sharp [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+        "folder xml see sharp [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
                             Key("home, right:4")),
-        "folder xml python [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+        "folder xml python [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
                             Key("home, right:4")),
-        "folder xml all [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") + 
+        "folder xml all [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
                             Key("home, right:4")),
 
         # Java uml reverse mapper
@@ -127,7 +127,7 @@ class PowershellRule(MappingRule):
         "hister clip <n501>": R( # Places command (via id) from history to clipboard
             Text("(Get-History -Id %(n501)s).CommandLine | Set-Clipboard") + Key("enter")),
         "copy last command": R(Text("(Get-History -Count 1).CommandLine | Set-Clipboard", pause=0.0) + Key("enter")),
-        
+
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),
         "pi ten <python_command>": R(Text(PYTHON_10) + Key("space") + Text("%(python_command)s")),
@@ -150,8 +150,8 @@ class PowershellRule(MappingRule):
         "end string": R(Text("\"@", pause=0.0) + Key("enter")),
         "ref <text>": R(Text("$%(text)s", pause=0.0)),
 
-        # Python Virtual 
-        "virtual activate": R(Text(".\.venv\Scripts\Activate.ps1", pause=0.0) + Key("enter")),
+        # Python Virtual
+        "virtual activate": R(Text(r".\.venv\Scripts\Activate.ps1", pause=0.0) + Key("enter")),
         "[virtual] deactivate": R(Text("deactivate", pause=0.0) + Key("enter")),
 
         # Create commit message generation prompt

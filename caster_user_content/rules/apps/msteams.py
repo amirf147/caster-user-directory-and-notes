@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef 
+from dragonfly import ShortIntegerRef
 from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -26,7 +26,7 @@ class CustomMSTeamsRule(MappingRule):
             R(Key("cs-down")),
         "previous section":
             R(Key("cs-f6")),
-        "next section":  
+        "next section":
             R(Key("c-f6")),
 
         # Messaging

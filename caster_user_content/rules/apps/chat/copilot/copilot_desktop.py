@@ -11,11 +11,11 @@ class CopilotDesktopRule(MappingRule):
     mapping = {
         "q max": R(Key("a-q")),
         "close q": R(Key("a-f4")),
-        
+
         "show chats | hide left": R(Key("a-1")),
         "show menu": R(Key("a-u")),
         "show settings": R(Key("a-u/50, enter")),
-        
+
         # Chat modes
         "switch mode": R(Key("a-c")),
         "smart mode": R(Key("a-c/50, down:2, enter")),

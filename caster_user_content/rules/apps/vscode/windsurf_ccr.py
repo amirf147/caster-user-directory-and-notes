@@ -1,12 +1,11 @@
-from dragonfly import Choice, Dictation
+from dragonfly import Dictation
 
-from castervoice.lib.actions import Key, Text
+from castervoice.lib.actions import Text
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
-from caster_user_content import environment_variables as ev
 
 class WindsurfCCRRule(MergeRule):
 

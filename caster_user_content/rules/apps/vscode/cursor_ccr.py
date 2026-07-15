@@ -1,6 +1,6 @@
-from dragonfly import Repeat, Dictation, Choice, ShortIntegerRef
+from dragonfly import Repeat, ShortIntegerRef
 
-from castervoice.lib.actions import Key, Text
+from castervoice.lib.actions import Key
 
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

@@ -1,4 +1,4 @@
-from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef, Choice, Mimic
+from dragonfly import Dictation, MappingRule, Pause, ShortIntegerRef, Choice, Mimic
 
 from castervoice.lib.actions import Key
 
@@ -6,7 +6,6 @@ from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-from caster_user_content.util.text import text_to_clipboard
 from caster_user_content import environment_variables as ev
 
 
@@ -17,7 +16,7 @@ class AntigravityRule(MappingRule):
         "hide right": R(Key("c-l/50:2")),
         "new chat": R(Key("cs-l")),
         "switch mode": R(Key("c-.")),
-        "chat here": 
+        "chat here":
             R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
         "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
@@ -46,7 +45,7 @@ class AntigravityRule(MappingRule):
         "generate commit message": R(Key("c-g, c-s/50, c-g, cs-s/50, cs-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
         # In open chat window
         "generate commit message here": R(Key("c-g, c-s/50, c-g, cs-s/50, c-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
-        
+
 
         "go <file>":
             R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),

@@ -1,8 +1,7 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Choice, MappingRule, Pause
 
 from castervoice.lib.actions import Key, Mouse
 
-from castervoice.lib import navigation
 from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -33,7 +32,7 @@ class ScreenCopyRule(MappingRule):
             R(Mouse("(0.5, 0.85)/20, left:down/20, <0, -800>/20, left:up")),
         "swoo": # Top to bottom
             R(Mouse("(0.5, 0.2)/20, left:down/20, <0, 800>/20, left:up")),
-        
+
         # Opening Applications
         "open <app>": R(
             Key("a-h") + Pause("50") +

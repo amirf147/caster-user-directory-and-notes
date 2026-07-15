@@ -1,4 +1,4 @@
-from dragonfly import Repeat, Dictation, MappingRule, ShortIntegerRef, Choice, Repetition, Function, Pause, Mimic
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Repetition, Function
 
 from castervoice.lib.actions import Key
 from castervoice.rules.core.alphabet_rules import alphabet_support
@@ -19,7 +19,7 @@ class CalcRule(MappingRule):
         "file retain": R(Key("c-s")),
         "open recent": R(Key("a-f, u")),
         "file print": R(Key("c-p")),
-        
+
         # Copied over and modified from builtin Excel rule
         # Credit: Alex Boche 2019
         "fly <column_1> <row_1>":
@@ -27,7 +27,7 @@ class CalcRule(MappingRule):
         "select <column_1> <row_1> through <column_2> <row_2>":
             R(Key("c-g") + Text("%(column_1)s%(row_1)s:%(column_2)s%(row_2)s") +
                 Key("enter")),
-                
+
         "match above": R(Key("c-d")),
         "match below": R(Key("cs-\"")),
 
@@ -52,7 +52,7 @@ class CalcRule(MappingRule):
         # Tools
         "customize dialog": R(Key("a-t, c")),
         "macro editor": R(Key("a-t, m:2, e")),
-        
+
         # Hyperlinking
         "hyperlink": R(Key("c-k")),
         "link to file": R(Key("c-k, s-tab, home, down:2, tab:2, space")),
@@ -61,11 +61,11 @@ class CalcRule(MappingRule):
             # Pause("300") +
               # Mimic("go job postings") + Key("space")),
               # Key("tab/3, right/3, enter/3, home, space")),
-        
+
         # Home Tab
         "fit width": R(Key("a-o, m, o, enter")),
         "fit height": R(Key("a-o, w, o, enter")),
-        
+
 
     }
     extras = [

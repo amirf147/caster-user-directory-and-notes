@@ -10,7 +10,7 @@ class VariableTracker:
         self.env_file_path = Path(env_file_path)
         self.var_positions = {}
         self._load_or_scan()
-    
+
     def _load_or_scan(self):
         """Load positions from cache or scan the file"""
         cache_file = self.env_file_path.parent / '.var_positions.json'
@@ -19,7 +19,7 @@ class VariableTracker:
                 self.var_positions = json.load(f)
         else:
             self.scan_file()
-    
+
     def scan_file(self):
         """Scan the file and update variable positions"""
         self.var_positions = {}
@@ -30,12 +30,12 @@ class VariableTracker:
                     var_name = line.split('=')[0].strip()
                     if var_name and var_name.isupper() and all(c.isalnum() or c == '_' for c in var_name):
                         self.var_positions[var_name] = i
-        
+
         # Save to cache
         cache_file = self.env_file_path.parent / '.var_positions.json'
         with open(cache_file, 'w') as f:
             json.dump(self.var_positions, f)
-    
+
     def get_line_number(self, var_name):
         """Get line number for a variable"""
         return self.var_positions.get(var_name)

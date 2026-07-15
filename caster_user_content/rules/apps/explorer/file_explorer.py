@@ -34,7 +34,7 @@ class FileExplorerRule(MappingRule):
 
         # Folder Navigation Shortcuts
         # Simply just doing a key press a-up/down/left/right no longer works reliably
-        # in the new Windows 11 file explorer. By first holding down the alt key and then 
+        # in the new Windows 11 file explorer. By first holding down the alt key and then
         # pressing the up/down/left/right keys, it works more reliably. A longer pause is
         # also necessary in order to wait for the GUI to refresh in between.
         "dirrup [<n>]":
@@ -63,7 +63,7 @@ class FileExplorerRule(MappingRule):
             R(Key("f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
         "go clipboard":
             R(Key("f4/50, c-v/3, enter")),
-        
+
         "fit column":
             R(Key("a-v, s, f")),
 
@@ -98,7 +98,7 @@ class FileExplorerRule(MappingRule):
 
         # Share Ribbon
         "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items
-        
+
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("s-f10/30, i")),
 

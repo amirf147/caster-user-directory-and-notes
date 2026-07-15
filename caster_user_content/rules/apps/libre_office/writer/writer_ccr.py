@@ -14,10 +14,10 @@ class WriterCCR(MergeRule):
     mapping = {
 
         # Navigating to specific lines
-        "linda <n_off_by_one>": # First moves text cursor to the top of the page 
+        "linda <n_off_by_one>": # First moves text cursor to the top of the page
                                 # then moves it down by <n_off_by_one>
             R(Key("c-pgup, down:%(n_off_by_one)d")),
-        "liner <n_off_by_one>": # First moves text cursor to the top of the page 
+        "liner <n_off_by_one>": # First moves text cursor to the top of the page
                                 # then moves it down by <n_off_by_one>
                                 # then moves the cursor to the end of the line
             R(Key("c-pgup, down:%(n_off_by_one)d, end")),
@@ -29,7 +29,7 @@ class WriterCCR(MergeRule):
             R(Key("a-pgup, down:%(n_off_by_one)d, end")),
         "liner next <n_off_by_one>": # navigating line numbers of the next page
             R(Key("a-pgdown, down:%(n_off_by_one)d, end")),
-            
+
         # Editing
         "format bold | bowley": R(Key("c-b")),
         "format italic": R(Key("c-i")),
@@ -48,7 +48,7 @@ class WriterCCR(MergeRule):
             R(Key("a-o, h, enter, tab, home, down, tab, end, left, enter, tab, enter")),
         "color reset": # Requires user defined key binding: "Font Color" (second one)
             R(Key("cs-c, space, s-tab:2, space, tab, enter")),
-        
+
         # # Find tab of Find and Replace dialog
         # "etsype": R(Key("c-h/5, s-tab, left")),
 

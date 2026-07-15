@@ -1,6 +1,6 @@
 from dragonfly import IntegerRef
 
-from castervoice.lib.actions import Key, Text
+from castervoice.lib.actions import Key
 
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
@@ -13,7 +13,7 @@ class MSWordCcrRule(MergeRule):
     mapping = {
 
         "((apply heading) | header) <n3>": R(Key("ac-%(n3)d")),
-        
+
         # Editing
         "format bold | bowley":
             R(Key("c-b")),
@@ -23,7 +23,7 @@ class MSWordCcrRule(MergeRule):
             R(Key("a-h/3, f, c, a")),
         "color red":
             R(Key("a-h/3, f, c, up:4, home, enter")),
-        
+
         # Find tab of Find and Replace dialog
         "etsype": R(Key("c-h/5, s-tab, left")),
     }

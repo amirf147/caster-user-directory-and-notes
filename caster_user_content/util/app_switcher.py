@@ -1,6 +1,5 @@
 import win32gui
 import win32con
-import win32com.client
 import win32process
 import win32api
 import ctypes
@@ -15,7 +14,7 @@ from castervoice.lib import printer
 from pywinauto import Desktop
 from pywinauto.findwindows import ElementNotFoundError
 
-from caster_user_content.environment_variables import WINDOWS_APP_ALIASES, WINDOWS_APP_NAMES
+from caster_user_content.environment_variables import WINDOWS_APP_NAMES
 
 # Try to import pyvda for Virtual Desktop tracking
 try:
@@ -106,7 +105,7 @@ def extract_total_instances(caption: str) -> int:
 
 class WindowsOSAdapter:
     """Deep interface adapter encapsulating raw OS calls to win32gui, pywinauto, and pyvda."""
-    
+
     def __init__(self):
         self._desktop_uia = Desktop(backend="uia")
         self._desktop_win32 = Desktop(backend="win32")
@@ -152,9 +151,9 @@ class WindowsOSAdapter:
                 if tb.window_text() == "Running applications":
                     button_container = tb
                     break
-            
+
             buttons = button_container.children(control_type="Button") if button_container else []
-            
+
             instance_tracker = {}
             for btn in buttons:
                 caption = btn.window_text()
@@ -172,13 +171,13 @@ class WindowsOSAdapter:
             try: return VirtualDesktop.current().id
             except Exception: pass
         return None
-        
+
     def get_window_desktop_id(self, handle: int):
         if PYVDA_AVAILABLE:
             try: return AppView(hwnd=handle).desktop_id
             except Exception: pass
         return None
-        
+
     def restore_and_focus(self, handle: int) -> bool:
         """Attempt to restore and set focus to a specific window handle using pywinauto and OS bypasses."""
         # 1. Allow SetForegroundWindow (ASFW_ANY = -1) to match Caster virtual desktop convention
@@ -227,7 +226,7 @@ class WindowsOSAdapter:
 
             win32gui.BringWindowToTop(handle)
             win32gui.ShowWindow(handle, win32con.SW_SHOW)
-            
+
             # Send Alt key down/up to bypass OS SetForegroundWindow restrictions
             ctypes.windll.user32.keybd_event(0x12, 0, 0, 0)  # Alt key down
             win32gui.SetForegroundWindow(handle)
@@ -249,7 +248,7 @@ class WindowsOSAdapter:
                     yield w
             except Exception:
                 continue
-                
+
     def get_window_by_handle(self, handle: int):
         try: return self._desktop_uia.window(handle=handle)
         except Exception: return self._desktop_win32.window(handle=handle)
@@ -332,12 +331,12 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     else:
         app_names_lc = [app_name.lower()]
         app_name_display = app_name
-        
+
     # Find matching window in workspace
     current_desktop_id = os_env.get_current_desktop_id()
     windows = os_env.get_open_windows()
     matching_windows = []
-    
+
     for hwnd, title_text in windows:
         if extract_app_name(title_text).lower() in app_names_lc:
             if current_desktop_id:
@@ -346,19 +345,19 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
                     matching_windows.append((hwnd, title_text))
             else:
                 matching_windows.append((hwnd, title_text))
-            
+
     if not matching_windows:
         print(f"No windows found for '{app_name_display}'.")
         printer.out("Failed to switch window")
         return False
-        
+
     if instance < 1 or instance > len(matching_windows):
         print(f"App '{app_name_display}' only has {len(matching_windows)} instances; requested #{instance}.")
         printer.out("Failed to switch window")
         return False
-        
+
     target_hwnd, target_title = matching_windows[instance - 1]
-    
+
     # Tier 1: Pywinauto / Win32gui
     if os_env.restore_and_focus(target_hwnd):
         print(f"Tier 1: Successfully focused {target_title}")
@@ -366,7 +365,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         return True
     else:
         print(f"Tier 1 focus failed for {target_title}. Trying Tier 2...")
-        
+
     # Tier 2: Taskbar UIA Click
     try:
         t_items = os_env.get_taskbar_items()
@@ -375,7 +374,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
             app_items.sort(key=lambda it: it.instance_index)
             target_item = app_items[instance - 1]
             target_item.control.click_input()
-            
+
             # Verify if click succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.0):
                 print(f"Tier 2: Successfully focused {target_title} via Taskbar click")
@@ -383,7 +382,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
                 return True
     except Exception as e:
         print(f"Tier 2 Taskbar UIA failed: {e}")
-        
+
     print(f"Tier 2 focus failed for {target_title}. Trying Tier 3...")
 
     # Tier 3: Keyboard Macro
@@ -400,7 +399,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         if target_idx != -1:
             print(f"Tier 3 Keyboard Macro executing for taskbar index {target_idx}")
             Key(f"w-t/3, home, right:{target_idx}/3, enter").execute()
-            
+
             # Verify if keyboard macro succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.5):
                 print(f"Tier 3: Successfully focused {target_title} via Keyboard Macro")
@@ -408,7 +407,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
                 return True
     except Exception as e:
         print(f"Tier 3 Keyboard Macro failed: {e}")
-        
+
     print(f"Failed to focus '{app_name_display}' after all 3 tiers.")
     printer.out("Failed to switch window")
     return False
@@ -434,11 +433,11 @@ def switch_to_alias(window_alias: Any) -> None:
     if window_alias not in aliases:
         printer.out(f"No alias found for '{window_alias}'")
         return
-        
+
     info = aliases[window_alias]
     try:
         os_env.get_window_by_handle(info.handle)
-        
+
         # Failsafe for alias
         if os_env.restore_and_focus(info.handle):
             printer.out(f"Successfully switched to alias '{window_alias}' ('{info.title}') using window focus APIs")
@@ -447,11 +446,11 @@ def switch_to_alias(window_alias: Any) -> None:
             print(f"Falling back to switch_to_app for {app_name}")
             if not switch_to_app(app_name):
                 raise ElementNotFoundError
-            
+
         time.sleep(0.1)
         if info.is_tab and info.window_type:
             find_tab(info.title, info.window_type)
-            
+
     except ElementNotFoundError:
         printer.out(f"Window for alias '{window_alias}' not found, dropping alias.")
         aliases.pop(window_alias, None)

@@ -1,10 +1,9 @@
-from dragonfly import MappingRule, Function, List, ListRef, ShortIntegerRef, Choice, Pause, Mouse, Dictation
-from castervoice.lib.actions import Key
+from dragonfly import MappingRule, Function, Choice, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content.util import app_switcher
-from caster_user_content.environment_variables import WINDOWS_APP_ALIASES, WINDOW_ALIASES
+from caster_user_content.environment_variables import WINDOW_ALIASES
 
 def list_aliases():
     """Print all current aliases"""
@@ -25,7 +24,7 @@ def _set_page(predefined_alias=None, dictated_alias=None):
 
 class WindowSwitchingRule(MappingRule):
     pronunciation = "window switching"
-    
+
     mapping = {
         # Setting commands
         "set window <predefined_alias>": R(Function(_set_window)),
@@ -34,7 +33,7 @@ class WindowSwitchingRule(MappingRule):
         "set page <dictated_alias>": R(Function(_set_page)),
         "clear alias": R(Function(app_switcher.clear_alias)),
         "clear all aliases": R(Function(app_switcher.clear_all_aliases)),
-        
+
         # Utility command
         "list aliases": R(Function(list_aliases)),
 

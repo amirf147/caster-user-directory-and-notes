@@ -1,4 +1,4 @@
-from dragonfly import MappingRule, ShortIntegerRef, Repeat, Pause, Dictation
+from dragonfly import MappingRule, ShortIntegerRef, Pause, Dictation
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text

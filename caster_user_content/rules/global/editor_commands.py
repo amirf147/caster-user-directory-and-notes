@@ -29,7 +29,7 @@ def go_to_variable(env_var): # Currently this is for just the environment variab
 class EditorCommandsRule(MappingRule):
     pronunciation = "editor commands"
     mapping = {
-        "edit <file_path>": R(Key("w-r/50") + Text(f"antigravity-ide %(file_path)s") + Pause("50") + Key("enter")),
+        "edit <file_path>": R(Key("w-r/50") + Text("antigravity-ide %(file_path)s") + Pause("50") + Key("enter")),
         "modify <env_var>": Function(go_to_variable), # Opens the environment variables file and jumps to the specified variable for faster editing
     }
     extras = [

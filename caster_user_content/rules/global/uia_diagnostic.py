@@ -89,7 +89,7 @@ def select_word_range(start_text, end_text):
             full_buffer_lower = text_node.expanded_text.lower()
             start_idx = full_buffer_lower.find(start_str)
             end_word_pos = full_buffer_lower.find(end_str, start_idx)
-            
+
             if start_idx != -1 and end_word_pos != -1:
                 end_idx = end_word_pos + len(end_str)
                 text_node.select_range(start_idx, end_idx)

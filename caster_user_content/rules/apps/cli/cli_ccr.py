@@ -16,10 +16,10 @@ class CommandLineCCRRule(MergeRule):
 
     mapping = {
         "axe": R(Key("a-backspace")),
-        
+
         "dirrup":
             R(Text("cd ../ ; ls;") + Key("enter")),
-        
+
         "go": R(Key("c, d, space")),
         "to clipboard": R(Key("space, |, space, c, l, i, p")),
 

@@ -18,7 +18,7 @@ def check_file_for_abs_paths(file_path):
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
-        
+
         tree = ast.parse(content, filename=file_path)
         for node in ast.walk(tree):
             val = None
@@ -26,12 +26,12 @@ def check_file_for_abs_paths(file_path):
                 val = node.value
             elif hasattr(ast, 'Str') and isinstance(node, ast.Str):
                 val = node.s
-            
+
             if val:
                 # Check both regexes
                 if WINDOWS_ABS_PATH_RE.search(val) or UNIX_ABS_PATH_RE.search(val):
                     violations.append((node.lineno, val))
-                    
+
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
     return violations
@@ -43,7 +43,7 @@ def main():
 
     total_violations = 0
     print(f"Scanning '{RULES_DIR}' for hardcoded absolute paths...")
-    
+
     for root, _, files in os.walk(RULES_DIR):
         for file in files:
             if file.endswith(".py"):

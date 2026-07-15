@@ -30,11 +30,11 @@ def _save_to_job_postings():
             return
 
         content = pyperclip.paste()
-        
+
         # Get the path to the save_to_text.py script
         current_dir = os.path.dirname(os.path.abspath(__file__))
         script_path = os.path.join(current_dir, "..", "..", "..", "util", "save_to_text.py")
-        
+
         # Start the process detached from the parent
         if os.name == 'nt':  # Windows
             DETACHED_PROCESS = 0x00000008
@@ -42,21 +42,21 @@ def _save_to_job_postings():
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags = subprocess.STARTF_USESHOWWINDOW
             startupinfo.wShowWindow = SW_SHOW
-            
+
             process = subprocess.Popen([
-                sys.executable, 
-                script_path, 
+                sys.executable,
+                script_path,
                 PATHS["job postings"],
                 "--always-on-top"  # Add this flag to be handled in save_to_text.py
             ], stdin=subprocess.PIPE,
                text=True,
                creationflags=DETACHED_PROCESS,
                startupinfo=startupinfo)
-        
+
         # Send the content without waiting for completion
         process.stdin.write(content)
         process.stdin.close()
-            
+
     except Exception as e:
         print(f"Error saving text: {str(e)}")
 
@@ -70,7 +70,7 @@ def _search_github(query):
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
     mapping = {
-        
+
         "(new window|win new)":
             R(Key("c-n")),
         "new tab [<n>]|tab new [<n>]":
@@ -184,7 +184,7 @@ class FirefoxExtendedRule(MappingRule):
         "file open": R(Key("c-o")),
         "file open tab": R(Key("c-t/30, c-o")),
         "file open window": R(Key("c-n/120, c-o")),
-        
+
         # Link navigation
         "jink <query>":
             R(Key("c-f/5") + Text("%(query)s", pause=0.0) + Key("enter/5, escape/3, enter")),
@@ -225,8 +225,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("c-t/50") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
         "gemzer window <query>":
             R(Key("c-n/120") + Text("https://gemini.google.com/app", pause=0.0) + Key("enter/200") + Text("%(query)s", pause=0.0) + Key("enter")),
-            
-        # Translations    
+
+        # Translations
         "translate that": # Translates the selection via the context menu
             R(Key("s-f10/30, n")),
         "translate page": # Presses the translate button in the address bar and enables page translation
@@ -235,20 +235,20 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/50, tab, right:4, left:2, enter/50, tab:2, enter")),
 
         # Job search automation
-        "text to job postings": R(Store() + Function(_save_to_job_postings), 
+        "text to job postings": R(Store() + Function(_save_to_job_postings),
             rdescript=generate_rdescript("text to job postings", "JOB SEARCH AUTOMATION", "Save selected text to job postings")),
 
-        "cover letter prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") + 
-            Text("Can you write me a cover letter for this job posting, here is my resume:"), 
-            Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting:"), 
+        "cover letter prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") +
+            Text("Can you write me a cover letter for this job posting, here is my resume:"),
+            Key("c-v/3, c-home/3, c-right:11") + Text("here is the job posting:"),
             rdescript=generate_rdescript("cover letter prompt", "JOB SEARCH AUTOMATION", "Prompt for cover letter with resume context")),
-        "résumé prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") + 
-            Text(" Here is my resume:") + Pause("50") + Key("c-v/5, c-home"), 
+        "résumé prompt": R(Function(text_to_clipboard, text=RESUME) + Pause("50") +
+            Text(" Here is my resume:") + Pause("50") + Key("c-v/5, c-home"),
             rdescript=generate_rdescript("resume prompt", "JOB SEARCH AUTOMATION", "Prompt to include resume text")),
-        
+
         # Miscellaneous chat prompts
         "ask power": R(Text("give me a power shell one liner for ", pause=0.0)),
-        
+
         # Developer Tools
         "show tools": R(Key("f12")),
         "show console": R(Key("cs-k")),
@@ -276,7 +276,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("down/20, tab/30, tab/20:2, enter/50, tab:2, enter/50") +
               Mouse("(0.5, 0.5), left") + Pause("50") + Key("enter/50")),
     }
-    
+
     extras = [
         IntegerRef("n", 1, 9),
         Choice("n_off_by_one", {

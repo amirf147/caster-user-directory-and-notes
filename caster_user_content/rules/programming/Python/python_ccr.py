@@ -6,7 +6,7 @@ Originally Created on Sep 1, 2015
 Personal customizations added by Amir Farhadi
 '''
 
-from dragonfly import Pause, Dictation, Choice
+from dragonfly import Dictation, Choice
 
 from castervoice.lib.actions import Text, Key
 from . standard import SymbolSpecs
@@ -14,7 +14,6 @@ from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
-from castervoice.lib.temporary import Store, Retrieve
 
 
 class CustomPythonCCR(MergeRule):
@@ -170,7 +169,6 @@ class CustomPythonCCR(MergeRule):
                 "IO": "IOError",
                 "OS": "OSError",
                 "syntax": "SyntaxError",
-                "system exit": "SystemExit",
                 "type": "TypeError",
                 "value": "ValueError",
                 "run time": "RuntimeError",

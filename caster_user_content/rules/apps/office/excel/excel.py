@@ -15,7 +15,7 @@ def _select_cell(column_1, row_1):
 class ExcelRule(MappingRule):
     mapping = {
         "file open": R(Key("c-o")),
-        
+
         # Copied over and modified from builtin Excel rule
         # Credit: Alex Boche 2019
         "fly <column_1> <row_1>":
@@ -23,7 +23,7 @@ class ExcelRule(MappingRule):
         "select <column_1> <row_1> through <column_2> <row_2>":
             R(Key("c-g") + Text("%(column_1)s%(row_1)s:%(column_2)s%(row_2)s") +
                 Key("enter")),
-                
+
         "match above": R(Key("c-d")),
         "match below": R(Key("cs-\"")),
 

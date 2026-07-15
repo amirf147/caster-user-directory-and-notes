@@ -2,14 +2,12 @@ from dragonfly import MappingRule, Pause, Function, Dictation, Mimic, Mouse, Rep
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
-from castervoice.lib import utilities, navigation
+from castervoice.lib import navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
 from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT, RUN_COMMANDS
-from caster_user_content.util import app_switcher
 
-import os
 
 
 def _generate_number_list(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
@@ -27,7 +25,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         # change slide, then return to the editor. TODO: refine with targeted app switching.
         "slide next": R(Key("a-tab") + Pause("30") + Key("down/30, a-tab")),
         "slide previous": R(Key("a-tab") + Pause("30") + Key("up/30, a-tab")),
-        
+
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
 
@@ -43,7 +41,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "brightness dialog": R(Key("w-a/100, tab/20:4")),
         "toggle bed": R(Mimic("toggle night") + Pause("100") + Mimic("brightness zero")),
         "toggle day": R(Mimic("toggle night") + Pause("100") + Mimic("brightness one hundred")),
-        
+
         "show [me] calendar":
             R(Key("w-b, up:2, enter")),
         "show sounds":
@@ -113,7 +111,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Mouse("[2351, 1525]")),
         "zone seven":
             R(Mouse("[2906, 1567]")),
- 
+
         # TODO: Make this work
         # "pool": R(Function(navigation.wheel_scroll, direction="down", nnavi500=9)),
         # "cool": R(Function(navigation.wheel_scroll, direction="up", nnavi500=9)),
@@ -133,11 +131,11 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("w-tab/150, tab/30:3, s-f10/40, down/40, down/2, down/2, enter, escape")),
         "mirror window": # Primary monitor
             R(Key("w-tab/150, s-f10/40, down/40, down:2, enter, escape")),
-        
+
         # Doesn't work, investigate later
         # "mirror hud": # Multi-step command for caster status window
         #     R(Mimic("monitor left") + Pause("200") + Mimic("window left") + Pause("200") + Mimic("mirror space window")),
-        
+
         # Combining the previous two words into one word
         "last join":
             R(Key("c-left, backspace, c-right")),
@@ -188,7 +186,7 @@ copy and paste it: ") + Key("c-v")),
             # After pressing alt-tab they pause needs to be separate otherwise it keeps the key combination pressed down
             Key("w-r/30") + Text(f"\"{PATHS['screen copy']}/scrcpy\"", pause=0.0) +
             Key("enter/150, a-tab") + Pause("50") + Key("ws-right/50, w-right:3, a-tab")),
-        
+
         "kil enable via cam": R(Key("w-r/30") + Text(RUN_COMMANDS["kill enable via cam"], pause=0.0) + Key("enter")),
         "restart explorer": R(Key("w-r/30") + Text(RUN_COMMANDS["restart explorer"], pause=0.0) + Key("enter")),
         "position restore": R(Key("w-r/30") + Text(RUN_COMMANDS["restore window positions"], pause=0.0) + Key("enter")),

@@ -1,6 +1,6 @@
-from dragonfly import Pause, Dictation, Choice
+from dragonfly import Choice
 
-from castervoice.lib.actions import Text, Key
+from castervoice.lib.actions import Key
 from castervoice.lib.const import CCRType
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule

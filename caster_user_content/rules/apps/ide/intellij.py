@@ -5,7 +5,7 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 class IntelliJRule(MappingRule):
-    
+
     mapping = {
 
         "zoom in [<n>]": R(Key("as-=:%(n)d")),

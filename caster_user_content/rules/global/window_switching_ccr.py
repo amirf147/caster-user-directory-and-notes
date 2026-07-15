@@ -1,4 +1,4 @@
-from dragonfly import Function, Mouse, ListRef, ShortIntegerRef, Choice, Dictation
+from dragonfly import Function, Mouse, ShortIntegerRef, Choice, Dictation
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R

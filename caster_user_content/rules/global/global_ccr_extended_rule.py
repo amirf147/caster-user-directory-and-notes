@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Pause, Dictation, Mouse
+from dragonfly import ShortIntegerRef, Mouse
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
@@ -20,7 +20,7 @@ class GlobalCCRExtendedRule(MergeRule):
         # "rash": R(Key("s-end")),
         # "lash": R(Key("s-home")),
         "win spell": R(Key("win/30")),
-        
+
         # adding an empty line above or below the cursor
         "blank above [<n101>]": R(Key("home, enter, up:%(n101)d")),
         "blank below [<n101>]": R(Key("end, enter:%(n101)d")),
@@ -29,7 +29,7 @@ class GlobalCCRExtendedRule(MergeRule):
         # Commented out because being wrongfully triggered when in mid dictation saying the word cheat
         # "cheek": R(Mouse("[500, 262], left")),
         # "chook": R(Mouse("[1500, 262], left")),
-        
+
         # Clicking on screen sextants
         "zick one": R(Mouse("[192, 199], left"), rdescript="Click sextant 1"),
         "zick two": R(Mouse("[923, 268], left"), rdescript="Click sextant 2"),
@@ -58,7 +58,7 @@ class GlobalCCRExtendedRule(MergeRule):
         # File Extensions
         "dot t x t": R(Text(".txt", pause=0.0)),
         "dot pie": R(Text(".py", pause=0.0)),
-        
+
         # Experimenting with continuing dictation and/or formatting text after custom word
         # "v s codium": R(Text(" VSCodium ", pause=0.0) + Function(textformat.master_format_text))
         # "v s codium [<query>]": R(Text(" VSCodium %(query)s", pause=0.0)),

@@ -36,7 +36,7 @@ def main():
 
     print(f"Scanning '{RULES_DIR}' for voice command collisions...")
     command_registry = defaultdict(list)
-    
+
     for root, _, files in os.walk(RULES_DIR):
         for file in files:
             if file.endswith(".py"):
@@ -44,11 +44,11 @@ def main():
                 try:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read()
-                    
+
                     tree = ast.parse(content, filename=file_path)
                     visitor = MappingVisitor(file_path)
                     visitor.visit(tree)
-                    
+
                     for class_name, keys in visitor.mappings.items():
                         for key in keys:
                             command_registry[key.strip()].append((file_path, class_name))
@@ -70,7 +70,7 @@ def main():
         # are totally fine. But collisions within the same global scope are problematic.
         # Since app rules aren't active at the same time as other apps, we shouldn't necessarily fail
         # but print warnings.
-        # Let's return exit code 0 to keep it as warnings rather than failing the build, 
+        # Let's return exit code 0 to keep it as warnings rather than failing the build,
         # but let the user know. Or we can filter: only fail if they are in global rules.
         sys.exit(0)
     else:

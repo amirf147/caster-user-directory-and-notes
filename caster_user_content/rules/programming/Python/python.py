@@ -32,7 +32,7 @@ class CustomPython(MappingRule):
 
         "random list [<length>] [<element_magnitude>]":
             Function(_random_number_list),
-        
+
         "a var": R(Text("a = ")),
         "b var": R(Text("b = ")),
         "c var": R(Text("c = ")),

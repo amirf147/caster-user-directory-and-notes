@@ -38,7 +38,7 @@ class PowerPointRule(MappingRule):
             R(Key("as-right")),
         "unindent":
             R(Key("as-left")),
-        
+
         # Font
         "font color":
             R(Key("a-h, f, c")),

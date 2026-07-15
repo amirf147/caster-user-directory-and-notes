@@ -8,7 +8,7 @@ from castervoice.lib.merge.state.short import R
 class CustomNPPRule(MappingRule):
 
     mapping = {
-        
+
         # Settings
         "keyboard shorts": R(Key("c-comma")),
 
@@ -41,7 +41,7 @@ class CustomNPPRule(MappingRule):
         "move up [<n>]": R(Key("cs-up:%(n)d")),
         "move down [<n>]": R(Key("cs-down:%(n)d")),
         "same below": R(Key("c-d")),
-        
+
         # Edit
         # Requires user defined shortcut mapping
         # ("Multi-Select Next: Match Whole Word and Case")

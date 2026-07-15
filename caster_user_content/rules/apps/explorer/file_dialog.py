@@ -59,8 +59,8 @@ def get_rule():
     return FileDialogRule, RuleDetails(
         name="custom file dialog",
         title=[
-            "open", "save", "select", "file upload", 
-            "Insert Picture", "Insert Image", "Export", 
+            "open", "save", "select", "file upload",
+            "Insert Picture", "Insert Image", "Export",
             "Another Application", "Install from VSIX",
             "Save As", "Create File",
         ]

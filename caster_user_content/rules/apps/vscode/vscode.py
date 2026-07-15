@@ -1,4 +1,4 @@
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Mouse
 
@@ -29,7 +29,7 @@ class CustomVSCodeRule(MappingRule):
         "show shell":
             R(Key("c-backtick")),
         "kill shell": R(Key("c-k, c-f4")), # workbench.action.terminal.kill
-            
+
         # Moving around a file
         # "[(go to | jump | jump to)] line <n>":
         #     R(Key("c-g") + Text("%(n)d") + Key("enter")),
@@ -329,7 +329,7 @@ class CustomVSCodeRule(MappingRule):
         # Commenting out because Antigravity needs a different keyboard shortcut
         # "go <file>":
         #     R(Key("c-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
-        
+
         # Requires Extension: jumpy
         # Requires user defined key binding: "command": "extension.jumpy-exit"
         "hints":
@@ -376,7 +376,7 @@ class CustomVSCodeRule(MappingRule):
         "sly <text>": R(Key("c-f/3") + Text("%(text)s")),
         "match whole": R(Key("a-w")),
         "match case": R(Key("a-c")),
-            
+
         "remove notifications": # key binding (Notifications: Clear All)
             R(Key("c-m, delete")),
 

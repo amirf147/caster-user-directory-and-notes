@@ -1,11 +1,8 @@
-from dragonfly import MappingRule, Pause, Function, Dictation
+from dragonfly import MappingRule, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R
-from castervoice.lib import utilities, navigation
-from castervoice.rules.core.navigation_rules import navigation_support
 
-from caster_user_content.util import app_switcher
 
 class GlobalClaudeDesktopRule(MappingRule):
     pronunciation = "claude global"
@@ -28,4 +25,3 @@ class GlobalClaudeDesktopRule(MappingRule):
 def get_rule():
     details = RuleDetails(name="Global Claude Desktop")
     return GlobalClaudeDesktopRule, details
-    

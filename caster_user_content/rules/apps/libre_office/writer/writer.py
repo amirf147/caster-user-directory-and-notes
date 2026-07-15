@@ -18,7 +18,7 @@ class WriterRule(MappingRule):
         "insert bookmark": R(Key("a-i, k, enter")),
         "book under [<n>]": R(Key("ca-n:%(n)d")), #Requires user define key binding: "To Next Bookmark"
         "book over [<n>]": R(Key("ca-p:%(n)d")), #Requires user define key binding: "To Previous Bookmark"
-        
+
         # Styles
         "show styles": R(Key("a-y, y")),
         "apply title": R(Key("a-y, t")),
@@ -43,7 +43,7 @@ class WriterRule(MappingRule):
         "hint insert": R(Key("a-i")),
         "show bookmarks": R(Key("a-i, k")),
         "(image insert) | (insert image)": R(Key("a-i, i")),
-        
+
         # View
         "web view": R(Key("a-v, w")),
         "normal view": R(Key("a-v, n")),
@@ -101,7 +101,7 @@ class WriterRule(MappingRule):
 
         # File
         "template manager": R(Key("a-f, m:2")),
-        
+
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

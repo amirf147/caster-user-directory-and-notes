@@ -1,4 +1,4 @@
-from dragonfly import ShortIntegerRef, Text
+from dragonfly import Text
 
 from castervoice.lib.actions import Key
 

@@ -12,7 +12,7 @@ class FigmaRule(MappingRule):
         "[show] keyboard shorts": R(Key("cs-?")),
         "(show | hide) ui": R(Key("c-\\")), # Shows/Hides all Figma UI elements
         "(show | hide) left": R(Key("cs-\\")), # Shows/Hides left panel
-        
+
         "commander": R(Key("c-k")),
         "reopen tab": R(Key("cs-t")),
         "zoom out [<n40>]": R(Key("control:down") + Mouse("wheeldown:%(n40)d") + Key("control:up")),
@@ -26,14 +26,14 @@ class FigmaRule(MappingRule):
         "text tool": R(Key("t")),
         "frame tool": R(Key("f")),
         "color picker": R(Key("i")),
-        
+
         # View
         "show files": R(Key("a-1")),
         "show assets": R(Key("a-2/100, tab:3")), # focuses the assets after switching to the assets panel
         "show (libraries | library)": R(Key("a-3")),
         "show design": R(Key("a-8")),
         "show prototype": R(Key("a-9")),
-        
+
         # Edit
         "duplicate": R(Key("c-d")),
 
