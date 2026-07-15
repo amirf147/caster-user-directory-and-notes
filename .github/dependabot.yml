@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "dragonfly2"
+        versions: [">= 1.0.0"]
+      - dependency-name: "pyvda"

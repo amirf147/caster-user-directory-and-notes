@@ -1,4 +1,4 @@
-from dragonfly import Function, Mouse, ListRef, ShortIntegerRef, Choice
+from dragonfly import Function, Mouse, ListRef, ShortIntegerRef, Choice, Dictation
 
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
@@ -6,22 +6,30 @@ from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.const import CCRType
 
 from caster_user_content.util import app_switcher
-from caster_user_content.environment_variables import WINDOW_ALIASES, WINDOWS_APP_ALIASES
+from caster_user_content.environment_variables import WINDOWS_APP_ALIASES, WINDOW_ALIASES
 
 def _switch_to_app(app_name, instance):
     app_switcher.switch_to_app(app_name, instance)
+
+def _switch_to_alias(predefined_alias=None, dictated_alias=None):
+    alias = predefined_alias or dictated_alias
+    if alias:
+        app_switcher.switch_to_alias(alias)
 
 class WindowSwitchingCCRRule(MergeRule):
     pronunciation = "window switching c c r"
 
     mapping = {
         # Switching command
-        "[switch [to]] <window_alias>":
-            R(Function(app_switcher.switch_to_alias) + Mouse("(0.5, 0.5)")),
+        "[switch [to]] <predefined_alias>":
+            R(Function(_switch_to_alias) + Mouse("(0.5, 0.5)")),
+        "switch [to] <dictated_alias>":
+            R(Function(_switch_to_alias) + Mouse("(0.5, 0.5)")),
         "<app_name> [<instance>]": R(Function(_switch_to_app) + Mouse("(0.5, 0.5)")),
     }
     extras = [
-        Choice("window_alias", {a: a for a in WINDOW_ALIASES}),
+        Choice("predefined_alias", {a: a for a in WINDOW_ALIASES}),
+        Dictation("dictated_alias"),
         ShortIntegerRef("instance", 1, 10),
         Choice("app_name", WINDOWS_APP_ALIASES),
     ]

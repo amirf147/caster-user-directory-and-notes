@@ -15,6 +15,7 @@ window_aliases.json
 
 # Ignore Python compiled bytecode files
 *.pyc
+__pycache__/
 
 # Ignore pylint config file
 .pylintrc

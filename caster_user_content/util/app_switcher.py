@@ -271,19 +271,38 @@ def get_window_type(title: str) -> str:
     if any(app in title for app in CTRL_PGDN_APPS): return 'ctrl_pgdn'
     return None
 
-def set_window(window_alias: str) -> None:
+def set_window(window_alias: Any) -> None:
+    window_alias = str(window_alias)
     w, handle, title_text = os_env.get_active_window()
     if not handle: return
     aliases[window_alias] = WindowInfo(handle=handle, title=title_text, is_tab=False, window_type=get_window_type(title_text))
     print(f"Set window alias '{window_alias}' for: {title_text}")
     save_aliases()
 
-def set_page(window_alias: str) -> None:
+def set_page(window_alias: Any) -> None:
+    window_alias = str(window_alias)
     w, handle, title_text = os_env.get_active_window()
     if not handle: return
     window_type = get_window_type(title_text)
     aliases[window_alias] = WindowInfo(handle=handle, title=title_text, is_tab=True, window_type=window_type)
     print(f"Set tab alias '{window_alias}' for: {title_text}")
+    save_aliases()
+
+def clear_alias() -> None:
+    w, handle, title_text = os_env.get_active_window()
+    if not handle: return
+    keys_to_remove = [k for k, v in aliases.items() if v.handle == handle]
+    for k in keys_to_remove:
+        del aliases[k]
+        print(f"Cleared alias '{k}' for window: {title_text}")
+    if keys_to_remove:
+        save_aliases()
+    else:
+        print(f"No alias found for current window: {title_text}")
+
+def clear_all_aliases() -> None:
+    aliases.clear()
+    print("Cleared all window aliases.")
     save_aliases()
 
 def find_tab(target_title: str, window_type: str) -> bool:
@@ -410,7 +429,8 @@ def title(window_title: str):
         print(f"Error activating by title: {e}")
         printer.out("Failed to switch window")
 
-def switch_to_alias(window_alias: str) -> None:
+def switch_to_alias(window_alias: Any) -> None:
+    window_alias = str(window_alias)
     if window_alias not in aliases:
         printer.out(f"No alias found for '{window_alias}'")
         return
