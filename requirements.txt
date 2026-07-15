@@ -1,4 +1,4 @@
-dragonfly2 == 0.3.5
+dragonfly2 == 0.35.0
 pywinauto
 # Custom local fork used for virtual desktops:
 pyvda
