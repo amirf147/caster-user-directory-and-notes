@@ -6,6 +6,12 @@ target-version = "py310"
 # Allow line lengths up to 120 characters
 line-length = 120
 
+# Exclude legacy code and files we don't want to lint
+extend-exclude = [
+    "attic/",
+    "old/",
+]
+
 [lint]
 # Enable standard Pyflakes (F) and Pycodestyle (E, W) rules
 select = ["F", "E", "W"]
@@ -14,10 +20,4 @@ select = ["F", "E", "W"]
 ignore = [
     "E701", # Multiple statements on one line (colon) e.g., "if condition: return"
     "E501", # Line too long
-]
-
-# Exclude legacy code and files we don't want to lint
-extend-exclude = [
-    "attic/",
-    "old/",
 ]
