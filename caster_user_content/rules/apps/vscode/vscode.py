@@ -363,7 +363,9 @@ class CustomVSCodeRule(MappingRule):
         "git stash": R(Key("c-g, as-s")), # git.stash
         "git stash pop": R(Key("c-g, as-p")), # git.stashPop
         "git stash view": R(Key("c-g, as-v")), # git.stashView
-        "get discard changes": R(Key("c-g, c-d")), # git.clean
+        "git discard changes": R(Key("c-g, c-d")), # git.clean
+        "git branch delete": R(Key("c-g, cs-d")), # git.repositories.deleteBranch
+
 
         # Jupyter Notebooks
         "jupiter new": R(Key("c-;, c-n")), # ipynb.newUntitledIpynb
