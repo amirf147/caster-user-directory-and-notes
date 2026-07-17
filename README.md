@@ -2,8 +2,6 @@
 
 Welcome to my Caster user directory, here I have all my custom commands and grammars for automating my workflows and speeding up voice computing.
 
-I am able to use my arms and everything else, but I just have these extra commands to increase my workflow with voice. It accelerates and increases my speed by two times more!
-
 ## Tools & Workflows
 
 Here are the various tools and scripts configured in this environment:
