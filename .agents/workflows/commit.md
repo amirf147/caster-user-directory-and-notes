@@ -9,10 +9,8 @@ description: Generates a copy-paste ready commit message for Caster User Directo
    - No diff metadata, line numbers, or syntax discussion.
    - No commit IDs.
 4. **Formatting**:
-   - **Title**: Concise, imperative (e.g., "Add 'Search Web' command to Chrome grammar").
-   - **Summary**: 1-2 sentences on why this change was needed for your voice workflow.
-   - **Bullet Points**: List the specific commands or logic added/removed.
-   - **Conclusion**: State the benefit to your speed or accessibility.
+   - Format the message as a standard git commit message: a concise, imperative title line, an empty line, a 1-2 sentence paragraph explaining why the change was needed, and a bulleted list of specific changes.
+   - **Do NOT** explicitly label the sections (e.g., do not write "Summary:", "Bullet Points:", "Conclusion:", or any section headers). Simply separate the title, paragraph, and bullet list with empty lines.
 
 # Execution
 - Generate the message in a single code block without markdown formatting for easy copying.

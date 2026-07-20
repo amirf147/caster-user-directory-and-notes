@@ -118,6 +118,8 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("a-d/5, a-enter")),
         "pop out page":
             R(Key("a-d/30, c-c, c-w, c-n/50, c-v, enter")),
+        "split right [with] <n>":
+            R(Key("w-left/30, c-%(n)d/30, a-d/30, c-c, c-w, c-n/50, c-v, enter/30, w-right/30")),
 
         "show downloads":
             R(Key("c-j")),
