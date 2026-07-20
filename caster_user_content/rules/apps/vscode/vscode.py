@@ -125,7 +125,7 @@ class CustomVSCodeRule(MappingRule):
             R(Key("space, c-z")),
         "keep [preview] open":
             R(Key("c-k, enter")),
-        "show in file explorer": # revealFileInOS
+        "show in files": # revealFileInOS
             R(Key("c-k, ca-r")),
         "show in power [shell]": # Uses revealFileInOS and then uses the context menu in file explorer to open in Windows Terminal
             R(Key("c-k, ca-r/30, c-space, s-f10/40, t")),

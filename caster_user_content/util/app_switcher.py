@@ -227,9 +227,13 @@ class WindowsOSAdapter:
             win32gui.BringWindowToTop(handle)
             win32gui.ShowWindow(handle, win32con.SW_SHOW)
 
-            # Send Alt key down/up to bypass OS SetForegroundWindow restrictions
+            # Send Alt key down/up to bypass OS SetForegroundWindow restrictions.
+            # To prevent Windows from focusing the target window's menu bar,
+            # we send a dummy key event (VK_NONE / 0xFF) while Alt is down.
             ctypes.windll.user32.keybd_event(0x12, 0, 0, 0)  # Alt key down
             win32gui.SetForegroundWindow(handle)
+            ctypes.windll.user32.keybd_event(0xFF, 0, 0, 0)  # Dummy key down (VK_NONE)
+            ctypes.windll.user32.keybd_event(0xFF, 0, 2, 0)  # Dummy key up
             ctypes.windll.user32.keybd_event(0x12, 0, 2, 0)  # Alt key up
 
             if fore_thread != target_thread:
