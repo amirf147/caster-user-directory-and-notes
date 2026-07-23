@@ -1,4 +1,4 @@
-name: Caster Rules CI
+name: Caster User Content CI
 
 on:
   push:
@@ -8,27 +8,31 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    name: Validate Rules & Formatting
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Install Linting Tools
-      run: |
-        python -m pip install --upgrade pip
-        pip install ruff
+      - name: Install Linting & Formatting Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
 
-    - name: Lint Python Code
-      run: ruff check .
+      - name: Lint Python Code (Ruff)
+        run: ruff check .
 
-    - name: Run Absolute Path Checker
-      run: python scripts/check_absolute_paths.py
+      - name: Verify Formatting (Ruff Format)
+        run: ruff format --check .
 
-    - name: Run Voice Command Uniqueness Checker
-      run: python scripts/check_command_uniqueness.py
+      - name: Run Absolute Path Checker
+        run: python scripts/check_absolute_paths.py
+
+      - name: Run Voice Command Uniqueness Checker
+        run: python scripts/check_command_uniqueness.py

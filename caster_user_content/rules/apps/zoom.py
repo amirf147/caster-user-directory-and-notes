@@ -6,7 +6,6 @@ from castervoice.lib.merge.state.short import R
 
 
 class ZoomRule(MappingRule):
-
     mapping = {
         "show chat": R(Key("a-h")),
         "show mic": R(Key("a-a")),

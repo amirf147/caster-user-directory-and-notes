@@ -14,120 +14,157 @@ PYTHON_12 = EXECUTABLES["pi twelve"]
 PYTHON_10 = EXECUTABLES["pi ten"]
 # PYTHON_8 = EXECUTABLES["pi eight"]
 
+
 class PowershellRule(MappingRule):
     mapping = {
-        "go <path>": R(Text("Push-Location \"%(path)s\"", pause=0.0) + Key("enter")),
-        "go clipboard": R(Text("Push-Location \"\"", pause=0.0) + Key("left, c-v/3, enter")),
+        "go <path>": R(Text('Push-Location "%(path)s"', pause=0.0) + Key("enter")),
+        "go clipboard": R(Text('Push-Location ""', pause=0.0) + Key("left, c-v/3, enter")),
         "go back": R(Text("Pop-Location", pause=0.0) + Key("enter")),
-
         # Process
-        "search process": R(Text("Get-Process | Where-Object { $_.Name -like \"\" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize", pause=0.0) + Key("left:70")),
-
+        "search process": R(
+            Text(
+                'Get-Process | Where-Object { $_.Name -like "" } | Select-Object Name, Id, CPU, WorkingSet | Format-Table -AutoSize',
+                pause=0.0,
+            )
+            + Key("left:70")
+        ),
         # Installing software
         "install current user": R(Text("Install-Module  -Scope CurrentUser") + Pause("20") + Key("left:19")),
-
         # File/Folder Operations
         "folder new": R(Text("New-Item -ItemType Directory -Path ", pause=0.0)),
         "tree": R(Text("tree", pause=0.0)),
         "tree eff": R(Text("tree /f", pause=0.0)),
         "tree eff to clipboard": R(Text("tree /f | Set-Clipboard", pause=0.0)),
-        "copy address": # Copy current directory path to clipboard
-            R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
-        "copy path":
-            R(Text(r"Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")),
-        "search file are": R( # Search for a file in the current directory and all sub directories
-            Text("Get-ChildItem -Recurse -Filter ", pause=0.0)),
-        "search file here": R( # Search for a file in the current directory
-            Text("Get-ChildItem -Filter ", pause=0.0)),
+        "copy address":  # Copy current directory path to clipboard
+        R(Text("'\"' + (Get-Location).Path + '\"' | Set-Clipboard", pause=0.0) + Key("enter")),
+        "copy path": R(
+            Text(r"Get-Item .\ | Select-Object -ExpandProperty FullName | Set-Clipboard", pause=0.0) + Key("left:57")
+        ),
+        "search file are": R(  # Search for a file in the current directory and all sub directories
+            Text("Get-ChildItem -Recurse -Filter ", pause=0.0)
+        ),
+        "search file here": R(  # Search for a file in the current directory
+            Text("Get-ChildItem -Filter ", pause=0.0)
+        ),
         "x e search": R(
-            Text("Get-ChildItem -Path C:\\ -Filter \".exe\" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName", pause=0.0) +
-            Key("left:69")),
-        "search word": R( # Search for a string in all files
-            Text("Get-ChildItem -Recurse -File | Select-String -Pattern \"\" -SimpleMatch") + Key("left:14")),
-        "search word python": R( # Search for a string in python files
-            Text("Get-ChildItem -Recurse -File -Include \"*.py\" | Select-String -Pattern \"\" -SimpleMatch") + Key("left:14")),
-        "copy recent name":
-            R(Text("(Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name -replace '[\\r\\n]' | Set-Clipboard", pause=0.0) +
-            Pause("20") + Key("enter"),
-            rdescript=generate_rdescript("copy recent name", "FILE/FOLDER OPERATIONS", "Get the most recently modified file in the current directory")),
-        "copy recent contents":
-            R(Text("Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard", pause=0.0)
-            + Pause("20") + Key("enter"),
-            rdescript=generate_rdescript("copy recent contents", "FILE/FOLDER OPERATIONS", "Get the contents of the most recently modified file in the current directory")),
+            Text(
+                'Get-ChildItem -Path C:\\ -Filter ".exe" -Recurse -ErrorAction SilentlyContinue | Select-Object FullName',
+                pause=0.0,
+            )
+            + Key("left:69")
+        ),
+        "search word": R(  # Search for a string in all files
+            Text('Get-ChildItem -Recurse -File | Select-String -Pattern "" -SimpleMatch') + Key("left:14")
+        ),
+        "search word python": R(  # Search for a string in python files
+            Text('Get-ChildItem -Recurse -File -Include "*.py" | Select-String -Pattern "" -SimpleMatch')
+            + Key("left:14")
+        ),
+        "copy recent name": R(
+            Text(
+                "(Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name -replace '[\\r\\n]' | Set-Clipboard",
+                pause=0.0,
+            )
+            + Pause("20")
+            + Key("enter"),
+            rdescript=generate_rdescript(
+                "copy recent name",
+                "FILE/FOLDER OPERATIONS",
+                "Get the most recently modified file in the current directory",
+            ),
+        ),
+        "copy recent contents": R(
+            Text(
+                "Get-Content -Path ((Get-ChildItem -Path . -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName) -Raw | Set-Clipboard",
+                pause=0.0,
+            )
+            + Pause("20")
+            + Key("enter"),
+            rdescript=generate_rdescript(
+                "copy recent contents",
+                "FILE/FOLDER OPERATIONS",
+                "Get the contents of the most recently modified file in the current directory",
+            ),
+        ),
         "expand archive": R(Text("Expand-Archive  -DestinationPath") + Key("left:17")),
         "file move": R(Text("Move-Item -Path  -Destination") + Key("left:13")),
         "file copy": R(Text("Copy-Item -Path  -Destination") + Key("left:13")),
         "folder copy": R(Text("Copy-Item -Path  -Destination -Recurse") + Key("left:22")),
         "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
-
         # Wrapping a file in XML and putting it into clipboard for LLM ingestion
-        "file xml [wrap]": R(Text("$f=''; \"<document filename=`\"$f`\">`n`n$(Get-Content $f -Raw)`n</document>\" | Set-Clipboard") +
-                           Key("home, right:4")),
-        "folder xml see sharp [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
-                            Key("home, right:4")),
-        "folder xml python [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
-                            Key("home, right:4")),
-        "folder xml all [wrap]": R(Text("$d='.'; Get-ChildItem $d -Recurse -File | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard") +
-                            Key("home, right:4")),
-
+        "file xml [wrap]": R(
+            Text('$f=\'\'; "<document filename=`"$f`">`n`n$(Get-Content $f -Raw)`n</document>" | Set-Clipboard')
+            + Key("home, right:4")
+        ),
+        "folder xml see sharp [wrap]": R(
+            Text(
+                "$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard"
+            )
+            + Key("home, right:4")
+        ),
+        "folder xml python [wrap]": R(
+            Text(
+                "$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard"
+            )
+            + Key("home, right:4")
+        ),
+        "folder xml all [wrap]": R(
+            Text(
+                '$d=\'.\'; Get-ChildItem $d -Recurse -File | ForEach-Object { "<document filename=`"$($_.FullName)`">`n`n$(Get-Content $_.FullName -Raw)`n</document>" } | Set-Clipboard'
+            )
+            + Key("home, right:4")
+        ),
         # Java uml reverse mapper
-        "java uml": R(Text(f"java -cp \"{PATHS['java u m l']}\" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd") + Key("left:30")),
-
+        "java uml": R(
+            Text(f'java -cp "{PATHS["java u m l"]}" com.iluwatar.urm.DomainMapperCli -p main -s mermaid -f classes.mmd')
+            + Key("left:30")
+        ),
         # Policies/Permissions
         "[show] policy": R(Text("Get-ExecutionPolicy -List", pause=0.0)),
         "policy set": R(Text("Set-ExecutionPolicy ", pause=0.0)),
         "policy set remote current": R(Text("Set-ExecutionPolicy RemoteSigned -Scope CurrentUser", pause=0.0)),
-
         "dirrup": R(Text("Push-Location ../", pause=0.0) + Key("enter")),
         "dirrup two": R(Text("Push-Location ../../", pause=0.0) + Key("enter")),
         "dirrup three": R(Text("Push-Location ../../../", pause=0.0) + Key("enter")),
-
         # Environment Variables
-        "environment refresh": R(Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")),
+        "environment refresh": R(
+            Text("$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine')") + Key("enter")
+        ),
         "envo": R(Text("$env:", pause=0.0)),
         "show path": R(Text("$env:Path -split ';' | ForEach-Object { $i=0 } { \"[$i] $_\"; $i++ }", pause=0.0)),
-
         # Aliases
         "get alias": R(Text("Get-Alias", pause=0.0) + Key("space")),
         "show (aliases | alias)": R(Text("Get-Alias | Out-GridView", pause=0.0) + Key("enter")),
-
         # "pi twelve": R(Text("$p312 ")),
         "pi quit": R(Text("quit()", pause=0.0) + Key("enter")),
         "pi exit": R(Text("exit()", pause=0.0) + Key("enter")),
-
         # sqlite
         "see exit": R(Text(".exit", pause=0.0) + Key("enter")),
-
         "wiper": R(Text("clear", pause=0.0) + Key("enter")),
         "remove recursive": R(Text("Remove-Item -Recurse -Force -Path", pause=0.0) + Key("space")),
-
         # Parrot.py
-        #"remove sure data": R(Text("Remove-Item -Recurse -Force -Path data\\recordings\\") + Key("tab:2")),
-        #"start parrot": R(Text("python settings.py") + Key("enter")),
-
+        # "remove sure data": R(Text("Remove-Item -Recurse -Force -Path data\\recordings\\") + Key("tab:2")),
+        # "start parrot": R(Text("python settings.py") + Key("enter")),
         # Redmine
-        "start redmine": R(Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production", pause=0.0) + Key("enter")),
-
+        "start redmine": R(
+            Mimic("go redmine") + Pause("50") + Text("bundle exec rails server -e production", pause=0.0) + Key("enter")
+        ),
         "start screen copy": R(Text("./scrcpy", pause=0.0) + Key("enter")),
-
         # netstat
         "port check": R(Text("netstat -ano | findstr :", pause=0.0)),
-
         # CLI Tools with options
         "oh <ollama_command>": R(Text("%(ollama_command)s ", pause=0.0)),
         "dock <docker_command>": R(Text("%(docker_command)s ", pause=0.0)),
         "list [<list_command>]": R(Text("%(list_command)s", pause=0.0) + Key("enter")),
-
         # Ollama
         "oh create model": R(Text("ollama create --file .\\Modelfile") + Key("left:19, space:2, left")),
         "run model": R(Text(f"{PYTHON_12} .\\ollama_test.py")),
-
         # History
         "show history": R(Text("Invoke-History") + Key("enter")),
-        "hister clip <n501>": R( # Places command (via id) from history to clipboard
-            Text("(Get-History -Id %(n501)s).CommandLine | Set-Clipboard") + Key("enter")),
+        "hister clip <n501>": R(  # Places command (via id) from history to clipboard
+            Text("(Get-History -Id %(n501)s).CommandLine | Set-Clipboard") + Key("enter")
+        ),
         "copy last command": R(Text("(Get-History -Count 1).CommandLine | Set-Clipboard", pause=0.0) + Key("enter")),
-
         # Python
         "pi twelve <python_command>": R(Text(PYTHON_12) + Key("space") + Text("%(python_command)s")),
         "pi ten <python_command>": R(Text(PYTHON_10) + Key("space") + Text("%(python_command)s")),
@@ -135,42 +172,35 @@ class PowershellRule(MappingRule):
         "pi repple": R(Text("python") + Key("enter")),
         "pi ten repple": R(Text(PYTHON_10) + Key("enter")),
         "pi twelve repple": R(Text(PYTHON_12) + Key("enter")),
-
         # Pandas
         "column list names": R(Text("[col for col in df.columns]")),
-        "column list subset": R(Text("[col for col in df.columns if set(df[col].dropna().unique()).issubset({'t', 'f'})]")),
-
+        "column list subset": R(
+            Text("[col for col in df.columns if set(df[col].dropna().unique()).issubset({'t', 'f'})]")
+        ),
         # pyreverse
         "pi rev": R(Text("pyreverse -o png -p") + Key("space")),
         "pi rev detailed": R(Text("pyreverse -o png -p  -ASmy") + Key("left:6")),
-
         # Variables
-        "var <text>": R(Text("$%(text)s = \"\"", pause=0.0) + Key("left")),
-        "var string <text>": R(Text("$%(text)s = @\"", pause=0.0) + Key("enter")),
-        "end string": R(Text("\"@", pause=0.0) + Key("enter")),
+        "var <text>": R(Text('$%(text)s = ""', pause=0.0) + Key("left")),
+        "var string <text>": R(Text('$%(text)s = @"', pause=0.0) + Key("enter")),
+        "end string": R(Text('"@', pause=0.0) + Key("enter")),
         "ref <text>": R(Text("$%(text)s", pause=0.0)),
-
         # Python Virtual
         "virtual activate": R(Text(r".\.venv\Scripts\Activate.ps1", pause=0.0) + Key("enter")),
         "[virtual] deactivate": R(Text("deactivate", pause=0.0) + Key("enter")),
-
         # Create commit message generation prompt
         "generate commit prompt": R(
             # Places the prompt builder text and commands into the clipboard for faster output
             # This is much faster than using Text("")
-            Function(text_to_clipboard, text=POWERSHELL_COMMIT_PROMPT_BUILDER) +
-            Pause("20") + Key("c-v/3,enter")),
-
+            Function(text_to_clipboard, text=POWERSHELL_COMMIT_PROMPT_BUILDER) + Pause("20") + Key("c-v/3,enter")
+        ),
         # String Manipulation
         "to clipboard": R(Text(" | Set-Clipboard", pause=0.0)),
-        "dot split": R(Text(".Split(\"\")", pause=0.0) + Key("left:2")),
-        "split space": R(Text(".Split(\" \")", pause=0.0)),
-
+        "dot split": R(Text('.Split("")', pause=0.0) + Key("left:2")),
+        "split space": R(Text('.Split(" ")', pause=0.0)),
         # Trello https://github.com/mheap/trello-cli
         "trell [<trello_command>]": R(Text("trello %(trello_command)s")),
-
         "code here": R(Text("windsurf .") + Key("enter")),
-
         "you in it": R(Text("uv init") + Key("enter")),
         "you pi pin": R(Text("uv python pin ")),
         "you add": R(Text("uv add ")),
@@ -193,6 +223,7 @@ class PowershellRule(MappingRule):
         "n": 1,
         "trello_command": "",
     }
+
 
 def get_rule():
     return PowershellRule, RuleDetails(name="Powershell", executable="WindowsTerminal", title="Windows PowerShell")

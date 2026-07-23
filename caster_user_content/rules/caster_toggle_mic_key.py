@@ -13,6 +13,7 @@ from castervoice.lib import printer
 RPC_HOST = "127.0.0.1"
 RPC_PORT = 8341
 
+
 class XMLRPCServerThread(threading.Thread):
     def __init__(self, host, port, callback):
         super(XMLRPCServerThread, self).__init__()
@@ -36,6 +37,7 @@ class XMLRPCServerThread(threading.Thread):
         self.server.shutdown()
         self.server.server_close()
 
+
 def toggle_caster_mic():
     def callback():
         callback.timer.stop()
@@ -57,6 +59,7 @@ def toggle_caster_mic():
         printer.out("Caster Hotkey IPC: Engine not ready")
         return "Engine not ready"
 
+
 # Reload safety: cleanly shut down any existing server to release the port
 if hasattr(sys, "_caster_hotkey_server"):
     try:
@@ -75,11 +78,13 @@ try:
 except Exception as e:
     printer.out("Caster Hotkey IPC: Failed to start XML-RPC server: {}".format(e))
 
+
 # Dummy rule class to ensure Caster logs and loads this module
 class CasterHotkeyToggleRule(MappingRule):
     mapping = {}
     extras = []
     defaults = {}
+
 
 def get_rule():
     return CasterHotkeyToggleRule, RuleDetails(name="caster hotkey toggle ipc")

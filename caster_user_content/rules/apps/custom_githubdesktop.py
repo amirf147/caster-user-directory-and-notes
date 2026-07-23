@@ -7,6 +7,7 @@ from castervoice.lib.merge.state.short import R
 
 from caster_user_content.environment_variables import GITHUB_REPOS
 
+
 class CustomGitHubDeskRule(MappingRule):
     pronunciation = "custom git hub desk"
     mapping = {
@@ -14,16 +15,13 @@ class CustomGitHubDeskRule(MappingRule):
         "add local repository": R(Key("c-o")),
         "clone repository": R(Key("cs-o")),
         "options | (show (settings | options))": R(Key("c-comma")),
-
         "changes": R(Key("c-1")),
         "history": R(Key("c-2")),
         "repos": R(Key("c-t")),
         "branches [list]": R(Key("c-b")),
-
-        "zoom in [<n>]": R(Key("c-equals"))*Repeat(extra="n"),
-        "zoom out [<n>]": R(Key("c-minus"))*Repeat(extra="n"),
+        "zoom in [<n>]": R(Key("c-equals")) * Repeat(extra="n"),
+        "zoom out [<n>]": R(Key("c-minus")) * Repeat(extra="n"),
         "reset zoom": R(Key("c-0")),
-
         "push [repository]": R(Key("c-p")),
         "pull [repository]": R(Key("cs-p")),
         "remove repository": R(Key("c-delete")),
@@ -31,24 +29,18 @@ class CustomGitHubDeskRule(MappingRule):
         "(terminal | command prompt)": R(Key("c-backtick")),
         "explorer": R(Key("cs-f")),
         "edit": R(Key("cs-a")),
-
         "new branch": R(Key("cs-n")),
         "rename branch": R(Key("cs-r")),
         "delete branch": R(Key("cs-d")),
-
         "update from master": R(Key("cs-u")),
         "compare to branch": R(Key("cs-b")),
         "merge into current [branch]": R(Key("cs-m")),
-
         "compare on github": R(Key("cs-c")),
         "[create] pull request": R(Key("c-r")),
-
         # Composite commands
         # Switch to a specific repository
-        "switch to <repository>":
-            R(Key("escape/3, c-t") + Pause("30") + Text("%(repository)s") + Key("enter")),
-        "fast update":
-            R(Key("a-f/3, escape, tab:13, enter")), # Use the generate commit message button
+        "switch to <repository>": R(Key("escape/3, c-t") + Pause("30") + Text("%(repository)s") + Key("enter")),
+        "fast update": R(Key("a-f/3, escape, tab:13, enter")),  # Use the generate commit message button
     }
     extras = [
         ShortIntegerRef("n", 1, 10),

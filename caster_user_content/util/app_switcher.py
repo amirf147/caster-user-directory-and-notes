@@ -19,22 +19,25 @@ from caster_user_content.environment_variables import WINDOWS_APP_NAMES
 # Try to import pyvda for Virtual Desktop tracking
 try:
     from pyvda import AppView, VirtualDesktop
+
     PYVDA_AVAILABLE = True
 except ImportError:
     PYVDA_AVAILABLE = False
     print("WARNING: pyvda not installed. Workspace awareness will be disabled. Run: pip install pyvda")
 
 # Define application groups by their window title identifiers for tab switching
-CTRL_TAB_APPS = ['Waterfox', 'Firefox', 'Windows Terminal']
-CTRL_PGDN_APPS = ['Windsurf', 'Cursor', 'VSCodium', 'Visual Studio Code', 'Antigravity IDE']
+CTRL_TAB_APPS = ["Waterfox", "Firefox", "Windows Terminal"]
+CTRL_PGDN_APPS = ["Windsurf", "Cursor", "VSCodium", "Visual Studio Code", "Antigravity IDE"]
 
 _SEPARATORS = (" - ", " – ", " — ")
+
 
 class WindowInfo(NamedTuple):
     handle: int
     title: str
     is_tab: bool = False
     window_type: str = None
+
 
 class TaskbarItem(NamedTuple):
     control: Any
@@ -43,6 +46,7 @@ class TaskbarItem(NamedTuple):
     instance_index: int
     total_instances: int
 
+
 # Get path to store aliases
 CASTER_USER_DIR = Path(os.path.expanduser("~/AppData/Local/caster/caster_user_content/"))
 ALIASES_FILE = CASTER_USER_DIR / "window_aliases.json"
@@ -50,12 +54,13 @@ ALIASES_FILE = CASTER_USER_DIR / "window_aliases.json"
 # Dictionary for aliases
 aliases: Dict[str, WindowInfo] = {}
 
+
 def load_aliases() -> None:
     """Load aliases from file"""
     global aliases
     try:
         if ALIASES_FILE.exists():
-            with open(ALIASES_FILE, 'r') as f:
+            with open(ALIASES_FILE, "r") as f:
                 data = json.load(f)
                 aliases = {k: WindowInfo(**v) for k, v in data.items()}
             print(f"Loaded {len(aliases)} aliases")
@@ -63,16 +68,19 @@ def load_aliases() -> None:
         print(f"Error loading aliases: {e}")
         aliases = {}
 
+
 def save_aliases() -> None:
     """Save aliases to file"""
     try:
         data = {k: v._asdict() for k, v in aliases.items()}
-        with open(ALIASES_FILE, 'w') as f:
+        with open(ALIASES_FILE, "w") as f:
             json.dump(data, f, indent=2)
     except Exception as e:
         print(f"Error saving aliases: {e}")
 
+
 load_aliases()
+
 
 def extract_app_name(caption: str) -> str:
     if not caption:
@@ -96,12 +104,14 @@ def extract_app_name(caption: str) -> str:
 
     return caption
 
+
 def extract_total_instances(caption: str) -> int:
     try:
         last_segment = caption.split(" - ")[-1]
         return int(last_segment.split()[0])
     except (IndexError, ValueError):
         return 1
+
 
 class WindowsOSAdapter:
     """Deep interface adapter encapsulating raw OS calls to win32gui, pywinauto, and pyvda."""
@@ -112,23 +122,29 @@ class WindowsOSAdapter:
 
     def get_open_windows(self) -> List[Tuple[int, str]]:
         windows = []
+
         def enum_cb(hwnd, ctx):
             if win32gui.IsWindowVisible(hwnd):
                 title = win32gui.GetWindowText(hwnd)
                 if title and title not in ["Program Manager", "Windows Input Experience", "OmApSvcBroker"]:
                     windows.append((hwnd, title))
+
         win32gui.EnumWindows(enum_cb, None)
         return windows
 
     def get_active_window(self) -> Tuple[Any, int, str]:
         try:
             w = self._desktop_uia.get_active()
-            if w is not None: return w, int(w.handle), w.window_text()
-        except Exception: pass
+            if w is not None:
+                return w, int(w.handle), w.window_text()
+        except Exception:
+            pass
         try:
             w = self._desktop_win32.get_active()
-            if w is not None: return w, int(w.handle), w.window_text()
-        except Exception: pass
+            if w is not None:
+                return w, int(w.handle), w.window_text()
+        except Exception:
+            pass
         if win32gui:
             h = win32gui.GetForegroundWindow()
             if h:
@@ -144,7 +160,8 @@ class WindowsOSAdapter:
         items = []
         try:
             taskbar = self._desktop_uia.window(class_name="Shell_TrayWnd")
-            if not taskbar.exists(): return []
+            if not taskbar.exists():
+                return []
             all_toolbars = taskbar.descendants(control_type="ToolBar")
             button_container = None
             for tb in all_toolbars:
@@ -161,21 +178,27 @@ class WindowsOSAdapter:
                 total = extract_total_instances(caption)
                 count = instance_tracker.get(app, 0) + 1
                 instance_tracker[app] = count
-                items.append(TaskbarItem(control=btn, text=caption, app_name=app, instance_index=count, total_instances=total))
+                items.append(
+                    TaskbarItem(control=btn, text=caption, app_name=app, instance_index=count, total_instances=total)
+                )
         except Exception:
             pass
         return items
 
     def get_current_desktop_id(self):
         if PYVDA_AVAILABLE:
-            try: return VirtualDesktop.current().id
-            except Exception: pass
+            try:
+                return VirtualDesktop.current().id
+            except Exception:
+                pass
         return None
 
     def get_window_desktop_id(self, handle: int):
         if PYVDA_AVAILABLE:
-            try: return AppView(hwnd=handle).desktop_id
-            except Exception: pass
+            try:
+                return AppView(hwnd=handle).desktop_id
+            except Exception:
+                pass
         return None
 
     def restore_and_focus(self, handle: int) -> bool:
@@ -204,6 +227,7 @@ class WindowsOSAdapter:
         # 4. Attempt standard Pywinauto set_focus
         try:
             from pywinauto import Application
+
             app = Application().connect(handle=handle)
             app.window(handle=handle).set_focus()
         except Exception as e:
@@ -254,11 +278,14 @@ class WindowsOSAdapter:
                 continue
 
     def get_window_by_handle(self, handle: int):
-        try: return self._desktop_uia.window(handle=handle)
-        except Exception: return self._desktop_win32.window(handle=handle)
+        try:
+            return self._desktop_uia.window(handle=handle)
+        except Exception:
+            return self._desktop_win32.window(handle=handle)
 
 
 os_env = WindowsOSAdapter()
+
 
 def verify_focus(target_hwnd: int, timeout: float = 0.5) -> bool:
     """Helper to verify if the active window has successfully switched to the target handle."""
@@ -269,31 +296,42 @@ def verify_focus(target_hwnd: int, timeout: float = 0.5) -> bool:
         time.sleep(0.05)
     return False
 
+
 def get_window_type(title: str) -> str:
-    if any(app in title for app in CTRL_TAB_APPS): return 'ctrl_tab'
-    if any(app in title for app in CTRL_PGDN_APPS): return 'ctrl_pgdn'
+    if any(app in title for app in CTRL_TAB_APPS):
+        return "ctrl_tab"
+    if any(app in title for app in CTRL_PGDN_APPS):
+        return "ctrl_pgdn"
     return None
+
 
 def set_window(window_alias: Any) -> None:
     window_alias = str(window_alias)
     w, handle, title_text = os_env.get_active_window()
-    if not handle: return
-    aliases[window_alias] = WindowInfo(handle=handle, title=title_text, is_tab=False, window_type=get_window_type(title_text))
+    if not handle:
+        return
+    aliases[window_alias] = WindowInfo(
+        handle=handle, title=title_text, is_tab=False, window_type=get_window_type(title_text)
+    )
     print(f"Set window alias '{window_alias}' for: {title_text}")
     save_aliases()
+
 
 def set_page(window_alias: Any) -> None:
     window_alias = str(window_alias)
     w, handle, title_text = os_env.get_active_window()
-    if not handle: return
+    if not handle:
+        return
     window_type = get_window_type(title_text)
     aliases[window_alias] = WindowInfo(handle=handle, title=title_text, is_tab=True, window_type=window_type)
     print(f"Set tab alias '{window_alias}' for: {title_text}")
     save_aliases()
 
+
 def clear_alias() -> None:
     w, handle, title_text = os_env.get_active_window()
-    if not handle: return
+    if not handle:
+        return
     keys_to_remove = [k for k, v in aliases.items() if v.handle == handle]
     for k in keys_to_remove:
         del aliases[k]
@@ -303,29 +341,37 @@ def clear_alias() -> None:
     else:
         print(f"No alias found for current window: {title_text}")
 
+
 def clear_all_aliases() -> None:
     aliases.clear()
     print("Cleared all window aliases.")
     save_aliases()
+
 
 def find_tab(target_title: str, window_type: str) -> bool:
     _, __, initial_title = os_env.get_active_window()
     tries = 0
     while tries < 50:
         _, __, current_title = os_env.get_active_window()
-        if target_title == current_title: return True
-        if window_type == 'ctrl_tab': Key("c-tab").execute()
-        elif window_type == 'ctrl_pgdn': Key("c-pgdown").execute()
+        if target_title == current_title:
+            return True
+        if window_type == "ctrl_tab":
+            Key("c-tab").execute()
+        elif window_type == "ctrl_pgdn":
+            Key("c-pgdown").execute()
         time.sleep(0.1)
         tries += 1
-        if tries > 1 and current_title == initial_title: break
+        if tries > 1 and current_title == initial_title:
+            break
     return False
+
 
 def show_window_info():
     print("\n--- Open Windows Info ---")
     windows = os_env.get_open_windows()
     for hwnd, title_text in windows:
         print(f"HWND: {hwnd:<8} | App: {extract_app_name(title_text):<20} | Title: {title_text}")
+
 
 def switch_to_app(app_name, instance: int = 1) -> bool:
     """Switches to app using a verified 3-tier failsafe approach."""
@@ -416,6 +462,7 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     printer.out("Failed to switch window")
     return False
 
+
 def title(window_title: str):
     """Activate a window whose title contains the given substring."""
     try:
@@ -424,13 +471,17 @@ def title(window_title: str):
                 if window_title in w.window_text():
                     handle = int(w.handle)
                     if os_env.restore_and_focus(handle):
-                        printer.out(f"Successfully switched to window matching '{window_title}' using window focus APIs")
+                        printer.out(
+                            f"Successfully switched to window matching '{window_title}' using window focus APIs"
+                        )
                         return
-            except Exception: continue
+            except Exception:
+                continue
         printer.out("Failed to switch window")
     except Exception as e:
         print(f"Error activating by title: {e}")
         printer.out("Failed to switch window")
+
 
 def switch_to_alias(window_alias: Any) -> None:
     window_alias = str(window_alias)
@@ -462,6 +513,7 @@ def switch_to_alias(window_alias: Any) -> None:
     except Exception as e:
         print(f"Error switching: {e}")
         printer.out("Failed to switch window")
+
 
 if __name__ == "__main__":
     show_window_info()

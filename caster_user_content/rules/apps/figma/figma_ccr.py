@@ -9,17 +9,12 @@ from castervoice.lib.merge.state.short import R
 class FigmaCCR(MergeRule):
     pronunciation = "figma c c r"
     mapping = {
-
         "format bold | bowley": R(Key("c-b")),
+    }
+    extras = []
+    defaults = {}
 
-    }
-    extras = [
-    ]
-    defaults = {
-    }
 
 def get_rule():
-    details = RuleDetails(executable="Figma",
-                          title="Figma",
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable="Figma", title="Figma", ccrtype=CCRType.APP)
     return FigmaCCR, details

@@ -7,15 +7,15 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
-class CustomGitbashRule(MergeRule):
 
+class CustomGitbashRule(MergeRule):
     pronunciation = "custom gitbash"
 
     mapping = {
         "menu": R(Key("a-space")),
-        "dirrup":
-            R(Text("cd ../ ; ls;") + Key("enter")),
+        "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
     }
+
 
 _executables = [
     "\\sh.exe",
@@ -26,10 +26,10 @@ _executables = [
     "idea",
     "idea64",
     "studio64",
-    "pycharm"
+    "pycharm",
 ]
 
+
 def get_rule():
-    details = RuleDetails(executable=_executables,
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable=_executables, ccrtype=CCRType.APP)
     return CustomGitbashRule, details

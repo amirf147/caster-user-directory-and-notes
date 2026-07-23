@@ -11,24 +11,17 @@ from caster_user_content import environment_variables as ev
 
 
 class CommandLineCCRRule(MergeRule):
-
     pronunciation = "command line c c r"
 
     mapping = {
         "axe": R(Key("a-backspace")),
-
-        "dirrup":
-            R(Text("cd ../ ; ls;") + Key("enter")),
-
+        "dirrup": R(Text("cd ../ ; ls;") + Key("enter")),
         "go": R(Key("c, d, space")),
         "to clipboard": R(Key("space, |, space, c, l, i, p")),
-
         # Executables
         "<exe>": R(Text("%(exe)s")),
-
         # Python exe
         "pi debug": R(Text("$p312 -m pdb ")),
-
         # SQL
         "seekum": R(Text("sqlcmd") + Key("space")),
         "seekle": R(Text("sqlite3") + Key("space")),
@@ -38,12 +31,12 @@ class CommandLineCCRRule(MergeRule):
         Choice("exe", ev.EXECUTABLES),
     ]
 
+
 _executables = [
     "cmd",
 ]
 
 
 def get_rule():
-    details = RuleDetails(executable=_executables,
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable=_executables, ccrtype=CCRType.APP)
     return CommandLineCCRRule, details

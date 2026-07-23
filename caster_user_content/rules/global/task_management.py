@@ -24,9 +24,7 @@ def _safe_add_card(list_name):
     if trello_tools is None:
         # Surface the original failure to the user in a way that won't kill the
         # thread-pool but will still be visible in Caster's log window.
-        raise RuntimeError(
-            "The `trello_tools` module could not be imported: {}".format(_trello_tools_import_error)
-        )
+        raise RuntimeError("The `trello_tools` module could not be imported: {}".format(_trello_tools_import_error))
 
     card_name = Clipboard(from_system=True).get_system_text()
     if not card_name:
@@ -45,14 +43,17 @@ class TaskManagementRule(MappingRule):
         "add sure <list_name>": R(Key("c-c/30") + Function(_safe_add_card, list_name="%(list_name)s")),
     }
     extras = [
-        Choice("list_name", {
-            "to sort": "To Sort",
-            "to do": "To Do",
-            "caster": "Caster",
-            "for later": "For Later",
-            "projects | ideas": "Projects/Ideas",
-            "statistics": "Statistical Data Analysis",
-        }),
+        Choice(
+            "list_name",
+            {
+                "to sort": "To Sort",
+                "to do": "To Do",
+                "caster": "Caster",
+                "for later": "For Later",
+                "projects | ideas": "Projects/Ideas",
+                "statistics": "Statistical Data Analysis",
+            },
+        ),
     ]
 
 

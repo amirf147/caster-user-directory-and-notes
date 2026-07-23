@@ -8,7 +8,6 @@ from castervoice.lib.merge.state.short import R
 
 
 class WindsurfCCRRule(MergeRule):
-
     pronunciation = "windsurf c c r"
 
     mapping = {
@@ -20,7 +19,7 @@ class WindsurfCCRRule(MergeRule):
         Dictation("text"),
     ]
 
+
 def get_rule():
-    details = RuleDetails(executable="Windsurf",
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable="Windsurf", ccrtype=CCRType.APP)
     return WindsurfCCRRule, details

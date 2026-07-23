@@ -5,6 +5,7 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib import utilities
 from caster_user_content.util import app_switcher
 
+
 class GlobalCopilotDesktopRule(MappingRule):
     pronunciation = "global copilot desktop"
     mapping = {
@@ -14,28 +15,22 @@ class GlobalCopilotDesktopRule(MappingRule):
         "q <prompt>": R(Key("a-space/180") + Text("%(prompt)s")),
         "new q max": R(Key("a-space/180, a-q")),
         "q clipboard": R(Key("a-space/180") + Key("c-v")),
-        "chats": # TODO: Investigate the apparent blocking by windows to switch to the application
-                 # when it has been previously minimized from within the application. Perhaps start
-                 # by investigating a different way to switch to the application.
-
-                 # Update: The switch application has been modified to use pwinauto for more reliable
-                 # window activation. The shift key is no longer necessary. Hopefully...
-            R(Function(app_switcher.title, window_title="Copilot") + Pause("50") + Mouse("(0.5, 0.5)")),
-        "close q": R(
-            Function(app_switcher.title, window_title="Copilot") +
-            Pause("30") + Key("a-f4")),
+        "chats":  # TODO: Investigate the apparent blocking by windows to switch to the application
+        # when it has been previously minimized from within the application. Perhaps start
+        # by investigating a different way to switch to the application.
+        # Update: The switch application has been modified to use pwinauto for more reliable
+        # window activation. The shift key is no longer necessary. Hopefully...
+        R(Function(app_switcher.title, window_title="Copilot") + Pause("50") + Mouse("(0.5, 0.5)")),
+        "close q": R(Function(app_switcher.title, window_title="Copilot") + Pause("30") + Key("a-f4")),
         "min q | minx": R(
-            Function(app_switcher.title, window_title="Copilot") + Pause("30") +
-            Function(utilities.minimize_window)),
-
+            Function(app_switcher.title, window_title="Copilot") + Pause("30") + Function(utilities.minimize_window)
+        ),
         # TODO: Figure out how to check the state of copilot to see if it is in the foreground,
         # expanded, etc. Consider using inspect.exe or uiautomation
-
     }
-    extras = [
-        Dictation("prompt")
-    ]
+    extras = [Dictation("prompt")]
     defaults = {}
+
 
 def get_rule():
     details = RuleDetails(name="Global Copilot Desktop")

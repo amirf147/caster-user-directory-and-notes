@@ -6,7 +6,6 @@ from castervoice.lib.merge.state.short import R
 
 
 class GoogleMeetRule(MappingRule):
-
     pronunciation = "google meet"
 
     mapping = {

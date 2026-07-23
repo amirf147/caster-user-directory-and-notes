@@ -1,0 +1,38 @@
+name: Caster User Content Release (CD)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package & Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Release Zip Archive
+        run: |
+          zip -r "caster-user-content-${{ github.ref_name }}.zip" \
+            caster_user_content \
+            settings \
+            docs \
+            scripts \
+            foot_pedal.ahk \
+            README.md \
+            requirements.txt \
+            ruff.toml
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: caster-user-content-${{ github.ref_name }}.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false

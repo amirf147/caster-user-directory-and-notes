@@ -59,7 +59,7 @@ DOCKER_COMMANDS = {
 LIST_COMMANDS = {
     "names": "Get-ChildItemColor",
     "folders": "Get-ChildItem -Directory -Name",
-    "recent": "Get-ChildItem | Sort-Object LastWriteTime | Format-List Name, LastWriteTime"
+    "recent": "Get-ChildItem | Sort-Object LastWriteTime | Format-List Name, LastWriteTime",
 }
 
 PYTHON_COMMANDS = {

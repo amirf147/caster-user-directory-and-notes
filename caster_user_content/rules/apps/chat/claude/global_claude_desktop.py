@@ -13,14 +13,13 @@ class GlobalClaudeDesktopRule(MappingRule):
         "q <prompt>": R(Key("ca-space/80") + Text("%(prompt)s")),
         # "new q max": R(Key("a-space/180, s-tab:3, enter")),
         # "q clipboard": R(Key("a-space/180") + Key("c-v")),
-    #     "close q": R(
-    #         Function(app_switcher.title, window_title="Copilot") +
-    #         Pause("30") + Key("a-f4")),
+        #     "close q": R(
+        #         Function(app_switcher.title, window_title="Copilot") +
+        #         Pause("30") + Key("a-f4")),
     }
-    extras = [
-        Dictation("prompt")
-    ]
+    extras = [Dictation("prompt")]
     defaults = {}
+
 
 def get_rule():
     details = RuleDetails(name="Global Claude Desktop")

@@ -7,6 +7,7 @@ from collections import defaultdict
 # Directory to scan
 RULES_DIR = os.path.join("caster_user_content", "rules")
 
+
 class MappingVisitor(ast.NodeVisitor):
     def __init__(self, file_path):
         self.file_path = file_path
@@ -17,17 +18,18 @@ class MappingVisitor(ast.NodeVisitor):
         for item in node.body:
             if isinstance(item, ast.Assign):
                 for target in item.targets:
-                    if isinstance(target, ast.Name) and target.id == 'mapping':
+                    if isinstance(target, ast.Name) and target.id == "mapping":
                         if isinstance(item.value, ast.Dict):
                             extracted_keys = []
                             for key in item.value.keys:
                                 if isinstance(key, ast.Constant) and isinstance(key.value, str):
                                     extracted_keys.append(key.value)
-                                elif hasattr(ast, 'Str') and isinstance(key, ast.Str):
+                                elif hasattr(ast, "Str") and isinstance(key, ast.Str):
                                     extracted_keys.append(key.s)
                             if extracted_keys:
                                 self.mappings[node.name] = extracted_keys
         self.generic_visit(node)
+
 
 def main():
     if not os.path.exists(RULES_DIR):
@@ -76,6 +78,7 @@ def main():
     else:
         print("\nNo voice command collisions found.")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

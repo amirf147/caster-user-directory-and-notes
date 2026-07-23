@@ -6,55 +6,43 @@ from castervoice.lib.merge.state.short import R
 
 
 class CustomNPPRule(MappingRule):
-
     mapping = {
-
         # Settings
         "keyboard shorts": R(Key("c-comma")),
-
         # Plugin: NppExec
         "shell": R(Key("c-~")),
-
         # Plugin: Explorer
         "show files": R(Key("cas-e")),
         "hide left": R(Key("a-p, e, e")),
-
         # Plugin: DBGp
         "debugger": R(Key("cas-d")),
         "break point": R(Key("cs-f9")),
-
         # File Management
         "file open": R(Key("c-o")),
         "file new": R(Key("c-n")),
         "file custom retain": R(Key("ca-s")),
-
         # View
-        "cros": R(Key("f8")), # Instead of "cross" because I have "ross" transformed in words.txt
+        "cros": R(Key("f8")),  # Instead of "cross" because I have "ross" transformed in words.txt
         "word wrap": R(Key("cas-w")),
         # Requires user defined shortcut mapping ("Move to Other View")
         "split editor": R(Key("ca-backslash")),
         "folder view": R(Key("ca-f6")),
         "toggle folder (view | as workspace)": R(Key("csa-f6")),
-
         # Line Operations
         "line del [<n>]": R(Key("c-l:%(n)d")),
         "move up [<n>]": R(Key("cs-up:%(n)d")),
         "move down [<n>]": R(Key("cs-down:%(n)d")),
         "same below": R(Key("c-d")),
-
         # Edit
         # Requires user defined shortcut mapping
         # ("Multi-Select Next: Match Whole Word and Case")
         "curse it [<n2>]": R(Key("ca-np3:%(n2)d")),
-
         # Commenting
-        "toggle comment": R(Key("c-q")), # Toggle single line comment
-        "comment": R(Key("c-k")), # Single Line Comment
-        "uncomment": R(Key("cs-k")), # Single Line Uncomment
-
+        "toggle comment": R(Key("c-q")),  # Toggle single line comment
+        "comment": R(Key("c-k")),  # Single Line Comment
+        "uncomment": R(Key("cs-k")),  # Single Line Uncomment
         "zoom in <n2>": R(Key("c-npadd:%(n2)d")),
         "zoom out <n2>": R(Key("c-npsub:%(n2)d")),
-
         "code run": R(Key("f5")),
         "pi run": R(Key("c-f6")),
         "exec": R(Key("f6")),

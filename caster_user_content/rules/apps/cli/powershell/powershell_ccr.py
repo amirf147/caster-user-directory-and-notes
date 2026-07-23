@@ -9,19 +9,16 @@ from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
 
-class PowershellCCRRule(MergeRule):
 
+class PowershellCCRRule(MergeRule):
     pronunciation = "power shell c c r"
 
     mapping = {
-
         # Executables/Commands
         "<exe>": R(Text("%(exe)s") + Key("space")),
-        "rename": # Renaming a file or folder
-            R(Text("Rename-Item -Path  -NewName") + Key("left:9")),
-
+        "rename":  # Renaming a file or folder
+        R(Text("Rename-Item -Path  -NewName") + Key("left:9")),
         # "mark mode": R(Key("a-space, e, k")),
-
         # SQL
         # "ghost": R(Key("G, O, enter")),
     }
@@ -29,8 +26,7 @@ class PowershellCCRRule(MergeRule):
         Choice("exe", ev.EXECUTABLES),
     ]
 
+
 def get_rule():
-    details = RuleDetails(executable="WindowsTerminal",
-                          title="Windows PowerShell",
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable="WindowsTerminal", title="Windows PowerShell", ccrtype=CCRType.APP)
     return PowershellCCRRule, details

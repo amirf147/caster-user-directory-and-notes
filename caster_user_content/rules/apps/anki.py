@@ -10,10 +10,10 @@ class AnkiRule(MappingRule):
     pronunciation = "anki"
     mapping = {
         "file import": R(Key("cs-i")),
-
     }
     extras = []
     defaults = {}
+
 
 def get_rule():
     return AnkiRule, RuleDetails(name="anki", executable="anki")

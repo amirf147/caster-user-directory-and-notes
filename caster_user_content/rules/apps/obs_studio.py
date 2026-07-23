@@ -12,5 +12,6 @@ class OBSStudioRule(MappingRule):
         "stop recording": R(Key("cs-r")),
     }
 
+
 def get_rule():
     return OBSStudioRule, RuleDetails(name="studio", executable="obs64")

@@ -7,8 +7,8 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
-class VimCCR(MergeRule):
 
+class VimCCR(MergeRule):
     pronunciation = "vim c c r"
     mapping = {
         "vimmy": R(Text("vim") + Key("space")),
@@ -20,7 +20,7 @@ class VimCCR(MergeRule):
         "n": 1,
     }
 
+
 def get_rule():
-    details = RuleDetails(executable="WindowsTerminal",
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable="WindowsTerminal", ccrtype=CCRType.APP)
     return VimCCR, details

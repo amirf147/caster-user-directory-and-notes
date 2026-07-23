@@ -9,33 +9,21 @@ from castervoice.lib.merge.mergerule import MergeRule
 
 
 class CustomIERule(MergeRule):
-    pronunciation  = "custom explorer rule"
+    pronunciation = "custom explorer rule"
     mapping = {
-        "address bar":
-            R(Key("a-d")),
-        "new folder":
-            R(Key("cs-n")),
-        "new file":
-            R(Key("a-f, w, t")),
-        "(show | file | folder) properties":
-            R(Key("a-enter")),
-        "dirrup":
-            R(Key("a-up")),
-        "go back":
-            R(Key("a-left")),
-        "go forward":
-            R(Key("a-right")),
-        "search [<text>]":
-            R(Key("a-d, tab:1") + Text("%(text)s")),
-        "(navigation | nav | left) pane":
-            R(Key("a-d, tab:2")),
-        "(center pane | (file | folder) (pane | list))":
-            R(Key("a-d, tab:3")),
-            # for the sort command below,
-            # once you've selected the relevant heading for sorting using the arrow keys, press enter
-        "sort [headings]":
-            R(Key("a-d, tab:4")),
-
+        "address bar": R(Key("a-d")),
+        "new folder": R(Key("cs-n")),
+        "new file": R(Key("a-f, w, t")),
+        "(show | file | folder) properties": R(Key("a-enter")),
+        "dirrup": R(Key("a-up")),
+        "go back": R(Key("a-left")),
+        "go forward": R(Key("a-right")),
+        "search [<text>]": R(Key("a-d, tab:1") + Text("%(text)s")),
+        "(navigation | nav | left) pane": R(Key("a-d, tab:2")),
+        "(center pane | (file | folder) (pane | list))": R(Key("a-d, tab:3")),
+        # for the sort command below,
+        # once you've selected the relevant heading for sorting using the arrow keys, press enter
+        "sort [headings]": R(Key("a-d, tab:4")),
     }
     extras = [
         Dictation("text"),

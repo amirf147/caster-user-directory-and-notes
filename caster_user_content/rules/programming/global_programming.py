@@ -8,15 +8,13 @@ from castervoice.lib.merge.state.short import R
 
 
 class GlobalProgramming(MergeRule):
-
     mapping = {
-
         "<formatted_operator>": R(Key("%(formatted_operator)s")),
-
     }
     extras = [
         Choice(
-            "formatted_operator", {
+            "formatted_operator",
+            {
                 "double eco": "space, equals, equals, space",
                 "double meese": "minus:2, space",
                 "double plooz": "plus:2, space",
@@ -31,8 +29,9 @@ class GlobalProgramming(MergeRule):
                 "leak": "space, <, =, space",
                 "coach": "end, comma",
                 "cole": "end, colon, space",
-            }
-        )]
+            },
+        )
+    ]
     defaults = {}
 
 

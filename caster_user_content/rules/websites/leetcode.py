@@ -3,6 +3,7 @@ from castervoice.lib.actions import Key
 from castervoice.lib.merge.state.short import R
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 
+
 class LeetCodeRule(MappingRule):
     pronunciation = "leite code"
     mapping = {
@@ -13,6 +14,7 @@ class LeetCodeRule(MappingRule):
         "previous question": R(Key("a-left")),
         "pane maximize": R(Key("a-equal")),
     }
+
 
 def get_rule():
     return LeetCodeRule, RuleDetails(name="LeetCode Rule", title="LeetCode")

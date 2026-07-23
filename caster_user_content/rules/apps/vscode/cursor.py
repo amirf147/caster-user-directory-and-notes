@@ -9,41 +9,34 @@ from castervoice.lib.merge.state.short import R
 
 class CursorRule(MappingRule):
     mapping = {
-
         # AI Chat
-        "hide right": # Requires user defined key binding (View: Close AI Sidebar)
-            R(Key("c-m, a-w")),
+        "hide right":  # Requires user defined key binding (View: Close AI Sidebar)
+        R(Key("c-m, a-w")),
         "show chat": R(Key("cs-y")),
         "new chat": R(Key("c-l")),
-        "chat new": R(Key("c-n")),  #"when": "focusedView == 'workbench.panel.aichat.view'"
-        "composer": R(Key("cs-m, cs-k")), # Requires user defined key binding (View: Toggle Composer)
+        "chat new": R(Key("c-n")),  # "when": "focusedView == 'workbench.panel.aichat.view'"
+        "composer": R(Key("cs-m, cs-k")),  # Requires user defined key binding (View: Toggle Composer)
         "add context": R(Key("ca-p")),
-        "a chat": R(Key("c-i")), # Agent chat
-
+        "a chat": R(Key("c-i")),  # Agent chat
         # Opening Files/Folders
         "folder open": R(Key("c-m, c-o")),
-
         # Source Control/Git
-        "generate commit message": R(Key("c-k, cs-c")), # Requires user defined key binding (Generate Commit Message)
-        "show changes": R(Key("c-g, c-o")), # Requires user defined key binding (Git: Open Changes)
-        "stage changes": R(Key("c-g, c-s")), # Requires user defined key binding (Git: Stage Changes)
-        "show stage": R(Key("c-g, cs-s")), # Requires user defined key binding (Git: View Staged Changes)
-        "git sure commit": R(Key("c-g, c-c")), # Requires user defined key binding (Git: Commit)
-
+        "generate commit message": R(Key("c-k, cs-c")),  # Requires user defined key binding (Generate Commit Message)
+        "show changes": R(Key("c-g, c-o")),  # Requires user defined key binding (Git: Open Changes)
+        "stage changes": R(Key("c-g, c-s")),  # Requires user defined key binding (Git: Stage Changes)
+        "show stage": R(Key("c-g, cs-s")),  # Requires user defined key binding (Git: View Staged Changes)
+        "git sure commit": R(Key("c-g, c-c")),  # Requires user defined key binding (Git: Commit)
         # Multiple Cursors
         "cursor above [<n>]": R(Key("ca-up:%(n)s")),
         "cursor below [<n>]": R(Key("ca-down:%(n)s")),
         "curse previous [<n>]": R(Key("ca-d:%(n)s")),
         "curse it [<n>]": R(Key("c-d:%(n)s")),
-
         "comment": R(Key("c-slash")),
-
         # Searching
         "suds <text>": R(Key("cs-f/3") + Text("%(text)s", pause=0.0)),
         "fly <text>": R(Key("c-f/3") + Text("%(text)s", pause=0.0)),
         "match whole": R(Key("a-w")),
         "match case": R(Key("a-c")),
-
         "zen mode": R(Key("c-m, z")),
     }
     extras = [
@@ -54,7 +47,6 @@ class CursorRule(MappingRule):
         "n": 1,
     }
 
+
 def get_rule():
-    return CursorRule, RuleDetails(name="Cursor",
-                                      executable="cursor",
-                                      title="Cursor")
+    return CursorRule, RuleDetails(name="Cursor", executable="cursor", title="Cursor")

@@ -16,22 +16,18 @@ class AntigravityRule(MappingRule):
         "hide right": R(Key("c-l/50:2")),
         "new chat": R(Key("cs-l")),
         "switch mode": R(Key("c-.")),
-        "chat here":
-            R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
+        "chat here": R(Key("cs-l/50") + Text("@file:") + Pause("50") + Key("enter")),
         "voice chat": R(Key("c-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "new voice chat": R(Key("cs-l/50, tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "voice chat here": R(Key("tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "agent settings": R(Key("c-comma")),
         "agent manager": R(Key("c-e")),
-
         # Agent Hunk / Edits Navigation
         "change over": R(Key("a-k")),
         "change under": R(Key("a-j")),
         "accept change": R(Key("a-enter")),
         "reject change": R(Key("sa-backspace")),
-
         "debug console": R(Key("cs-y")),
-
         # Custom Commands
         # "generate commit prompt": R(
         #     Key("cs-backtick") + # Create new terminal instance
@@ -39,19 +35,18 @@ class AntigravityRule(MappingRule):
         #     Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
         # "generate commit prompt": R(
         #     Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
-
         # First stages changes and opens stage, then inputs /commit into agent chat window to get commit message.
         # new chat session
-        "generate commit message": R(Key("c-g, c-s/50, c-g, cs-s/50, cs-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
+        "generate commit message": R(
+            Key("c-g, c-s/50, c-g, cs-s/50, cs-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")
+        ),
         # In open chat window
-        "generate commit message here": R(Key("c-g, c-s/50, c-g, cs-s/50, c-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")),
-
-
-        "go <file>":
-            R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
-
-        "hide panel": R(Key("c-j")), # Hides bottom the panel
-        "show problems": R(Key("cs-m")), # Shows the problems panel
+        "generate commit message here": R(
+            Key("c-g, c-s/50, c-g, cs-s/50, c-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")
+        ),
+        "go <file>": R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
+        "hide panel": R(Key("c-j")),  # Hides bottom the panel
+        "show problems": R(Key("cs-m")),  # Shows the problems panel
     }
     extras = [
         ShortIntegerRef("n", 1, 101),
@@ -62,7 +57,6 @@ class AntigravityRule(MappingRule):
         "n": 1,
     }
 
+
 def get_rule():
-    return AntigravityRule, RuleDetails(name="Antigravity",
-                                      executable="Antigravity IDE",
-                                      title="Antigravity IDE")
+    return AntigravityRule, RuleDetails(name="Antigravity", executable="Antigravity IDE", title="Antigravity IDE")

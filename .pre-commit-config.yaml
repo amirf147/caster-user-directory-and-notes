@@ -1,0 +1,28 @@
+# Pre-commit configuration for Caster User Content
+# Install pre-commit locally with: pip install pre-commit && pre-commit install
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      # Run the Ruff linter
+      - id: ruff
+        args: [--fix]
+      # Run the Ruff formatter (automatically fixes formatting before commit)
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: check-absolute-paths
+        name: Check Hardcoded Absolute Paths
+        entry: py -3.10 scripts/check_absolute_paths.py
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: check-command-uniqueness
+        name: Check Voice Command Uniqueness
+        entry: py -3.10 scripts/check_command_uniqueness.py
+        language: system
+        types: [python]
+        pass_filenames: false

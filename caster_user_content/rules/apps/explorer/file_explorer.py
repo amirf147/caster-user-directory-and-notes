@@ -9,47 +9,35 @@ from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
 
+
 class FileExplorerRule(MappingRule):
     mapping = {
         "page new": R(Key("c-t")),
         "page over [<n>]": R(Key("c-tab:%(n)d")),
         "page under [<n>]": R(Key("cs-tab:%(n)d")),
-
         "show properties": R(Key("a-enter")),
         "show settings": R(Key("a-v, y, o")),
-        "address bar": # Focusing the address bar is typically done with "a-d" but it no
+        "address bar":  # Focusing the address bar is typically done with "a-d" but it no
         # longer works reliably in the new Windows 11 file explorer. Attempts have been
         # made to hold down the alt key and then pressing the "d" key, but it does not
         # work reliably. Same goes for "c-l" keyboard shortcut. For now it seems that
         # pressing F4 key works better.
-            R(Key("f4/50")),
-        "copy address":
-            R(Key("f4/50, c-c")),
-        "folder new":
-            R(Key("cs-n")),
-        "file new":
-            R(Key("a-f, w, t")),
-        "(show | file | folder) properties":
-            R(Key("a-enter")),
-
+        R(Key("f4/50")),
+        "copy address": R(Key("f4/50, c-c")),
+        "folder new": R(Key("cs-n")),
+        "file new": R(Key("a-f, w, t")),
+        "(show | file | folder) properties": R(Key("a-enter")),
         # Folder Navigation Shortcuts
         # Simply just doing a key press a-up/down/left/right no longer works reliably
         # in the new Windows 11 file explorer. By first holding down the alt key and then
         # pressing the up/down/left/right keys, it works more reliably. A longer pause is
         # also necessary in order to wait for the GUI to refresh in between.
-        "dirrup [<n>]":
-            R(Key("alt:down/30, up/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
-        "go back [<n>]":
-            R(Key("alt:down/30, left/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
-        "go forward [<n>]":
-            R(Key("alt:down/30, right/30, alt:up/30") + Pause("30")) * Repeat(extra='n'),
-
-        "search [<text>]":
-            R(Key("f4/50, tab:1") + Text("%(text)s", pause=0.0)),
-        "(navigation | nav | left) pane":
-            R(Key("f4/50, tab:1")),
-        "(center pane | (file | folder) (pane | list))":
-            R(Key("f4/50, tab:2")),
+        "dirrup [<n>]": R(Key("alt:down/30, up/30, alt:up/30") + Pause("30")) * Repeat(extra="n"),
+        "go back [<n>]": R(Key("alt:down/30, left/30, alt:up/30") + Pause("30")) * Repeat(extra="n"),
+        "go forward [<n>]": R(Key("alt:down/30, right/30, alt:up/30") + Pause("30")) * Repeat(extra="n"),
+        "search [<text>]": R(Key("f4/50, tab:1") + Text("%(text)s", pause=0.0)),
+        "(navigation | nav | left) pane": R(Key("f4/50, tab:1")),
+        "(center pane | (file | folder) (pane | list))": R(Key("f4/50, tab:2")),
         "organize": R(Key("c-l, tab:2")),
         "sort [headings]": R(Key("c-l, tab:5")),
         "[file] name": R(Key("a-n")),
@@ -57,23 +45,16 @@ class FileExplorerRule(MappingRule):
         "expand folder": R(Key("cs-e")),
         "file preview": R(Key("a-p")),
         "folder preview": R(Key("as-p")),
-
         # Navigating via address bar
-        "go <path>":
-            R(Key("f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
-        "go clipboard":
-            R(Key("f4/50, c-v/3, enter")),
-
-        "fit column":
-            R(Key("a-v, s, f")),
-
+        "go <path>": R(Key("f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
+        "go clipboard": R(Key("f4/50, c-v/3, enter")),
+        "fit column": R(Key("a-v, s, f")),
         "copy file name": R(Key("f2/3, c-c/3, escape")),
-
         # Home Ribbon
         "copy path": R(Key("cs-c")),
         "new shortcut": R(Key("alt/20, enter/30, down, enter")),
-        "create shortcut": # Create shortcut via context menu
-            R(Key("s-f10/20, w/20, s:2, enter")),
+        "create shortcut":  # Create shortcut via context menu
+        R(Key("s-f10/20, w/20, s:2, enter")),
         "new window": R(Key("c-n")),
         "select all": R(Key("a-h, s, a")),
         "show details": R(Key("alt/30, right:10, enter, tab:2")),
@@ -81,10 +62,8 @@ class FileExplorerRule(MappingRule):
         "deselect": R(Key("a-h, s, n")),
         "edit file": R(Key("a-h, e")),
         "open with": R(Key("a-h, p, e")),
-
         # View
-        "show files | hide left":
-            R(Key("a-v, n, space")),
+        "show files | hide left": R(Key("a-v, n, space")),
         "sort by recent": R(Key("a-v, o, down, enter")),
         "sort by size": R(Key("a-v, o, down:3, enter")),
         "view set extra large": R(Key("cs-1")),
@@ -95,29 +74,26 @@ class FileExplorerRule(MappingRule):
         "view set details": R(Key("cs-6")),
         "view set tiles": R(Key("cs-7")),
         "view set content": R(Key("cs-8")),
-
         # Share Ribbon
-        "zippo": R(Key("s-f10/30, w/30, n, down, enter")), # Create a compressed (zipped) folder that contains the selected items
-
+        "zippo": R(
+            Key("s-f10/30, w/30, n, down, enter")
+        ),  # Create a compressed (zipped) folder that contains the selected items
         # Manage - Shortcut Tools Ribbon
         "open location": R(Key("s-f10/30, i")),
-
         # Extract - Compressed Folder Tools Ribbon
         "extract all": R(Key("s-f10/30, t")),
-
         "open in (wind | windsurf)": R(Key("s-f10/50, i")),
         "open in terminal": R(Key("s-f10/50, t")),
-
     }
     extras = [
         ShortIntegerRef("n", 1, 10),
         Dictation("text"),
         Choice("path", ev.FILE_EXPLORER_PATHS),
-        ]
+    ]
     defaults = {
         "n": 1,
     }
 
+
 def get_rule():
-    return FileExplorerRule, RuleDetails(name="File Explorer Rule",
-                                         executable="explorer")
+    return FileExplorerRule, RuleDetails(name="File Explorer Rule", executable="explorer")

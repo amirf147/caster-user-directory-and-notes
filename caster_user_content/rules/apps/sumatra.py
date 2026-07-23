@@ -14,5 +14,6 @@ class SumatraRule(MappingRule):
         "file open": R(Key("c-o")),
     }
 
+
 def get_rule():
     return SumatraRule, RuleDetails(name="sumatra", executable="SumatraPDF")

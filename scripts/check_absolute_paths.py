@@ -9,9 +9,12 @@ RULES_DIR = os.path.join("caster_user_content", "rules")
 
 # Regex to detect absolute paths
 # 1. Windows: e.g. C:\Users\... or C:/Users/...
-WINDOWS_ABS_PATH_RE = re.compile(r'^[A-Za-z]:[\\/](Users|Documents|Program Files|AppData|Windows|Temp|python)[\\/]', re.IGNORECASE)
+WINDOWS_ABS_PATH_RE = re.compile(
+    r"^[A-Za-z]:[\\/](Users|Documents|Program Files|AppData|Windows|Temp|python)[\\/]", re.IGNORECASE
+)
 # 2. Unix: e.g. /Users/... or /home/...
-UNIX_ABS_PATH_RE = re.compile(r'^/(Users|home|root|opt|var|etc|usr|bin)[/]', re.IGNORECASE)
+UNIX_ABS_PATH_RE = re.compile(r"^/(Users|home|root|opt|var|etc|usr|bin)[/]", re.IGNORECASE)
+
 
 def check_file_for_abs_paths(file_path):
     violations = []
@@ -24,7 +27,7 @@ def check_file_for_abs_paths(file_path):
             val = None
             if isinstance(node, ast.Constant) and isinstance(node.value, str):
                 val = node.value
-            elif hasattr(ast, 'Str') and isinstance(node, ast.Str):
+            elif hasattr(ast, "Str") and isinstance(node, ast.Str):
                 val = node.s
 
             if val:
@@ -35,6 +38,7 @@ def check_file_for_abs_paths(file_path):
     except Exception as e:
         print(f"Error parsing {file_path}: {e}")
     return violations
+
 
 def main():
     if not os.path.exists(RULES_DIR):
@@ -60,6 +64,7 @@ def main():
     else:
         print("\nNo hardcoded absolute path violations found.")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,10 @@
-'''
+"""
 Created on Oct 17, 2015
 
 @author: synkarius
 
 12-2024: Personal customizations added by Amir Farhadi
-'''
+"""
 
 
 class SymbolSpecs(object):

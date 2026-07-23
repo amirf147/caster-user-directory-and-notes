@@ -12,22 +12,20 @@ class CursorCcrRule(MergeRule):
     pronunciation = "cursor c c r"
 
     mapping = {
-        "line del [<n>]": # Requires user-defined key binding (delete line)
-            R(Key("c-k:2")*Repeat(extra='n')),
-        "pane <n03>":
-            R(Key("c-%(n03)d")),
-
+        "line del [<n>]":  # Requires user-defined key binding (delete line)
+        R(Key("c-k:2") * Repeat(extra="n")),
+        "pane <n03>": R(Key("c-%(n03)d")),
     }
     extras = [
         ShortIntegerRef("n", 1, 100),
         ShortIntegerRef("n03", 0, 3),
     ]
 
-    defaults = {"n": 1,}
+    defaults = {
+        "n": 1,
+    }
 
 
 def get_rule():
-    details = RuleDetails(executable="cursor",
-                          title="Cursor",
-                          ccrtype=CCRType.APP)
+    details = RuleDetails(executable="cursor", title="Cursor", ccrtype=CCRType.APP)
     return CursorCcrRule, details
