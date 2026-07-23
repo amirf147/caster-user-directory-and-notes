@@ -67,6 +67,19 @@ def _search_github(query):
         + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url}) \
         + Key("enter").execute()
 
+def _go_to_tab(n):
+    n = int(n)
+    if n <= 8:
+        Key(f"c-{n}").execute()
+    else:
+        diff = n - 8
+        Key(f"c-8/10, c-pgdown:{diff}/5").execute()
+
+def _split_right_with_tab(n):
+    Key("w-left/50").execute()
+    _go_to_tab(n)
+    Key("a-d/30, c-c/30, c-w/30, c-n/80, c-v/20, enter/30, w-right/50").execute()
+
 class FirefoxExtendedRule(MappingRule):
     pronunciation = "extended fire fox"
     mapping = {
@@ -97,7 +110,7 @@ class FirefoxExtendedRule(MappingRule):
             R(Key("f7")),
 
         "page <n>":
-            R(Key("c-%(n)d")),
+            R(Function(_go_to_tab)),
         "page (last | ness)":
             R(Key("c-9")),
         "page ness <n_off_by_one>":
@@ -119,7 +132,7 @@ class FirefoxExtendedRule(MappingRule):
         "pop out page":
             R(Key("a-d/30, c-c, c-w, c-n/50, c-v, enter")),
         "split right [with] <n>":
-            R(Key("w-left/30, c-%(n)d/30, a-d/30, c-c, c-w, c-n/50, c-v, enter/30, w-right/30")),
+            R(Function(_split_right_with_tab)),
 
         "show downloads":
             R(Key("c-j")),
@@ -280,7 +293,7 @@ class FirefoxExtendedRule(MappingRule):
     }
 
     extras = [
-        IntegerRef("n", 1, 9),
+        IntegerRef("n", 1, 100),
         Choice("n_off_by_one", {
             "two": "1",
             "three": "2",

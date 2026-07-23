@@ -17,6 +17,40 @@ def _generate_number_list(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
     Text(list_str).execute()
 
 
+def _window_split(direction="right", n=1):
+    opposite_map = {
+        "right": "left",
+        "left": "right",
+        "up": "down",
+        "down": "up"
+    }
+    opposite = opposite_map.get(direction, "left" if direction == "right" else "right")
+    
+    if 1 <= n <= 9:
+        taskbar_key = f"w-{n}/50"
+    elif n == 10:
+        taskbar_key = "w-0/50"
+    else:
+        taskbar_key = f"w-t/30, home, right:{n - 1}, enter/50"
+
+    # Sequence:
+    # 1. Snap active window to direction (e.g. right) with delay
+    # 2. Hit escape to dismiss Snap Assist overlay
+    # 3. Focus 2nd window from taskbar position n
+    # 4. Snap 2nd window to opposite direction (e.g. left), twice to ensure snapping if maximized
+    # 5. Hit escape
+    # 6. Alt-Tab back to original window
+    sequence = (
+        f"w-{direction}/50, escape/30, "
+        f"{taskbar_key}, "
+        f"w-{opposite}/30, w-{opposite}/50, escape/30, "
+        f"a-tab/50"
+    )
+    Key(sequence).execute()
+
+
+
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
@@ -93,6 +127,9 @@ class GlobalNonCCRExtendedRule(MappingRule):
             R(Key("a-space/5, s/3, up")),
         "window resize down":
             R(Key("a-space/5, s/3, down")),
+
+        "window split [<direction>] [with] <n>":
+            R(Function(_window_split)),
 
         "focus taskbar": R(Key("w-t")),
 
@@ -206,7 +243,7 @@ copy and paste it: ") + Key("c-v")),
     extras = [
         Choice("text", INSERTABLE_TEXT),
         Dictation("prompt"),
-        IntegerRef("n", 1, 10),
+        IntegerRef("n", 1, 20),
         IntegerRef("n0", 0, 10),
         Choice("program", PROGRAM_NAMES),
         Choice("n_off_by_one", {
@@ -249,6 +286,7 @@ copy and paste it: ") + Key("c-v")),
     defaults = {
         "n": 1,
         "n0": 0,
+        "direction": "right",
         "nnavi500": 1,
         "n_off_by_one": 0,
         "n1": None,

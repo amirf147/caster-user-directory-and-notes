@@ -20,6 +20,9 @@ The script assigns the following "smart" actions to each pedal, with visual tool
     *   **Short Tap (Subsequent):** Acts as a standard **Left Mouse Click**.
     *   **Press and Hold:** Initiates a **Left Mouse Drag**. Release the pedal to drop.
 
+*   **Left Pedal (`F13`) + Right Pedal (`F15`) Combination: Right Mouse Click**
+    *   **Hold `F13` + Press `F15`:** Sends a **Right Mouse Click** (`RButton`). Suppresses the normal Caster mic toggle on `F13` release and the left click / drag on `F15`.
+
 *   **Middle Pedal (`F14`): Scroll Down**
     *   **Short Tap:** Scrolls down one increment (`WheelDown`).
     *   **Press and Hold:** Scrolls down continuously until released.
@@ -30,14 +33,14 @@ The script assigns the following "smart" actions to each pedal, with visual tool
 
 *   **Left Pedal (`F13`): Caster Microphone Toggle & Reset**
     *   **Short Tap:** Toggles Caster's microphone state between active and sleeping (via XML-RPC IPC, see [Caster Microphone Toggle](caster_toggle.md)).
-    *   **Long Press:** Resets the state of the Right Pedal (`F15`) back to its "first tap sends `F11`" behavior. It also sends an `F11` immediately upon reset.
+    *   **Long Press (500 ms):** Resets the state of the Right Pedal (`F15`) back to its "first tap sends `F11`" behavior. It also sends an `F11` immediately upon reset.
 
 ## Configuration
 
 All timing and behavior can be easily adjusted by editing the variables in the `--- Config ---` section at the top of the script file.
 
-*   `F15_HoldDelay`: Time in milliseconds to hold the Right Pedal to begin a drag-and-drop.
-*   `F13_HoldDelay`: Time in milliseconds to long-press the Left Pedal to trigger the reset action.
+*   `F15_HoldDelay`: Time in milliseconds to hold the Right Pedal to begin a drag-and-drop (default: 200 ms).
+*   `F13_HoldDelay`: Time in milliseconds to long-press the Left Pedal to trigger the reset action (default: 500 ms).
 *   `Scroll_HoldDelay`: Time in milliseconds to hold a scroll pedal before continuous scrolling begins.
 *   `Scroll_RepeatRate`: Time in milliseconds between each scroll tick during a hold. **A smaller value results in faster scrolling.**
 

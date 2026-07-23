@@ -17,10 +17,12 @@ Scroll_RepeatRate := 50  ; ms between each scroll tick (smaller is faster)
 global F15_FirstTapPending := true
 global F15_HoldActive := false
 global F15_HoldStart := 0
+global F15_ComboFired := false
 
 global F13_IsDown := false
 global F13_HoldStart := 0
 global F13_LongHoldActionFired := false
+global F13_ComboFired := false
 
 ; State variables for scrolling
 global F14_IsDown := false
@@ -60,20 +62,33 @@ toggleCaster() {
 }
 
 
-; ---------------- F15 (Left Click / Drag) ----------------
+; ---------------- F15 (Left Click / Drag / Right Click Chord) ----------------
 *F15::
 {
-    global F15_HoldDelay, F15_HoldStart
+    global F15_HoldDelay, F15_HoldStart, F15_ComboFired, F13_IsDown, F13_ComboFired
+    if F13_IsDown || GetKeyState("F13", "P") {
+        F13_ComboFired := true
+        F15_ComboFired := true
+        Send "{RButton}"
+        showCue("Right Click")
+        return
+    }
+    F15_ComboFired := false
     F15_HoldStart := A_TickCount
     SetTimer F15_HoldTimer, -F15_HoldDelay
 }
 
 *F15 up::
 {
-    global F15_FirstTapPending, F15_HoldActive
+    global F15_FirstTapPending, F15_HoldActive, F15_ComboFired
     SetTimer F15_DragStatus, 0
     ToolTip()
     SetTimer F15_HoldTimer, 0
+
+    if F15_ComboFired {
+        F15_ComboFired := false
+        return
+    }
 
     if F15_HoldActive {
         F15_HoldActive := false
@@ -108,23 +123,24 @@ F15_DragStatus() {
     ToolTip "Dragging... " elapsed " ms", mx+20, my+20
 }
 
-; ---------------- F13 (Right Click / Reset) ----------------
+; ---------------- F13 (Caster Toggle / Reset) ----------------
 *F13::
 {
-    global F13_IsDown, F13_HoldStart, F13_LongHoldActionFired
+    global F13_IsDown, F13_HoldStart, F13_LongHoldActionFired, F13_ComboFired
     if F13_IsDown
         return
     F13_IsDown := true
     F13_LongHoldActionFired := false
+    F13_ComboFired := false
     F13_HoldStart := A_TickCount
     SetTimer F13_Monitor, 50
 }
 
 F13_Monitor() {
-    global F13_IsDown, F13_HoldStart, F13_HoldDelay, F13_LongHoldActionFired, F15_FirstTapPending
+    global F13_IsDown, F13_HoldStart, F13_HoldDelay, F13_LongHoldActionFired, F13_ComboFired, F15_FirstTapPending
     if GetKeyState("F13", "P") {
         elapsed := A_TickCount - F13_HoldStart
-        if (!F13_LongHoldActionFired && elapsed >= F13_HoldDelay) {
+        if (!F13_LongHoldActionFired && !F13_ComboFired && elapsed >= F13_HoldDelay) {
             F13_LongHoldActionFired := true
             F15_FirstTapPending := true
             Send "{F11}"
@@ -132,9 +148,7 @@ F13_Monitor() {
         }
     } else {
         SetTimer F13_Monitor, 0
-        if !F13_LongHoldActionFired {
-            ; Send "{RButton}"
-            ; showCue("Right Click")
+        if !F13_LongHoldActionFired && !F13_ComboFired {
             toggleCaster()
         }
         F13_IsDown := false
