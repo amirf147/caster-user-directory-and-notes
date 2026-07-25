@@ -8,10 +8,11 @@ class TaskbarRule(MappingRule):
     mapping = {
         # Switching applications via the taskbar
         "drip ten": R(Key("w-t/30, home, right:9, enter/30") + Mouse("(0.5, 0.5)")),
-        "drip [<off1_1_20>]": R(Key("w-t/30, home, right:%(off1_1_20)s, enter/30") + Mouse("(0.5, 0.5)")),
-        "drip [<off1_10_20>]": R(Key("w-t/30, home, right:%(off1_10_20)s, enter/30") + Mouse("(0.5, 0.5)")),
-        "drip ness [<off1_1_20>]": R(Key("w-t/30, end, up:%(off1_1_20)s, enter/30") + Mouse("(0.5, 0.5)")),
+        "drip [<off1_1_20>]": R(Key("w-t/30, home/15, right:%(off1_1_20)s/15, enter/30") + Mouse("(0.5, 0.5)")),
+        "drip [<off1_10_20>]": R(Key("w-t/30, home/15, right:%(off1_10_20)s/15, enter/30") + Mouse("(0.5, 0.5)")),
+        "drip ness [<off1_1_20>]": R(Key("w-t/30, end/15, left:%(off1_1_20)s/15, enter/30") + Mouse("(0.5, 0.5)")),
         # Opening/focusing system tray icons
+        "show system": R(Key("w-b, enter")),
         "open system <off1_1_20>": R(Key("w-b/3, right:%(off1_1_20)s/3, enter")),
         "psy system <off1_1_20>": R(Key("w-b/3, right:%(off1_1_20)s/5, s-f10")),
         "close system <off1_1_20>": R(
