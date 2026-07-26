@@ -45,6 +45,7 @@ class AntigravityRule(MappingRule):
             Key("c-g, c-s/50, c-g, cs-s/50, c-l/100") + Text("/commit") + Pause("100") + Key("enter/100:2")
         ),
         "go <file>": R(Key("c-k, cs-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
+        "open <text>": R(Key("c-p/5") + Text("%(text)s")),  # uses search files by name
         "hide panel": R(Key("c-j")),  # Hides bottom the panel
         "show problems": R(Key("cs-m")),  # Shows the problems panel
     }

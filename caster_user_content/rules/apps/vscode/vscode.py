@@ -195,8 +195,8 @@ class CustomVSCodeRule(MappingRule):
         R(Key("c-m, cs-o/15") * Repeat(extra="n")),
         "kill terminal": R(Key("ca-w")),
         "[show] completions": R(Key("c-space")),
-        "quick open": R(Key("c-e")),
-        "open <text>": R(Key("c-e/5") + Text("%(text)s")),
+        # "quick open": R(Key("c-e")),
+        # "open <text>": R(Key("c-e/5") + Text("%(text)s")),
         # Commenting out because Antigravity needs a different keyboard shortcut
         # "go <file>":
         #     R(Key("c-e/5") + Text("%(file)s") + Pause("40") + Key("enter")),
