@@ -18,15 +18,16 @@ Create a file called `_trace_test.py` in your Caster directory. Keep it stupidly
 ```python
 from dragonfly import Grammar, MappingRule, Function
 
+
 class TraceRule(MappingRule):
     mapping = {
         "trigger test": Function(lambda: print(">>> VOICE COMMAND FIRED <<<")),
     }
 
+
 grammar = Grammar("trace_grammar")
 grammar.add_rule(TraceRule())
 grammar.load()
-
 ```
 
 
@@ -39,7 +40,6 @@ For example, find `_load_grammar` and `_unload_grammar` and add visual markers:
 def _load_grammar(self, grammar):
     print(f"\n[DRAGONFLY ENGINE] ---> Step 1: _load_grammar called for {grammar.name}")
     ...
-
 ```
 
 And inside the deferred `load` helper function inside `_load_grammar`:
@@ -48,7 +48,6 @@ And inside the deferred `load` helper function inside `_load_grammar`:
 def load():
     print(f"\n[DRAGONFLY ENGINE] ---> Step 2: Deferred load() helper executes now!")
     ...
-
 ```
 
 
