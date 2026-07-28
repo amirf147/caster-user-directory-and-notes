@@ -107,6 +107,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "window resize down": R(Key("a-space/5, s/3, down")),
         "window split [<direction>] [with] <n>": R(Function(_window_split)),
         "focus taskbar": R(Key("w-t")),
+        "unpin [first] taskbar [item]": R(Key("w-t/50, home/30, apps/50, down/30, enter/30")),
         # Placing mouse cursor in one of 4 quadrants on the screen
         "zone one": R(Mouse("[500, 262]")),
         "zone two": R(Mouse("[1500, 262]")),
