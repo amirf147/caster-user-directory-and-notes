@@ -18,11 +18,16 @@ This utility is used by voice commands directly to switch, find, and manage focu
 
 ---
 
-## Architectural Blueprints
+## Architectural Blueprints & Code Review
 
-For complete technical specifications, component relationships, state transitions, and sequence diagrams, refer to the blueprint documents:
+For complete technical specifications, component relationships, state transitions, sequence diagrams, and refactoring guidelines, refer to the documentation suite:
 - [Architectural Blueprint v1](app_switcher_architectural_blueprint.md): Initial deep architectural analysis of structural layers, state lifecycles, and sequence diagrams.
 - [Architectural Blueprint v2](app_switcher_architectural_blueprint2.md): Refined architectural specification detailing exact layer boundaries, dual switching pipelines (`switch_to_app` vs `switch_to_alias`), and corrected OSAdapter method signatures.
+- [Code Review & Refactoring Guide](app_switcher_code_review.md): Comprehensive critique analyzing architectural shortcomings, anti-patterns (God module, global mutable side effects, procedural waterfalls, magic constants), and proposing a clean modular redesign using Strategy, Chain of Responsibility, and Repository patterns.
+
+> [!WARNING]
+> **Architectural Status**: While `app_switcher.py` works reliably at runtime, its internal design suffers from high coupling, global mutable state, and violations of key software engineering principles (e.g. Single Responsibility Principle). Future refactoring work should follow the modular redesign proposed in the [Code Review](app_switcher_code_review.md).
+
 
 ### Architectural Overview & Layers
 
