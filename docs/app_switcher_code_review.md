@@ -348,11 +348,13 @@ MAX_TAB_CYCLE_ATTEMPTS = 50
 TAB_CYCLE_DELAY = 0.1  # seconds
 
 # Window Title Blacklist
-IGNORED_WINDOW_TITLES = frozenset({
-    "Program Manager",
-    "Windows Input Experience",
-    "OmApSvcBroker",
-})
+IGNORED_WINDOW_TITLES = frozenset(
+    {
+        "Program Manager",
+        "Windows Input Experience",
+        "OmApSvcBroker",
+    }
+)
 
 # Taskbar
 TASKBAR_CLASS = "Shell_TrayWnd"
