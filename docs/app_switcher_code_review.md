@@ -294,14 +294,17 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
+
 class FocusTier(Enum):
     PYWINAUTO = "pywinauto"
     TASKBAR_UIA = "taskbar_uia"
     KEYBOARD_MACRO = "keyboard_macro"
 
+
 class TabNavigationKey(Enum):
     CTRL_TAB = "c-tab"
     CTRL_PGDN = "c-pgdown"
+
 
 @dataclass(frozen=True)
 class WindowTarget:
@@ -310,11 +313,13 @@ class WindowTarget:
     app_name: str
     desktop_id: Optional[str] = None
 
+
 @dataclass(frozen=True)
 class FocusResult:
     success: bool
     tier_used: Optional[FocusTier] = None
     error: Optional[str] = None
+
 
 @dataclass
 class AliasEntry:
@@ -327,9 +332,9 @@ class AliasEntry:
 #### `constants.py` — Every Magic Value Named
 ```python
 # Win32 Virtual Key Codes
-VK_MENU = 0x12          # Alt key
-VK_NONE = 0xFF          # Dummy key (no-op)
-ASFW_ANY = -1           # AllowSetForegroundWindow: any process
+VK_MENU = 0x12  # Alt key
+VK_NONE = 0xFF  # Dummy key (no-op)
+ASFW_ANY = -1  # AllowSetForegroundWindow: any process
 KEYEVENTF_KEYUP = 0x02
 
 # Focus Verification Timeouts (seconds)
@@ -340,7 +345,7 @@ KEYBOARD_MACRO_TIMEOUT = 1.5
 
 # Tab Navigation
 MAX_TAB_CYCLE_ATTEMPTS = 50
-TAB_CYCLE_DELAY = 0.1   # seconds
+TAB_CYCLE_DELAY = 0.1  # seconds
 
 # Window Title Blacklist
 IGNORED_WINDOW_TITLES = frozenset({
@@ -362,14 +367,18 @@ from ..models import WindowTarget, FocusResult
 
 log = logging.getLogger(__name__)
 
+
 class FocusHandler(Protocol):
     """Each tier implements this interface."""
+
     @property
     def name(self) -> str: ...
     def attempt(self, target: WindowTarget) -> FocusResult: ...
 
+
 class FocusChain:
     """Tries each handler in order until one succeeds."""
+
     def __init__(self, handlers: List[FocusHandler]):
         self._handlers = handlers
 
@@ -382,8 +391,7 @@ class FocusChain:
                 return result
             log.warning("%s failed: %s", handler.name, result.error)
 
-        log.error("All %d focus handlers failed for '%s'",
-                  len(self._handlers), target.title)
+        log.error("All %d focus handlers failed for '%s'", len(self._handlers), target.title)
         return FocusResult(success=False, error="All tiers exhausted")
 ```
 
@@ -396,6 +404,7 @@ from typing import Dict, Optional
 from .models import AliasEntry
 
 log = logging.getLogger(__name__)
+
 
 class AliasRepository:
     def __init__(self, filepath: Path):
