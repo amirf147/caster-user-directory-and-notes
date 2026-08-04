@@ -6,8 +6,7 @@ Welcome to my Caster user directory, here I have all my custom commands and gram
 
 Here are the various tools and scripts configured in this environment:
 
-- **[Foot Pedal Control](docs/foot_pedal.md)**: Advanced debouncing and long-press support for my Olympus RS31H USB foot pedal.
-- **[Caster Toggle IPC](docs/caster_toggle.md)**: Fast and reliable hands-free toggling of Caster's microphone state between active and sleep modes via XML-RPC IPC.
+- **[Foot Pedal & XML-RPC IPC Bridge](docs/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, integrated with a local XML-RPC IPC bridge for thread-safe hands-free Caster microphone toggling.
 - **[App & Window Switcher](docs/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
 
 ## Caster Extension

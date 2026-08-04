@@ -36,7 +36,7 @@ class WindowSwitchingRule(MappingRule):
         "set page <predefined_alias>": R(Function(_set_page)),
         "set page <dictated_alias>": R(Function(_set_page)),
         "clear alias": R(Function(app_switcher.clear_alias)),
-        "clear all aliases": R(Function(app_switcher.clear_all_aliases)),
+        "alias reset": R(Function(app_switcher.clear_all_aliases)),
         # Utility command
         "list aliases": R(Function(list_aliases)),
         "show app info": R(Function(app_switcher.show_window_info)),
