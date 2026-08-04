@@ -1,6 +1,6 @@
 # App & Window Switcher
 
-The [`app_switcher.py`](../caster_user_content/util/app_switcher.py) script provides robust, multi-strategy window switching, focusing, and tab navigation via voice commands.
+The [app_switcher.py](../caster_user_content/util/app_switcher.py) script provides robust, multi-strategy window switching, focusing, and tab navigation via voice commands.
 
 ## Features
 
@@ -14,7 +14,7 @@ The [`app_switcher.py`](../caster_user_content/util/app_switcher.py) script prov
 
 ## Usage
 
-This utility is used by voice commands directly to switch, find, and manage focus across your workspace effortlessly.
+This utility is used by voice commands defined in [window_switching.py](../caster_user_content/rules/global/window_switching.py) and [window_switching_ccr.py](../caster_user_content/rules/global/window_switching_ccr.py) directly to switch, find, and manage focus across your workspace effortlessly.
 
 ---
 
@@ -26,12 +26,12 @@ For complete technical specifications, component relationships, state transition
 - [Code Review & Refactoring Guide](app_switcher_code_review.md): Comprehensive critique analyzing architectural shortcomings, anti-patterns (God module, global mutable side effects, procedural waterfalls, magic constants), and proposing a clean modular redesign using Strategy, Chain of Responsibility, and Repository patterns.
 
 > [!WARNING]
-> **Architectural Status**: While `app_switcher.py` works reliably at runtime, its internal design suffers from high coupling, global mutable state, and violations of key software engineering principles (e.g. Single Responsibility Principle). Future refactoring work should follow the modular redesign proposed in the [Code Review](app_switcher_code_review.md).
+> **Architectural Status**: While [app_switcher.py](../caster_user_content/util/app_switcher.py) works reliably at runtime, its internal design suffers from high coupling, global mutable state, and violations of key software engineering principles (e.g. Single Responsibility Principle). Future refactoring work should follow the modular redesign proposed in the [Code Review](app_switcher_code_review.md).
 
 
 ### Architectural Overview & Layers
 
-`app_switcher.py` is structured into five distinct components:
+[app_switcher.py](../caster_user_content/util/app_switcher.py) is structured into five distinct components:
 
 1. **Platform Abstraction Layer (`WindowsOSAdapter`)**:
    - Wraps raw Win32 APIs (`win32gui`, `win32process`, `win32api`, `ctypes`) for window enumeration, process ID resolution, and thread input attachment.
@@ -56,7 +56,7 @@ For complete technical specifications, component relationships, state transition
 
 ### Dual Focus Pipelines
 
-`app_switcher.py` executes two distinct focus pipelines depending on the target request:
+[app_switcher.py](../caster_user_content/util/app_switcher.py) executes two distinct focus pipelines depending on the target request:
 
 - **`switch_to_alias(alias)` Pipeline**:
   1. Resolves alias to target `WindowInfo` in memory.
