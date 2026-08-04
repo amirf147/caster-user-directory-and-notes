@@ -226,4 +226,4 @@ class PowershellRule(MappingRule):
 
 
 def get_rule():
-    return PowershellRule, RuleDetails(name="Powershell", executable="WindowsTerminal", title="Windows PowerShell")
+    return PowershellRule, RuleDetails(name="Powershell", executable="powershell")
