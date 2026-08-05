@@ -18,6 +18,8 @@ This folder contains workflows and configuration files specifically for the **An
 
 ## App Switching & UIA Threading Investigation (Wayfinder Session)
 
+✨ **Eureka!** We recently stumbled across the exciting idea of offloading UIA to a dedicated **MCP (Model Context Protocol) Server**! This could completely bypass Python COM thread deadlocks and instantly make the desktop AI-agent ready. We are currently evaluating its viability. ✨
+
 We are currently undertaking a Wayfinder session to understand and rewrite our window switching code (`app_switcher.py` and `text_editing.py`). During this work, we have dug deep into COM threading mechanics (STA vs. MTA), UIA fallback mechanisms, and multi-process architecture across screen readers (NVDA), automation frameworks (Terminator, UFO), Dragonfly, and Caster core.
 
 All decision tracking and research breakdowns for this investigation can be found in the Wayfinder directory:
