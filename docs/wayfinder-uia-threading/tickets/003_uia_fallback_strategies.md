@@ -17,4 +17,4 @@ Specifically:
 2. **Terminator** relies on raw Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`) to guarantee window focus when UIA focusing fails or causes deadlocks. 
 3. **Caster Strategy**: For Caster, falling back to legacy accessibility APIs (like MSAA) is too complex. We should adopt Terminator's pattern: use UIA purely for *reading* the tab structure, but use robust Win32 APIs for *focusing* the window. If UIA cannot read the tabs, we must fallback to Tier 2 (Hotkey Injection).
 
-**Full Educational Breakdown**: [UIA_Fallback_Strategies_Educational_Breakdown.md](../../UIA_Fallback_Strategies_Educational_Breakdown.md)
+**Full Educational Breakdown**: [003_uia_fallback_strategies_educational_breakdown.md](../research/003_uia_fallback_strategies_educational_breakdown.md)

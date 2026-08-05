@@ -18,4 +18,4 @@ Specifically:
 3. **Libraries:** It is written in Rust, utilizing `windows-rs` and `uiautomation-rs`. It bypasses the library's default MTA initialization to force STA.
 4. **Pattern to Adopt:** We must definitively use an isolated thread/server for UIA. Furthermore, because Caster injects input (like Terminator) rather than just reading (like NVDA), we must carefully consider if our UIA server needs an STA message pump to handle `win32gui` focus APIs alongside UIA.
 
-**Full Educational Breakdown**: [Terminator_UIA_Threading_Educational_Breakdown.md](../../Terminator_UIA_Threading_Educational_Breakdown.md)
+**Full Educational Breakdown**: [002_terminator_uia_threading_educational_breakdown.md](../research/002_terminator_uia_threading_educational_breakdown.md)

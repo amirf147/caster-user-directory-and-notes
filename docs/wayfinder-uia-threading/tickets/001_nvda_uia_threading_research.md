@@ -22,4 +22,4 @@ This research is critical to deciding whether our new UIA Server should be an In
 - To prevent event flooding, NVDA relies on a custom C++ DLL (`NVDAHelper`) to rate-limit UIA events before they hit Python.
 - Dependencies: NVDA heavily relies on Python's `comtypes`, `ctypes`, and custom C++ extensions for event handling.
 
-**Full Educational Breakdown**: [NVDA_UIA_Threading_Educational_Breakdown.md](../../NVDA_UIA_Threading_Educational_Breakdown.md)
+**Full Educational Breakdown**: [001_nvda_uia_threading_educational_breakdown.md](../research/001_nvda_uia_threading_educational_breakdown.md)

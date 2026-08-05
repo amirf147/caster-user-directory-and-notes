@@ -17,4 +17,4 @@ Specifically:
 2. **Threading:** UFO relies on `pywinauto`'s synchronous execution model, generally running on the main thread because it acts as a discrete AI agent rather than a continuously responsive daemon (like Caster or NVDA).
 3. **Ultimate Fallback (Vision & AI):** When the UIA tree is broken, UFO captures screenshots (via `PrintWindow`) and passes them through an AI vision model (`OmniParser`) and OCR (`PaddleOCR`) to literally "look" at the screen and find bounding boxes. 
 
-**Full Educational Breakdown**: [UFO_UIA_Architecture_Educational_Breakdown.md](../../UFO_UIA_Architecture_Educational_Breakdown.md)
+**Full Educational Breakdown**: [004_ufo_uia_architecture_educational_breakdown.md](../research/004_ufo_uia_architecture_educational_breakdown.md)

@@ -16,13 +16,14 @@ Caster is an extension to the Dragonfly framework that allows you to control you
 ### .agents Folder
 This folder contains workflows and configuration files specifically for the **Antigravity** editor.
 
-## App Switching & UIA Server Refactoring (Wayfinder)
+## App Switching & UIA Threading Investigation (Wayfinder Session)
 
-We are currently undertaking a major architectural refactoring of the user space rules (like `app_switcher.py` and `text_editing.py`) to eliminate synchronous threading deadlocks and Microsoft UIA COM freezes. This work is being mapped and executed using the **Wayfinder** methodology to carefully plan and build a dedicated Out-of-Process UIA Server.
+We are currently undertaking a Wayfinder session to understand and rewrite our window switching code (`app_switcher.py` and `text_editing.py`). During this work, we have dug deep into COM threading mechanics (STA vs. MTA), UIA fallback mechanisms, and multi-process architecture across screen readers (NVDA), automation frameworks (Terminator, UFO), Dragonfly, and Caster core.
 
-- [Wayfinder Map](docs/wayfinder/map.md): Active decision tracking map for the UIA Server refactor.
+All decision tracking and research breakdowns for this investigation can be found in the Wayfinder directory:
+- **[Wayfinder UIA & Threading Session Directory](docs/wayfinder-uia-threading/map.md)**: Active decision tracking map, tickets, and deep-dive educational research breakdowns.
 - [ADR_001_Background_Worker_Pool.md](docs/ADR_001_Background_Worker_Pool.md): *(Deprecated)* Initial decision record for generic thread pool approach.
-- [Speech Stack Thread Architecture & Diagnostic Report](docs/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): The root cause analysis detailing why Caster freezes on `time.sleep()` loops and UIA COM calls.
+- [Speech Stack Thread Architecture & Diagnostic Report](docs/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): Root cause analysis detailing why Caster freezes on synchronous `time.sleep()` loops and UIA COM calls.
 
 ## Dragonfly BPC Fork & Kaldi Investigation
 
