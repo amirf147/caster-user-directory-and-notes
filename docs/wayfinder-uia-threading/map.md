@@ -24,9 +24,12 @@ Design and implement a safe, non-blocking UIA integration architecture for user 
 - [Ticket 015: Research OS Accessibility APIs (Issue #814)](tickets/015_os_accessibility_apis_issue_814_research.md) ([Breakdown](research/015_os_accessibility_apis_issue_814_educational_breakdown.md)) — Discusses the historical goal of implementing Select-and-Say via UIA/MSAA and plans to migrate OS actions to the `dtactions` library, though lacking discussion on COM threading deadlocks.
 - [Ticket 016: Research dtactions UIA Architecture](tickets/016_dtactions_uia_research.md) ([Breakdown](research/016_dtactions_uia_usage_educational_breakdown.md)) — Despite historical plans, `dtactions` contains zero UIA implementation, relying entirely on synchronous Win32 syscalls (`win32gui`, `SendInput`) and AutoHotkey. It lacks any COM threading logic.
 - [Ticket 017: Research UIAutomation MCP Server](tickets/017_uiautomation_mcp_research.md) ([Breakdown](research/017_uiautomation_mcp_educational_breakdown.md)) — Investigates shifting the UIA paradigm entirely out of Python. By using an external .NET MCP server with isolated subprocesses, Caster avoids Python COM deadlocks entirely and becomes instantly AI-agent ready.
+- [Ticket 018: Research UIAutomation Microsoft Documentation](tickets/018_uia_microsoft_documentation_research.md) ([Breakdown](research/018_uia_microsoft_documentation_educational_breakdown.md)) — Summarizes Microsoft's official guidance on COM apartment threading constraints, CacheRequests, and proper Navigation vs Pattern implementation for UIAutomation.
+- [Ticket 019: Evaluate uiautomation-mcp Implementation Against Microsoft Standards](tickets/019_uiautomation_mcp_evaluation_research.md) ([Breakdown](research/019_uiautomation_mcp_evaluation_educational_breakdown.md)) — Evaluates the `uiautomation-mcp` repo. Finds that it securely isolates COM threading in MTA subprocesses but misses a performance optimization by defaulting all CacheRequests to `AutomationElementMode.Full`.
 
 ## Frontier (Open Tickets)
 - [Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)](tickets/007_architecture_placement_analysis.md)
+- [Ticket 020: Research MCP Server Internals vs. XML-RPC](tickets/020_mcp_vs_xmlrpc_research.md)
 
 ## Not yet specified
 - **Architecture Placement**: Should the UIA Server be built in Dragonfly or Caster?
