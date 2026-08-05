@@ -1,6 +1,6 @@
 # Caster Core Asynchronous Threading & Overlays (Educational Breakdown)
 
-This document explores how the `Caster` core engine (`C:\Users\Amir\Documents\Caster\castervoice\asynch`) handles asynchronous UI overlays like Homunculus, Legion Grid, and Mouse Grids, and investigates the architectural flaws causing them to fail in modern Python 3.10 environments.
+This document explores how the `Caster` core engine (`castervoice/asynch`) handles asynchronous UI overlays like Homunculus, Legion Grid, and Mouse Grids, and investigates the architectural flaws causing them to fail in modern Python 3.10 environments.
 
 ## 1. What is Homunculus (and Legion)?
 **Homunculus** is an asynchronous graphical UI overlay (built in Qt/PyQt or Tkinter) used to display interactive prompts to the user—such as confirmation dialogs ("Are you sure?"), directory selection windows, or macro recording feedback—without blocking the main voice engine.

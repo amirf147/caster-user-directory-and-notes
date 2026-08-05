@@ -1,6 +1,6 @@
 # Caster Core Engine UIA Usage (Educational Breakdown)
 
-This document explores whether the `Caster` core source repository (`C:\Users\Amir\Documents\Caster`) implements any hidden UIA, threading management, or advanced focus handling that differs from what we found in the Caster User Directory (`AppData\Local\caster`).
+This document explores whether the `Caster` core source repository implements any hidden UIA, threading management, or advanced focus handling that differs from what we found in the Caster User Directory (`caster_user_content`).
 
 ## 1. Findings on UIA and Accessibility APIs
 After thoroughly scanning the core Caster repository for libraries such as `pywinauto`, `uiautomation`, `comtypes`, and `IAccessible`, **we found zero results.**

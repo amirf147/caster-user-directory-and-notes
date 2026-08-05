@@ -5,7 +5,7 @@
 **Blocks**: Architecture Placement Decision
 
 ## Question
-Does the `Caster` core source repository (`C:\Users\Amir\Documents\Caster`) implement any low-level UIA, threading management, or advanced focus handling that differs from what we found in the Caster User Directory?
+Does the `Caster` core source repository implement any low-level UIA, threading management, or advanced focus handling that differs from what we found in the Caster User Directory?
 
 Specifically:
 1. Are there any dedicated background threads or COM apartment initializations (MTA/STA) hidden in the core engine?
