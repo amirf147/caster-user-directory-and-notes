@@ -30,6 +30,8 @@ Design and implement a safe, non-blocking UIA integration architecture for user 
 ## Frontier (Open Tickets)
 - [Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)](tickets/007_architecture_placement_analysis.md)
 - [Ticket 020: Research MCP Server Internals vs. XML-RPC](tickets/020_mcp_vs_xmlrpc_research.md)
+- [Ticket 021: Design the MCP Server Interface (Tools vs Fallbacks)](tickets/021_mcp_interface_and_tool_design_research.md)
+- [Ticket 022: Evaluate Fixing Dragonfly's UIA vs Adopting External MCP Architecture](tickets/022_dragonfly_uia_vs_mcp_research.md)
 
 ## Not yet specified
 - **Architecture Placement**: Should the UIA Server be built in Dragonfly or Caster?
