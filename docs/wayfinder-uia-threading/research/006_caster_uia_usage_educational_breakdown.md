@@ -1,14 +1,14 @@
-# Caster UIA Usage (Educational Breakdown)
+# Caster User Directory UIA Usage (Educational Breakdown)
 
-This document explores how the `caster` repository currently utilizes Microsoft UI Automation (UIA) and accessibility APIs, and why this design leads to instability in the main voice engine.
+This document explores how the Caster User Directory (`caster_user_content`) currently utilizes Microsoft UI Automation (UIA) and accessibility APIs, and why this design leads to instability in the main voice engine.
 
 ## 1. Existing UIA and Pywinauto Integration
 
-Caster relies heavily on the `pywinauto` library (which wraps UIA and Win32 APIs) as its primary bridge to the OS. This is most prominent in `caster_user_content/util/app_switcher.py`.
+The Caster User Directory relies heavily on the `pywinauto` library (which wraps UIA and Win32 APIs) as its primary bridge to the OS. This is most prominent in `caster_user_content/util/app_switcher.py`.
 
-Unlike NVDA, Terminator, or Dragonfly (which offload COM/UIA calls to dedicated background threads), **Caster executes all `pywinauto` calls synchronously on the main voice engine thread.**
+Unlike NVDA, Terminator, or Dragonfly (which offload COM/UIA calls to dedicated background threads), **user-space rules execute all `pywinauto` calls synchronously on the main voice engine thread.**
 
-When a voice command triggers an app switch, Caster executes:
+When a voice command triggers an app switch, `caster_user_content` code executes:
 ```python
 app = Application().connect(handle=handle)
 app.window(handle=handle).set_focus()
@@ -26,7 +26,7 @@ In a properly designed STA, a Windows Message Pump (`PumpMessages`) runs constan
 
 ## 3. Focus Stealing Hacks
 
-Similar to Dragonfly, Caster has implemented aggressive workarounds for Windows focus-stealing prevention. In `app_switcher.py`, if `pywinauto` fails to set focus, Caster falls back to an "OS Bypass" using `AttachThreadInput` and Alt-key injection:
+Similar to Dragonfly, Caster user-space scripts have implemented aggressive workarounds for Windows focus-stealing prevention. In `app_switcher.py`, if `pywinauto` fails to set focus, Caster falls back to an "OS Bypass" using `AttachThreadInput` and Alt-key injection:
 
 ```python
 # 5. OS Bypass: Thread Attachment + Alt Key Injection
@@ -40,7 +40,7 @@ win32process.AttachThreadInput(fore_thread, current_thread, True)
 
 ## 4. Conclusions for the Architecture Placement
 
-Because Caster currently executes UIA synchronously on its main STA thread without a message pump, any new UIA features (like Tab Switching) will dramatically increase the frequency of deadlocks. 
+Because `caster_user_content` currently executes UIA synchronously on its main STA thread without a message pump, any new UIA features (like Tab Switching) will dramatically increase the frequency of deadlocks. 
 
 To safely build UIA tab selection, we MUST move all UIA calls off the main Caster thread. This requires either:
 1. Building an Out-of-Process UIA Server.
