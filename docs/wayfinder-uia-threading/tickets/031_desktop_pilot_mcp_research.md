@@ -15,3 +15,6 @@ Thoroughly investigate the `desktop-pilot-mcp` repository (`../../../Documents/r
 
 ## Outcome
 The findings of this evaluation will be compiled into a research deep dive document (`031_desktop_pilot_mcp_deep_dive.md`), which will finalize our architecture proposal.
+
+## Research Breakdown
+- [Evaluate Desktop Pilot MCP Deep Dive](../research/031_desktop_pilot_mcp_deep_dive.md)

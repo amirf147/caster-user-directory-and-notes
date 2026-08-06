@@ -12,3 +12,6 @@ Furthermore, was our previous assumption that `Windows-MCP` safely handles STA t
 1. **Thread Critique**: Document the specific flaws in `Windows-MCP`'s Python STA implementation compared to a native C# implementation.
 2. **Integration Test Plan**: Outline a plan to hook `Windows-MCP` up to a rudimentary Caster rule using `subprocess.Popen` and standard JSON-RPC.
 3. **Execution**: Actually run the test to measure the overhead of its Python dependencies and evaluate its focus-stealing robustness before committing to building our own C# server.
+
+## Research Breakdown
+- [Windows-MCP Integration Test & Threading Critique Deep Dive](../research/028_windows_mcp_integration_test_deep_dive.md)

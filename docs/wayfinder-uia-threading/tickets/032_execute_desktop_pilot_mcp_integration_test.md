@@ -18,3 +18,6 @@ Build, launch, and benchmark the `desktop-pilot-mcp` C# server (`winapp-mcp`) vi
 - Test script runs without errors and prints JSON-RPC responses and timing benchmarks.
 - Clean process termination verified (no orphaned `WinAppMCP.exe` or `node` processes left running).
 - Window focusing mechanism is clearly identified and documented.
+
+## Research Breakdown
+- [Execute Desktop Pilot MCP Integration Test Deep Dive](../research/032_execute_desktop_pilot_mcp_integration_test_deep_dive.md)

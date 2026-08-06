@@ -18,3 +18,6 @@ Specifically, we need to gather context on:
 - **Analyze Thread Safety**: Document the current thread safety (or lack thereof) during window switching and UIA queries to understand how it interferes with other processes.
 - **Map Accessibility Requirements**: Map out all features that require accessibility APIs (text editing, app switching, button pressing) and their necessary fallbacks to determine the required scope of any future architectural proposal.
 - *Note: Do not propose a final architecture yet. The goal here is strictly to gather context and ask the right questions to inform the design.*
+
+## Research Breakdown
+- [Feasibility Analysis — UIA vs Focus Steering Deep Dive](../research/023_feasibility_analysis_uia_vs_focus_research_deep_dive.md)

@@ -28,3 +28,6 @@ To move forward, we must investigate the root causes of these failures:
   Review the `windows-mcp` source code (specifically the `App` tool in `service.py`) to understand why it fails to match specific tab titles and why it cannot detect windows across Windows virtual desktops. 
 
 These findings will directly inform whether we patch `windows-mcp` or proceed with a custom C# `.NET MCP Server`.
+
+## Research Breakdown
+- [Windows-MCP Integration Test Findings Deep Dive](../research/030_windows_mcp_integration_test_findings_deep_dive.md)

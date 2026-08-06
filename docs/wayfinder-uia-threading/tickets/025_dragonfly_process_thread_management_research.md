@@ -17,3 +17,6 @@ Specifically:
 - Perform a deep, layered code review of the `dictation-toolbox/dragonfly` repository, specifically targeting process execution (`dragonfly/actions`), engine loops (`dragonfly/engines`), and threading utilities.
 - Do not rely on previous summaries—look directly at the raw code and standard libraries used.
 - Produce a long, verbose, expertly crafted, and comprehensive markdown document with extensive code evidence (snippets and file paths) that definitively maps out Dragonfly's thread and process architecture.
+
+## Research Breakdown
+- [Dragonfly Process and Thread Management Deep Dive](../research/025_dragonfly_process_and_thread_management_deep_dive.md)

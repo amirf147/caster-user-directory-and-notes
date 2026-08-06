@@ -17,3 +17,6 @@ Specifically:
 - Do not rely on previous summaries—look directly at the raw code to see the actual implementation patterns.
 - Produce a long, verbose, expertly crafted, and comprehensive markdown document with extensive code evidence (snippets and file paths) that definitively maps out Caster's thread and process architecture.
 - Identify the core conventions Caster uses so we can determine if our UIA server architecture should follow the same pattern or introduce a new one.
+
+## Research Breakdown
+- [Caster Process and Thread Management Deep Dive](../research/026_caster_process_thread_management_deep_dive.md)

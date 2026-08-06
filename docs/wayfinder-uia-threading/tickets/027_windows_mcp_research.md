@@ -16,3 +16,6 @@ Specifically, we need to answer:
 - Perform a deep dive into the `Windows-MCP` codebase.
 - Analyze its threading, UIA implementation, and IPC mechanisms.
 - Document its capabilities and whether it aligns with our need for an "Accessibility MCP Server".
+
+## Research Breakdown
+- [Research Windows-MCP Repository Deep Dive](../research/027_windows_mcp_deep_dive.md)
