@@ -69,3 +69,4 @@ Design and implement a robust out-of-process window management and app switching
 
 ## Out of Scope
 - In-process `ThreadPoolExecutor` UIA implementations (deprecated, violates COM STA/MTA rules).
+- **Vision-based UI Automation (OCR, Screen Parsing, OmniParser)**: While powerful for LLM agents, capturing, serializing, and processing visual data is too slow and high-latency for real-time, snappy voice command interaction. We rely strictly on deterministic, underlying OS APIs (Win32, UIA3).
