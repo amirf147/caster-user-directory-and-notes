@@ -13,7 +13,7 @@ Through deep-dive research into COM threading (STA vs MTA) and empirical server 
 3. **The Out-of-Process Isolation Pattern**: The solution is out-of-process execution via a dedicated external server (such as an MCP server). By moving window management and UIA tree operations into a standalone process (e.g., a C# `.NET` server using FlaUI or a dedicated Python daemon), COM apartment threading rules are cleanly isolated. Caster can synchronously request window actions from the external server, ensuring predictable command execution without risking COM deadlocks in the speech loop.
 
 ### Where We Are Going
-We are currently in the **research and prototyping phase**. We are benchmarking candidate server architectures—including Python-based prototypes (`Windows-MCP`) and C# `.NET` implementations (`desktop-pilot-mcp` / `winapp-mcp`)—to evaluate their threading stability, startup latency, and window focus capabilities. As our research progresses, we may choose to fork, extend, or build a dedicated server based on these patterns.
+Following the retrospective in [Ticket 033: Re-Evaluate UIA Architecture Trajectory (Voice vs. LLM)](tickets/033_re_evaluate_mcp_trajectory_research.md), we have pivoted away from adopting generic, third-party "computer use" MCP servers (which introduce significant "LLM bloat" such as OCR, visual diffing, and screen capture). Instead, we are entering the design phase for a bespoke C# `.NET` **"Micro MCP Server"** utilizing `FlaUI.UIA3`. This server will strictly expose a small set (3-5) of highly optimized, macro-level tools (window focusing with embedded Win32 thread attachment fail-safes, tab querying, element clicking) via the official Anthropic MCP JSON-RPC protocol. This guarantees instant, low-latency execution for Caster rules while remaining fully "LLM-Ready" for future agent rule generation.
 
 ---
 
@@ -52,6 +52,7 @@ Design and implement a robust out-of-process window management and app switching
 - [Ticket 030: Windows-MCP Integration Test Findings](tickets/030_windows_mcp_integration_test_findings.md) ([Breakdown](research/030_windows_mcp_integration_test_findings_deep_dive.md)) — Documented empirical performance metrics from Python `Windows-MCP` testing.
 - [Ticket 031: Research Desktop Pilot MCP Repository](tickets/031_desktop_pilot_mcp_research.md) ([Breakdown](research/031_desktop_pilot_mcp_deep_dive.md)) — Evaluated C# `.NET` `desktop-pilot-mcp` (`winapp-mcp`) server, FlaUI UIA3 caching, and multi-step window restoration patterns.
 - [Ticket 032: Execute Desktop Pilot MCP Integration Test](tickets/032_execute_desktop_pilot_mcp_integration_test.md) ([Breakdown](research/032_execute_desktop_pilot_mcp_integration_test_deep_dive.md)) — Benchmarked C# `winapp-mcp` server startup/tool latency, process teardown, and verified window focus / tab cycling via Python test script & Dragonfly rule.
+- [Ticket 033: Re-Evaluate UIA Architecture Trajectory (Voice vs. LLM)](tickets/033_re_evaluate_mcp_trajectory_research.md) ([Breakdown](research/033_re_evaluate_mcp_trajectory_deep_dive.md)) — Pivoted from bloated third-party LLM agent servers to a bespoke C# Micro MCP Server architecture.
 
 ## Frontier (Open Tickets)
 - [Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)](tickets/007_architecture_placement_analysis.md)
@@ -59,6 +60,7 @@ Design and implement a robust out-of-process window management and app switching
 - [Ticket 021: Design the MCP Server Interface (Tools vs Fallbacks)](tickets/021_mcp_interface_and_tool_design_research.md)
 - [Ticket 022: Evaluate Fixing Dragonfly's UIA vs Adopting External MCP Architecture](tickets/022_dragonfly_uia_vs_mcp_research.md)
 - [Ticket 024: Research Summary and Maintainer Q&A Proposal](tickets/024_maintainer_proposal_and_summary_research.md)
+- [Ticket 034: Determine Implementation Path for Micro Accessibility MCP Server](tickets/034_determine_mcp_implementation_path_research.md)
 
 ## Next Steps & Research Roadmap
 1. **Server Architecture Evaluation**: Compare prototype architectures (Python `Windows-MCP` vs C# `desktop-pilot-mcp`) to decide whether to fork, extend, or build a tailored out-of-process window management server.
