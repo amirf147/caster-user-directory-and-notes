@@ -75,6 +75,7 @@ class CustomVSCodeRule(MappingRule):
         R(Key("c-k, csa-n")),
         "new window": R(Key("cs-n")),
         "close window": R(Key("a-f4")),
+        "close all tabs": R(Key("c-k, u")),  # Close Saved
         "close workspace": R(Key("c-k, f")),
         "save as": R(Key("cs-s")),
         "save all": R(Key("c-k, s")),
