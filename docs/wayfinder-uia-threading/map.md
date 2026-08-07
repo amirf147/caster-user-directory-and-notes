@@ -23,6 +23,7 @@ Design and implement a robust out-of-process window management and app switching
 ## Notes
 - **Domain**: Windows UI Automation (UIA), Win32 API Window Management, COM Threading (STA vs MTA), Python concurrent architectures, Model Context Protocol (MCP).
 - **Standing Preferences**: Use local markdown tracking for tickets (`docs/wayfinder-uia-threading/tickets/`).
+- **Fail-Safe Hierarchy**: The exact fail-safe tiers are actively being explored. The current working theory relies on: UIA Patterns $\rightarrow$ Win32 `AttachThreadInput` + `Alt` Key Injection (Most Reliable) $\rightarrow$ Command-Line Execution (e.g., `Process.Start`) $\rightarrow$ Taskbar Macros (`Win+T`) for UIPI-blocked windows.
 
 ## Decisions & Research Findings so far
 - [Ticket 001: Research NVDA UIA Threading Architecture](tickets/001_nvda_uia_threading_research.md) ([Breakdown](research/001_nvda_uia_threading_educational_breakdown.md)) — NVDA uses a dedicated In-Process MTA Thread communicating via Queue, with C++ extensions for event rate-limiting.
@@ -53,6 +54,9 @@ Design and implement a robust out-of-process window management and app switching
 - [Ticket 031: Research Desktop Pilot MCP Repository](tickets/031_desktop_pilot_mcp_research.md) ([Breakdown](research/031_desktop_pilot_mcp_deep_dive.md)) — Evaluated C# `.NET` `desktop-pilot-mcp` (`winapp-mcp`) server, FlaUI UIA3 caching, and multi-step window restoration patterns.
 - [Ticket 032: Execute Desktop Pilot MCP Integration Test](tickets/032_execute_desktop_pilot_mcp_integration_test.md) ([Breakdown](research/032_execute_desktop_pilot_mcp_integration_test_deep_dive.md)) — Benchmarked C# `winapp-mcp` server startup/tool latency, process teardown, and verified window focus / tab cycling via Python test script & Dragonfly rule.
 - [Ticket 033: Re-Evaluate UIA Architecture Trajectory (Voice vs. LLM)](tickets/033_re_evaluate_mcp_trajectory_research.md) ([Breakdown](research/033_re_evaluate_mcp_trajectory_deep_dive.md)) — Pivoted from bloated third-party LLM agent servers to a bespoke C# Micro MCP Server architecture.
+- [Ticket 035: WinStasis Architecture Review and Refactoring Strategy](tickets/035_winstasis_architecture_review.md) ([Breakdown](research/035_winstasis_architecture_review_research.md)) — Analyzed WinStasis to extract hybrid window matching, boundary clamping, and modular data structures.
+- [Ticket 036: App Switcher MCP Investigation & Tool Design](tickets/036_app_switcher_mcp_investigation.md) ([Breakdown](research/036_app_switcher_mcp_investigation_research.md)) — Designed stateless C# `WindowContext` schemas and atomic MCP tools for the app switcher MVP.
+- [Ticket 037: Research FlaUI.UIA3 Implementation Patterns & Best Practices](tickets/037_flaui_implementation_patterns.md) ([Breakdown](research/037_flaui_implementation_patterns_research.md)) — Documented FlaUI COM lifecycle, MTA threading, `CacheRequest` usage, and UIPI Taskbar macro fail-safes.
 
 ## Frontier (Open Tickets)
 - [Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)](tickets/007_architecture_placement_analysis.md)
