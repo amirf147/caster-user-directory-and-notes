@@ -13,8 +13,15 @@ from castervoice.lib.actions import Key
 from castervoice.lib import printer
 from pywinauto import Desktop
 from pywinauto.findwindows import ElementNotFoundError
-
 from caster_user_content.environment_variables import WINDOWS_APP_NAMES
+
+
+def _log(level: str, msg: str):
+    import datetime
+
+    ts = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
+    print(f"[{ts}] [AppSwitcher:{level}] {msg}", flush=True)
+
 
 # Try to import pyvda for Virtual Desktop tracking
 try:
@@ -134,11 +141,16 @@ class WindowsOSAdapter:
 
     def get_active_window(self) -> Tuple[Any, int, str]:
         try:
+            _log("DEBUG", "get_active_window() called. About to call _desktop_uia.get_active() (UIA tree walk)...")
+            start_t = time.time()
             w = self._desktop_uia.get_active()
+            elapsed = (time.time() - start_t) * 1000
+            _log("DEBUG", f"_desktop_uia.get_active() completed in {elapsed:.2f}ms. Returned: {w}")
             if w is not None:
                 return w, int(w.handle), w.window_text()
-        except Exception:
-            pass
+        except Exception as e:
+            _log("ERROR", f"Exception during _desktop_uia.get_active(): {e}")
+
         try:
             w = self._desktop_win32.get_active()
             if w is not None:
@@ -196,9 +208,14 @@ class WindowsOSAdapter:
     def get_window_desktop_id(self, handle: int):
         if PYVDA_AVAILABLE:
             try:
-                return AppView(hwnd=handle).desktop_id
-            except Exception:
-                pass
+                _log("DEBUG", f"get_window_desktop_id() calling AppView for HWND {handle}...")
+                start_t = time.time()
+                d_id = AppView(hwnd=handle).desktop_id
+                elapsed = (time.time() - start_t) * 1000
+                _log("DEBUG", f"AppView for HWND {handle} returned {d_id} in {elapsed:.2f}ms")
+                return d_id
+            except Exception as e:
+                _log("ERROR", f"AppView Exception for HWND {handle}: {e}")
         return None
 
     def restore_and_focus(self, handle: int) -> bool:
@@ -225,16 +242,24 @@ class WindowsOSAdapter:
             print(f"ShowWindow failed: {e}")
 
         # 4. Attempt standard Pywinauto set_focus
+        _log("INFO", f"Tier 1: Attempting restore_and_focus for HWND {handle}...")
         try:
             from pywinauto import Application
 
+            start_t = time.time()
             app = Application().connect(handle=handle)
             app.window(handle=handle).set_focus()
+            elapsed = (time.time() - start_t) * 1000
+            _log("INFO", f"Tier 1 pywinauto set_focus executed in {elapsed:.2f}ms")
         except Exception as e:
-            print(f"Tier 1 standard Pywinauto focus failed: {e}")
+            _log("ERROR", f"Tier 1 standard Pywinauto focus failed: {e}")
 
         # Poll briefly to check if standard focus succeeded
-        if verify_focus(handle, timeout=0.3):
+        start_t = time.time()
+        verified = verify_focus(handle, timeout=0.3)
+        elapsed = (time.time() - start_t) * 1000
+        _log("INFO", f"Tier 1 focus verified={verified} for HWND {handle} in {elapsed:.2f}ms")
+        if verified:
             return True
 
         # 5. OS Bypass: Thread Attachment + Alt Key Injection
@@ -389,9 +414,11 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
 
     for hwnd, title_text in windows:
         if extract_app_name(title_text).lower() in app_names_lc:
+            _log("DEBUG", f"App matched for '{title_text}' (HWND {hwnd}). Checking desktop ID...")
             if current_desktop_id:
                 win_desktop_id = os_env.get_window_desktop_id(hwnd)
                 if win_desktop_id == current_desktop_id or win_desktop_id is None:
+                    _log("DEBUG", f"Window HWND {hwnd} is on current desktop.")
                     matching_windows.append((hwnd, title_text))
             else:
                 matching_windows.append((hwnd, title_text))
@@ -409,12 +436,13 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     target_hwnd, target_title = matching_windows[instance - 1]
 
     # Tier 1: Pywinauto / Win32gui
+    _log("INFO", f"Request to switch_to_app: '{app_name_display}', instance #{instance}")
     if os_env.restore_and_focus(target_hwnd):
-        print(f"Tier 1: Successfully focused {target_title}")
+        _log("INFO", f"Tier 1: Successfully focused '{target_title}'")
         printer.out(f"Successfully switched to '{target_title}' using window focus APIs")
         return True
     else:
-        print(f"Tier 1 focus failed for {target_title}. Trying Tier 2...")
+        _log("WARN", f"Tier 1 focus failed for {target_title}. Trying Tier 2...")
 
     # Tier 2: Taskbar UIA Click
     try:
@@ -423,17 +451,18 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
         if app_items and len(app_items) >= instance:
             app_items.sort(key=lambda it: it.instance_index)
             target_item = app_items[instance - 1]
+            _log("INFO", f"Tier 2: Attempting taskbar click for '{target_title}'...")
             target_item.control.click_input()
 
             # Verify if click succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.0):
-                print(f"Tier 2: Successfully focused {target_title} via Taskbar click")
+                _log("INFO", f"Tier 2: Successfully focused '{target_title}' via Taskbar click")
                 printer.out(f"Successfully switched to '{target_title}' using taskbar click")
                 return True
     except Exception as e:
-        print(f"Tier 2 Taskbar UIA failed: {e}")
+        _log("ERROR", f"Tier 2 Taskbar UIA failed: {e}")
 
-    print(f"Tier 2 focus failed for {target_title}. Trying Tier 3...")
+    _log("WARN", f"Tier 2 focus failed for {target_title}. Trying Tier 3...")
 
     # Tier 3: Keyboard Macro
     try:
@@ -447,18 +476,18 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
                     target_idx = i
                     break
         if target_idx != -1:
-            print(f"Tier 3 Keyboard Macro executing for taskbar index {target_idx}")
+            _log("INFO", f"Tier 3: Keyboard Macro executing for taskbar index {target_idx}...")
             Key(f"w-t/3, home, right:{target_idx}/3, enter").execute()
 
             # Verify if keyboard macro succeeded in focusing the window
             if verify_focus(target_hwnd, timeout=1.5):
-                print(f"Tier 3: Successfully focused {target_title} via Keyboard Macro")
+                _log("INFO", f"Tier 3: Successfully focused '{target_title}' via Keyboard Macro")
                 printer.out(f"Successfully switched to '{target_title}' using keyboard keys")
                 return True
     except Exception as e:
-        print(f"Tier 3 Keyboard Macro failed: {e}")
+        _log("ERROR", f"Tier 3 Keyboard Macro failed: {e}")
 
-    print(f"Failed to focus '{app_name_display}' after all 3 tiers.")
+    _log("ERROR", f"Failed to focus '{app_name_display}' after all 3 tiers.")
     printer.out("Failed to switch window")
     return False
 
@@ -491,14 +520,18 @@ def switch_to_alias(window_alias: Any) -> None:
 
     info = aliases[window_alias]
     try:
+        _log("INFO", f"Request to switch_to_alias: '{window_alias}'")
         os_env.get_window_by_handle(info.handle)
 
         # Failsafe for alias
         if os_env.restore_and_focus(info.handle):
+            _log("INFO", f"switch_to_alias '{window_alias}' Tier 1 focus completed successfully.")
             printer.out(f"Successfully switched to alias '{window_alias}' ('{info.title}') using window focus APIs")
         else:
             app_name = extract_app_name(info.title)
-            print(f"Falling back to switch_to_app for {app_name}")
+            _log(
+                "WARN", f"switch_to_alias '{window_alias}' Tier 1 failed. Falling back to switch_to_app for {app_name}"
+            )
             if not switch_to_app(app_name):
                 raise ElementNotFoundError
 

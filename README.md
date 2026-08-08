@@ -18,14 +18,18 @@ This folder contains workflows and configuration files specifically for the **An
 
 ## App Switching & UIA Threading Investigation (Wayfinder Session)
 
-✨ **Eureka!** We recently stumbled across the exciting idea of offloading UIA to a dedicated **MCP (Model Context Protocol) Server** to bypass Python COM deadlocks! Following research and testing, we have pivoted to designing a bespoke C# **"Micro MCP Server"** to keep execution extremely lightweight and fast for voice computing while remaining 100% "LLM-Ready". ✨
+We recently investigated window switching and responsiveness in Caster (`app_switcher.py`). During this research, we explored COM threading mechanics (STA vs. MTA), UIA fallback mechanisms, and multi-process architectures across screen readers (NVDA), automation frameworks (Terminator, UFO), Dragonfly, and Caster core.
 
-We are currently undertaking a Wayfinder session to understand and rewrite our window switching code (`app_switcher.py` and `text_editing.py`). During this work, we have dug deep into COM threading mechanics (STA vs. MTA), UIA fallback mechanisms, and multi-process architecture across screen readers (NVDA), automation frameworks (Terminator, UFO), Dragonfly, and Caster core.
+**Key Finding (App Switcher):** Our empirical testing of `app_switcher.py` revealed that perceived "hard freezes" during app switching were not caused by COM deadlocks or threading issues, but rather by Windows PowerShell **QuickEdit mode** pausing standard output (`stdout`) when Caster logged messages. 
+
+*Note on Text Editing:* While `text_editing.py` and UIA-based text selection remain an interest for future exploration to build better grammars and extract value, our empirical investigation and findings so far pertain specifically to `app_switcher.py`.
+
+We are also conducting experimental research into custom out-of-process C# MCP tools to explore potential future AI agent integrations and hands-on tool development.
 
 All decision tracking and research breakdowns for this investigation can be found in the Wayfinder directory:
 - **[Wayfinder UIA & Threading Session Directory](docs/wayfinder-uia-threading/map.md)**: Active decision tracking map, tickets, and deep-dive educational research breakdowns.
 - [ADR_001_Background_Worker_Pool.md](docs/ADR_001_Background_Worker_Pool.md): *(Deprecated)* Initial decision record for generic thread pool approach.
-- [Speech Stack Thread Architecture & Diagnostic Report](docs/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): Root cause analysis detailing why Caster freezes on synchronous `time.sleep()` loops and UIA COM calls.
+- [Speech Stack Thread Architecture & Diagnostic Report](docs/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): Initial thread architecture diagnostic report.
 
 ## Dragonfly BPC Fork & Kaldi Investigation
 
