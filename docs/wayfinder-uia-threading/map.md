@@ -4,6 +4,7 @@
 
 - **[Claude Critique: Verified Takeaways & Fact-Checked Corpus](claude-critique-verified-takeaways.md)**: Fact-checked distillation by Claude 5 Sonnet max evaluating load-bearing technical claims, verified facts vs unconfirmed hypotheses, and what can be discarded from the 71-file Wayfinder corpus.
 - **[Codex Context Extract: Operational Baseline](codex-context-extract.md)**: Structured context synthesis by Codex outlining core requirements, operational facts, and reference benchmarks.
+- **[Testing Suggestions & Layered Test Strategy](tickets/testing-suggestions.md)**: Layered testing strategy covering pure string logic, disposable Tkinter test targets, and Dragonfly text engine harness for app switcher validation.
 
 ## Current Status & Architectural Evolution
 
@@ -64,6 +65,7 @@ Design and implement a robust out-of-process window management and app switching
 - [Ticket 036: App Switcher MCP Investigation & Tool Design](tickets/036_app_switcher_mcp_investigation.md) ([Breakdown](research/036_app_switcher_mcp_investigation_research.md)) — Designed stateless C# `WindowContext` schemas and atomic MCP tools for the app switcher MVP.
 - [Ticket 037: Research FlaUI.UIA3 Implementation Patterns & Best Practices](tickets/037_flaui_implementation_patterns.md) ([Breakdown](research/037_flaui_implementation_patterns_research.md)) — Documented FlaUI COM lifecycle, MTA threading, `CacheRequest` usage, and UIPI Taskbar macro fail-safes.
 - [Ticket 038: Empirical Investigation & Data Gathering for App Switcher Failures, Hangs, and Recovery](tickets/038_app_switcher_empirical_hang_investigation.md) ([Breakdown](research/038_app_switcher_empirical_hang_investigation_research.md)) — Real-world stress testing. **Key Finding:** Many assumed "COM deadlocks" were actually stdout freezes caused by Windows PowerShell QuickEdit mode pausing the Python process.
+- [Testing Suggestions & Layered Test Strategy](tickets/testing-suggestions.md) — Layered test architecture distinguishing direct function calls from speech grammar dispatching, introducing disposable Tkinter test fixtures and Dragonfly text engine testing.
 
 ## Frontier (Open Tickets)
 - [Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)](tickets/007_architecture_placement_analysis.md)
