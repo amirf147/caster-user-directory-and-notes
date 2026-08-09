@@ -24,7 +24,12 @@ We recently investigated window switching and responsiveness in Caster (`app_swi
 
 *Note on Text Editing:* While `text_editing.py` and UIA-based text selection remain an interest for future exploration to build better grammars and extract value, our empirical investigation and findings so far pertain specifically to `app_switcher.py`.
 
-We are also conducting experimental research into custom out-of-process C# MCP tools to explore potential future AI agent integrations and hands-on tool development.
+We are leaving open the possibility of building a custom out-of-process C# MCP server for experimental tool development and future AI agent compatibility. However, our next step is to conduct further empirical testing on `app_switcher.py` in-process to thoroughly double-check its real-world robustness and evaluate whether an out-of-process architecture is truly required.
+
+### Key Session Synthesis Documents
+The research and analysis from this session have been synthesized into two primary reference documents:
+- **[Claude Critique: Verified Takeaways & Fact-Checked Corpus](docs/wayfinder-uia-threading/claude-critique-verified-takeaways.md)**: A fact-checked evaluation by Claude 3.5 Sonnet distilling load-bearing findings, verified Win32/UIA technical facts, and unconfirmed hypotheses across the 71-file Wayfinder corpus.
+- **[Codex Context Extract: Operational Baseline](docs/wayfinder-uia-threading/codex-context-extract.md)**: A structured context synthesis by Codex mapping active constraints, core requirements, and benchmark data.
 
 All decision tracking and research breakdowns for this investigation can be found in the Wayfinder directory:
 - **[Wayfinder UIA & Threading Session Directory](docs/wayfinder-uia-threading/map.md)**: Active decision tracking map, tickets, and deep-dive educational research breakdowns.

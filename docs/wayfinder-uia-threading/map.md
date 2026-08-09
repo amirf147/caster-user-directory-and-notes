@@ -1,5 +1,10 @@
 # Wayfinder Map: Out-of-Process Window Management & UIA Architecture
 
+## Quick Executive Summaries & Session Takeaways
+
+- **[Claude Critique: Verified Takeaways & Fact-Checked Corpus](claude-critique-verified-takeaways.md)**: Fact-checked distillation by Claude 5 Sonnet max evaluating load-bearing technical claims, verified facts vs unconfirmed hypotheses, and what can be discarded from the 71-file Wayfinder corpus.
+- **[Codex Context Extract: Operational Baseline](codex-context-extract.md)**: Structured context synthesis by Codex outlining core requirements, operational facts, and reference benchmarks.
+
 ## Current Status & Architectural Evolution
 
 ### Where We Started
