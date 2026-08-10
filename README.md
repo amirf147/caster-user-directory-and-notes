@@ -6,6 +6,7 @@ Welcome to my Caster user directory, here I have all my custom commands and gram
 
 Here are the various tools and scripts configured in this environment:
 
+- **[Top Desktop Voice Automations](docs/top_voice_automations.md)**: Curated showcase of top-tier desktop, web, and system voice automations for workflow demos and video showcases.
 - **[Foot Pedal & XML-RPC IPC Bridge](docs/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, integrated with a local XML-RPC IPC bridge for thread-safe hands-free Caster microphone toggling.
 - **[App & Window Switcher](docs/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
 

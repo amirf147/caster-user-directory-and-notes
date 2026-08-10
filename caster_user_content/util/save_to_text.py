@@ -40,5 +40,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     save_path = sys.argv[1]
-    content = sys.stdin.read()
+    content = sys.stdin.buffer.read().decode("utf-8", errors="replace")
     main()

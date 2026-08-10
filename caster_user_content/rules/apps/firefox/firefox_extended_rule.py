@@ -54,14 +54,13 @@ def _save_to_job_postings():
                     "--always-on-top",  # Add this flag to be handled in save_to_text.py
                 ],
                 stdin=subprocess.PIPE,
-                text=True,
                 creationflags=DETACHED_PROCESS,
                 startupinfo=startupinfo,
             )
 
-        # Send the content without waiting for completion
-        process.stdin.write(content)
-        process.stdin.close()
+            # Use context manager to guarantee stdin is closed even if write fails
+            with process.stdin:
+                process.stdin.write(content.encode("utf-8"))
 
     except Exception as e:
         print(f"Error saving text: {str(e)}")
