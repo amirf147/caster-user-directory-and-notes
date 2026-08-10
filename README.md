@@ -1,19 +1,15 @@
 # Caster User Directory
 
-Welcome to my Caster user directory, here I have all my custom commands and grammars for automating my workflows and speeding up voice computing.
+Welcome to my Caster user directory. Caster is an extension to the Dragonfly framework that allows you to control your computer with voice commands. Here I have all my custom commands and grammars for automating my workflows and speeding up voice computing.
 
 ## Tools & Workflows
 
 Here are the various tools and scripts configured in this environment:
 
 - **[Top Desktop Voice Automations](docs/top_voice_automations.md)**: Curated showcase of top-tier desktop, web, and system voice automations for workflow demos and video showcases.
+- **[Ideas Emerging From This Caster Journey](docs/ideas.md)**: Ongoing brainstorming document for modular architectural components and accessibility primitives.
 - **[Foot Pedal & XML-RPC IPC Bridge](docs/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, integrated with a local XML-RPC IPC bridge for thread-safe hands-free Caster microphone toggling.
 - **[App & Window Switcher](docs/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
-
-## Caster Extension
-
-Caster is an extension to the Dragonfly framework that allows you to control your computer with voice commands.
-
 ### .agents Folder
 This folder contains workflows and configuration files specifically for the **Antigravity** editor.
 
