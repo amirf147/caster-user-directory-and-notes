@@ -6,10 +6,16 @@ Welcome to my Caster user directory. Caster is an extension to the Dragonfly fra
 
 Here are the various tools and scripts configured in this environment:
 
-- **[Top Desktop Voice Automations](docs/top_voice_automations.md)**: Curated showcase of top-tier desktop, web, and system voice automations for workflow demos and video showcases.
-- **[Ideas Emerging From This Caster Journey](docs/ideas.md)**: Ongoing brainstorming document for modular architectural components and accessibility primitives.
-- **[Foot Pedal & XML-RPC IPC Bridge](docs/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, integrated with a local XML-RPC IPC bridge for thread-safe hands-free Caster microphone toggling.
-- **[App & Window Switcher](docs/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
+- **[Top Desktop Voice Automations](docs/features/top_voice_automations.md)**: Curated showcase of top-tier desktop, web, and system voice automations for workflow demos and video showcases.
+- **[Ideas Emerging From This Caster Journey](docs/legacy_notes/ideas.md)**: Ongoing brainstorming document for modular architectural components and accessibility primitives.
+- **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, integrated with a local XML-RPC IPC bridge for thread-safe hands-free Caster microphone toggling.
+- **[App & Window Switcher](docs/features/app_switcher.md)**: Failsafe and workspace-aware window management to switch apps and tabs by voice.
+
+## In-Progress Documentation & Note-Taking
+
+There is a loosely organized collection of notes and documentation that is still pending better consolidation and further improvement. You can find the index for this reference material here:
+👉 **[Documentation Index](docs/README.md)**
+
 ### .agents Folder
 This folder contains workflows and configuration files specifically for the **Antigravity** editor.
 
@@ -30,14 +36,14 @@ The research and analysis from this session have been synthesized into two prima
 
 All decision tracking and research breakdowns for this investigation can be found in the Wayfinder directory:
 - **[Wayfinder UIA & Threading Session Directory](docs/wayfinder-uia-threading/map.md)**: Active decision tracking map, tickets, and deep-dive educational research breakdowns.
-- [ADR_001_Background_Worker_Pool.md](docs/ADR_001_Background_Worker_Pool.md): *(Deprecated)* Initial decision record for generic thread pool approach.
-- [Speech Stack Thread Architecture & Diagnostic Report](docs/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): Initial thread architecture diagnostic report.
+- [ADR_001_Background_Worker_Pool.md](docs/architecture/ADR_001_Background_Worker_Pool.md): *(Deprecated)* Initial decision record for generic thread pool approach.
+- [Speech Stack Thread Architecture & Diagnostic Report](docs/architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md): Initial thread architecture diagnostic report.
 
 ## Dragonfly BPC Fork & Kaldi Investigation
 
 Tracing and resolving the Kaldi engine race condition in the `dragonfly-bpc-oss` fork (v1.0.0rc2) to enable testing of the UIA accessibility features.
 
 Detailed documentation from Antigravity agent sessions:
-- [kaldi_crash_explanation.md](docs/kaldi_crash_explanation.md): Explains the `destroy()` use-after-free root cause and the queue-safety patch.
-- [kaldi_race_condition_answers.md](docs/kaldi_race_condition_answers.md): Explains the rule key identity, synchronous C++ allocations, and git history behind the race condition.
-- [dragonfly_rule_deepdive.md](docs/dragonfly_rule_deepdive.md): A step-by-step roadmap for print-tracing how Dragonfly rules enable and disable.
+- [kaldi_crash_explanation.md](docs/troubleshooting/kaldi_crash_explanation.md): Explains the `destroy()` use-after-free root cause and the queue-safety patch.
+- [kaldi_race_condition_answers.md](docs/troubleshooting/kaldi_race_condition_answers.md): Explains the rule key identity, synchronous C++ allocations, and git history behind the race condition.
+- [dragonfly_rule_deepdive.md](docs/framework_explainers/dragonfly_rule_deepdive.md): A step-by-step roadmap for print-tracing how Dragonfly rules enable and disable.
