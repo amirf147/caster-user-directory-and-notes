@@ -56,13 +56,16 @@ for window_options in windows[1:]:
 
 ---
 
-## 3. Focus Stealing
+## 3. Focus Stealing & Fallbacks
 
-Focus stealing refers to the OS preventing an application from forcefully bringing itself (or another app) to the foreground, which often results in the taskbar icon flashing orange instead.
+There are two distinct window-focus mechanisms at play in this implementation, and they fail in two completely different ways:
 
-In this implementation, the approach to focus stealing is twofold:
-1.  **Direct API Call**: It relies on Dragonfly's underlying `Window.set_foreground()` wrapper. Because this API is triggered directly by a voice command—which Windows often interprets as legitimate user interaction (similar to a keyboard shortcut)—the OS is generally permissive and allows the focus change to occur seamlessly.
-2.  **Graceful Fallback on Ambiguity**: When an ambiguous command is given, the script explicitly seeks out the Caster Messaging window and forces it to the front. By proactively taking control of the focus and shifting it to the feedback window, it prevents the user from being left in a state where a command failed but no visual feedback was provided.
+1.  **Target Window Focus (Successful Disambiguation)**: When you speak a unique window command, it relies on Dragonfly's underlying `Window.set_foreground()` wrapper to bring the target window to the front. Because this API is triggered directly by a voice command, Windows generally allows the focus change to occur seamlessly.
+    > [!WARNING]
+    > **Foreground Denial Bug**: While usually permissive, Windows can still forcefully deny the focus switch, causing the script to crash with `pywintypes.error: (0, 'SetForegroundWindow', 'No error message is available')`. When this happens, the target application does not come to the front; instead, its taskbar icon starts flashing orange. This is a known OS-level limitation with `SetForegroundWindow` and has **nothing to do with ambiguity**.
+    > *Note on Custom Overlays:* If you are using custom UI overlays (like a Caster HUD pinned to a corner) or third-party taskbar modifiers (like Windhawk), they are **not** the root cause of this error—this is standard Windows behavior. However, if your HUD code has an aggressive "always on top" loop that repeatedly attempts to seize the foreground, it *can* exacerbate the issue by stealing the foreground lock right when Dragonfly attempts the switch.
+
+2.  **Legacy Messaging Window (Failed Disambiguation)**: If multiple windows match your spoken keyword (ambiguity), the script aborts the target window switch entirely. Instead, it explicitly seeks out the Caster Messaging window and forces *that* to the front to provide visual feedback.
 
 ```python
 try:
@@ -74,6 +77,27 @@ try:
         messaging_window.set_foreground()
 ```
 
+> [!WARNING]
+> **API Mismatch Error**: The function `utilities.get_caster_messaging_window()` used in this fallback is **not a standard Caster API** (it was likely custom to the original author's setup). If you trigger an ambiguous command, the action execution will fail with an `AttributeError`. Dragonfly gracefully catches this and prints the error to the terminal, so it does not crash Caster, but it prevents the ambiguity feedback from displaying. This missing API error is entirely unrelated to focus stealing.
+
+**A Quick Fix for the Ambiguity Fallback:**
+Since modern Caster uses the **Caster HUD** for feedback, one quick workaround is to patch the script to output the ambiguous options directly to the HUD or terminal, bypassing the missing messaging window logic entirely.
+
+```python
+# Quick Workaround: Replace the try/except block with HUD printing
+from castervoice.lib.printer import printer
+
+# Inside switch_window, when ambiguity is detected:
+ambiguous_msg = f"Ambiguous window command. Matched windows:\n"
+for w_options in windows:
+    for w in w_options:
+        ambiguous_msg += f"- {w.title}\n"
+
+# Print directly to the Caster HUD (and terminal)
+printer.out(ambiguous_msg)
+```
+This is a simple band-aid to resolve the missing API error and restore visual feedback when an ambiguous command is spoken.
+
 ---
 
 ## 4. Kaldi Engine Compatibility & Troubleshooting
@@ -83,11 +107,13 @@ If you use the Kaldi speech engine (`kaldi_active_grammar`), there are specific 
 ### g2p-en Dependency Requirement
 Because the window switcher dynamically updates the grammar with arbitrary text from active window titles (such as URL components, file names, or folder paths), Kaldi will frequently encounter **Out-Of-Vocabulary (OOV)** words. 
 
-To handle these, you **must** have the `g2p-en` (Grapheme-to-Phoneme) package installed in your Python environment:
+To handle these, you **must** have the `g2p-en` (Grapheme-to-Phoneme) package installed in your Python environment, **assuming your Kaldi model has `allow_online_pronunciations` enabled**:
 ```powershell
 pip install g2p-en
 ```
-Without `g2p-en` installed locally, Kaldi's dynamic updates will fail, throwing the following error every 2 seconds:
+*(Note: If `allow_online_pronunciations` is disabled in your setup, Kaldi will simply skip generating pronunciations for unknown words rather than crashing, so verify this configuration first.)*
+
+Without `g2p-en` installed locally (and with online pronunciations allowed), Kaldi's dynamic updates will fail, throwing the following error every 2 seconds:
 ```text
 kaldi_active_grammar.KaldiError: cannot generate word pronunciation: no generators available
 ```
@@ -122,8 +148,10 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 *   **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead.
 *   **Title Volatility**: Modern web browsers change their window titles based on the active tab. If you are trying to target "Chrome" but the active tab is "Reddit - Google Chrome", the keywords shift dynamically, which can cause misrecognitions if the timer hasn't fired yet.
 *   **Brittle Heuristics**: The abbreviation logic (`len(s) <= 4 and s.upper() == s`) is overly simplistic and will fail on longer acronyms or mixed-case titles.
+*   **Multi-Workspace Ambiguity**: Since the script blindly grabs all windows across all workspaces, uttering a common word might unintentionally yank you to an entirely different virtual desktop without warning. There is no concept of "workspace scope".
 
 ### Hard Critique
 While this implementation is highly effective and practical for daily use, its architectural foundation relies on **polling**, which is an anti-pattern for OS-level window management. 
 
-A state-of-the-art implementation would discard the 2-second timer entirely. Instead, it would use **Win32 Event Hooks** (specifically `SetWinEventHook` listening for `EVENT_OBJECT_CREATE`, `EVENT_OBJECT_DESTROY`, and `EVENT_OBJECT_NAMECHANGE`). This would make the system **event-driven**. The `DictList` would only update exactly when a window is opened, closed, or changes its title, resulting in zero idle CPU usage and immediate grammar accuracy without the 2-second delay.
+1. **Polling Inefficiency**: A state-of-the-art implementation would discard the 2-second timer entirely and use **Win32 Event Hooks** (`SetWinEventHook` listening for `EVENT_OBJECT_CREATE`, `EVENT_OBJECT_DESTROY`, and `EVENT_OBJECT_NAMECHANGE`). This would make the system **event-driven**, updating the grammar *only* when a window actually changes state. This results in zero idle CPU overhead and removes the latency introduced by polling delays.
+2. **Global Scope vs Local Context**: Grabbing every window across every workspace makes the vocabulary unnecessarily large and prone to ambiguous collisions. A better approach would be to prioritize or scope the dictionary to the *current* workspace, falling back to global search only when requested.
