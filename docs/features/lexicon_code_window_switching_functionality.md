@@ -158,7 +158,7 @@ kaldi_active_grammar.KaldiError: cannot generate word pronunciation: no generato
 
 ### The Dictionary KeyError Bug
 
-After installing `g2p-en`, you may encounter an error like this when the window switcher encounters alphanumerics (e.g., `2026` or `amirf147`):
+After installing `g2p-en`, you may encounter an error like this when the window switcher encounters alphanumerics (e.g., `2026` or a username string like `<username123>`):
 
 ```text
 KeyError: ' '
@@ -209,6 +209,35 @@ engine (ERROR): Grammar g8: failed to decode rule window management rule recogni
 * **The True Cause**: The background polling timer *is* successfully updating the Python `DictList` in memory (verified via the `window switch show` diagnostic print). However, Kaldi (or Dragonfly's Kaldi integration) is failing to dynamically recompile the decoding graph during runtime. Because the new word is not in the compiled acoustic graph, Kaldi attempts to find the closest sounding path using only the words it *already* knows, resulting in a misrecognition string (e.g., matching "tomatoes" to "two amir io s").
 * **Why Rebooting Works**: Rebooting Caster forces the grammar to be completely rebuilt from scratch. Upon startup, the current window titles are passed into the `DictList`, and Kaldi compiles them successfully, allowing the command to be recognized perfectly without misrecognition. Resolving the runtime update issue will likely require an explicit grammar reload hook in the polling timer.
 
+### Hex/Hash String Lexicon Pollution
+
+Alphanumeric hashes (e.g., git commit SHAs or hex identifiers scraped from browser tab URLs) in active window titles are picked up by the polling timer and sent to Kaldi's compiler. Because these strings do not exist in the standard English lexicon, `g2p-en` attempts to generate automatic pronunciations for them, resulting in warnings like:
+```text
+kaldi.compiler (WARNING): KaldiCompiler(): Word not in lexicon (generated automatic pronunciation): '<sha-fragment>' [<phoneme chain>]
+```
+These automatically generated pronunciations are often complex phoneme combinations representing phonetic gibberish. Voice switching using these raw hex strings is consistently unsuccessful in practice, and they pollute the active vocabulary.
+
+#### The Cumulative Growth Problem
+
+A deeper issue is that pollution is **persistent and additive**. Kaldi writes all dynamically generated pronunciations to `kaldi_model/user_lexicon.txt`, and this file is **never automatically pruned**. Every unique token from every window title that has ever been open—across every session—accumulates in this file. Because `kaldi_model/` is excluded from version control (via `.gitignore`), this growth is invisible and easy to overlook.
+
+In practice, after just a few sessions of typical use (multiple browser tabs, developer tools, GitHub PRs with hash-heavy URLs, media files with codec metadata in their names), the lexicon fills with entries like:
+
+- **Git SHA fragments**: short hex strings scraped from GitHub tab titles or terminal windows — all generating nonsense phonemes
+- **Raw digit strings and F-keys**: standalone numbers (`07`, `32`, `400`) and function key tokens (`f1` through `f12`) from tab titles or window names
+- **Media codec metadata**: format strings found in video file titles (e.g., codec identifiers, resolution tags, encoder names)
+- **URL-derived tokens**: service identifiers, numeric IDs, and path segments from browser tab titles
+- **Username strings**: account names or handles appearing in window titles — g2p-en will attempt to phonetically spell these out character by character, producing extremely long phoneme chains
+
+The practical consequences of an unchecked, growing lexicon:
+
+1. **Slower FST recompilation on every poll cycle**: More lexicon entries means more FST states for Kaldi to process every 2 seconds. Recompile time grows with lexicon size.
+2. **Increased acoustic confusion**: Each garbage entry is a noise path through the phoneme lattice. More junk paths mean more misrecognition risk for legitimate commands across the entire grammar.
+3. **Homophone collision risk compounds over time**: The FATAL FST crash described above (`StringWeight::Plus` error) occurs when a newly polled token happens to share a pronunciation with an existing word. As the lexicon grows, the probability of a random new string colliding with an existing entry increases.
+
+The cleanest mitigation is **source-level sanitization** in `refresh_open_windows_dictlist`: strip tokens matching hexadecimal patterns, pure digit strings, and very short tokens before they are ever injected into the `DictList`. A minimal regex filter such as `r'^[0-9a-f]{5,}$'` would catch most git SHAs and hex fragments.
+
+
 ### Inspecting the Lexicon
 
 Kaldi writes all dynamically generated pronunciations to a user lexicon file. You can inspect this file to see how Kaldi has transcribed your active window titles:
@@ -230,6 +259,10 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 * **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead.
 * **Title Volatility**: Modern web browsers change their window titles based on the active tab. If you are trying to target "Chrome" but the active tab is "Reddit - Google Chrome", the keywords shift dynamically, which can cause misrecognitions if the timer hasn't fired yet.
 * **Brittle Heuristics**: The abbreviation logic (`len(s) <= 4 and s.upper() == s`) is overly simplistic and will fail on longer acronyms or mixed-case titles.
+* **Hex/Hash Vocabulary Pollution**: Alphanumeric hashes (e.g., git SHAs, hex components of URLs) in window titles trigger automatic pronunciation generation. This produces gibberish phoneme patterns, increases acoustic model size, and fails to switch focus reliably by voice anyway.
+* **Multi-Workspace Ambiguity**: Since the script blindly grabs all windows across all workspaces, uttering a common word might unintentionally yank you to an entirely different virtual desktop without warning. There is no concept of "workspace scope".
+* **Possible Audio Buffer Overflow During Pronunciation Generation**: On at least one occasion, immediately following a new window title being encountered, Caster appeared to momentarily lock up or freeze. Checking the terminal output at the time revealed a warning resembling an audio buffer overflow (exact error string not captured). This may indicate that the work Kaldi performs to dynamically generate and compile new pronunciations is occasionally heavy enough to block or delay audio processing, causing the recognition engine to miss incoming speech frames. This has not been consistently reproduced and the root cause has not been confirmed—it could alternatively be an unrelated system resource spike—but it is worth noting as a potential instability vector.
+
 
 ### Hard Critique
 
