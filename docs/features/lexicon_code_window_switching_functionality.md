@@ -83,10 +83,12 @@ try:
         messaging_window.restore()
     else:
         messaging_window.set_foreground()
+except AttributeError:
+    pass
 ```
 
 > [!WARNING]
-> **API Mismatch Error**: The function `utilities.get_caster_messaging_window()` used in this fallback is **not a standard Caster API** (it was likely custom to the original author's setup). If you trigger an ambiguous command, the action execution will fail with an `AttributeError`. Dragonfly gracefully catches this and prints the error to the terminal, so it does not crash Caster, but it prevents the ambiguity feedback from displaying. This missing API error is entirely unrelated to focus stealing.
+> **Legacy API Deprecation Error**: The function `utilities.get_caster_messaging_window()` used in this fallback is **a legacy Caster 0.x API** (from ~5+ years ago, prior to the Caster 1.0 architecture overhaul in 2019). In early Caster versions, status messages were rendered in a dedicated WxPython GUI window titled `"Caster Messaging"`. When Caster migrated to `castervoice.lib.printer` and the Caster HUD, `utilities.get_caster_messaging_window()` was removed. Because the original LexiconCode pull request dates back to this era (~5 years ago), triggering an ambiguous command on modern Caster raises an `AttributeError`. Dragonfly gracefully catches this error in the terminal, but the ambiguity feedback fails to display. For a detailed breakdown of this API transition and historical commit dates, see [caster_printer_hud_timeline.md](../history/caster_printer_hud_timeline.md).
 
 **A Quick Fix for the Ambiguity Fallback:**
 Since modern Caster uses the **Caster HUD** for feedback, one quick workaround is to patch the script to output the ambiguous options directly to the HUD or terminal, bypassing the missing messaging window logic entirely.
