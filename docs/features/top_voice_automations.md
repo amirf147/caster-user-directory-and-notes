@@ -37,19 +37,9 @@ Execute searches across multiple targets and window layout modes using single-ut
 
 ---
 
-## 2. Excel Automations
+## 2. Libre Office Calc Automations
 
-Defined in `caster_user_content/rules/apps/office/excel/excel.py`.
-
-### Rapid Grid Navigation & Selection
-Eliminates mouse dependence in spreadsheet workflows:
-- `fly <column> <row>`: Fast jump to any cell coordinate. ([L22](../caster_user_content/rules/apps/office/excel/excel.py#L22))
-- `select <col1> <row1> through <col2> <row2>`: One-shot range selection (e.g., A1 through D50). ([L23](../caster_user_content/rules/apps/office/excel/excel.py#L23))
-
-### Cell Utility & Quick Access
-- `match above` / `match below`: Fill contents from adjacent cells. ([L26](../caster_user_content/rules/apps/office/excel/excel.py#L26))
-- `fit width` / `fit height` / `word wrap` / `insert column`: Keyboard accelerator macros for common formatting. ([L39](../caster_user_content/rules/apps/office/excel/excel.py#L39))
-- `queen <text>`: Accesses Microsoft Office Search (`Alt+Q`) to quickly query and execute Excel ribbon commands by voice. ([L43](../caster_user_content/rules/apps/office/excel/excel.py#L43))
+todo
 
 ---
 
