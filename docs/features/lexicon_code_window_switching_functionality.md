@@ -58,12 +58,20 @@ for window_options in windows[1:]:
 
 ## 3. Focus Stealing & Fallbacks
 
-There are two distinct window-focus mechanisms at play in this implementation, and they fail in two completely different ways:
+There are two primary components to the window-switching execution: snapping focus to a target window, and handling ambiguous requests with a visual fallback.
 
-1.  **Target Window Focus (Successful Disambiguation)**: When you speak a unique window command, it relies on Dragonfly's underlying `Window.set_foreground()` wrapper to bring the target window to the front. Because this API is triggered directly by a voice command, Windows generally allows the focus change to occur seamlessly.
+1.  **Target Window Focus**: When you speak a unique window command, it relies on Dragonfly's underlying `Window.set_foreground()` wrapper to bring the target window to the front. In practice, this works exceptionally well, flawlessly snapping focus to the target window even if it resides on a completely different virtual desktop.
     > [!WARNING]
-    > **Foreground Denial Bug**: While usually permissive, Windows can still forcefully deny the focus switch, causing the script to crash with `pywintypes.error: (0, 'SetForegroundWindow', 'No error message is available')`. When this happens, the target application does not come to the front; instead, its taskbar icon starts flashing orange. This is a known OS-level limitation with `SetForegroundWindow` and has **nothing to do with ambiguity**.
-    > *Note on Custom Overlays:* If you are using custom UI overlays (like a Caster HUD pinned to a corner) or third-party taskbar modifiers (like Windhawk), they are **not** the root cause of this error—this is standard Windows behavior. However, if your HUD code has an aggressive "always on top" loop that repeatedly attempts to seize the foreground, it *can* exacerbate the issue by stealing the foreground lock right when Dragonfly attempts the switch.
+    > **Sporadic Foreground Denial**: Windows can forcefully deny the focus switch (a known OS-level bug/limitation with `SetForegroundWindow`), causing the target application's taskbar icon to flash orange instead of coming to the front. This does happen sporadically, though the exact conditions that trigger it remain unclear.
+    > 
+    > *(Note: Dragonfly's `set_foreground()` wrapper attempts to mitigate this by sending a dummy `Control` key press before calling the Win32 API to trick Windows into granting focus permission, but the denial can still occasionally occur.)*
+
+    > [!WARNING]
+    > **Cross-Workspace Pulling Quirk**: During testing, a strange quirk was observed when switching to an application on a different virtual desktop. On at least one occasion, instead of shifting the user's view to the target workspace, the script appeared to pull the target application over to the *current* workspace without focusing it. Subsequently clicking the application's icon on the taskbar forcefully yanked the user back to the original workspace. This behavior requires further investigation.
+
+    > [!TIP]
+    > **Error Reproduction (The "Control Key" Bypass)**: During testing, both of the errors described above (the flashing taskbar and the cross-workspace pulling quirk) were manually and consistently reproduced by **physically holding down the `Control` key** while issuing the voice command.
+    > Because Dragonfly explicitly checks if the `Control` key is held down—and skips its synthetic input hack if it is—Windows denies the focus request. While it is highly possible that previous natural occurrences of these bugs were caused by a key getting virtually stuck down during dictation (e.g., from an interrupted macro or aborted command), it's not 100% confirmed if this is the exclusive root cause. What *is* certain is that when no keys are held down, the switching functionality works exceptionally well.
 
 2.  **Legacy Messaging Window (Failed Disambiguation)**: If multiple windows match your spoken keyword (ambiguity), the script aborts the target window switch entirely. Instead, it explicitly seeks out the Caster Messaging window and forces *that* to the front to provide visual feedback.
 
@@ -131,6 +139,33 @@ KeyError: ' '
     ```
 *   **Alternative Solution (No Engine Changes)**: If you do not want to modify the third-party `kaldi-active-grammar` package, you can sanitize window titles inside Caster's `window_mgmt_rule_support.py` by removing all numbers and symbols before words are passed to the dictlist. However, this means you will not be able to switch windows using numeric keywords.
 
+### The FATAL FST Crash (Homophone Collision)
+When rapidly switching browser tabs (e.g., navigating through sites with titles containing numbers like "07", "06"), the 2-second polling timer will scrape these new words and inject them into the grammar. Kaldi's `g2p-en` will then attempt to automatically generate pronunciations for them.
+
+This can result in a hard C++ binary crash from Kaldi:
+```text
+kaldi.compiler (WARNING): KaldiCompiler(): Word not in lexicon: '07' [s 'E v V n]
+kaldi.compiler (WARNING): KaldiCompiler(): Word not in lexicon: '06' [s 'I k s]
+FATAL: StringWeight::Plus: Unequal arguments (non-functional FST?) w1 = 168878 w2 = 168735
+```
+
+**Cause:** 
+This `StringWeight::Plus` error is an internal Finite State Transducer (FST) compilation failure. It occurs because `g2p-en` generates the exact same pronunciation for "07" as it does for the word "seven" (`[s 'E v V n]`). If the grammar already contains the word "seven" (or if multiple variations of the same pronunciation are dynamically added to the same rule with different text outputs), Kaldi's compiler creates a non-deterministic path with conflicting output tokens. During the graph determinization phase (`fstdeterminizestar`), it attempts to merge these identical pronunciation paths but encounters "Unequal arguments" (different text/semantic values) and immediately aborts the process to prevent corruption.
+
+**Workaround:**
+Because you cannot control what text is in a browser's window title, the most robust way to prevent this specific crash is to proactively sanitize the window titles inside `window_mgmt_rule_support.py`'s `refresh_open_windows_dictlist` function before they are ever sent to Kaldi. Stripping out digits, special characters, and obscure acronyms will stop `g2p-en` from generating overlapping homophone pronunciations.
+
+### Runtime Grammar Update Failures
+During testing with Kaldi, if you navigate to a new website (e.g., a tab named "tomatoes") and issue the command `"window switch tomatoes"`, the engine may completely misrecognize the command as a string of other seemingly random words already in the vocabulary:
+```text
+engine (ERROR): Grammar g8: failed to decode rule window management rule recognition ('window', 'switch', '2', 'amir', 'io', 's')
+```
+
+**Diagnosis:**
+* **Virtual Environments are NOT the cause**: Running Caster from a Python virtual environment (e.g., `.venv_latest`) simply isolates package dependencies. It has absolutely zero impact on how timers or variables behave during runtime.
+* **The True Cause**: The background polling timer *is* successfully updating the Python `DictList` in memory (verified via the `window switch show` diagnostic print). However, Kaldi (or Dragonfly's Kaldi integration) is failing to dynamically recompile the decoding graph during runtime. Because the new word is not in the compiled acoustic graph, Kaldi attempts to find the closest sounding path using only the words it *already* knows, resulting in a misrecognition string (e.g., matching "tomatoes" to "two amir io s").
+* **Why Rebooting Works**: Rebooting Caster forces the grammar to be completely rebuilt from scratch. Upon startup, the current window titles are passed into the `DictList`, and Kaldi compiles them successfully, allowing the command to be recognized perfectly without misrecognition. Resolving the runtime update issue will likely require an explicit grammar reload hook in the polling timer.
+
 ### Inspecting the Lexicon
 Kaldi writes all dynamically generated pronunciations to a user lexicon file. You can inspect this file to see how Kaldi has transcribed your active window titles:
 👉 **`<caster_repo>/kaldi_model/user_lexicon.txt`** (usually located in your documents/repos directory under `Caster/kaldi_model/user_lexicon.txt`)
@@ -143,15 +178,15 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 *   **Dynamic and Fluid Grammar**: The `DictList` combined with the timer means your grammar is always accurate. You don't have to say a "refresh" command when you open a new application.
 *   **Flexible Disambiguation**: By allowing multiple keywords (`<windows>` is a `Repetition` element), users can easily narrow down their target (e.g., `"window switch firefox"` vs `"window switch firefox youtube"`).
 *   **Excellent UX on Failure**: Bringing the messaging window to the front when a command is ambiguous is a highly practical way to keep the user informed.
+*   **Seamless Multi-Workspace Navigation**: The script indexes all windows across all virtual desktops. When you utter a target window name, it perfectly shifts focus to the target window, automatically moving your view to the correct virtual desktop without any manual workspace swapping commands.
 
 ### Weaknesses
 *   **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead.
 *   **Title Volatility**: Modern web browsers change their window titles based on the active tab. If you are trying to target "Chrome" but the active tab is "Reddit - Google Chrome", the keywords shift dynamically, which can cause misrecognitions if the timer hasn't fired yet.
 *   **Brittle Heuristics**: The abbreviation logic (`len(s) <= 4 and s.upper() == s`) is overly simplistic and will fail on longer acronyms or mixed-case titles.
-*   **Multi-Workspace Ambiguity**: Since the script blindly grabs all windows across all workspaces, uttering a common word might unintentionally yank you to an entirely different virtual desktop without warning. There is no concept of "workspace scope".
 
 ### Hard Critique
 While this implementation is highly effective and practical for daily use, its architectural foundation relies on **polling**, which is an anti-pattern for OS-level window management. 
 
 1. **Polling Inefficiency**: A state-of-the-art implementation would discard the 2-second timer entirely and use **Win32 Event Hooks** (`SetWinEventHook` listening for `EVENT_OBJECT_CREATE`, `EVENT_OBJECT_DESTROY`, and `EVENT_OBJECT_NAMECHANGE`). This would make the system **event-driven**, updating the grammar *only* when a window actually changes state. This results in zero idle CPU overhead and removes the latency introduced by polling delays.
-2. **Global Scope vs Local Context**: Grabbing every window across every workspace makes the vocabulary unnecessarily large and prone to ambiguous collisions. A better approach would be to prioritize or scope the dictionary to the *current* workspace, falling back to global search only when requested.
+2. **Global Scope vs Local Context**: While global multi-workspace navigation is a huge strength, grabbing every window across every workspace makes the vocabulary unnecessarily large and prone to ambiguous collisions if similar windows are open across different desktops. A more advanced approach would be to prioritize or scope the dictionary to the *current* workspace, falling back to global search only when requested.
