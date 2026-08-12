@@ -84,15 +84,15 @@ There are two primary components to the window-switching execution: snapping foc
 
 
 > [!WARNING]
-> **Cross-Workspace Pulling Quirk**: During testing, a strange quirk was observed when switching to an application on a different virtual desktop. On at least one occasion, instead of shifting the user's view to the target workspace, the script appeared to pull the target application over to the *current* workspace without focusing it. Subsequently clicking the application's icon on the taskbar forcefully yanked the user back to the original workspace. This behavior requires further investigation.
+> **Cross-Workspace Pulling Quirk**: During testing, a strange quirk was observed when switching to an application on a different virtual desktop. On at least one occasion, instead of shifting the user's view to the target workspace, the script appeared to pull the target application over to the *current* workspace without focusing it, while simultaneously causing its taskbar icon to flash orange. Subsequently clicking the application's icon on the taskbar forcefully yanked the user back to the original workspace. This behavior requires further investigation.
 
 
-> [!TIP]
+> [!NOTE]
 > **Error Reproduction (The "Control Key" Bypass)**: During testing, both of the errors described above (the flashing taskbar and the cross-workspace pulling quirk) were manually and consistently reproduced by **physically holding down the `Control` key** while issuing the voice command.
 > Because Dragonfly explicitly checks if the `Control` key is held down—and skips its synthetic input hack if it is—Windows denies the focus request. While it is highly possible that previous natural occurrences of these bugs were caused by a key getting virtually stuck down during dictation (e.g., from an interrupted macro or aborted command), it's not 100% confirmed if this is the exclusive root cause. What *is* certain is that when no keys are held down, the switching functionality works exceptionally well.
 
 
-> [!TIP]
+> [!NOTE]
 > **Error Occurrence (Post-Explorer.exe Restart Instability)**: During testing, an instance occurred where the Windows Explorer process (`explorer.exe`) crashed and automatically restarted itself. Immediately following this shell reset, issuing window switching voice commands resulted in target window failure, with taskbar icons repeatedly flashing orange upon each attempt. However, after several retries over a brief interval (a few seconds), window switching spontaneously recovered and resumed working smoothly without requiring a Caster or Dragonfly restart.
 > **Probable Technical Mechanism (Best Estimate)**:
 > * **Shell Message Queue Re-initialization**: When `explorer.exe` crashes and restarts, the Windows shell destroys and reconstructs taskbar handles, window z-order stacks, and shell hook listeners.
@@ -269,15 +269,14 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 * **Kaldi Requires Full Reboot for New Windows**: Although the polling timer successfully updates the in-memory `DictList`, Kaldi fails to dynamically recompile its decoding graph at runtime. Windows opened after Caster starts are not recognizable until a full Caster reboot. This fundamentally undermines the value of continuous polling — the timer keeps running every 2 seconds, but the new words it discovers are unusable until a restart anyway.
 * **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead — made worse by the fact that the results are not usable by Kaldi without a reboot.
 * **Title Volatility**: Modern web browsers change their window titles based on the active tab. If you are trying to target "Chrome" but the active tab is "Reddit - Google Chrome", the keywords shift dynamically, which can cause misrecognitions if the timer hasn't fired yet.
-* **Brittle Heuristics**: The abbreviation logic (`len(s) <= 4 and s.upper() == s`) is overly simplistic and will fail on longer acronyms or mixed-case titles.
 * **Hex/Hash Vocabulary Pollution**: Alphanumeric hashes (e.g., git SHAs, hex components of URLs) in window titles trigger automatic pronunciation generation. This produces gibberish phoneme patterns, increases acoustic model size, and fails to switch focus reliably by voice anyway.
 * **Multi-Workspace Ambiguity**: Since the script blindly grabs all windows across all workspaces, uttering a common word might unintentionally yank you to an entirely different virtual desktop without warning. There is no concept of "workspace scope".
 * **Possible Audio Buffer Overflow During Pronunciation Generation**: On at least one occasion, immediately following a new window title being encountered, Caster appeared to momentarily lock up or freeze. Checking the terminal output at the time revealed a warning resembling an audio buffer overflow (exact error string not captured). This may indicate that the work Kaldi performs to dynamically generate and compile new pronunciations is occasionally heavy enough to block or delay audio processing, causing the recognition engine to miss incoming speech frames. This has not been consistently reproduced and the root cause has not been confirmed—it could alternatively be an unrelated system resource spike—but it is worth noting as a potential instability vector.
 
 
-### Hard Critique
+### Architectural Opportunities
 
-While this implementation is highly effective and practical for daily use, its architectural foundation relies on **polling**, which is an anti-pattern for OS-level window management.
+While the core focus-switching logic is highly effective, the architectural foundation relies on **polling**, which introduces unnecessary overhead.
 
-1. **Polling Inefficiency**: A state-of-the-art implementation would discard the 2-second timer entirely and use **Win32 Event Hooks** (`SetWinEventHook` listening for `EVENT_OBJECT_CREATE`, `EVENT_OBJECT_DESTROY`, and `EVENT_OBJECT_NAMECHANGE`). This would make the system **event-driven**, updating the grammar *only* when a window actually changes state. This results in zero idle CPU overhead and removes the latency introduced by polling delays.
+1. **Event-Driven vs. Polling**: A more efficient implementation could discard the 2-second timer entirely and use **Win32 Event Hooks** (`SetWinEventHook` listening for `EVENT_OBJECT_CREATE`, `EVENT_OBJECT_DESTROY`, and `EVENT_OBJECT_NAMECHANGE`). This would make the system **event-driven**, updating the grammar *only* when a window actually changes state. This approach would result in zero idle CPU overhead and remove the latency introduced by polling delays.
 2. **Global Scope vs Local Context**: While global multi-workspace navigation is a huge strength, grabbing every window across every workspace makes the vocabulary unnecessarily large and prone to ambiguous collisions if similar windows are open across different desktops. A more advanced approach would be to prioritize or scope the dictionary to the *current* workspace, falling back to global search only when requested.

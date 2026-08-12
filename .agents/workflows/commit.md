@@ -3,16 +3,18 @@ description: Generates a copy-paste ready commit message for Caster User Directo
 ---
 
 # Instructions
-1. **Analyze Changes**: Check `git status` and `git diff` / `git diff --cached` to see all changes, including modified files as well as newly created or untracked files.
-2. **Focus**: Look specifically for new voice command definitions, grammar updates, macro logic, configuration changes, or newly created files/scripts.
-3. **Exclusions**: 
-   - No diff metadata, line numbers, or syntax discussion.
-   - No commit IDs.
-4. **Formatting**:
-   - Format the message as a standard git commit message: a concise, imperative title line, an empty line, a 1-2 sentence paragraph explaining why the change was needed, and a bulleted list of specific changes.
-   - Ensure the bulleted list accurately reflects both newly created files and modified files.
-   - **Do NOT** explicitly label the sections (e.g., do not write "Summary:", "Bullet Points:", "Conclusion:", or any section headers). Simply separate the title, paragraph, and bullet list with empty lines.
+
+1. **Analyze**: Review `git diff --cached` to understand the staged changes.
+2. **Title Formatting (Conventional Commits)**:
+   - Format: `type(scope): imperative title`
+   - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
+   - *Multi-file changes*: Use the highest-impact type (e.g., `feat` overrides `docs`). If unrelated, omit scope (e.g., `chore: update various files`).
+3. **Body Formatting**:
+   - 1-2 sentence paragraph explaining *why* the change was needed.
+   - Bulleted list of specific changes.
+4. **Exclusions**: 
+   - No diff metadata, line numbers, or section headers (e.g., "Summary:"). Just empty lines between title, body, and list.
 
 # Execution
-- Generate the message in a single code block without markdown formatting for easy copying.
-- Do NOT run the `git commit` command.
+- Output the final message in a single code block.
+- Do NOT run `git commit`.
