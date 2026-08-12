@@ -260,7 +260,7 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 
 ### Strengths
 
-* **Automatic Window Discovery**: The `DictList` combined with the timer means the grammar is populated with window titles without requiring a manual "refresh" command. On Caster startup, all currently open windows are compiled into the vocabulary, so established windows are immediately available for voice switching.
+* **Automatic Window Discovery (Python-Side)**: The `DictList` combined with the timer means the Python grammar data structure is populated with new window titles automatically without requiring a manual "refresh" command. However, as noted below, while the *Python script* updates automatically, the **Kaldi engine** itself cannot dynamically rebuild its decoding graph to recognize these newly polled words at runtime. On Caster startup, all currently open windows are compiled into the vocabulary, making those initial windows perfectly available for voice switching—but any windows opened *after* startup require a full Caster reboot to be recognized.
 * **Flexible Disambiguation**: By allowing multiple keywords (`<windows>` is a `Repetition` element), users can easily narrow down their target (e.g., `"window switch firefox"` vs `"window switch firefox youtube"`).
 * **Seamless Multi-Workspace Navigation**: The script indexes all windows across all virtual desktops. When you utter a target window name, it perfectly shifts focus to the target window, automatically moving your view to the correct virtual desktop without any manual workspace swapping commands.
 
