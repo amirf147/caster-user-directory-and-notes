@@ -5,7 +5,22 @@ This document provides an educational breakdown of how the `AppSwitcher` mechani
 **Scenario Context: The Explorer Restart**
 This analysis is specifically based on a known stress-test scenario: a Windows Explorer (`explorer.exe`) restart. Restarting the shell is a reliable way to induce strict OS focus-stealing restrictions. When Explorer restarts, Windows becomes highly protective of the foreground and actively blocks applications from stealing focus, causing the target app's taskbar icon to flash orange instead. Examining this specific scenario provides the perfect environment to test and validate focus-forcing fallbacks.
 
-The document breaks down the provided log output during this strict-lock scenario and deeply analyzes how the custom `AppSwitcher` implementation overcomes these OS restrictions compared to Dragonfly's native `set_foreground()` approach.
+> [!NOTE]
+> **TL;DR**: 
+> * **The Scenario**: After an `explorer.exe` restart, Windows strictly enforces foreground lock restrictions. Standard calls to `SetForegroundWindow` fail, causing the taskbar icon to flash orange.
+> * **Dragonfly vs. AppSwitcher**: Dragonfly relies on a simple `Control` key press hack before calling `SetForegroundWindow`, but uses no thread manipulation. It fails if the Control key is held down or during shell restarts. In contrast, AppSwitcher falls back to a low-level Win32 `AttachThreadInput` call + `Alt` key injection, linking its input queue to the foreground window to force focus.
+> * **Tier 1 Pywinauto Note**: In Tier 1, AppSwitcher currently calls Pywinauto's standard `set_focus()` without any pre-injected keypress bypass (though injecting a dummy keypress right before calling Pywinauto is a potential optimization).
+
+## Table of Contents
+- [Scenario Context: The Explorer Restart](#scenario-context-the-explorer-restart)
+- [The WindowsOSAdapter Class (`os_env`)](#the-windowsosadapter-class-os_env)
+- [Log Breakdown: Step-by-Step](#log-breakdown-step-by-step)
+- [Deep Dive: Focus APIs under the Hood](#deep-dive-focus-apis-under-the-hood)
+  - [1. Pywinauto's `set_focus()` (Tier 1)](#1-pywinautos-set_focus-tier-1)
+  - [2. Dragonfly's `set_foreground()`](#2-dragonflys-set_foreground)
+  - [3. AppSwitcher's `AttachThreadInput` Bypass](#3-appswitchers-attachthreadinput-bypass)
+
+---
 
 ## The WindowsOSAdapter Class (`os_env`)
 
