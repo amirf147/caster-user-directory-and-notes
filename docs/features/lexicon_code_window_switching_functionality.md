@@ -2,6 +2,17 @@
 
 This document provides a comprehensive breakdown of the window switching feature implemented by `LexiconCode`, detailing its architecture, mechanics, Kaldi engine compatibility, troubleshooting findings, and design critiques.
 
+> [!NOTE]
+> **TL;DR**: This feature lets you switch windows by saying words from their titles (e.g., `"window switch firefox"`). It works by polling all open windows every 2 seconds and injecting title words into the speech grammar. Focus switching itself works remarkably well—even across virtual desktops—but the background polling introduces significant Kaldi compatibility issues: lexicon pollution from junk tokens, FST compilation crashes from homophone collisions, and a fundamental inability for Kaldi to dynamically recompile its decoding graph at runtime (requiring a full Caster reboot for new windows to become recognizable). **The polling timer is currently disabled** pending a source-level token sanitization fix.
+
+## Table of Contents
+
+- [1. Introduction and Architecture](#1-introduction-and-architecture)
+- [2. Core Mechanics](#2-core-mechanics)
+- [3. Focus Stealing & Fallbacks](#3-focus-stealing--fallbacks)
+- [4. Kaldi Engine Compatibility & Troubleshooting](#4-kaldi-engine-compatibility--troubleshooting)
+- [5. Strengths, Weaknesses, and Critiques](#5-strengths-weaknesses-and-critiques)
+
 ---
 
 ## 1. Introduction and Architecture
@@ -39,7 +50,7 @@ open_windows_dictlist.set(window_options)
 
 ```
 
-Because the grammar uses a `DictListRef` pointing to this `DictList`, the speech engine instantly knows the names of all currently open windows without requiring a manual grammar reload.
+Because the grammar uses a `DictListRef` pointing to this `DictList`, the Python-side data structure is updated in place. However, whether the speech engine can actually recognize these new words at runtime depends on the engine — Kaldi in particular fails to dynamically recompile its decoding graph, meaning newly added words are only recognizable after a full Caster reboot (see [Runtime Grammar Update Failures](#runtime-grammar-update-failures)).
 
 ### Window Switching Logic (`switch_window`)
 
@@ -108,7 +119,7 @@ except AttributeError:
 ```
 
 > [!WARNING]
-> **Legacy API Deprecation Error**: The function `utilities.get_caster_messaging_window()` used in this fallback is **a legacy Caster 0.x API** (from ~5+ years ago, prior to the Caster 1.0 architecture overhaul in 2019). In early Caster versions, status messages were rendered in a dedicated WxPython GUI window titled `"Caster Messaging"`. When Caster migrated to `castervoice.lib.printer` and the Caster HUD, `utilities.get_caster_messaging_window()` was removed. Because the original LexiconCode pull request dates back to this era (~5 years ago), triggering an ambiguous command on modern Caster raises an `AttributeError`. Dragonfly gracefully catches this error in the terminal, but the ambiguity feedback fails to display. For a detailed breakdown of this API transition and historical commit dates, see [caster_printer_hud_timeline.md](https://www.google.com/search?q=../history/caster_printer_hud_timeline.md).
+> **Legacy API Deprecation Error**: The function `utilities.get_caster_messaging_window()` used in this fallback is **a legacy Caster 0.x API** (from ~5+ years ago, prior to the Caster 1.0 architecture overhaul in 2019). In early Caster versions, status messages were rendered in a dedicated WxPython GUI window titled `"Caster Messaging"`. When Caster migrated to `castervoice.lib.printer` and the Caster HUD, `utilities.get_caster_messaging_window()` was removed. Because the original LexiconCode pull request dates back to this era (~5 years ago), triggering an ambiguous command on modern Caster raises an `AttributeError`. Dragonfly gracefully catches this error in the terminal, but the ambiguity feedback fails to display. For a detailed breakdown of this API transition and historical commit dates, see [caster_printer_hud_timeline.md](../history/caster_printer_hud_timeline.md).
 
 **A Quick Fix for the Ambiguity Fallback:**
 Since modern Caster uses the **Caster HUD** for feedback, one quick workaround is to patch the script to output the ambiguous options directly to the HUD or terminal, bypassing the missing messaging window logic entirely.
@@ -199,14 +210,14 @@ Because you cannot control what text is in a browser's window title, the most ro
 During testing with Kaldi, if you navigate to a new website (e.g., a tab named "tomatoes") and issue the command `"window switch tomatoes"`, the engine may completely misrecognize the command as a string of other seemingly random words already in the vocabulary:
 
 ```text
-engine (ERROR): Grammar g8: failed to decode rule window management rule recognition ('window', 'switch', '2', 'amir', 'io', 's')
+engine (ERROR): Grammar g8: failed to decode rule window management rule recognition ('window', 'switch', '<misrecognized>', '<fragments>', '<here>')
 
 ```
 
 **Diagnosis:**
 
 * **Virtual Environments are NOT the cause**: Running Caster from a Python virtual environment (e.g., `.venv_latest`) simply isolates package dependencies. It has absolutely zero impact on how timers or variables behave during runtime.
-* **The True Cause**: The background polling timer *is* successfully updating the Python `DictList` in memory (verified via the `window switch show` diagnostic print). However, Kaldi (or Dragonfly's Kaldi integration) is failing to dynamically recompile the decoding graph during runtime. Because the new word is not in the compiled acoustic graph, Kaldi attempts to find the closest sounding path using only the words it *already* knows, resulting in a misrecognition string (e.g., matching "tomatoes" to "two amir io s").
+* **The True Cause**: The background polling timer *is* successfully updating the Python `DictList` in memory (verified via the `window switch show` diagnostic print). However, Kaldi (or Dragonfly's Kaldi integration) is failing to dynamically recompile the decoding graph during runtime. Because the new word is not in the compiled acoustic graph, Kaldi attempts to find the closest sounding path using only the words it *already* knows, resulting in a misrecognition string (the engine breaks the unknown word into the closest-sounding known tokens).
 * **Why Rebooting Works**: Rebooting Caster forces the grammar to be completely rebuilt from scratch. Upon startup, the current window titles are passed into the `DictList`, and Kaldi compiles them successfully, allowing the command to be recognized perfectly without misrecognition. Resolving the runtime update issue will likely require an explicit grammar reload hook in the polling timer.
 
 ### Hex/Hash String Lexicon Pollution
@@ -249,14 +260,14 @@ Kaldi writes all dynamically generated pronunciations to a user lexicon file. Yo
 
 ### Strengths
 
-* **Dynamic and Fluid Grammar**: The `DictList` combined with the timer means your grammar is always accurate. You don't have to say a "refresh" command when you open a new application.
+* **Automatic Window Discovery**: The `DictList` combined with the timer means the grammar is populated with window titles without requiring a manual "refresh" command. On Caster startup, all currently open windows are compiled into the vocabulary, so established windows are immediately available for voice switching.
 * **Flexible Disambiguation**: By allowing multiple keywords (`<windows>` is a `Repetition` element), users can easily narrow down their target (e.g., `"window switch firefox"` vs `"window switch firefox youtube"`).
-* **Excellent UX on Failure**: Bringing the messaging window to the front when a command is ambiguous is a highly practical way to keep the user informed.
 * **Seamless Multi-Workspace Navigation**: The script indexes all windows across all virtual desktops. When you utter a target window name, it perfectly shifts focus to the target window, automatically moving your view to the correct virtual desktop without any manual workspace swapping commands.
 
 ### Weaknesses
 
-* **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead.
+* **Kaldi Requires Full Reboot for New Windows**: Although the polling timer successfully updates the in-memory `DictList`, Kaldi fails to dynamically recompile its decoding graph at runtime. Windows opened after Caster starts are not recognizable until a full Caster reboot. This fundamentally undermines the value of continuous polling — the timer keeps running every 2 seconds, but the new words it discovers are unusable until a restart anyway.
+* **Polling Overhead**: Running a loop that scans all OS windows and performs string parsing every 2 seconds introduces constant, unnecessary CPU overhead — made worse by the fact that the results are not usable by Kaldi without a reboot.
 * **Title Volatility**: Modern web browsers change their window titles based on the active tab. If you are trying to target "Chrome" but the active tab is "Reddit - Google Chrome", the keywords shift dynamically, which can cause misrecognitions if the timer hasn't fired yet.
 * **Brittle Heuristics**: The abbreviation logic (`len(s) <= 4 and s.upper() == s`) is overly simplistic and will fail on longer acronyms or mixed-case titles.
 * **Hex/Hash Vocabulary Pollution**: Alphanumeric hashes (e.g., git SHAs, hex components of URLs) in window titles trigger automatic pronunciation generation. This produces gibberish phoneme patterns, increases acoustic model size, and fails to switch focus reliably by voice anyway.
