@@ -49,6 +49,8 @@ Educational breakdowns of underlying voice engines and Dragonfly internals.
 
 ### 📜 [History](history/)
 Timelines and evolution of subsystems.
+* [Repository Timeline (2024–2026)](history/repository_timeline.md)
+* [Interactive Timeline Web App](history/timeline.html)
 * [Technical Journey](history/technical_journey.md)
 * [Caster Printer HUD Timeline](history/caster_printer_hud_timeline.md)
 
@@ -75,6 +77,7 @@ Engine-specific static analysis and low-level anatomy.
 
 ### 📝 [Prompts](prompts/) & 🗄️ [Legacy Notes](legacy_notes/)
 * [Architecture Onboarding Prompt](prompts/Architecture-OnBoarding.md)
+* [Git Journey Timeline Orchestration](prompts/git-journey-timeline-orchestration.md)
 * [Legacy Notes Index](legacy_notes/) (`ideas.md`, `ace-space-transform.md`, `caster-study-notes.md`, `runcommand-system-settings.md`)
 
 ---
