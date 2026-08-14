@@ -105,6 +105,8 @@ There are two primary components to the window-switching execution: snapping foc
 > 
 > 
 > *(Note: While this mechanism aligns directly with known Win32 API foreground restrictions, confirming it as the exact 100% root cause would require low-level event tracing during the crash event.)*
+>
+> For how the custom `app_switcher.py` engine resolves this issue via guarded `AttachThreadInput` and `_alt_key_bypass()` context managers, see the [AppSwitcher Focus Analysis](../architecture/app_switcher_focus_analysis.md), [App Switcher Blueprint (v3)](../architecture/app_switcher_architectural_blueprint.md), and the distilled [PR #881 Testing Feedback](./lexicon_pr_881_feedback.md).
 
 
 2. **Legacy Messaging Window (Failed Disambiguation)**: If multiple windows match your spoken keyword (ambiguity), the script aborts the target window switch entirely. Instead, it explicitly seeks out the Caster Messaging window and forces *that* to the front to provide visual feedback.
