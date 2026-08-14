@@ -1,24 +1,24 @@
-import win32gui
-import win32con
-import win32process
-import win32api
+import contextlib
 import ctypes
-import time
+import datetime
 import json
 import os
+import time
 from pathlib import Path
-from typing import Dict, NamedTuple, List, Tuple, Any
+from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 
-from castervoice.lib.actions import Key
+import win32api
+import win32con
+import win32gui
+import win32process
+from caster_user_content.environment_variables import WINDOWS_APP_NAMES
 from castervoice.lib import printer
+from castervoice.lib.actions import Key
 from pywinauto import Desktop
 from pywinauto.findwindows import ElementNotFoundError
-from caster_user_content.environment_variables import WINDOWS_APP_NAMES
 
 
 def _log(level: str, msg: str):
-    import datetime
-
     ts = datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]
     print(f"[{ts}] [AppSwitcher:{level}] {msg}", flush=True)
 
@@ -38,12 +38,16 @@ CTRL_PGDN_APPS = ["Windsurf", "Cursor", "VSCodium", "Visual Studio Code", "Antig
 
 _SEPARATORS = (" - ", " – ", " — ")
 
+# Virtual Key constants for synthetic input
+VK_MENU = 0x12  # Alt key
+VK_NONE = 0xFF  # Unassigned dummy key to cancel menu focus activation
+
 
 class WindowInfo(NamedTuple):
     handle: int
     title: str
     is_tab: bool = False
-    window_type: str = None
+    window_type: Optional[str] = None
 
 
 class TaskbarItem(NamedTuple):
@@ -58,35 +62,170 @@ class TaskbarItem(NamedTuple):
 CASTER_USER_DIR = Path(os.path.expanduser("~/AppData/Local/caster/caster_user_content/"))
 ALIASES_FILE = CASTER_USER_DIR / "window_aliases.json"
 
-# Dictionary for aliases
-aliases: Dict[str, WindowInfo] = {}
+
+class AliasRegistry:
+    """Encapsulates persistent window and tab alias state."""
+
+    def __init__(self, filepath: Path):
+        self.filepath = filepath
+        self._aliases: Dict[str, WindowInfo] = {}
+        self.load()
+
+    @property
+    def aliases(self) -> Dict[str, WindowInfo]:
+        return self._aliases
+
+    def load(self) -> None:
+        """Load aliases from JSON file."""
+        try:
+            if self.filepath.exists():
+                with open(self.filepath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self._aliases = {k: WindowInfo(**v) for k, v in data.items()}
+                _log("DEBUG", f"Loaded {len(self._aliases)} aliases from {self.filepath}")
+        except Exception as e:
+            _log("ERROR", f"Error loading aliases: {e}")
+            self._aliases = {}
+
+    def save(self) -> None:
+        """Persist aliases to JSON file."""
+        try:
+            self.filepath.parent.mkdir(parents=True, exist_ok=True)
+            data = {k: v._asdict() for k, v in self._aliases.items()}
+            with open(self.filepath, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            _log("ERROR", f"Error saving aliases: {e}")
+
+    def get(self, key: str) -> Optional[WindowInfo]:
+        return self._aliases.get(str(key))
+
+    def set(self, key: str, info: WindowInfo) -> None:
+        self._aliases[str(key)] = info
+        self.save()
+
+    def remove(self, key: str) -> bool:
+        k = str(key)
+        if k in self._aliases:
+            del self._aliases[k]
+            self.save()
+            return True
+        return False
+
+    def remove_by_handle(self, handle: int) -> List[str]:
+        keys_to_remove = [k for k, v in self._aliases.items() if v.handle == handle]
+        for k in keys_to_remove:
+            del self._aliases[k]
+        if keys_to_remove:
+            self.save()
+        return keys_to_remove
+
+    def clear(self) -> None:
+        self._aliases.clear()
+        self.save()
+
+
+# Instantiate registry and expose backward-compatible module-level aliases
+alias_registry = AliasRegistry(ALIASES_FILE)
+aliases: Dict[str, WindowInfo] = alias_registry.aliases
 
 
 def load_aliases() -> None:
-    """Load aliases from file"""
-    global aliases
-    try:
-        if ALIASES_FILE.exists():
-            with open(ALIASES_FILE, "r") as f:
-                data = json.load(f)
-                aliases = {k: WindowInfo(**v) for k, v in data.items()}
-            print(f"Loaded {len(aliases)} aliases")
-    except Exception as e:
-        print(f"Error loading aliases: {e}")
-        aliases = {}
+    alias_registry.load()
 
 
 def save_aliases() -> None:
-    """Save aliases to file"""
+    alias_registry.save()
+
+
+@contextlib.contextmanager
+def _alt_key_bypass():
+    """
+    Context manager that simulates an Alt key press to reset ForegroundLockTimeout.
+    Guarantees that dummy cancel and Alt key-up events are ALWAYS sent, even on error.
+    """
+    user32 = ctypes.windll.user32
+    user32.keybd_event(VK_MENU, 0, 0, 0)  # Alt down
     try:
-        data = {k: v._asdict() for k, v in aliases.items()}
-        with open(ALIASES_FILE, "w") as f:
-            json.dump(data, f, indent=2)
+        yield
+    finally:
+        try:
+            user32.keybd_event(VK_NONE, 0, 0, 0)  # Dummy down (cancels menu bar focus)
+            user32.keybd_event(VK_NONE, 0, 2, 0)  # Dummy up
+        finally:
+            user32.keybd_event(VK_MENU, 0, 2, 0)  # Alt up
+
+
+@contextlib.contextmanager
+def _attached_threads(target_hwnd: int):
+    """
+    Context manager that safely attaches the current thread to the foreground thread
+    and target thread input queues, guaranteeing detachment in finally blocks.
+    """
+    current_thread = win32api.GetCurrentThreadId()
+    fore_hwnd = win32gui.GetForegroundWindow()
+    fore_thread = (
+        win32process.GetWindowThreadProcessId(fore_hwnd)[0] if (fore_hwnd and win32gui.IsWindow(fore_hwnd)) else 0
+    )
+    target_thread = (
+        win32process.GetWindowThreadProcessId(target_hwnd)[0] if (target_hwnd and win32gui.IsWindow(target_hwnd)) else 0
+    )
+
+    attached_fore = False
+    attached_target = False
+
+    try:
+        if fore_thread and fore_thread != current_thread:
+            try:
+                win32process.AttachThreadInput(current_thread, fore_thread, True)
+                attached_fore = True
+            except Exception as e:
+                _log("DEBUG", f"AttachThreadInput to fore_thread {fore_thread} failed: {e}")
+
+        if target_thread and target_thread != current_thread and target_thread != fore_thread:
+            try:
+                win32process.AttachThreadInput(current_thread, target_thread, True)
+                attached_target = True
+            except Exception as e:
+                _log("DEBUG", f"AttachThreadInput to target_thread {target_thread} failed: {e}")
+
+        yield
+    finally:
+        if attached_fore:
+            try:
+                win32process.AttachThreadInput(current_thread, fore_thread, False)
+            except Exception as e:
+                _log("DEBUG", f"DetachThreadInput from fore_thread {fore_thread} failed: {e}")
+        if attached_target:
+            try:
+                win32process.AttachThreadInput(current_thread, target_thread, False)
+            except Exception as e:
+                _log("DEBUG", f"DetachThreadInput from target_thread {target_thread} failed: {e}")
+
+
+def _ensure_window_shown(handle: int) -> None:
+    """Restores window if minimized, otherwise ensures it is visible."""
+    try:
+        if win32gui.IsIconic(handle):
+            win32gui.ShowWindow(handle, win32con.SW_RESTORE)
+        else:
+            win32gui.ShowWindow(handle, win32con.SW_SHOW)
     except Exception as e:
-        print(f"Error saving aliases: {e}")
+        _log("DEBUG", f"ShowWindow failed for HWND {handle}: {e}")
 
 
-load_aliases()
+def verify_focus(target_hwnd: int, timeout: float = 0.5) -> bool:
+    """Helper to verify if the active window has successfully switched to the target handle."""
+    if not target_hwnd or not win32gui.IsWindow(target_hwnd):
+        return False
+    if win32gui.GetForegroundWindow() == target_hwnd:
+        return True
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        time.sleep(0.01)  # 10ms micro-polling
+        if win32gui.GetForegroundWindow() == target_hwnd:
+            return True
+    return False
 
 
 def extract_app_name(caption: str) -> str:
@@ -140,32 +279,18 @@ class WindowsOSAdapter:
         return windows
 
     def get_active_window(self) -> Tuple[Any, int, str]:
+        """Fast retrieval of the active foreground window handle and title."""
         try:
-            _log("DEBUG", "get_active_window() called. About to call _desktop_uia.get_active() (UIA tree walk)...")
-            start_t = time.time()
-            w = self._desktop_uia.get_active()
-            elapsed = (time.time() - start_t) * 1000
-            _log("DEBUG", f"_desktop_uia.get_active() completed in {elapsed:.2f}ms. Returned: {w}")
-            if w is not None:
-                return w, int(w.handle), w.window_text()
-        except Exception as e:
-            _log("ERROR", f"Exception during _desktop_uia.get_active(): {e}")
-
-        try:
-            w = self._desktop_win32.get_active()
-            if w is not None:
-                return w, int(w.handle), w.window_text()
-        except Exception:
-            pass
-        if win32gui:
             h = win32gui.GetForegroundWindow()
-            if h:
+            if h and win32gui.IsWindow(h):
+                title_text = win32gui.GetWindowText(h)
                 try:
                     w_uia = self._desktop_uia.window(handle=h)
-                    return w_uia, int(h), w_uia.window_text()
+                    return w_uia, int(h), title_text or ""
                 except Exception:
-                    title_text = win32gui.GetWindowText(h)
                     return None, int(h), title_text or ""
+        except Exception as e:
+            _log("DEBUG", f"get_active_window fallback exception: {e}")
         return None, None, ""
 
     def get_taskbar_items(self) -> List[TaskbarItem]:
@@ -193,8 +318,8 @@ class WindowsOSAdapter:
                 items.append(
                     TaskbarItem(control=btn, text=caption, app_name=app, instance_index=count, total_instances=total)
                 )
-        except Exception:
-            pass
+        except Exception as e:
+            _log("DEBUG", f"get_taskbar_items exception: {e}")
         return items
 
     def get_current_desktop_id(self):
@@ -208,90 +333,81 @@ class WindowsOSAdapter:
     def get_window_desktop_id(self, handle: int):
         if PYVDA_AVAILABLE:
             try:
-                _log("DEBUG", f"get_window_desktop_id() calling AppView for HWND {handle}...")
                 start_t = time.time()
                 d_id = AppView(hwnd=handle).desktop_id
                 elapsed = (time.time() - start_t) * 1000
                 _log("DEBUG", f"AppView for HWND {handle} returned {d_id} in {elapsed:.2f}ms")
                 return d_id
             except Exception as e:
-                _log("ERROR", f"AppView Exception for HWND {handle}: {e}")
+                _log("DEBUG", f"AppView Exception for HWND {handle}: {e}")
         return None
 
     def restore_and_focus(self, handle: int) -> bool:
-        """Attempt to restore and set focus to a specific window handle using pywinauto and OS bypasses."""
-        # 1. Allow SetForegroundWindow (ASFW_ANY = -1) to match Caster virtual desktop convention
+        """
+        Attempt to restore and set focus to a specific window handle
+        using progressive, non-blocking Win32 tiers.
+        """
+        if not handle or not win32gui.IsWindow(handle):
+            _log("ERROR", f"HWND {handle} is no longer a valid window.")
+            return False
+
+        # Fast check if already active
+        if win32gui.GetForegroundWindow() == handle:
+            return True
+
+        # 0. Allow SetForegroundWindow (best-effort)
         try:
             ctypes.windll.user32.AllowSetForegroundWindow(-1)
-        except Exception as e:
-            print(f"AllowSetForegroundWindow failed: {e}")
+        except Exception:
+            pass
 
-        # 2. Check if already active
-        active_hwnd = win32gui.GetForegroundWindow()
-        if active_hwnd == handle:
-            return True
+        # Restore window if minimized
+        _ensure_window_shown(handle)
 
-        # 3. Restore window if minimized, otherwise show it
+        # ---------------------------------------------------------
+        # TIER 1: Direct Win32 SetForegroundWindow (Fast Path: ~0-10ms)
+        # ---------------------------------------------------------
         try:
-            placement = win32gui.GetWindowPlacement(handle)
-            if placement[1] == win32con.SW_SHOWMINIMIZED:
-                win32gui.ShowWindow(handle, win32con.SW_RESTORE)
-            else:
-                win32gui.ShowWindow(handle, win32con.SW_SHOW)
-        except Exception as e:
-            print(f"ShowWindow failed: {e}")
-
-        # 4. Attempt standard Pywinauto set_focus
-        _log("INFO", f"Tier 1: Attempting restore_and_focus for HWND {handle}...")
-        try:
-            from pywinauto import Application
-
-            start_t = time.time()
-            app = Application().connect(handle=handle)
-            app.window(handle=handle).set_focus()
-            elapsed = (time.time() - start_t) * 1000
-            _log("INFO", f"Tier 1 pywinauto set_focus executed in {elapsed:.2f}ms")
-        except Exception as e:
-            _log("ERROR", f"Tier 1 standard Pywinauto focus failed: {e}")
-
-        # Poll briefly to check if standard focus succeeded
-        start_t = time.time()
-        verified = verify_focus(handle, timeout=0.3)
-        elapsed = (time.time() - start_t) * 1000
-        _log("INFO", f"Tier 1 focus verified={verified} for HWND {handle} in {elapsed:.2f}ms")
-        if verified:
-            return True
-
-        # 5. OS Bypass: Thread Attachment + Alt Key Injection
-        print("Standard focus failed or blocked. Attempting Thread Attachment and Alt-key bypass...")
-        try:
-            fore_hwnd = win32gui.GetForegroundWindow()
-            fore_thread, _ = win32process.GetWindowThreadProcessId(fore_hwnd)
-            target_thread, _ = win32process.GetWindowThreadProcessId(handle)
-            current_thread = win32api.GetCurrentThreadId()
-
-            if fore_thread != target_thread:
-                win32process.AttachThreadInput(fore_thread, current_thread, True)
-
             win32gui.BringWindowToTop(handle)
-            win32gui.ShowWindow(handle, win32con.SW_SHOW)
-
-            # Send Alt key down/up to bypass OS SetForegroundWindow restrictions.
-            # To prevent Windows from focusing the target window's menu bar,
-            # we send a dummy key event (VK_NONE / 0xFF) while Alt is down.
-            ctypes.windll.user32.keybd_event(0x12, 0, 0, 0)  # Alt key down
             win32gui.SetForegroundWindow(handle)
-            ctypes.windll.user32.keybd_event(0xFF, 0, 0, 0)  # Dummy key down (VK_NONE)
-            ctypes.windll.user32.keybd_event(0xFF, 0, 2, 0)  # Dummy key up
-            ctypes.windll.user32.keybd_event(0x12, 0, 2, 0)  # Alt key up
-
-            if fore_thread != target_thread:
-                win32process.AttachThreadInput(fore_thread, current_thread, False)
         except Exception as e:
-            print(f"OS Focus Bypass failed: {e}")
+            _log("DEBUG", f"Tier 1 SetForegroundWindow failed for HWND {handle}: {e}")
 
-        # Poll again to verify success
-        return verify_focus(handle, timeout=0.5)
+        if verify_focus(handle, timeout=0.08):
+            return True
+
+        # ---------------------------------------------------------
+        # TIER 2: Alt-Key Bypass (Tricks OS ForegroundLockTimeout)
+        # ---------------------------------------------------------
+        _log("DEBUG", f"Tier 1 failed. Attempting Tier 2 (Alt-Key Bypass) for HWND {handle}...")
+        try:
+            with _alt_key_bypass():
+                win32gui.BringWindowToTop(handle)
+                win32gui.SetForegroundWindow(handle)
+        except Exception as e:
+            _log("DEBUG", f"Tier 2 Alt-Bypass failed for HWND {handle}: {e}")
+
+        if verify_focus(handle, timeout=0.12):
+            return True
+
+        # ---------------------------------------------------------
+        # TIER 3: Dual-Thread Input Attachment + SwitchToThisWindow
+        # ---------------------------------------------------------
+        _log("DEBUG", f"Tier 2 failed. Attempting Tier 3 (Thread Attachment) for HWND {handle}...")
+        try:
+            with _attached_threads(handle):
+                with _alt_key_bypass():
+                    win32gui.BringWindowToTop(handle)
+                    win32gui.SetForegroundWindow(handle)
+                try:
+                    # SwitchToThisWindow is a legacy shell API that activates the window
+                    ctypes.windll.user32.SwitchToThisWindow(handle, True)
+                except Exception:
+                    pass
+        except Exception as e:
+            _log("ERROR", f"Tier 3 Thread Attachment failed for HWND {handle}: {e}")
+
+        return verify_focus(handle, timeout=0.2)
 
     def iter_windows(self):
         """Yields windows from both UIA and Win32 backends."""
@@ -312,17 +428,7 @@ class WindowsOSAdapter:
 os_env = WindowsOSAdapter()
 
 
-def verify_focus(target_hwnd: int, timeout: float = 0.5) -> bool:
-    """Helper to verify if the active window has successfully switched to the target handle."""
-    start_time = time.time()
-    while time.time() - start_time < timeout:
-        if win32gui.GetForegroundWindow() == target_hwnd:
-            return True
-        time.sleep(0.05)
-    return False
-
-
-def get_window_type(title: str) -> str:
+def get_window_type(title: str) -> Optional[str]:
     if any(app in title for app in CTRL_TAB_APPS):
         return "ctrl_tab"
     if any(app in title for app in CTRL_PGDN_APPS):
@@ -332,45 +438,40 @@ def get_window_type(title: str) -> str:
 
 def set_window(window_alias: Any) -> None:
     window_alias = str(window_alias)
-    w, handle, title_text = os_env.get_active_window()
+    _, handle, title_text = os_env.get_active_window()
     if not handle:
         return
-    aliases[window_alias] = WindowInfo(
-        handle=handle, title=title_text, is_tab=False, window_type=get_window_type(title_text)
-    )
+    info = WindowInfo(handle=handle, title=title_text, is_tab=False, window_type=get_window_type(title_text))
+    alias_registry.set(window_alias, info)
     print(f"Set window alias '{window_alias}' for: {title_text}")
-    save_aliases()
 
 
 def set_page(window_alias: Any) -> None:
     window_alias = str(window_alias)
-    w, handle, title_text = os_env.get_active_window()
+    _, handle, title_text = os_env.get_active_window()
     if not handle:
         return
     window_type = get_window_type(title_text)
-    aliases[window_alias] = WindowInfo(handle=handle, title=title_text, is_tab=True, window_type=window_type)
+    info = WindowInfo(handle=handle, title=title_text, is_tab=True, window_type=window_type)
+    alias_registry.set(window_alias, info)
     print(f"Set tab alias '{window_alias}' for: {title_text}")
-    save_aliases()
 
 
 def clear_alias() -> None:
-    w, handle, title_text = os_env.get_active_window()
+    _, handle, title_text = os_env.get_active_window()
     if not handle:
         return
-    keys_to_remove = [k for k, v in aliases.items() if v.handle == handle]
-    for k in keys_to_remove:
-        del aliases[k]
-        print(f"Cleared alias '{k}' for window: {title_text}")
-    if keys_to_remove:
-        save_aliases()
+    removed_keys = alias_registry.remove_by_handle(handle)
+    if removed_keys:
+        for k in removed_keys:
+            print(f"Cleared alias '{k}' for window: {title_text}")
     else:
         print(f"No alias found for current window: {title_text}")
 
 
 def clear_all_aliases() -> None:
-    aliases.clear()
+    alias_registry.clear()
     print("Cleared all window aliases.")
-    save_aliases()
 
 
 def find_tab(target_title: str, window_type: str) -> bool:
@@ -399,7 +500,7 @@ def show_window_info():
 
 
 def switch_to_app(app_name, instance: int = 1) -> bool:
-    """Switches to app using a verified 3-tier failsafe approach."""
+    """Switches to app using a verified robust Win32 approach with fallback."""
     if isinstance(app_name, (list, tuple)):
         app_names_lc = [a.lower() for a in app_name]
         app_name_display = "/".join(app_name)
@@ -435,59 +536,30 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
 
     target_hwnd, target_title = matching_windows[instance - 1]
 
-    # Tier 1: Pywinauto / Win32gui
-    _log("INFO", f"Request to switch_to_app: '{app_name_display}', instance #{instance}")
+    _log("INFO", f"Request to switch_to_app: '{app_name_display}', instance #{instance} (HWND {target_hwnd})")
     if os_env.restore_and_focus(target_hwnd):
-        _log("INFO", f"Tier 1: Successfully focused '{target_title}'")
+        _log("INFO", f"Successfully focused '{target_title}'")
         printer.out(f"Successfully switched to '{target_title}' using window focus APIs")
         return True
-    else:
-        _log("WARN", f"Tier 1 focus failed for {target_title}. Trying Tier 2...")
 
-    # Tier 2: Taskbar UIA Click
+    # Fallback: Taskbar UIA Click (best-effort if Win32 focus failed)
     try:
         t_items = os_env.get_taskbar_items()
         app_items = [it for it in t_items if it.app_name.lower() in app_names_lc]
         if app_items and len(app_items) >= instance:
             app_items.sort(key=lambda it: it.instance_index)
             target_item = app_items[instance - 1]
-            _log("INFO", f"Tier 2: Attempting taskbar click for '{target_title}'...")
+            _log("INFO", f"Fallback: Attempting taskbar click for '{target_title}'...")
             target_item.control.click_input()
 
-            # Verify if click succeeded in focusing the window
-            if verify_focus(target_hwnd, timeout=1.0):
-                _log("INFO", f"Tier 2: Successfully focused '{target_title}' via Taskbar click")
+            if verify_focus(target_hwnd, timeout=0.8):
+                _log("INFO", f"Fallback: Successfully focused '{target_title}' via Taskbar click")
                 printer.out(f"Successfully switched to '{target_title}' using taskbar click")
                 return True
     except Exception as e:
-        _log("ERROR", f"Tier 2 Taskbar UIA failed: {e}")
+        _log("DEBUG", f"Taskbar UIA fallback failed: {e}")
 
-    _log("WARN", f"Tier 2 focus failed for {target_title}. Trying Tier 3...")
-
-    # Tier 3: Keyboard Macro
-    try:
-        t_items = os_env.get_taskbar_items()
-        target_idx = -1
-        count = 0
-        for i, item in enumerate(t_items):
-            if item.app_name.lower() in app_names_lc:
-                count += 1
-                if count == instance:
-                    target_idx = i
-                    break
-        if target_idx != -1:
-            _log("INFO", f"Tier 3: Keyboard Macro executing for taskbar index {target_idx}...")
-            Key(f"w-t/3, home, right:{target_idx}/3, enter").execute()
-
-            # Verify if keyboard macro succeeded in focusing the window
-            if verify_focus(target_hwnd, timeout=1.5):
-                _log("INFO", f"Tier 3: Successfully focused '{target_title}' via Keyboard Macro")
-                printer.out(f"Successfully switched to '{target_title}' using keyboard keys")
-                return True
-    except Exception as e:
-        _log("ERROR", f"Tier 3 Keyboard Macro failed: {e}")
-
-    _log("ERROR", f"Failed to focus '{app_name_display}' after all 3 tiers.")
+    _log("ERROR", f"Failed to focus '{app_name_display}' for HWND {target_hwnd}.")
     printer.out("Failed to switch window")
     return False
 
@@ -495,56 +567,54 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
 def title(window_title: str):
     """Activate a window whose title contains the given substring."""
     try:
-        for w in os_env.iter_windows():
-            try:
-                if window_title in w.window_text():
-                    handle = int(w.handle)
-                    if os_env.restore_and_focus(handle):
-                        printer.out(
-                            f"Successfully switched to window matching '{window_title}' using window focus APIs"
-                        )
-                        return
-            except Exception:
-                continue
+        windows = os_env.get_open_windows()
+        for handle, win_title in windows:
+            if window_title.lower() in win_title.lower():
+                if os_env.restore_and_focus(handle):
+                    printer.out(f"Successfully switched to window matching '{window_title}' using window focus APIs")
+                    return
         printer.out("Failed to switch window")
     except Exception as e:
-        print(f"Error activating by title: {e}")
+        _log("ERROR", f"Error activating by title: {e}")
         printer.out("Failed to switch window")
 
 
 def switch_to_alias(window_alias: Any) -> None:
     window_alias = str(window_alias)
-    if window_alias not in aliases:
+    info = alias_registry.get(window_alias)
+    if not info:
         printer.out(f"No alias found for '{window_alias}'")
         return
 
-    info = aliases[window_alias]
     try:
-        _log("INFO", f"Request to switch_to_alias: '{window_alias}'")
-        os_env.get_window_by_handle(info.handle)
+        _log("INFO", f"Request to switch_to_alias: '{window_alias}' (HWND {info.handle})")
+
+        # Check if handle is still alive
+        if not win32gui.IsWindow(info.handle):
+            raise ElementNotFoundError
 
         # Failsafe for alias
         if os_env.restore_and_focus(info.handle):
-            _log("INFO", f"switch_to_alias '{window_alias}' Tier 1 focus completed successfully.")
+            _log("INFO", f"switch_to_alias '{window_alias}' focus completed successfully.")
             printer.out(f"Successfully switched to alias '{window_alias}' ('{info.title}') using window focus APIs")
         else:
             app_name = extract_app_name(info.title)
             _log(
-                "WARN", f"switch_to_alias '{window_alias}' Tier 1 failed. Falling back to switch_to_app for {app_name}"
+                "WARN",
+                f"switch_to_alias '{window_alias}' direct focus failed. Falling back to switch_to_app for {app_name}",
             )
             if not switch_to_app(app_name):
                 raise ElementNotFoundError
 
-        time.sleep(0.1)
+        time.sleep(0.05)
         if info.is_tab and info.window_type:
             find_tab(info.title, info.window_type)
 
     except ElementNotFoundError:
         printer.out(f"Window for alias '{window_alias}' not found, dropping alias.")
-        aliases.pop(window_alias, None)
-        save_aliases()
+        alias_registry.remove(window_alias)
     except Exception as e:
-        print(f"Error switching: {e}")
+        _log("ERROR", f"Error switching to alias '{window_alias}': {e}")
         printer.out("Failed to switch window")
 
 
