@@ -25,12 +25,13 @@ This utility is used by voice commands defined in [window_switching.py](../../ca
 ## Architectural Blueprints & Code Review
 
 For complete technical specifications, component relationships, state transitions, sequence diagrams, and refactoring guidelines, refer to the documentation suite:
-- [Architectural Blueprint v1](../archive/app_switcher/app_switcher_architectural_blueprint.md): Initial deep architectural analysis of structural layers, state lifecycles, and sequence diagrams.
-- [Architectural Blueprint v2](../archive/app_switcher/app_switcher_architectural_blueprint2.md): Refined architectural specification detailing exact layer boundaries, dual switching pipelines (`switch_to_app` vs `switch_to_alias`), and corrected OSAdapter method signatures.
-- [Code Review & Refactoring Guide](../archive/app_switcher/app_switcher_code_review.md): Comprehensive critique analyzing architectural shortcomings, anti-patterns (God module, global mutable side effects, procedural waterfalls, magic constants), and proposing a clean modular redesign using Strategy, Chain of Responsibility, and Repository patterns.
+- [Architectural Blueprint v1](../architecture/app_switcher_architectural_blueprint.md): Initial deep architectural analysis of structural layers, state lifecycles, and sequence diagrams.
+- [Architectural Blueprint v2](../architecture/app_switcher_architectural_blueprint2.md): Refined architectural specification detailing exact layer boundaries, dual switching pipelines (`switch_to_app` vs `switch_to_alias`), and corrected OSAdapter method signatures.
+- [Code Review & Refactoring Guide](../architecture/app_switcher_code_review.md): Comprehensive critique analyzing architectural shortcomings, anti-patterns (God module, global mutable side effects, procedural waterfalls, magic constants), and proposing a clean modular redesign using Strategy, Chain of Responsibility, and Repository patterns.
+- [Focus Analysis](../architecture/app_switcher_focus_analysis.md): Technical breakdown of focus-forcing fallbacks (`AttachThreadInput` + Alt key) during Windows Explorer restarts and focus-stealing locks.
 
 > [!WARNING]
-> **Architectural Status**: While [app_switcher.py](../../caster_user_content/util/app_switcher.py) works reliably at runtime, its internal design suffers from high coupling, global mutable state, and violations of key software engineering principles (e.g. Single Responsibility Principle). Future refactoring work should follow the modular redesign proposed in the [Code Review](../archive/app_switcher/app_switcher_code_review.md).
+> **Architectural Status**: While [app_switcher.py](../../caster_user_content/util/app_switcher.py) works reliably at runtime, its internal design suffers from high coupling, global mutable state, and violations of key software engineering principles (e.g. Single Responsibility Principle). Future refactoring work should follow the modular redesign proposed in the [Code Review](../architecture/app_switcher_code_review.md).
 
 
 ### Architectural Overview & Layers

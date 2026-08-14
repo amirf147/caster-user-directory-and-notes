@@ -1,11 +1,11 @@
-[ 🏠 Docs Home ](../../README.md) › [ 📁 Archive / App Switcher ](../../README.md#prompts--legacy-notes) › **Code Review: `app_switcher.py` — The Unforgivin...**
+[ 🏠 Docs Home ](../README.md) › [ 🏗️ Architecture ](../README.md#architecture) › **Code Review: `app_switcher.py` — The Unforgivin...**
 
 ---
 
 # Code Review: `app_switcher.py` — The Unforgiving Edition
 
 > **Reviewer**: Angry Principal Engineer who has had enough
-> **Subject**: [app_switcher.py](../../../caster_user_content/util/app_switcher.py) (520 lines)
+> **Subject**: [app_switcher.py](../../caster_user_content/util/app_switcher.py) (520 lines)
 > **Verdict**: This file works *despite* itself. It is a monument to "I'll refactor it later."
 
 ---
@@ -63,20 +63,20 @@ The class is called an "adapter" but it's actually a **God Object** hiding behin
 
 | Method | Actual Responsibility |
 |:-------|:---------------------|
-| [get_open_windows()](../../../caster_user_content/util/app_switcher.py#L123-L133) | Win32 window enumeration |
-| [get_active_window()](../../../caster_user_content/util/app_switcher.py#L135-L157) | Active window detection with 3-backend fallback |
-| [get_taskbar_items()](../../../caster_user_content/util/app_switcher.py#L159-L186) | Taskbar UI automation scraping |
-| [get_current_desktop_id()](../../../caster_user_content/util/app_switcher.py#L188-L194) | Virtual desktop tracking |
-| [get_window_desktop_id()](../../../caster_user_content/util/app_switcher.py#L196-L202) | Virtual desktop tracking |
-| [restore_and_focus()](../../../caster_user_content/util/app_switcher.py#L204-L269) | **65-line monster** doing Win32 focus, pywinauto focus, thread attachment, keyboard injection, AND focus verification |
-| [iter_windows()](../../../caster_user_content/util/app_switcher.py#L271-L278) | Dual-backend window iteration |
-| [get_window_by_handle()](../../../caster_user_content/util/app_switcher.py#L280-L284) | Handle-to-window lookup |
+| [get_open_windows()](../../caster_user_content/util/app_switcher.py#L123-L133) | Win32 window enumeration |
+| [get_active_window()](../../caster_user_content/util/app_switcher.py#L135-L157) | Active window detection with 3-backend fallback |
+| [get_taskbar_items()](../../caster_user_content/util/app_switcher.py#L159-L186) | Taskbar UI automation scraping |
+| [get_current_desktop_id()](../../caster_user_content/util/app_switcher.py#L188-L194) | Virtual desktop tracking |
+| [get_window_desktop_id()](../../caster_user_content/util/app_switcher.py#L196-L202) | Virtual desktop tracking |
+| [restore_and_focus()](../../caster_user_content/util/app_switcher.py#L204-L269) | **65-line monster** doing Win32 focus, pywinauto focus, thread attachment, keyboard injection, AND focus verification |
+| [iter_windows()](../../caster_user_content/util/app_switcher.py#L271-L278) | Dual-backend window iteration |
+| [get_window_by_handle()](../../caster_user_content/util/app_switcher.py#L280-L284) | Handle-to-window lookup |
 
 That's **window enumeration**, **taskbar scraping**, **virtual desktop management**, AND **a 65-line focus algorithm** all jammed into one class. The `restore_and_focus` method alone contains:
 
 - `AllowSetForegroundWindow`
 - `GetWindowPlacement` + `ShowWindow`
-- `pywinauto.Application().connect().set_focus()` (with a **lazy import inside the method** on [line 229](../../../caster_user_content/util/app_switcher.py#L229))
+- `pywinauto.Application().connect().set_focus()` (with a **lazy import inside the method** on [line 229](../../caster_user_content/util/app_switcher.py#L229))
 - `AttachThreadInput` / `DetachThreadInput`
 - 5 `keybd_event` calls
 - `BringWindowToTop`
@@ -101,11 +101,11 @@ Catch `Exception`, print to stdout, and **keep going as if nothing happened**. T
 
 Some greatest hits:
 
-- [Line 184](../../../caster_user_content/util/app_switcher.py#L184): `get_taskbar_items()` catches `Exception` and returns an empty list. Silently. No logging. The caller has no idea whether the taskbar doesn't exist or whether pywinauto crashed.
+- [Line 184](../../caster_user_content/util/app_switcher.py#L184): `get_taskbar_items()` catches `Exception` and returns an empty list. Silently. No logging. The caller has no idea whether the taskbar doesn't exist or whether pywinauto crashed.
 
-- [Line 67-69](../../../caster_user_content/util/app_switcher.py#L67-L69): `load_aliases()` catches `Exception` and resets to empty dict. If your JSON file is corrupted, you lose all aliases with a single `print` to stdout that nobody will ever see.
+- [Line 67-69](../../caster_user_content/util/app_switcher.py#L67-L69): `load_aliases()` catches `Exception` and resets to empty dict. If your JSON file is corrupted, you lose all aliases with a single `print` to stdout that nobody will ever see.
 
-- [Lines 140-141](../../../caster_user_content/util/app_switcher.py#L140-L141): `get_active_window()` has **three** nested try-except blocks that all silently swallow exceptions, falling through to progressively worse backends.
+- [Lines 140-141](../../caster_user_content/util/app_switcher.py#L140-L141): `get_active_window()` has **three** nested try-except blocks that all silently swallow exceptions, falling through to progressively worse backends.
 
 > [!WARNING]
 > **Not a single exception in this entire 520-line file is logged to a proper logger.** Everything goes to `print()`. In a speech recognition framework that runs in the background, `print()` output goes... where exactly? Into the void.
@@ -114,7 +114,7 @@ Some greatest hits:
 
 ## 5. The `switch_to_app` Function: 88 Lines of Procedural Spaghetti
 
-[switch_to_app](../../../caster_user_content/util/app_switcher.py#L376-L463) is an **88-line function** that:
+[switch_to_app](../../caster_user_content/util/app_switcher.py#L376-L463) is an **88-line function** that:
 
 1. Normalizes input (list vs string)
 2. Queries open windows
@@ -178,7 +178,7 @@ This function has **four completely different parsing strategies** stitched toge
 3. A separator-based split strategy using three different dash characters
 4. A "give up and return the whole thing" fallback
 
-Why is `"Windows PowerShell"` in `WINDOWS_APP_NAMES` AND hardcoded on [line 94](../../../caster_user_content/util/app_switcher.py#L94)? Why does `"caster: status window"` map to `"Windows PowerShell"`? Is that a bug or a feature? Nobody knows, because there's no comment explaining the reasoning.
+Why is `"Windows PowerShell"` in `WINDOWS_APP_NAMES` AND hardcoded on [line 94](../../caster_user_content/util/app_switcher.py#L94)? Why does `"caster: status window"` map to `"Windows PowerShell"`? Is that a bug or a feature? Nobody knows, because there's no comment explaining the reasoning.
 
 Also: `.lower()` is called on `caption` **five separate times** in this function. Store it once.
 
@@ -210,9 +210,9 @@ That's 5 seconds of **blocking the speech recognition thread**. During which the
 ## 9. Naming Crimes
 
 - `w` — used for window objects throughout. Is it a pywinauto wrapper? A handle? Who knows.
-- `t_items` — what does the `t` stand for? Taskbar? Tab? Temporal? ([line 421](../../../caster_user_content/util/app_switcher.py#L421))
+- `t_items` — what does the `t` stand for? Taskbar? Tab? Temporal? ([line 421](../../caster_user_content/util/app_switcher.py#L421))
 - `enum_cb` — callback for `EnumWindows`, fair enough, but `ctx` is never used and should be `_`
-- `tb` — toolbar? tuberculosis? ([line 167](../../../caster_user_content/util/app_switcher.py#L167))
+- `tb` — toolbar? tuberculosis? ([line 167](../../caster_user_content/util/app_switcher.py#L167))
 - `fore_hwnd`, `target_hwnd`, `active_hwnd` — three different variable names for "a window handle" with no consistent convention
 
 ---
@@ -231,7 +231,7 @@ You named a function `title`. Just... `title`. In a module full of window titles
 
 The module uses **two different output mechanisms** with no clear policy:
 
-- `print()` — for debug/diagnostic messages ([23 occurrences](../../../caster_user_content/util/app_switcher.py))
+- `print()` — for debug/diagnostic messages ([23 occurrences](../../caster_user_content/util/app_switcher.py))
 - `printer.out()` — for user-facing Caster status messages
 
 Some functions use both, some use only one, and the distinction is inconsistent. `switch_to_app` calls `printer.out("Failed to switch window")` in **three different places** with the exact same string. But each `print()` message is different. So the user sees the same failure message regardless of which tier failed, while the developer gets detailed tier-specific info — but only if they're watching stdout.
@@ -242,17 +242,17 @@ Some functions use both, some use only one, and the distinction is inconsistent.
 
 | Location | Magic Value | What It Means |
 |:---------|:-----------|:-------------|
-| [Line 129](../../../caster_user_content/util/app_switcher.py#L129) | `"Program Manager"`, `"Windows Input Experience"`, `"OmApSvcBroker"` | Hardcoded window title blacklist |
-| [Line 168](../../../caster_user_content/util/app_switcher.py#L168) | `"Running applications"` | Windows 11 taskbar toolbar name |
-| [Line 208](../../../caster_user_content/util/app_switcher.py#L208) | `-1` | `ASFW_ANY` constant |
-| [Line 237](../../../caster_user_content/util/app_switcher.py#L237) | `0.3` | Standard focus verification timeout |
-| [Line 257](../../../caster_user_content/util/app_switcher.py#L257) | `0x12` | `VK_MENU` (Alt key) |
-| [Line 259](../../../caster_user_content/util/app_switcher.py#L259) | `0xFF` | `VK_NONE` (dummy key) |
-| [Line 269](../../../caster_user_content/util/app_switcher.py#L269) | `0.5` | OS bypass verification timeout |
-| [Line 354](../../../caster_user_content/util/app_switcher.py#L354) | `50` | Maximum tab cycle attempts |
-| [Line 362](../../../caster_user_content/util/app_switcher.py#L362) | `0.1` | Tab cycle sleep interval |
-| [Line 429](../../../caster_user_content/util/app_switcher.py#L429) | `1.0` | Tier 2 verification timeout |
-| [Line 454](../../../caster_user_content/util/app_switcher.py#L454) | `1.5` | Tier 3 verification timeout |
+| [Line 129](../../caster_user_content/util/app_switcher.py#L129) | `"Program Manager"`, `"Windows Input Experience"`, `"OmApSvcBroker"` | Hardcoded window title blacklist |
+| [Line 168](../../caster_user_content/util/app_switcher.py#L168) | `"Running applications"` | Windows 11 taskbar toolbar name |
+| [Line 208](../../caster_user_content/util/app_switcher.py#L208) | `-1` | `ASFW_ANY` constant |
+| [Line 237](../../caster_user_content/util/app_switcher.py#L237) | `0.3` | Standard focus verification timeout |
+| [Line 257](../../caster_user_content/util/app_switcher.py#L257) | `0x12` | `VK_MENU` (Alt key) |
+| [Line 259](../../caster_user_content/util/app_switcher.py#L259) | `0xFF` | `VK_NONE` (dummy key) |
+| [Line 269](../../caster_user_content/util/app_switcher.py#L269) | `0.5` | OS bypass verification timeout |
+| [Line 354](../../caster_user_content/util/app_switcher.py#L354) | `50` | Maximum tab cycle attempts |
+| [Line 362](../../caster_user_content/util/app_switcher.py#L362) | `0.1` | Tab cycle sleep interval |
+| [Line 429](../../caster_user_content/util/app_switcher.py#L429) | `1.0` | Tier 2 verification timeout |
+| [Line 454](../../caster_user_content/util/app_switcher.py#L454) | `1.5` | Tier 3 verification timeout |
 
 Not a single named constant. Good luck figuring out why the Tier 1 timeout is `0.3`, Tier 2 is `1.0`, and Tier 3 is `1.5` without reading the surrounding context.
 

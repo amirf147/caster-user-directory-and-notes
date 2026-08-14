@@ -41,35 +41,33 @@ When resolving conflicting information within this repository, adhere to the fol
 
 | Feature / Component | Code Location | Canonical Documentation | Maturity |
 | :--- | :--- | :--- | :--- |
-| **Global Rules** | `caster_user_content/rules/global/` | - | Stable |
+| **Global Rules** | `caster_user_content/rules/global/` | - | Stable / Production |
 | **App-Specific Rules** | `caster_user_content/rules/apps/` | - | Evolving |
-| **App Switcher** | `caster_user_content/util/app_switcher.py` | `docs/features/window-management.md` (Planned) | Legacy / Redesigning |
-| **Wayfinder (Micro MCP)** | `experiments/mcp/` (Planned) | `docs/research/wayfinder/` | Exploratory |
+| **App Switcher & Window Focus** | `caster_user_content/util/app_switcher.py` | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production |
+| **Foot Pedal Integration** | `caster_user_content/util/foot_pedal.py` | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
+| **LexiconCode Dynamic Window Switching** | `caster_user_content/rules/global/window_switching.py` | [`docs/features/lexicon_code_window_switching_functionality.md`](../features/lexicon_code_window_switching_functionality.md) | Evaluating / Active |
+| **Numeric CCR Integration** | `caster_user_content/rules/global/numeric.py` | [`docs/features/number-series-ccr-analysis.md`](../features/number-series-ccr-analysis.md) | Active / Production |
 
-## 4. Current Facts & Architecture: Window Management (Wayfinder)
+## 4. Current Facts & Architecture: Window Management & UIA Research
 
-The Wayfinder initiative investigates dependable Windows window management, tab discovery, and element actions for Caster.
+Findings and operational facts synthesized from empirical stress testing and the Wayfinder research session on Windows UI Automation (UIA) and COM apartment threading:
 
-**Current Facts regarding App Switching & Deadlocks:**
-- This is an exploration and potential architectural improvement, **not an emergency fix for a proven COM deadlock**.
-- The only observed hard "freezes" have been traced to PowerShell QuickEdit pausing `stdout` while the app switcher tried to log.
-- A Python COM deadlock is **not proven**. Do not reintroduce the disproven causal chain "PowerShell/QuickEdit freeze = Python COM deadlock."
-- `win32gui.GetForegroundWindow()` is the preferred lightweight way to read the active HWND. Avoid UIA active-window traversal when only the HWND is needed.
-- A measured 10.44-second switch delay occurred before target resolution, not during a successful focus attempt (which took ~201 ms).
-- Browser tabs are not top-level windows. A design based only on `EnumWindows` and fuzzy title matching cannot locate a background tab reliably.
+**Empirical Facts regarding App Switching & Threading:**
+- Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using Win32 focus APIs with an OS bypass fallback (`AttachThreadInput` + Alt key injection) to overcome Windows foreground locks.
+- The only observed hard "freezes" during testing were traced to Windows PowerShell QuickEdit mode pausing console `stdout` when Caster attempted to log messages.
+- A Python COM deadlock is **disproven/unsupported** by empirical logs. Do not reintroduce the disproven causal chain "PowerShell/QuickEdit freeze = Python COM deadlock."
+- `win32gui.GetForegroundWindow()` is the preferred lightweight way to read the active HWND. Avoid heavy UIA active-window traversal when only the HWND is needed.
+- A measured 10.44-second switch delay occurred during window title resolution, not during a successful focus attempt (which took ~201 ms).
+- Browser tabs are not top-level windows; tab switching is handled via hotkey cycling (`Ctrl+Tab`, `Ctrl+PgDn`).
 
-**Decided Direction (Wayfinder):**
-- The current direction is an **experimental C#/.NET Micro MCP Server** using **FlaUI.UIA3**.
-- It exposes a small set of macro-level capabilities (window discovery/focus, tab discovery, element action) to Caster via JSON-RPC/MCP over local `stdio`.
-- Keep COM objects and UIA event handling inside the C# process. Do not send COM proxies across threads or into Python; return serialized snapshots only.
-- The runtime voice path must be deterministic and use one pre-planned tool call, not LLM exploration.
-- Make the server stateless for the MVP. Aliases and rule-specific tab hotkey knowledge remain client-side.
-
-**Unresolved Questions (Do not silently decide):**
-- The final transport for potential simultaneous Caster and LLM clients (`stdio` versus named pipes/local HTTP).
-- The exact tool schemas and the Caster process-lifecycle owner.
-- The final server name and whether it eventually grows into a broader accessibility server.
-- Virtual-desktop manipulation and taskbar-UIA fallback (deferred from MVP).
+**Exploratory Research & Prototypes (Wayfinder Session):**
+- Wayfinder was an AI agent research session investigating whether an out-of-process C#/.NET Micro MCP Server using FlaUI.UIA3 could offload accessibility and UIA queries.
+- The tickets and findings are archived in [`docs/wayfinder-uia-threading/`](../wayfinder-uia-threading/map.md).
+- If an external accessibility server is explored in the future:
+  - It must remain an isolated process communicating over local `stdio` or named pipes without blocking the core speech recognition engine.
+  - COM objects and UIA event handling remain inside the external process; return serialized snapshots only.
+  - The runtime voice path must be deterministic and use one pre-planned tool call, not open-ended LLM exploration loops.
+  - The client must own process lifecycle and always terminate/await child processes in `try`/`finally`.
 
 ## 5. Local Configuration Contract
 

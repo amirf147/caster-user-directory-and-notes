@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../../README.md) › [ 📁 Archive / App Switcher ](../../README.md#prompts--legacy-notes) › **AppSwitcher Focus Analysis**
+[ 🏠 Docs Home ](../README.md) › [ 🏗️ Architecture ](../README.md#architecture) › **AppSwitcher Focus Analysis**
 
 ---
 
@@ -28,13 +28,13 @@ This analysis is specifically based on a known stress-test scenario: a Windows E
 
 ## The WindowsOSAdapter Class (`os_env`)
 
-In your custom AppSwitcher implementation, the `WindowsOSAdapter` class (instantiated as `os_env` at [`app_switcher.py#L312`](../../../caster_user_content/util/app_switcher.py#L312)) is an adapter layer that encapsulates all direct calls to Windows OS-level APIs (such as `win32gui`, `win32process`, `pywinauto`, and `pyvda`). This design separates platform-specific window and desktop querying from the core AppSwitcher routing logic, making it easier to maintain, mock, and test.
+In your custom AppSwitcher implementation, the `WindowsOSAdapter` class (instantiated as `os_env` at [`app_switcher.py#L312`](../../caster_user_content/util/app_switcher.py#L312)) is an adapter layer that encapsulates all direct calls to Windows OS-level APIs (such as `win32gui`, `win32process`, `pywinauto`, and `pyvda`). This design separates platform-specific window and desktop querying from the core AppSwitcher routing logic, making it easier to maintain, mock, and test.
 
 ## Log Breakdown: Step-by-Step
 
 Here is a step-by-step analysis of the provided log output after an `explorer.exe` restart (a scenario that strictly enforces foreground locks):
 
-1. **Window Enumeration & Workspace Checking** ([`switch_to_app`, L412-L424](../../../caster_user_content/util/app_switcher.py#L412-L424)):
+1. **Window Enumeration & Workspace Checking** ([`switch_to_app`, L412-L424](../../caster_user_content/util/app_switcher.py#L412-L424)):
    The script first identifies all open instances of the target application (Waterfox). For each window, it queries the `AppView` to get the Virtual Desktop ID. It identifies that HWND `66688` is located on the current desktop.
    
    **Relevant Code from `app_switcher.py`:**
@@ -55,7 +55,7 @@ Here is a step-by-step analysis of the provided log output after an `explorer.ex
                matching_windows.append((hwnd, title_text))
    ```
    
-2. **Tier 1 - Standard Focus Attempt** ([`restore_and_focus`, L245-L255](../../../caster_user_content/util/app_switcher.py#L245-L255)):
+2. **Tier 1 - Standard Focus Attempt** ([`restore_and_focus`, L245-L255](../../caster_user_content/util/app_switcher.py#L245-L255)):
    ```
    [15:50:07.422] [AppSwitcher:INFO] Tier 1: Attempting restore_and_focus for HWND 66688...
    [15:50:07.561] [AppSwitcher:ERROR] Tier 1 standard Pywinauto focus failed: (0, 'SetForegroundWindow', 'No error message is available')
@@ -78,7 +78,7 @@ Here is a step-by-step analysis of the provided log output after an `explorer.ex
        _log("ERROR", f"Tier 1 standard Pywinauto focus failed: {e}")
    ```
 
-3. **Focus Verification** ([`restore_and_focus`, L258-L261](../../../caster_user_content/util/app_switcher.py#L258-L261)):
+3. **Focus Verification** ([`restore_and_focus`, L258-L261](../../caster_user_content/util/app_switcher.py#L258-L261)):
    ```
    [15:50:07.873] [AppSwitcher:INFO] Tier 1 focus verified=False for HWND 66688 in 309.06ms
    ```
@@ -93,7 +93,7 @@ Here is a step-by-step analysis of the provided log output after an `explorer.ex
    _log("INFO", f"Tier 1 focus verified={verified} for HWND {handle} in {elapsed:.2f}ms")
    ```
 
-4. **The Fallback (Thread Attachment + Alt-Key Bypass)** ([`restore_and_focus`, L266-L289](../../../caster_user_content/util/app_switcher.py#L266-L289)):
+4. **The Fallback (Thread Attachment + Alt-Key Bypass)** ([`restore_and_focus`, L266-L289](../../caster_user_content/util/app_switcher.py#L266-L289)):
    ```
    Standard focus failed or blocked. Attempting Thread Attachment and Alt-key bypass...
    [15:50:07.909] [AppSwitcher:INFO] Tier 1: Successfully focused 'cathrynlavery...'
@@ -197,7 +197,7 @@ So, after the "Control Key" dummy press attempts to trick the OS into dropping t
 
 ### 2. AppSwitcher's `AttachThreadInput` Bypass
 
-Your custom `restore_and_focus` function uses a more robust approach: [caster_user_content/util/app_switcher.py#L266-L289](../../../caster_user_content/util/app_switcher.py#L266-L289).
+Your custom `restore_and_focus` function uses a more robust approach: [caster_user_content/util/app_switcher.py#L266-L289](../../caster_user_content/util/app_switcher.py#L266-L289).
 
 Windows has a security feature called `LockSetForegroundWindow` to prevent background applications from suddenly stealing focus. To bypass this, the AppSwitcher script employs a classic Win32 hack:
 

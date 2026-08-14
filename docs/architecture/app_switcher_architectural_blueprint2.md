@@ -1,10 +1,10 @@
-[ 🏠 Docs Home ](../../README.md) › [ 📁 Archive / App Switcher ](../../README.md#prompts--legacy-notes) › **Architectural Blueprint v2: `util/app_switcher.py`**
+[ 🏠 Docs Home ](../README.md) › [ 🏗️ Architecture ](../README.md#architecture) › **Architectural Blueprint v2: `util/app_switcher.py`**
 
 ---
 
 # Architectural Blueprint v2: `util/app_switcher.py`
 
-This document presents a deep architectural analysis of [app_switcher.py](../../../caster_user_content/util/app_switcher.py), the voice-driven window switching and desktop focus management module for the Caster/Dragonfly speech recognition framework.
+This document presents a deep architectural analysis of [app_switcher.py](../../caster_user_content/util/app_switcher.py), the voice-driven window switching and desktop focus management module for the Caster/Dragonfly speech recognition framework.
 
 > [!NOTE]
 > **v2 corrections from v1**: Fixed state diagram conflating `switch_to_alias` (single-tier + fallback) with `switch_to_app` (3-tier system). Corrected alias pruning attribution. Added missing OSAdapter methods. Fixed dependency arrows. Ensured all Mermaid labels are double-quoted.
@@ -17,21 +17,21 @@ This document presents a deep architectural analysis of [app_switcher.py](../../
 
 The module is organized into five distinct architectural layers:
 
-1. **Platform Abstraction Layer** — [WindowsOSAdapter](../../../caster_user_content/util/app_switcher.py#L116-L284) encapsulates all raw OS calls (`win32gui`, `win32process`, `win32api`, `ctypes`), dual pywinauto `Desktop` backends (UIA + Win32), and optional virtual desktop tracking via `pyvda`. This class contains **9 methods** including the critical [restore_and_focus](../../../caster_user_content/util/app_switcher.py#L204-L269) method with its 2-phase focus algorithm.
+1. **Platform Abstraction Layer** — [WindowsOSAdapter](../../caster_user_content/util/app_switcher.py#L116-L284) encapsulates all raw OS calls (`win32gui`, `win32process`, `win32api`, `ctypes`), dual pywinauto `Desktop` backends (UIA + Win32), and optional virtual desktop tracking via `pyvda`. This class contains **9 methods** including the critical [restore_and_focus](../../caster_user_content/util/app_switcher.py#L204-L269) method with its 2-phase focus algorithm.
 
-2. **Data Contracts** — Two `NamedTuple` classes ([WindowInfo](../../../caster_user_content/util/app_switcher.py#L35-L39), [TaskbarItem](../../../caster_user_content/util/app_switcher.py#L42-L47)) provide immutable snapshots of window state and taskbar UI elements.
+2. **Data Contracts** — Two `NamedTuple` classes ([WindowInfo](../../caster_user_content/util/app_switcher.py#L35-L39), [TaskbarItem](../../caster_user_content/util/app_switcher.py#L42-L47)) provide immutable snapshots of window state and taskbar UI elements.
 
-3. **Persistence Layer** — The [aliases](../../../caster_user_content/util/app_switcher.py#L55) global dictionary is serialized to/from [window_aliases.json](../../../caster_user_content/util/app_switcher.py#L52) via [load_aliases](../../../caster_user_content/util/app_switcher.py#L58-L69) and [save_aliases](../../../caster_user_content/util/app_switcher.py#L72-L79). `load_aliases()` is called eagerly at [module import time (line 82)](../../../caster_user_content/util/app_switcher.py#L82).
+3. **Persistence Layer** — The [aliases](../../caster_user_content/util/app_switcher.py#L55) global dictionary is serialized to/from [window_aliases.json](../../caster_user_content/util/app_switcher.py#L52) via [load_aliases](../../caster_user_content/util/app_switcher.py#L58-L69) and [save_aliases](../../caster_user_content/util/app_switcher.py#L72-L79). `load_aliases()` is called eagerly at [module import time (line 82)](../../caster_user_content/util/app_switcher.py#L82).
 
 4. **Public Command APIs** — Six voice-callable entry points: `set_window`, `set_page`, `clear_alias`, `clear_all_aliases`, `switch_to_app`, `switch_to_alias`, `title`, and the debug utility `show_window_info`.
 
-5. **Domain Logic Utilities** — Module-level helpers: [extract_app_name](../../../caster_user_content/util/app_switcher.py#L85-L105), [get_window_type](../../../caster_user_content/util/app_switcher.py#L300-L305), [find_tab](../../../caster_user_content/util/app_switcher.py#L351-L366), [verify_focus](../../../caster_user_content/util/app_switcher.py#L290-L297), and [extract_total_instances](../../../caster_user_content/util/app_switcher.py#L108-L113).
+5. **Domain Logic Utilities** — Module-level helpers: [extract_app_name](../../caster_user_content/util/app_switcher.py#L85-L105), [get_window_type](../../caster_user_content/util/app_switcher.py#L300-L305), [find_tab](../../caster_user_content/util/app_switcher.py#L351-L366), [verify_focus](../../caster_user_content/util/app_switcher.py#L290-L297), and [extract_total_instances](../../caster_user_content/util/app_switcher.py#L108-L113).
 
 #### Architectural Insights & Coupling
 
 - **Tight OS Coupling**: Direct dependency on Windows binaries via `ctypes.windll.user32` and `win32gui`. This module is Windows-only by design.
-- **Graceful Degradation**: `pyvda` is optionally imported with a try-except guard ([lines 20-26](../../../caster_user_content/util/app_switcher.py#L20-L26)). When unavailable, virtual desktop filtering is silently skipped.
-- **Module-Level Singleton**: `os_env = WindowsOSAdapter()` is instantiated at [line 287](../../../caster_user_content/util/app_switcher.py#L287) during module load, making it a process-wide singleton.
+- **Graceful Degradation**: `pyvda` is optionally imported with a try-except guard ([lines 20-26](../../caster_user_content/util/app_switcher.py#L20-L26)). When unavailable, virtual desktop filtering is silently skipped.
+- **Module-Level Singleton**: `os_env = WindowsOSAdapter()` is instantiated at [line 287](../../caster_user_content/util/app_switcher.py#L287) during module load, making it a process-wide singleton.
 - **Two Distinct Switching Strategies**: `switch_to_app` uses a 3-tier failsafe system. `switch_to_alias` uses `restore_and_focus` directly, falling back to `switch_to_app` only if that fails. These are separate code paths, not one unified pipeline.
 
 ### Structural Diagram
@@ -326,7 +326,7 @@ stateDiagram-v2
 
 ### Analytical Summary
 
-This sequence traces the full runtime execution of [switch_to_app](../../../caster_user_content/util/app_switcher.py#L376-L463), the primary 3-tier failsafe window switching function. This is the most complex execution path in the module and is also the fallback target for `switch_to_alias`.
+This sequence traces the full runtime execution of [switch_to_app](../../caster_user_content/util/app_switcher.py#L376-L463), the primary 3-tier failsafe window switching function. This is the most complex execution path in the module and is also the fallback target for `switch_to_alias`.
 
 #### Invocation Chain
 

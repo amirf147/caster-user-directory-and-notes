@@ -23,6 +23,10 @@ High-level design documents, threading models, and Architecture Decision Records
 * [ADR 001: Background Worker Pool](architecture/ADR_001_Background_Worker_Pool.md) *(Deprecated: See Wayfinder UIA Server)*
 * [Dragonfly Foreground Focus Breakdown](architecture/dragonfly_foreground_focus_breakdown.md)
 * [Speech Stack Thread Architecture & Diagnostic Report](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)
+* [App Switcher Architectural Blueprint v1](architecture/app_switcher_architectural_blueprint.md)
+* [App Switcher Architectural Blueprint v2](architecture/app_switcher_architectural_blueprint2.md)
+* [App Switcher Code Review & Refactoring Guide](architecture/app_switcher_code_review.md)
+* [App Switcher Focus Analysis](architecture/app_switcher_focus_analysis.md)
 
 ### 🧠 [Context](context/)
 Living repository memory and foundational state.
@@ -36,6 +40,7 @@ Feature specifications, implementation notes, and voice workflows.
 * [Antigravity Editor Insights](features/antigravity_editor_insights.md)
 * [Lexicon Code Window Switching Functionality](features/lexicon_code_window_switching_functionality.md)
 * [Lexicon PR 881 Feedback](features/lexicon_pr_881_feedback.md)
+* [Number Series CCR Analysis](features/number-series-ccr-analysis.md)
 
 ### 🔬 [Framework Explainers](framework_explainers/)
 Educational breakdowns of underlying voice engines and Dragonfly internals.
@@ -58,7 +63,7 @@ Bug post-mortems, crash logs, and diagnostic runbooks.
 * [Fix Comparison](troubleshooting/Fix_Comparison.md)
 
 ### 🧭 [Wayfinder UIA & Threading Research](wayfinder-uia-threading/)
-Consolidated research and ticket archive from the Wayfinder investigation into Windows UI Automation and thread models.
+Consolidated research session archive from the Wayfinder investigation into Windows UI Automation, COM apartment threading models, and `app_switcher.py` hang mechanisms.
 * [Wayfinder Map](wayfinder-uia-threading/map.md)
 * [Claude Critique & Verified Takeaways](wayfinder-uia-threading/claude-critique-verified-takeaways.md)
 * [Codex Context Extract](wayfinder-uia-threading/codex-context-extract.md)
@@ -71,7 +76,6 @@ Engine-specific static analysis and low-level anatomy.
 ### 📝 [Prompts](prompts/) & 🗄️ [Legacy Notes](legacy_notes/)
 * [Architecture Onboarding Prompt](prompts/Architecture-OnBoarding.md)
 * [Legacy Notes Index](legacy_notes/) (`ideas.md`, `ace-space-transform.md`, `caster-study-notes.md`, `runcommand-system-settings.md`)
-* [Superseded Archive](archive/)
 
 ---
 
