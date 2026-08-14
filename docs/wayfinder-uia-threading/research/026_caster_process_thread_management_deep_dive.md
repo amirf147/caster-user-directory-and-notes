@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 026 Deep Dive: Caster Process and Thread...**
+
+---
+
 # Ticket 026 Deep Dive: Caster Process and Thread Management
 
 This document provides a definitive, evidence-based analysis of how the Caster repository handles threads, processes, and concurrency, specifically regarding its integration with Dragonfly's synchronous engine loop.

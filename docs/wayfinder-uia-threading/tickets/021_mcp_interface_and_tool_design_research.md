@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 021: Design the MCP Server Interface (To...**
+
+---
+
 # Ticket 021: Design the MCP Server Interface (Tools vs Fallbacks)
 
 **Type**: `wayfinder:research` (Communication & Architecture)

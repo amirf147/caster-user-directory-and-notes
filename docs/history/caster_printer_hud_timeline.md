@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 History ](../README.md#history) › **Caster Printer & HUD Architectural Timeline**
+
+---
+
 # Caster Printer & HUD Architectural Timeline
 
 This document provides a historical breakdown of Caster's status messaging evolution—from the legacy pre-1.0 WxPython messaging window (`utilities.get_caster_messaging_window()`) to modern centralized printing (`castervoice.lib.printer`) and the asynchronous Heads Up Display (**Caster HUD**).

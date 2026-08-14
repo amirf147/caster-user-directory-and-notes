@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Legacy Notes ](../README.md#prompts--legacy-notes) › **Ideas Emerging From This Caster Journey**
+
+---
+
 # Ideas Emerging From This Caster Journey
 
 This is an ongoing brainstorming document for architectural concepts, modular components, and "accessibility primitives" that could be abstracted out of this repository for broader use in automating desktop and web flows.

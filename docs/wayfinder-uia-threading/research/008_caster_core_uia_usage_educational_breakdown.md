@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Caster Core Engine UIA Usage (Educational Break...**
+
+---
+
 # Caster Core Engine UIA Usage (Educational Breakdown)
 
 This document explores whether the `Caster` core source repository implements any hidden UIA, threading management, or advanced focus handling that differs from what we found in the Caster User Directory (`caster_user_content`).

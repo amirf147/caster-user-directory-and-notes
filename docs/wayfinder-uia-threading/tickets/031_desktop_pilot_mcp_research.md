@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 031: Evaluate Desktop Pilot MCP (C# Impl...**
+
+---
+
 # Ticket 031: Evaluate Desktop Pilot MCP (C# Implementation)
 
 **Type**: `wayfinder:research` (Investigation & Analysis)

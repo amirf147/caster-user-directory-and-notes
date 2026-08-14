@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: dtactions UIA Architecture**
+
+---
+
 # Educational Breakdown: dtactions UIA Architecture
 
 This document explores the architecture of the `dtactions` repository regarding its implementation of UI Automation (UIA) and COM threading models.

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Dragonfly Accessibility and Focus Strategy (Edu...**
+
+---
+
 # Dragonfly Accessibility and Focus Strategy (Educational Breakdown)
 
 This document explores how the `dragonfly` core engine handles accessibility (UIA, IA2) and window focus management on Windows. This research directly informs our decisions for building a safe, non-blocking UIA Server.

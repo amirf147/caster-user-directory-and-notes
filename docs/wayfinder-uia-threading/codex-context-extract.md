@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Wayfinder ](../README.md#wayfinder-uia--threading-research) › **Wayfinder: Agent Context Extract**
+
+---
+
 # Wayfinder: Agent Context Extract
 
 **Purpose:** a concise, evidence-aware project memory for agents working on the Wayfinder window-management/UIA work. It distils the 71 files in this directory (the map, 38 ticket trackers, and 32 research breakdowns) into durable context. Use it as a source for `context.md`; do not treat open-ticket questions or superseded hypotheses as decisions.

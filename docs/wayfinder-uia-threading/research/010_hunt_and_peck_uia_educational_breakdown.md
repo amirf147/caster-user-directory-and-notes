@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Hunt and Peck: UIA Educational Breakdown**
+
+---
+
 # Hunt and Peck: UIA Educational Breakdown
 
 This document provides a detailed architectural breakdown of the **Hunt and Peck** codebase, specifically focusing on its approach to Windows UI Automation (UIA), COM threading, window focus mechanisms, and fallback strategies.

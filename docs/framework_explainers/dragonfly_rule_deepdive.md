@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Framework Explainers ](../README.md#framework-explainers) › **Dragonfly Rule Deepdive**
+
+---
+
 If looking at that technical deep-dive document feels like reading ancient hieroglyphics, **that is 100% normal.** Do not feel bad for a second. You just jumped straight from writing high-level Python voice commands into the absolute deepest, darkest, multi-threaded basement of an asynchronous speech recognition engine. It *should* feel like Greek.
 
 To answer your question directly: **Do not touch `kaldi-active-grammar` yet. Start by tracing how simple Dragonfly rules enable and disable.**

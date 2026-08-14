@@ -1,7 +1,11 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Architecture ](../README.md#architecture) › **Architecture Decision Record: Background Worker...**
+
+---
+
 # Architecture Decision Record: Background Worker Pool for Speech Tasks
 
 > [!WARNING]
-> **DEPRECATED**: This ADR was produced during an initial grilling session and has been deprecated. Generic thread pools violate Microsoft UIA COM (STA/MTA) threading constraints and cause hangs/crashes. We have pivoted to the Wayfinder methodology to architect a dedicated UIA Server instead. See [Wayfinder Map](wayfinder/map.md).
+> **DEPRECATED**: This ADR was produced during an initial grilling session and has been deprecated. Generic thread pools violate Microsoft UIA COM (STA/MTA) threading constraints and cause hangs/crashes. We have pivoted to the Wayfinder methodology to architect a dedicated UIA Server instead. See [Wayfinder Map](../wayfinder-uia-threading/map.md).
 
 ## Context
 The Caster and Dragonfly speech recognition stack operates on a single-threaded, synchronous execution model. When user rules execute blocking operations—such as `time.sleep()` loops in `app_switcher.py` or synchronous Microsoft UI Automation (UIA) COM calls in `text_editing.py`—the main speech thread completely freezes. This causes microphone audio to build up in a background queue, resulting in a rapid-fire surge of delayed voice commands once the blocking call finishes (or is interrupted by `Ctrl+C`).

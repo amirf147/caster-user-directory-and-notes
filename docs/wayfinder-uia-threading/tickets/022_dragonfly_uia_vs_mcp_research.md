@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 022: Evaluate Fixing Dragonfly's UIA vs ...**
+
+---
+
 # Ticket 022: Evaluate Fixing Dragonfly's UIA vs Adopting External MCP Architecture
 
 **Type**: `wayfinder:research` (Architecture & Community Proposal)

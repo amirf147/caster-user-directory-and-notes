@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 032 Deep Dive: Desktop Pilot MCP Integra...**
+
+---
+
 # Ticket 032 Deep Dive: Desktop Pilot MCP Integration Test Findings & Benchmark Results
 
 This document records the empirical results from executing the integration test (`test_desktop_pilot_mcp_standalone.py`) against `desktop-pilot-mcp` (C# implementation).
@@ -80,7 +84,7 @@ Switching tabs in browsers (Waterfox, Chrome, Firefox) does not involve switchin
 During test script development and server optimization, the following technical enhancements were implemented:
 
 1. **Direct `WinAppMCP.exe` Invocation**:
-   - Replaced `dotnet run --project ...` with direct invocation of pre-compiled `WinAppMCP.exe` in [test_desktop_pilot_mcp_standalone.py](../../caster_user_content/rules/global/test_desktop_pilot_mcp_standalone.py#L53-L56).
+   - Replaced `dotnet run --project ...` with direct invocation of pre-compiled `WinAppMCP.exe` in [test_desktop_pilot_mcp_standalone.py](../../../caster_user_content/rules/global/test_desktop_pilot_mcp_standalone.py#L53-L56).
    - **Result**: Cold startup latency dropped from **9,841 ms** to **232.22 ms** (a ~97.6% latency reduction).
 
 2. **Win32 `EnumWindows` & `GetWindowTextW` P/Invoke Fix**:

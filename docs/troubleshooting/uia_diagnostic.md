@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Uia Diagnostic**
+
+---
+
 ## UIA Testing & Engine Troglyte Status Report
 
 ### 1. Established Facts
@@ -6,7 +10,7 @@
 * **The Crash Symptom:** The environment frequently encounters a fatal `KaldiError: Cannot use a KaldiRule after calling destroy()` crash, preceded by a `prepare_for_recognition ignored while in phrase` warning.
 * **Isolating the Trigger:**
     * The crash is consistently reproducible when using **native voice commands** to alter the microphone state (e.g., saying *"caster sleep"* or *"caster on"*).
-    * The crash **does not occur** when toggling the microphone sleep/wake state using the [external foot pedal setup](foot_pedal.md), which routes the command via an XML-RPC thread and an engine timer loop.
+    * The crash **does not occur** when toggling the microphone sleep/wake state using the [external foot pedal setup](../features/foot_pedal.md), which routes the command via an XML-RPC thread and an engine timer loop.
     * The error persists even when the custom diagnostic script is completely removed from the rules folder, indicating the instability exists natively within the development environment setup.
 * **Root Cause Discovered (July 2026):**
     * When `Mimic("caster sleep")` or `"stop listening"` is called within a phrase, it triggers a grammar unload and load sequence before the phrase has completed (`self._in_phrase` is True).

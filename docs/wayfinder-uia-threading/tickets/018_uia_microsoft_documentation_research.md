@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 018: Research UIAutomation Microsoft Doc...**
+
+---
+
 # Ticket 018: Research UIAutomation Microsoft Documentation
 
 **Type**: `wayfinder:research` (AFK)

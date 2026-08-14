@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Kaldi Engine ](../README.md#kaldi-engine) › **Kaldi Engine Static Anatomy**
+
+---
+
 Welcome to Phase 1 (Revision A). As your Principal Systems Architect, my goal is to guide you to mastery over the `dragonfly/engines/backend_kaldi/engine.py` architecture. We will dissect the streaming engine one layer at a time, deeply analyzing how data flows and how state is preserved under the pressure of real-time audio.
 
 Here is the architectural data flow map. Study how the audio physically moves through the loops and how mutations are safely deferred before we dive into the component groups below.

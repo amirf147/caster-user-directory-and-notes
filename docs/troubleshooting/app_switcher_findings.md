@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **App Switcher Findings**
+
+---
+
 # App Switcher Findings
 
 ## Issue: Windows PowerShell (Caster Status Window) Not Found

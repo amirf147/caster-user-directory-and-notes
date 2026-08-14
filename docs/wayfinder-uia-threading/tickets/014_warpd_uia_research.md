@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 014: Research warpd UIA Architecture**
+
+---
+
 # Ticket 014: Research warpd UIA Architecture
 
 **Type**: `wayfinder:research` (AFK)

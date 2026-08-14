@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Research: FlaUI.UIA3 Implementation Patterns & ...**
+
+---
+
 # Research: FlaUI.UIA3 Implementation Patterns & Best Practices
 
 **Ticket:** 037

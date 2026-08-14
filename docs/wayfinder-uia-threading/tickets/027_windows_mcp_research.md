@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 027: Research Windows-MCP Repository**
+
+---
+
 # Ticket 027: Research Windows-MCP Repository
 
 **Type**: `wayfinder:research` (Deep Dive / Architectural Evaluation)

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 031 Deep Dive: Desktop Pilot MCP (C# Imp...**
+
+---
+
 # Ticket 031 Deep Dive: Desktop Pilot MCP (C# Implementation)
 
 This document contains the findings from investigating the `desktop-pilot-mcp` repository to determine its viability as a replacement for the flawed Python `Windows-MCP` server.

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: Model Context Protocol (...**
+
+---
+
 # Educational Breakdown: Model Context Protocol (MCP) vs. XML-RPC
 
 This document provides a foundational overview of the Model Context Protocol (MCP) and compares it against the XML-RPC IPC bridge currently used by the Caster foot pedal. This context is essential before evaluating the `uiautomation-mcp` codebase.

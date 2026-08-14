@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 033: Re-Evaluate UIA Architecture Trajec...**
+
+---
+
 # Ticket 033: Re-Evaluate UIA Architecture Trajectory (Voice vs. LLM)
 
 **Type**: `wayfinder:research` (Retrospective & Alignment)

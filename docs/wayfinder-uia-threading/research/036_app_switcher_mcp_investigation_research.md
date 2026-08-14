@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Research: App Switcher MCP Investigation & Tool...**
+
+---
+
 # Research: App Switcher MCP Investigation & Tool Design
 
 **Ticket:** 036

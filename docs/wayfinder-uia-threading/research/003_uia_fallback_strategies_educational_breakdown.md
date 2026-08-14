@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **UIA Fallback Strategies: NVDA and Terminator**
+
+---
+
 # UIA Fallback Strategies: NVDA and Terminator
 
 Microsoft UI Automation (UIA) is powerful, but many applications (especially older Win32 apps, custom-rendered electron apps, or video games) do not properly expose their UI elements to the UIA tree. When UIA fails, screen readers and automation agents need fallbacks.

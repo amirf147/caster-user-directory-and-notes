@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: `warpd` Windows UI Autom...**
+
+---
+
 # Educational Breakdown: `warpd` Windows UI Automation & Threading Model
 
 ## Executive Summary

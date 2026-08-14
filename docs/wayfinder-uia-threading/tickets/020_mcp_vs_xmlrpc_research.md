@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 020: Research MCP Server Internals vs. X...**
+
+---
+
 # Ticket 020: Research MCP Server Internals vs. XML-RPC
 
 **Type**: `wayfinder:research` (AFK)

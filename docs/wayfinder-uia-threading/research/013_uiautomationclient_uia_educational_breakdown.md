@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: UIAutomationClient**
+
+---
+
 # Educational Breakdown: UIAutomationClient
 
 ## 1. Executive Summary

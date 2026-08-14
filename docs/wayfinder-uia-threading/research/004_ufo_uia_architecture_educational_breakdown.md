@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **UFO UIA Architecture and Fallback Strategies**
+
+---
+
 # UFO UIA Architecture and Fallback Strategies
 
 This document provides a deep dive into how Microsoft's `ufo` repository (a UI automation agent framework) handles UI Automation (UIA) and fallback strategies.

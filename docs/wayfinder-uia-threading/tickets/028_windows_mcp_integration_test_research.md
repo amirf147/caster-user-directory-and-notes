@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 028: Windows-MCP Integration Test & Thre...**
+
+---
+
 # Ticket 028: Windows-MCP Integration Test & Threading Critique
 
 **Type**: `wayfinder:execution` (Prototyping & Testing)

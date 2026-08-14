@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: UIAutomation MCP Server ...**
+
+---
+
 # Educational Breakdown: UIAutomation MCP Server Architecture
 
 This document breaks down the architecture of the `uiautomation-mcp` repository (`uiautomation-mcp`) and why shifting to an MCP-based architecture could solve Caster's UIA deadlocks.

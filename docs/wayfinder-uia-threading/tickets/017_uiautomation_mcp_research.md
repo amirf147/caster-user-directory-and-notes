@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 017: Research UIAutomation MCP Server Ar...**
+
+---
+
 # Ticket 017: Research UIAutomation MCP Server Architecture
 
 **Type**: `wayfinder:research` (AFK)

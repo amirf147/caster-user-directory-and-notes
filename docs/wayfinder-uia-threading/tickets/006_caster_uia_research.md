@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 006: Research Caster User Directory's Cu...**
+
+---
+
 # Ticket 006: Research Caster User Directory's Current UIA Usage
 
 **Type**: `wayfinder:research` (AFK)

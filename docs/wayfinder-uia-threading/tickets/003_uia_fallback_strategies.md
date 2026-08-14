@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 003: Research UIA Fallback Strategies in...**
+
+---
+
 # Ticket 003: Research UIA Fallback Strategies in NVDA and Terminator
 
 **Type**: `wayfinder:research` (AFK)

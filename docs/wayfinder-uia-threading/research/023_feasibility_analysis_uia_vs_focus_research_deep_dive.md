@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 023 Deep Dive: Feasibility Analysis - UI...**
+
+---
+
 # Ticket 023 Deep Dive: Feasibility Analysis - UIA Performance vs Window Focus
 
 This document gathers the critical context requested in Ticket 023, specifically analyzing window focus failures, thread safety, and architecture scoping.

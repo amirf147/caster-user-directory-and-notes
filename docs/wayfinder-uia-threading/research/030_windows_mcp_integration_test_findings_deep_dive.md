@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 030 Deep Dive: Windows-MCP Integration T...**
+
+---
+
 # Ticket 030 Deep Dive: Windows-MCP Integration Test Findings
 
 This document contains the findings from investigating the issues discovered during the `Windows-MCP` persistent integration test (Ticket 030).

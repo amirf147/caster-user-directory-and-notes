@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 005: Research Dragonfly UIA and Threadin...**
+
+---
+
 # Ticket 005: Research Dragonfly UIA and Threading Architecture
 
 **Type**: `wayfinder:research` (AFK)

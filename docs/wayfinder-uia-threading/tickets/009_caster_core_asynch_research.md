@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 009: Research Caster Core Asynch Threadi...**
+
+---
+
 # Ticket 009: Research Caster Core Asynch Threading & UI Overlays
 
 **Type**: `wayfinder:research` (AFK)

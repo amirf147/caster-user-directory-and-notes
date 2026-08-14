@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 025: Dragonfly Process and Thread Manage...**
+
+---
+
 # Ticket 025: Dragonfly Process and Thread Management Deep Dive
 
 **Type**: `wayfinder:research` (Deep Dive / Definitive Analysis)

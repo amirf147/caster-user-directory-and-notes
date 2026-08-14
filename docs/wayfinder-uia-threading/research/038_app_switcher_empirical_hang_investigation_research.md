@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Empirical Investigation & Root Cause Analysis: ...**
+
+---
+
 # Empirical Investigation & Root Cause Analysis: App Switcher Delays & Freezes
 
 **Ticket:** 038  

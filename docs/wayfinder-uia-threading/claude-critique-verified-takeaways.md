@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Wayfinder ](../README.md#wayfinder-uia--threading-research) › **Wayfinder Corpus: Critical Reading & Verified T...**
+
+---
+
 # Wayfinder Corpus: Critical Reading & Verified Takeaways
 
 *A fact-checked distillation of the 71-file `wayfinder-uia-threading` research corpus (1 map + 38 tickets + 32 research breakdowns). Goal: keep what's actually load-bearing, flag what's confident-sounding but unconfirmed, and name the specific places the corpus's own text contradicts itself.*

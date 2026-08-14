@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 037: Research FlaUI.UIA3 Implementation ...**
+
+---
+
 # Ticket 037: Research FlaUI.UIA3 Implementation Patterns & Best Practices
 
 **Type:** `wayfinder:research` (Prototyping & Investigation)

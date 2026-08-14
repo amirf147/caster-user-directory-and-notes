@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Framework Explainers ](../README.md#framework-explainers) › **Understanding Dragonfly Dynamic Data Types: Dic...**
+
+---
+
 # Understanding Dragonfly Dynamic Data Types: DictList, Choice, and List
 
 In speech recognition grammar design using the Dragonfly framework, handling dynamic and static lists of words is a common requirement. When building a voice command like `"switch window to [name]"` or `"run application [app]"`, the grammar needs to know the possible options. 

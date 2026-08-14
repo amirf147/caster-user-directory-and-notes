@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Zero-Conflict Fixes: A Comparative Analysis**
+
+---
+
 # Zero-Conflict Fixes: A Comparative Analysis
 
 This document provides a comprehensive comparison between the two approaches developed to resolve the "zero conflict" bug in the Caster `numb` command. It details the structural differences, architectural implications, and the reasoning behind specific design choices.

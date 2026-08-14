@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Python-UIAutomation-for-Windows: Educational Br...**
+
+---
+
 # Python-UIAutomation-for-Windows: Educational Breakdown
 
 This document provides a detailed architectural breakdown of how the [Python-UIAutomation-for-Windows](https://github.com/yinkaisheng/Python-UIAutomation-for-Windows) library handles COM threading, window focus mechanisms, and UI Automation lifecycle management on Windows.

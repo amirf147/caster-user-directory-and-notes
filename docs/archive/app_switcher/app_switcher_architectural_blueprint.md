@@ -1,6 +1,10 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Archive / App Switcher ](../../README.md#prompts--legacy-notes) › **Architectural Blueprint: `util/app_switcher.py`**
+
+---
+
 # Architectural Blueprint: `util/app_switcher.py`
 
-This document presents a deep architectural analysis of [`app_switcher.py`](../caster_user_content/util/app_switcher.py), the low-level Windows desktop context manager and voice-driven window switching module for the Caster voice recognition framework extension.
+This document presents a deep architectural analysis of [`app_switcher.py`](../../../caster_user_content/util/app_switcher.py), the low-level Windows desktop context manager and voice-driven window switching module for the Caster voice recognition framework extension.
 
 ---
 

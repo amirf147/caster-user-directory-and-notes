@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 023: Context Gathering - Window Focus, R...**
+
+---
+
 # Ticket 023: Context Gathering - Window Focus, Reliability, and Accessibility Architecture
 
 **Type**: `wayfinder:research` (Context Gathering & Requirements)

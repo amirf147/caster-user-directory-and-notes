@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: uiautomation-mcp Evaluat...**
+
+---
+
 # Educational Breakdown: uiautomation-mcp Evaluation Against Microsoft Standards
 
 **Ticket**: 019

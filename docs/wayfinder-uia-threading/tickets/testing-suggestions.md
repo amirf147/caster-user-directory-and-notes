@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Testing-Suggestions**
+
+---
+
 Good — this is real code, not documentation-about-code, so I can actually reason about it directly instead of just weighing secondhand claims. Let me verify one technical piece (Dragonfly's testing support) before answering, since you explicitly asked me to research rather than guess.Short answer: yes, it can matter — but for more specific, more controllable reasons than "it's not real speech." Once you separate out *why* it matters, most of it turns into something you can pin down and test without speaking a word again.
 
 ## Does calling the functions directly differ from triggering them by voice?

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **NVDA UI Automation Threading: An Educational Br...**
+
+---
+
 # NVDA UI Automation Threading: An Educational Breakdown
 
 This document provides a deep dive into how NVDA (a professional, open-source Windows screen reader) handles Microsoft UI Automation (UIA) and Windows COM threading.

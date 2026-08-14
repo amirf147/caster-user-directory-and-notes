@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Virtual Desktop Switching Focus Bug**
+
+---
+
 # Virtual Desktop Switching Focus Bug
 
 ## Overview

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Caster User Directory UIA Usage (Educational Br...**
+
+---
+
 # Caster User Directory UIA Usage (Educational Breakdown)
 
 This document explores how the Caster User Directory (`caster_user_content`) currently utilizes Microsoft UI Automation (UIA) and accessibility APIs, and why this design leads to instability in the main voice engine.

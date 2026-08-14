@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 034: Determine Implementation Path for M...**
+
+---
+
 # Ticket 034: Determine Implementation Path for Micro Accessibility MCP Server
 
 **Type**: `wayfinder:research` (Planning & Architecture)

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: Re-evaluating the MCP Tr...**
+
+---
+
 # Educational Breakdown: Re-evaluating the MCP Trajectory (Ticket 033)
 
 This document captures a critical architectural pivot regarding how Caster should interact with Model Context Protocol (MCP) servers, distinguishing between "LLM Bloat" and being "LLM-Ready."

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Legacy Notes ](../README.md#prompts--legacy-notes) › **Notes**
+
+---
+
 # Notes
 As I learn to use this framework, I'll store some of my notes here.
 

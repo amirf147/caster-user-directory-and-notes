@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Dragonfly Kaldi Race Condition: Deep Dive**
+
+---
+
 # Dragonfly Kaldi Race Condition: Deep Dive
 
 This document answers the four critical questions regarding the internal memory structures, architectural design, and historical git forensics of the Kaldi engine race condition we recently discussed.

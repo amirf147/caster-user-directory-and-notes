@@ -1,4 +1,8 @@
-        # Generated with Windsurf Fast "Enter Instructions" feature, will need to check later
+[ 🏠 Docs Home ](../README.md) › [ 📁 Legacy Notes ](../README.md#prompts--legacy-notes) › **Runcommand-System-Settings**
+
+---
+
+# Generated with Windsurf Fast "Enter Instructions" feature, will need to check later
         # TODO: Check if these commands work
         # "show power settings":
         #     R(RunCommand("rundll32.exe shell32.dll,Control_RunDLL powercfg.cpl")),

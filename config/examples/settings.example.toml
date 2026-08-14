@@ -1,0 +1,7 @@
+# Example settings.toml file.
+# Copy this to settings/settings.toml to configure your local Caster instance.
+# DO NOT commit your personalized version to version control.
+
+[main]
+default_microphone = "Default"
+# Add your custom settings here...

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 013: Research UIAutomationClient Auxilia...**
+
+---
+
 # Ticket 013: Research UIAutomationClient Auxiliary DLL Architecture
 
 **Type**: `wayfinder:research` (AFK)

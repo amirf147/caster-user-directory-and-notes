@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 015: Research Integration with OS Access...**
+
+---
+
 # Ticket 015: Research Integration with OS Accessibility APIs (Issue #814)
 
 **Type**: `wayfinder:research` (AFK)

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 024: Research Summary and Maintainer Q&A...**
+
+---
+
 # Ticket 024: Research Summary and Maintainer Q&A Proposal
 
 **Type**: `wayfinder:research` (Community & Proposal)

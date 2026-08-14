@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 029: Execute Windows-MCP Integration Test**
+
+---
+
 # Ticket 029: Execute Windows-MCP Integration Test
 
 **Type**: `wayfinder:execution` (Coding & Testing)

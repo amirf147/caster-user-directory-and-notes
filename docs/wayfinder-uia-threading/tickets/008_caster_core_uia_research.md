@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 008: Research Caster Source Core UIA/Thr...**
+
+---
+
 # Ticket 008: Research Caster Source Core UIA/Threading Usage
 
 **Type**: `wayfinder:research` (AFK)

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 001: Research NVDA UIA Threading Archite...**
+
+---
+
 # Ticket 001: Research NVDA UIA Threading Architecture
 
 **Type**: `wayfinder:research` (AFK)

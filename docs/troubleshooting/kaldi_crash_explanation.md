@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Kaldi Engine Crash: Root Cause and Resolution**
+
+---
+
 # Kaldi Engine Crash: Root Cause and Resolution
 
 This document explains the technical root cause of the `KaldiError: Cannot use a KaldiRule after calling destroy()` crash, why it surfaced specifically upon migrating to the `dragonfly-bpc-oss` fork, and why the engine-level patch is structurally sound.

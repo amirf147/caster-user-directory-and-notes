@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 038: Empirical Investigation & Data Gath...**
+
+---
+
 # Ticket 038: Empirical Investigation & Data Gathering for App Switcher Failures, Hangs, and Recovery
 
 **Type:** `wayfinder:investigation` (Empirical Testing & Data Gathering)  
@@ -7,7 +11,7 @@
 
 ## Objective
 
-Conduct real-world, empirical testing of [app_switcher.py](../../caster_user_content/util/app_switcher.py) during regular Caster voice usage to observe failure modes, hang mechanisms, and recovery behavior. The goal is to stress-test window switching, tab search loops, alias creation (`set window`, `set page`), and clearing operations to capture concrete timing diagnostics, thread state snapshots, and error tracebacks.
+Conduct real-world, empirical testing of [app_switcher.py](../../../caster_user_content/util/app_switcher.py) during regular Caster voice usage to observe failure modes, hang mechanisms, and recovery behavior. The goal is to stress-test window switching, tab search loops, alias creation (`set window`, `set page`), and clearing operations to capture concrete timing diagnostics, thread state snapshots, and error tracebacks.
 
 ## Key Areas to Investigate & Monitor
 

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: Windows UIA, Threading, ...**
+
+---
+
 # Educational Breakdown: Windows UIA, Threading, and Focus in Neru
 
 This document breaks down how the `neru` repository approaches Windows UI Automation (UIA), COM threading, and window focus management, referencing specific implementation patterns found in the codebase.

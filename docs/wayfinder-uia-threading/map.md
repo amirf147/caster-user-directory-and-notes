@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Wayfinder ](../README.md#wayfinder-uia--threading-research) › **Wayfinder Map: Out-of-Process Window Management...**
+
+---
+
 # Wayfinder Map: Out-of-Process Window Management & UIA Architecture
 
 ## Quick Executive Summaries & Session Takeaways

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Architecture ](../README.md#architecture) › **Speech Stack Thread Architecture & Diagnostic R...**
+
+---
+
 # Speech Stack Thread Architecture & Diagnostic Report
 
 ## 1. Executive Summary & Problem Diagnosis
@@ -120,25 +124,25 @@ graph TD
 
 ## 4. Deep Dive into Problematic Components
 
-### A. App Switcher ([app_switcher.py](../caster_user_content/util/app_switcher.py))
+### A. App Switcher ([app_switcher.py](../../caster_user_content/util/app_switcher.py))
 - **Primary Issue:** Synchronous polling loops using `time.sleep()`.
 - **Mechanics:**
-  - `verify_focus` runs a `while` loop calling `time.sleep(0.05)` (blocking for up to 1.5 seconds) waiting for a window focus change ([app_switcher.py:L290-L297](../caster_user_content/util/app_switcher.py#L290-L297)).
-  - `find_tab()` executes a `while tries < 50` loop with `time.sleep(0.1)`, which can block the main speech thread for **up to 5 seconds** if a browser tab is missing or slow to load ([app_switcher.py:L354-L365](../caster_user_content/util/app_switcher.py#L354-L365)).
+  - `verify_focus` runs a `while` loop calling `time.sleep(0.05)` (blocking for up to 1.5 seconds) waiting for a window focus change ([app_switcher.py:L290-L297](../../caster_user_content/util/app_switcher.py#L290-L297)).
+  - `find_tab()` executes a `while tries < 50` loop with `time.sleep(0.1)`, which can block the main speech thread for **up to 5 seconds** if a browser tab is missing or slow to load ([app_switcher.py:L354-L365](../../caster_user_content/util/app_switcher.py#L354-L365)).
   - `switch_to_app` uses `win32process.AttachThreadInput`, `win32gui.SetForegroundWindow`, and dummy `keybd_event` injections to bypass OS focus restrictions. If the target application's message pump is frozen or unresponsive, `SetForegroundWindow` or `AttachThreadInput` can hang the calling thread.
 
-### B. Text Editing & UI Automation ([text_editing.py](../caster_user_content/rules/global/text_editing.py))
+### B. Text Editing & UI Automation ([text_editing.py](../../caster_user_content/rules/global/text_editing.py))
 - **Primary Issue:** Synchronous COM thread blocking via UIA.
 - **Mechanics:**
   - A global UIA controller (`_GLOBAL_UIA_CONTROLLER`) manages interactions.
-  - Virtually every text editing rule (e.g. `read_buffer`, `capitalize_selection`, `put_cursor_before`) invokes `os_controller.run_sync(action)` ([text_editing.py:L83](../caster_user_content/rules/global/text_editing.py#L83)).
+  - Virtually every text editing rule (e.g. `read_buffer`, `capitalize_selection`, `put_cursor_before`) invokes `os_controller.run_sync(action)` ([text_editing.py:L83](../../caster_user_content/rules/global/text_editing.py#L83)).
   - **COM Deadlock Risk:** `run_sync` forces the UIA COM query to complete synchronously on the main thread. If the target application is an IDE indexing files, an elevated process running as Administrator (UAC boundary), or a hung GUI application, the underlying Windows COM engine blocks indefinitely waiting for a response from the target process.
 
-### C. Synchronous Network Requests ([task_management.py](../caster_user_content/rules/global/task_management.py))
+### C. Synchronous Network Requests ([task_management.py](../../caster_user_content/rules/global/task_management.py))
 - **Primary Issue:** Unbounded HTTP REST requests on the speech thread.
 - **Mechanics:** `task_management.py` calls `trello_tools.add_card`, which makes synchronous HTTP calls using Python's `requests` library. If network latency spikes or packet loss occurs, speech recognition freezes for the entire HTTP request timeout duration.
 
-### D. Foot Pedal Hardware Integration ([foot_pedal.ahk](../foot_pedal.ahk))
+### D. Foot Pedal Hardware Integration ([foot_pedal.ahk](../../foot_pedal.ahk))
 - **Architecture Note:** The foot pedal integration is properly decoupled. AutoHotkey runs an external script (`foot_pedal.ahk`) that sends a `WinHttpRequest` to an XML-RPC server spawned inside a daemon thread by `caster_toggle_mic_key.py`.
 - **Verdict:** The foot pedal does NOT block the main speech thread. It serves as a positive architectural model for how OS hooks and external events should communicate with Caster asynchronously.
 
@@ -236,15 +240,15 @@ To permanently eliminate execution freezing without relying on `Ctrl+C`, impleme
    - Modify Dragonfly/Caster action dispatch to execute user rules asynchronously using `concurrent.futures.ThreadPoolExecutor(max_workers=2)`.
    - The main speech thread should only decode audio and push recognized commands to the executor queue, allowing `_do_recognition()` to remain responsive at all times.
 
-2. **Asynchronous UIA Wrappers ([text_editing.py](../caster_user_content/rules/global/text_editing.py)):**
+2. **Asynchronous UIA Wrappers ([text_editing.py](../../caster_user_content/rules/global/text_editing.py)):**
    - Replace `os_controller.run_sync(action)` with an asynchronous wrapper (`run_async`) that offloads UIA COM calls to a worker thread with a strict timeout (e.g., `timeout=0.5s`).
    - If a UIA call times out due to an unresponsive target window, abort the thread cleanly instead of freezing the engine.
 
-3. **Eliminate Synchronous Sleep Polling ([app_switcher.py](../caster_user_content/util/app_switcher.py)):**
+3. **Eliminate Synchronous Sleep Polling ([app_switcher.py](../../caster_user_content/util/app_switcher.py)):**
    - Refactor `verify_focus` and `find_tab()` to eliminate `time.sleep()` on the main thread.
    - Use non-blocking event-driven timers (e.g. `threading.Timer` or yield-based tick polling) with a hard cap on retry attempts (e.g., max 500ms timeout instead of 5000ms).
 
-4. **Enforce Timeouts on HTTP Requests ([task_management.py](../caster_user_content/rules/global/task_management.py)):**
+4. **Enforce Timeouts on HTTP Requests ([task_management.py](../../caster_user_content/rules/global/task_management.py)):**
    - Pass explicit timeout arguments to all network calls (`requests.post(..., timeout=(1.0, 2.0))`) and run network rules in background threads.
 
 5. **Elevate Process Privileges (UAC Mitigation):**

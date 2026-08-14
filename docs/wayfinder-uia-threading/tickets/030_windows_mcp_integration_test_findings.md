@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 030: Windows-MCP Integration Test Findin...**
+
+---
+
 # Ticket 030: Windows-MCP Integration Test Findings & Next Steps
 
 **Type**: `wayfinder:research` (Investigation & Analysis)

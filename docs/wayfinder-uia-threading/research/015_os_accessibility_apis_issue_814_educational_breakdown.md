@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Educational Breakdown: Integration with OS Acce...**
+
+---
+
 # Educational Breakdown: Integration with OS Accessibility APIs (Issue #814)
 
 This document breaks down the historical context and goals of Caster's integration with OS Accessibility APIs, as discussed in [Issue #814](https://github.com/dictation-toolbox/Caster/issues/814).

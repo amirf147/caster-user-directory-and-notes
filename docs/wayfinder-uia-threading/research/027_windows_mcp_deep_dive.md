@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 027 Deep Dive: Research Windows-MCP Repo...**
+
+---
+
 # Ticket 027 Deep Dive: Research Windows-MCP Repository
 
 This document analyzes the `~/Documents/repos/Windows-MCP` repository to determine if it is a viable pre-built Accessibility Server for Caster.

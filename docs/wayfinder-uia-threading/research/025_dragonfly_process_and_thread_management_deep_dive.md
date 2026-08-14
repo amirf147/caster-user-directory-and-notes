@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 025 Deep Dive: Dragonfly Process and Thr...**
+
+---
+
 # Ticket 025 Deep Dive: Dragonfly Process and Thread Management
 
 This document provides a definitive, evidence-based analysis of how the `dictation-toolbox/dragonfly` repository handles threads, processes, and concurrency.

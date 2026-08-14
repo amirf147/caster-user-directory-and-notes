@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Terminator UIA Threading: An Educational Breakdown**
+
+---
+
 # Terminator UIA Threading: An Educational Breakdown
 
 This document provides a deep dive into how the `terminator` repository (a desktop automation tool) handles Microsoft UI Automation (UIA) and Windows COM threading, and how it compares to NVDA.

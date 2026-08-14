@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 026: Caster Process and Thread Managemen...**
+
+---
+
 # Ticket 026: Caster Process and Thread Management Deep Dive
 
 **Type**: `wayfinder:research` (Deep Dive / Definitive Analysis)

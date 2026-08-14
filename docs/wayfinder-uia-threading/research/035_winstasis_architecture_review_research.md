@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Research: WinStasis Architecture Review and Ref...**
+
+---
+
 # Research: WinStasis Architecture Review and Refactoring Strategy
 
 **Ticket:** 035

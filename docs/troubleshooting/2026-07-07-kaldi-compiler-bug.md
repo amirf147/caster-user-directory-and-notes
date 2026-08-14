@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Troubleshooting ](../README.md#troubleshooting--diagnostics) › **Learning Diary: July 7, 2026**
+
+---
+
 # Learning Diary: July 7, 2026
 ## Subject: Kaldi Engine Compiler Concurrency & UIA Integration
 

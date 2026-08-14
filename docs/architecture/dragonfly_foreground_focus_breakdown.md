@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Architecture ](../README.md#architecture) › **Dragonfly Foreground Focus & Window Stealing**
+
+---
+
 # Dragonfly Foreground Focus & Window Stealing
 
 A deep dive into how Dragonfly manages window focus on Windows (`win32`), specifically focusing on the `set_foreground` wrapper and its mitigations against Windows' foreground denial mechanisms.

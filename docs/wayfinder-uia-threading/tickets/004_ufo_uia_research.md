@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 004: Research UFO UIA Architecture and F...**
+
+---
+
 # Ticket 004: Research UFO UIA Architecture and Fallback Strategies
 
 **Type**: `wayfinder:research` (AFK)

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 036: Investigate App Switcher Functional...**
+
+---
+
 # Ticket 036: Investigate App Switcher Functionality for C# MCP Server
 
 **Type**: `wayfinder:research` (Planning & Architecture)

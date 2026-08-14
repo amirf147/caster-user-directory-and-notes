@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 010: Research hunt-and-peck UIA Architec...**
+
+---
+
 # Ticket 010: Research hunt-and-peck UIA Architecture
 
 **Type**: `wayfinder:research` (AFK)

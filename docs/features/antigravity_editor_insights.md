@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Features ](../README.md#features) › **Antigravity Editor Insights & System Prompt Ove...**
+
+---
+
 # Antigravity Editor Insights & System Prompt Overrides
 
 This document summarizes the internal system prompt instructions, default behavioral guidelines, and conflict points between base system defaults and repository workspace rules (`AGENTS.md`). It also outlines strategies and protocol checks to ensure project rules are strictly enforced without regression.

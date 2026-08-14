@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 032: Execute Desktop Pilot MCP Integrati...**
+
+---
+
 # Ticket 032: Execute Desktop Pilot MCP Integration Test
 
 **Type**: `wayfinder:test` (Integration & Performance Benchmarking)

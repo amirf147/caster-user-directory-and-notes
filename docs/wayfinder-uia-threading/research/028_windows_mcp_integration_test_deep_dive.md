@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Research ](../../README.md#wayfinder-uia--threading-research) › **Ticket 028 Deep Dive: Windows-MCP Integration T...**
+
+---
+
 # Ticket 028 Deep Dive: Windows-MCP Integration Test & Threading Critique
 
 This document addresses two critical points regarding the `Windows-MCP` repository: critiquing my previous assessment of its thread safety, and proposing a real-world integration test.

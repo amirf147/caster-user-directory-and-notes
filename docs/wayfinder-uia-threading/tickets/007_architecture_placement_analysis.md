@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 007: Architecture Placement Analysis (Dr...**
+
+---
+
 # Ticket 007: Architecture Placement Analysis (Dragonfly vs Caster)
 
 **Type**: `wayfinder:research` (AFK)

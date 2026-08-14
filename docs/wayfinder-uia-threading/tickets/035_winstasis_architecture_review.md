@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 035: WinStasis Architecture Review and R...**
+
+---
+
 # Ticket 035: WinStasis Architecture Review and Refactoring Strategy
 
 **Type**: `wayfinder:research` (Architecture & Refactoring)

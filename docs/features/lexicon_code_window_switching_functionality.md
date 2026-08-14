@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Features ](../README.md#features) › **LexiconCode Window Switching Functionality**
+
+---
+
 # LexiconCode Window Switching Functionality
 
 This document provides a comprehensive breakdown of the window switching feature implemented by `LexiconCode`, detailing its architecture, mechanics, Kaldi engine compatibility, troubleshooting findings, and design critiques.

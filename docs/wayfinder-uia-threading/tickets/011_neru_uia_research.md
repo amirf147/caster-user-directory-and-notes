@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 011: Research neru UIA Architecture**
+
+---
+
 # Ticket 011: Research neru UIA Architecture
 
 **Type**: `wayfinder:research` (AFK)

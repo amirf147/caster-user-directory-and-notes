@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 019: Evaluate uiautomation-mcp Implement...**
+
+---
+
 # Ticket 019: Evaluate uiautomation-mcp Implementation Against Microsoft Standards
 
 **Type**: `wayfinder:research` (AFK)

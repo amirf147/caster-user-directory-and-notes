@@ -1,6 +1,10 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Features ](../README.md#features) › **Olympus RS31H Foot Pedal Control & XML-RPC IPC ...**
+
+---
+
 # Olympus RS31H Foot Pedal Control & XML-RPC IPC Bridge
 
-[foot_pedal.ahk](../foot_pedal.ahk) provides advanced control for the Olympus RS31H USB foot pedal, paired with a background Python XML-RPC server ([caster_toggle_mic_key.py](../caster_user_content/rules/caster_toggle_mic_key.py)) for thread-safe, hands-free Caster microphone toggling.
+[foot_pedal.ahk](../../foot_pedal.ahk) provides advanced control for the Olympus RS31H USB foot pedal, paired with a background Python XML-RPC server ([caster_toggle_mic_key.py](../../caster_user_content/rules/caster_toggle_mic_key.py)) for thread-safe, hands-free Caster microphone toggling.
 
 It solves common hardware issues like button "bouncing" and key repetition by implementing a robust debouncing and polling state machine to distinguish between tap, hold, long-press, and multi-pedal chord combinations.
 
@@ -17,8 +21,8 @@ graph TD
     C -- Toggle State --> D[Microphone ON / SLEEPING]
 ```
 
-### 1. Python XML-RPC Server ([caster_toggle_mic_key.py](../caster_user_content/rules/caster_toggle_mic_key.py))
-Located in [caster_toggle_mic_key.py](../caster_user_content/rules/caster_toggle_mic_key.py).
+### 1. Python XML-RPC Server ([caster_toggle_mic_key.py](../../caster_user_content/rules/caster_toggle_mic_key.py))
+Located in [caster_toggle_mic_key.py](../../caster_user_content/rules/caster_toggle_mic_key.py).
 
 * Automatically loaded by Caster from the user rules directory.
 * Runs a daemon `SimpleXMLRPCServer` thread listening on `127.0.0.1:8341`.
@@ -26,8 +30,8 @@ Located in [caster_toggle_mic_key.py](../caster_user_content/rules/caster_toggle
 * **Thread Safety**: When invoked, the server schedules a callback on Dragonfly's main execution loop using `engine.create_timer(..., 0.05)`. This ensures safe state transitions when toggling Caster Nexus between `active` and `sleeping`.
 * **Reload Safety**: Intercepts Caster module reloads to cleanly stop any existing server thread before binding a new instance to port `8341`.
 
-### 2. AutoHotkey v2 Client Integration ([foot_pedal.ahk](../foot_pedal.ahk))
-Located in [foot_pedal.ahk](../foot_pedal.ahk).
+### 2. AutoHotkey v2 Client Integration ([foot_pedal.ahk](../../foot_pedal.ahk))
+Located in [foot_pedal.ahk](../../foot_pedal.ahk).
 
 * Intercepts `F13` - `F16` hardware key inputs sent by the foot pedal.
 * Under a short tap on **Left Pedal (`F13`)**, `toggleCaster()` dispatches a synchronous XML-RPC `POST` request to `http://127.0.0.1:8341/`.
@@ -74,12 +78,12 @@ The script maps the pedal buttons (`F13` - `F16`) to the following actions:
 
 All timing thresholds and network endpoints can be customized in their respective files:
 
-### AutoHotkey v2 ([foot_pedal.ahk](../foot_pedal.ahk))
+### AutoHotkey v2 ([foot_pedal.ahk](../../foot_pedal.ahk))
 * `F15_HoldDelay`: Hold duration in ms before mouse drag starts (default: `200` ms).
 * `F13_HoldDelay`: Long-press duration in ms for Left Pedal reset (default: `500` ms).
 * `Scroll_HoldDelay`: Hold duration in ms before continuous scrolling starts (default: `250` ms).
 * `Scroll_RepeatRate`: Interval in ms between scroll steps during a hold (default: `50` ms).
 
-### Python XML-RPC Server ([caster_toggle_mic_key.py](../caster_user_content/rules/caster_toggle_mic_key.py))
+### Python XML-RPC Server ([caster_toggle_mic_key.py](../../caster_user_content/rules/caster_toggle_mic_key.py))
 * `RPC_HOST`: Default loopback host `127.0.0.1`.
 * `RPC_PORT`: Default port `8341`.

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../../README.md) › [ 📁 Wayfinder Tickets ](../../README.md#wayfinder-uia--threading-research) › **Ticket 012: Research Python-UIAutomation-for-Wi...**
+
+---
+
 # Ticket 012: Research Python-UIAutomation-for-Windows UIA Architecture
 
 **Type**: `wayfinder:research` (AFK)
