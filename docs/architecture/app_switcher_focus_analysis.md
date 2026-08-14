@@ -10,10 +10,10 @@ This document provides an educational breakdown of how the `AppSwitcher` mechani
 This analysis is specifically based on a known stress-test scenario: a Windows Explorer (`explorer.exe`) restart. Restarting the shell is a reliable way to induce strict OS focus-stealing restrictions. When Explorer restarts, Windows becomes highly protective of the foreground and actively blocks applications from stealing focus, causing the target app's taskbar icon to flash orange instead. Examining this specific scenario provides the perfect environment to test and validate focus-forcing fallbacks.
 
 > [!NOTE]
-> **TL;DR**: 
+> **TL;DR & August 2026 Production Update**: 
 > * **The Scenario**: After an `explorer.exe` restart, Windows strictly enforces foreground lock restrictions. Standard calls to `SetForegroundWindow` fail, causing the taskbar icon to flash orange.
-> * **Dragonfly vs. AppSwitcher**: Dragonfly relies on a simple `Control` key press hack before calling `SetForegroundWindow`, but uses no thread manipulation. It fails if the Control key is held down or during shell restarts. In contrast, AppSwitcher falls back to a low-level Win32 `AttachThreadInput` call + `Alt` key injection, linking its input queue to the foreground window to force focus.
-> * **Tier 1 Pywinauto Note**: In Tier 1, AppSwitcher currently calls Pywinauto's standard `set_focus()` without any pre-injected keypress bypass (though injecting a dummy keypress right before calling Pywinauto is a potential optimization).
+> * **Dragonfly vs. AppSwitcher**: Dragonfly relies on a simple `Control` key press hack before calling `SetForegroundWindow`, but uses no thread manipulation. It fails if the Control key is held down or during shell restarts. In contrast, AppSwitcher uses low-level Win32 `AttachThreadInput` + `Alt` key injection, linking input queues to force focus.
+> * **Blueprint v3 Refactor (Commit `8397b0c`)**: In the modern production architecture, thread attachment and Alt-key bypass are encapsulated in guarded Python context managers (`_alt_key_bypass`, `_attached_threads`) with nested `finally` blocks and a `VK_NONE` (`0xFF`) dummy keypress, eliminating stuck modifiers and queue deadlocks. See [App Switcher Architectural Blueprint (v3)](app_switcher_architectural_blueprint.md).
 
 ## Table of Contents
 - [Scenario Context: The Explorer Restart](#scenario-context-the-explorer-restart)

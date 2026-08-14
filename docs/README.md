@@ -10,9 +10,10 @@ Start here to understand the core architecture, active features, and engineering
 
 1. **[Repository Brain](context/repository-brain.md)** — **The Canonical Single Source of Truth (SSOT)**. Read this first for current facts, feature maps, confirmed architectural decisions, and known risks.
 2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-3. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
-4. **[App Switcher Architecture](features/app_switcher.md)** — Dual-pipeline window management and switching design.
-5. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
+3. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
+5. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
+6. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
 ---
 
@@ -20,13 +21,15 @@ Start here to understand the core architecture, active features, and engineering
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).
-* [ADR 001: Background Worker Pool](architecture/ADR_001_Background_Worker_Pool.md) *(Deprecated: See Wayfinder UIA Server)*
-* [Dragonfly Foreground Focus Breakdown](architecture/dragonfly_foreground_focus_breakdown.md)
+* **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** *(Active Production Blueprint)*
 * [Speech Stack Thread Architecture & Diagnostic Report](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)
-* [App Switcher Architectural Blueprint v1](architecture/app_switcher_architectural_blueprint.md)
-* [App Switcher Architectural Blueprint v2](architecture/app_switcher_architectural_blueprint2.md)
-* [App Switcher Code Review & Refactoring Guide](architecture/app_switcher_code_review.md)
+* [Dragonfly Foreground Focus Breakdown](architecture/dragonfly_foreground_focus_breakdown.md)
 * [App Switcher Focus Analysis](architecture/app_switcher_focus_analysis.md)
+* [App Switcher Code Review & Refactoring Guide](architecture/app_switcher_code_review.md)
+* [ADR 001: Background Worker Pool](architecture/ADR_001_Background_Worker_Pool.md) *(Deprecated: See Wayfinder UIA Server)*
+* **Archived Blueprints**:
+  * [Blueprint v1 (Archived)](architecture/archive/app_switcher_architectural_blueprint_v1.md)
+  * [Blueprint v2 (Archived)](architecture/archive/app_switcher_architectural_blueprint_v2.md)
 
 ### 🧠 [Context](context/)
 Living repository memory and foundational state.
@@ -49,10 +52,11 @@ Educational breakdowns of underlying voice engines and Dragonfly internals.
 
 ### 📜 [History](history/)
 Timelines and evolution of subsystems.
-* [Repository Timeline (2024–2026)](history/repository_timeline.md)
-* [Interactive Timeline Web App](history/timeline.html)
-* [Technical Journey](history/technical_journey.md)
-* [Caster Printer HUD Timeline](history/caster_printer_hud_timeline.md)
+* [App Switcher Evolution Timeline](history/app_switcher_timeline.md) *(2-year window switching evolution)*
+* [Repository Timeline (2024–2026)](history/repository_timeline.md) *(27-month, 969-commit repository narrative)*
+* [Caster Printer HUD Timeline](history/caster_printer_hud_timeline.md) *(Status messaging & HUD evolution)*
+* [Technical Journey](history/technical_journey.md) *(Current focus & milestones)*
+* [Interactive Timeline Web App](history/timeline.html) *(Visual timeline application)*
 
 ### 🛠️ [Troubleshooting & Diagnostics](troubleshooting/)
 Bug post-mortems, crash logs, and diagnostic runbooks.

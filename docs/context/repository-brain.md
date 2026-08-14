@@ -53,7 +53,9 @@ When resolving conflicting information within this repository, adhere to the fol
 Findings and operational facts synthesized from empirical stress testing and the Wayfinder research session on Windows UI Automation (UIA) and COM apartment threading:
 
 **Empirical Facts regarding App Switching & Threading:**
-- Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using Win32 focus APIs with an OS bypass fallback (`AttachThreadInput` + Alt key injection) to overcome Windows foreground locks.
+- Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using the **v3 progressive Win32 focus architecture** ([Blueprint v3](../architecture/app_switcher_architectural_blueprint.md), [Evolution Timeline](../history/app_switcher_timeline.md)). Focus transitions operate on a sub-millisecond hot path (0–10ms) via direct Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`), backed by guarded context managers (`_alt_key_bypass`, `_attached_threads`) with `VK_NONE` (`0xFF`) dummy key injection to prevent menu bar lockup.
+- Alias persistence is strictly encapsulated within the `AliasRegistry` class managing `caster_user_content/window_aliases.json`.
+- Focus confirmation uses a 10ms micro-polling loop (`verify_focus`), eliminating coarse static sleep delays.
 - The only observed hard "freezes" during testing were traced to Windows PowerShell QuickEdit mode pausing console `stdout` when Caster attempted to log messages.
 - A Python COM deadlock is **disproven/unsupported** by empirical logs. Do not reintroduce the disproven causal chain "PowerShell/QuickEdit freeze = Python COM deadlock."
 - `win32gui.GetForegroundWindow()` is the preferred lightweight way to read the active HWND. Avoid heavy UIA active-window traversal when only the HWND is needed.

@@ -1716,6 +1716,12 @@
         "date": "2026-08-14",
         "title": "Overhaul documentation hierarchy and establish repository brain",
         "significance": "Consolidated fragmented notes and research into a structured documentation hub centered around 'docs/context/repository-brain.md', backed by CI markdown link validation and workspace privacy rules."
+      },
+      {
+        "hash": "8397b0c",
+        "date": "2026-08-14",
+        "title": "Optimize window focus tiers and eliminate keystate deadlocks",
+        "significance": "Engineered the v3 App Switcher architecture: direct sub-millisecond Win32 focus tiers, guarded keystate context managers (_alt_key_bypass, _attached_threads), AliasRegistry persistence, and 10ms micro-polling."
       }
     ],
     "subsystem_highlights": {
@@ -1733,7 +1739,7 @@
       ],
       "infrastructure": [
         "Hardware IPC Bridge: Developed a lightweight XML-RPC HTTP server (`caster_toggle_mic_key.py`) on port 8341 paired with `foot_pedal.ahk` for instant, non-simulated microphone toggling and right-click chording (F13 held + F15 pressed).",
-        "App Switcher Core (`app_switcher.py`): Engineered a modular `WindowsOSAdapter` featuring Virtual Desktop (`pyvda`) isolation, 3-tier failsafe focusing, Win32 `AttachThreadInput` bypass with dummy key (0xFF / VK_NONE) menu suppression, and Caster HUD printer integration.",
+        "App Switcher Core (`app_switcher.py`): Built sub-millisecond progressive Win32 focus tiers (0-10ms fast path), guarded `_alt_key_bypass` and `_attached_threads` context managers eliminating sticky keys/deadlocks, `AliasRegistry` persistence, and Virtual Desktop (`pyvda`) workspace isolation.",
         "CI/CD & Code Quality: Instituted automated GitHub Actions (`ci.yml`, `release.yml`, `link-check.yml`) and pre-commit hooks running Ruff linting/formatting, UTF-8 stdin decoding, and custom leak detection scripts (`check_absolute_paths.py`, `check_command_uniqueness.py`)."
       ],
       "docs_and_research": [

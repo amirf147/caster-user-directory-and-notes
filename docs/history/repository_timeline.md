@@ -96,11 +96,12 @@ Era 4 marks a profound shift from practical rule-crafting toward deep systems ar
 | 2026-08-08 | ca5dc70 | Debunk COM deadlocks via empirical app switcher investigation and telemetry | Empirical timing telemetry proved that speech thread freezes previously blamed on COM/UIA deadlocks were actually caused by Windows PowerShell QuickEdit mode halting console stdout upon text selection. |
 | 2026-08-12 | 3d2965c | Add testing feedback and focus analysis for LexiconCode PR #881 | Produced an architectural critique of LexiconCode PR #881 window switching, contrasting its regex dynamic polling against Win32 AttachThreadInput bypass and exposing Kaldi runtime graph recompilation limits. |
 | 2026-08-14 | 770bdba | Overhaul documentation hierarchy and establish repository brain | Consolidated fragmented notes and research into a structured documentation hub centered around 'docs/context/repository-brain.md', backed by CI markdown link validation and workspace privacy rules. |
+| 2026-08-14 | 8397b0c | Optimize window focus tiers and eliminate keystate deadlocks | Replaced pywinauto wrappers with direct sub-millisecond Win32 focus tiers, introduced guarded context managers (_alt_key_bypass, _attached_threads) with deterministic cleanup, encapsulated alias persistence in AliasRegistry, and optimized verification with 10ms micro-polling. |
 
 ## Core Subsystem Evolution Sections
 
 ### Window Switching & App Focus
-Began as scattered single-action rules and basic numbered taskbar switching. Evolved into a sophisticated abstraction tackling Windows 11 foreground-lock restrictions using Alt-key workarounds, and ultimately matured into a 3-tier failsafe pipeline (pywinauto -> UIA click -> Win+T) with Virtual Desktop (pyvda) awareness and empirical telemetry.
+Began as scattered single-action rules and basic numbered taskbar switching. Evolved into a sophisticated abstraction tackling Windows 11 foreground-lock restrictions using Alt-key workarounds, matured through a 3-tier failsafe pipeline (pywinauto -> UIA click -> Win+T) with Virtual Desktop (pyvda) awareness, and culminated in the **v3 sub-millisecond native Win32 focus engine** (`8397b0c`) with guarded keystate context managers (`_alt_key_bypass`, `_attached_threads`), `AliasRegistry` persistence, 10ms micro-polling, and dedicated architectural history in [`app_switcher_timeline.md`](app_switcher_timeline.md).
 
 ### Phonetics & Alphabet
 Transitioned from legacy WSR muscle memory and NATO alphabet to the Talon phonetic alphabet. Addressed phonetic collisions through iterative acoustic tuning (e.g., tweaking monosyllabic commands to avoid dictation overlap) and established strict phonetic boundaries.
