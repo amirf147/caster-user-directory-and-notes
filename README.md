@@ -4,6 +4,9 @@ A high-performance, Windows-only personal voice computing and automation toolkit
 
 This repository houses custom voice grammars, low-latency window switching utilities, hardware IPC bridges, and in-depth engineering research into Windows UI Automation and speech engine threading.
 
+> 📜 **[Repository Timeline & 2-Year Technical Journey](docs/history/repository_timeline.md)**  
+> Explore the 27-month, 969-commit retrospective covering 4 distinct architectural eras (Kaldi ASR migration, desktop automation, AI IDE workflows, and 3-tier window switching).
+
 ---
 
 ## 🤖 .agents Folder
@@ -14,6 +17,7 @@ Contains workflows (such as `/commit`) and workspace configuration rules specifi
 
 ## ⚡ Key Engineering & Voice Automations
 
+* **[Repository Timeline (2024–2026)](docs/history/repository_timeline.md)**: 27-month, 969-commit narrative breakdown and landmark commit history across 4 development eras.
 * **[App & Window Switcher](docs/features/app_switcher.md)**: Deterministic, workspace-aware window management and tab switching engine designed to eliminate focus latency and prevent speech thread blocking.
 * **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, paired with a local XML-RPC IPC bridge for thread-safe microphone toggling.
 * **[Top Voice Automations Showcase](docs/features/top_voice_automations.md)**: Curated showcase of desktop, editor, and system voice workflows.
@@ -41,8 +45,8 @@ Our ongoing work focuses on window switching, accessibility mechanics, and speec
 ### 3. Historical Status & Archived Investigations
 * **[Kaldi Compiler & Engine Race Condition Post-Mortem](docs/troubleshooting/kaldi_crash_explanation.md)**: Root-cause debugging of Caster speech compiler crashes and synchronization issues.
 * **[Speech Stack Thread Architecture Report](docs/architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)**: Diagnostic breakdown of Dragonfly/Kaldi thread interaction models and execution boundaries.
-* **[Status Update History](status-update-history.md)**: Archive of past status updates covering Dragonfly BPC Fork fixes and UIA threading synthesis.
-* **[Technical Journey Log](docs/history/technical_journey.md)**: Complete chronological engineering log and architectural evolution.
+* **[Repository Timeline & 2-Year Git History](docs/history/repository_timeline.md)**: Complete chronological engineering log and architectural evolution across 4 distinct eras.
+* **[Technical Journey Log](docs/history/technical_journey.md)**: Active and archived engineering focus roadmap.
 
 ---
 

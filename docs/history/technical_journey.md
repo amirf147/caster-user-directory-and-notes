@@ -21,3 +21,9 @@ Our ongoing work focuses on window switching, accessibility mechanics, and speec
 ### 3. Historical Status & Archived Investigations
 Recently updated a long abondonded file containing past status updates with deep dives into the Dragonfly BPC Fork Kaldi race condition fixes, and UIA threading synthesis at:
 👉 **[Status Update History](../../status-update-history.md)**
+
+### 4. 2-Year Git Evolution & Timeline Narrative
+For the complete 27-month, 969-commit retrospective covering all 4 development eras (foundations, modularization, grammar maturity, and modern UIA architecture):
+- 📜 **[Repository Timeline Document](repository_timeline.md)**
+
+
