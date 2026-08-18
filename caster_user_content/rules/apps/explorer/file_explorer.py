@@ -1,11 +1,9 @@
-# TODO: replace ribbon navigation commands with windows 11 compatible macros
-from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Pause, Repeat
+from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Pause, Repeat, Function
 
-from castervoice.lib.actions import Key
-
-from castervoice.lib.actions import Text
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
+from castervoice.lib import utilities
 
 from caster_user_content import environment_variables as ev
 
@@ -47,7 +45,22 @@ class FileExplorerRule(MappingRule):
         "folder preview": R(Key("as-p")),
         # Navigating via address bar
         "go <path>": R(Key("f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
+        "go tab <path>": R(Key("c-t/50, f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
+        "go window <path>": R(Key("c-n/120, f4/50") + Text("%(path)s", pause=0.0) + Key("enter")),
+        "go sprite <path>": R(
+            Function(utilities.maximize_window)
+            + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50, f4/50")
+            + Text("%(path)s", pause=0.0)
+            + Key("enter")
+        ),
+        # Pasting clipboard content into address bar
         "go clipboard": R(Key("f4/50, c-v/3, enter")),
+        "go tab clipboard": R(Key("c-t/50, f4/50, c-v/3, enter")),
+        "go window clipboard": R(Key("c-n/120, f4/50, c-v/3, enter")),
+        "go sprite clipboard": R(
+            Function(utilities.maximize_window)
+            + Key("w-right/50, c-n/100, wca-0/30, w-right:2/50, f4/50, c-v/3, enter")
+        ),
         "fit column": R(Key("a-v, s, f")),
         "copy file name": R(Key("f2/3, c-c/3, escape")),
         # Home Ribbon
