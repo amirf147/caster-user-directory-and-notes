@@ -19,6 +19,13 @@ from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
 
 from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT, RUN_COMMANDS
+from caster_user_content.util.display_scaling import (
+    set_display_scale,
+    scale_up,
+    scale_down,
+    scale_bed,
+    scale_default,
+)
 
 
 def _generate_number_list(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
@@ -70,6 +77,12 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "brightness dialog": R(Key("w-a/100, tab/20:4")),
         "toggle bed": R(Mimic("toggle night") + Pause("100") + Mimic("brightness zero")),
         "toggle day": R(Mimic("toggle night") + Pause("100") + Mimic("brightness one hundred")),
+        # Display Scaling commands (programmatic Win32 DisplayConfig)
+        "scale <scale_percent>": Function(set_display_scale),
+        "scale (up | larger)": Function(scale_up),
+        "scale (down | smaller)": Function(scale_down),
+        "scale bed": Function(scale_bed),
+        "scale (day | normal | default)": Function(scale_default),
         "show [me] calendar": R(Key("w-b, up:2, enter")),
         "show sounds": R(RunCommand("rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl")),
         "show network connections":  # Opens the Windows Network Connections utility via run dialog
@@ -246,6 +259,20 @@ copy and paste it: "
         IntegerRef("n9", 0, 512),
         IntegerRef("n10", 0, 512),
         Dictation("query"),
+        Choice(
+            "scale_percent",
+            {
+                "one hundred": 100,
+                "hundred": 100,
+                "one twenty five": 125,
+                "one fifty": 150,
+                "one seventy five": 175,
+                "two hundred": 200,
+                "two twenty five": 225,
+                "two fifty": 250,
+                "three hundred": 300,
+            },
+        ),
     ]
     defaults = {
         "n": 1,
