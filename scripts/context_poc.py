@@ -4,6 +4,9 @@ Active Desktop Context Engine (ADCE) - Python Proof of Concept (v2.2)
 Monitors Windows OS foreground and focus events in real-time, extracting
 window state, active/open tabs (VS Code, Antigravity, Waterfox, Firefox, Chrome, Edge, Explorer),
 focused UI element hierarchy, and high-fidelity microsecond execution telemetry.
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
 """
 
 import sys

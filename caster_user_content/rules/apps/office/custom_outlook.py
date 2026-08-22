@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Outlook Rule
+
+Derived from Caster Outlook rules (castervoice/rules/apps/microsoft_office/outlook.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Email navigation, formatting, and folder sorting shortcuts:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Text

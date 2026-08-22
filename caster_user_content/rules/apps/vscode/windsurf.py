@@ -1,3 +1,10 @@
+"""
+Windsurf Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from dragonfly import Function, Dictation, MappingRule, Pause, ShortIntegerRef
 
 from castervoice.lib.actions import Key

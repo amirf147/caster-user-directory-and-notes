@@ -1,3 +1,15 @@
+"""
+Custom Python Rule
+
+Base syntax commands (with, open file, read lines, try catch):
+Derived from Caster PythonNon (castervoice/rules/ccr/python_rules/python2.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Additional Python commands, random list generator, and debugging helpers:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import MappingRule, Function, Choice, IntegerRef
 
 from castervoice.lib.actions import Text, Key

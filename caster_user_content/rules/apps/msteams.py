@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Teams Rule
+
+Base commands derived from Caster MSTeamsRule (castervoice/rules/apps/chat/MSTeamsRule.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import ShortIntegerRef
 from castervoice.lib.actions import Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

@@ -1,3 +1,14 @@
+"""
+Custom Notepad++ Rule
+
+Derived from Caster CustomNPPRule (castervoice/rules/apps/editor/notepadplusplus.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Plugin management, bookmarks, and editor shortcuts:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef
 
 from castervoice.lib.actions import Key

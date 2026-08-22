@@ -1,3 +1,15 @@
+"""
+File Explorer Rule
+
+Base navigation commands derived from Caster IERule & FileDialogueRule
+(castervoice/rules/apps/windows_os/explorer.py & file_dialogue.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Windows 11 tab navigation, address bar reliability fixes, and personal extensions:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Pause, Repeat, Function
 
 from castervoice.lib.actions import Key, Text

@@ -1,3 +1,14 @@
+"""
+Firefox Extended CCR Rule
+
+Derived from Caster browser CCR patterns (castervoice/rules/apps/browser/)
+Copyright (c) 2015-2026 Caster Contributors
+
+Continuous browser search and navigation commands:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from castervoice.lib.actions import Key
 
 from castervoice.lib.const import CCRType

@@ -1,3 +1,14 @@
+"""
+Custom Windows Explorer CCR Rule
+
+Derived from Caster IERule (castervoice/rules/apps/windows_os/explorer.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Text

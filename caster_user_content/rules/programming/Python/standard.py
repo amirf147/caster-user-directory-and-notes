@@ -1,9 +1,12 @@
 """
-Created on Oct 17, 2015
+Python Standard Symbol Specifications
 
-@author: synkarius
+Originally part of Caster (castervoice/rules/ccr/standard.py)
+Copyright (c) 2015-2026 synkarius, Caster Contributors
 
-12-2024: Personal customizations added by Amir Farhadi
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
 """
 
 

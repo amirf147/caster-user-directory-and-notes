@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Excel Rule
+
+Derived from Caster ExcelRule (castervoice/rules/apps/microsoft_office/excel.py)
+Copyright (c) 2015-2026 Alex Boche, Caster Contributors
+
+LibreOffice/Excel cell navigation, formatting shortcuts, and personal extensions:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice, Repetition, Function
 
 from castervoice.lib.actions import Key

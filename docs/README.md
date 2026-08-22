@@ -101,6 +101,10 @@ Consolidated research session archive from the Wayfinder investigation into Wind
 Engine-specific static analysis and low-level anatomy.
 * [Kaldi Engine Static Anatomy](kaldi_engine/kaldi_engine_static_anatomy.md)
 
+### ⚖️ [Licensing & Attribution](licensing/licensing_and_attribution_guide.md)
+Legal architecture, repository multi-licensing strategy, and comprehensive file attribution audit.
+* **[Licensing & Attribution Guide](licensing/licensing_and_attribution_guide.md)** *(Authoritative licensing breakdown & compliance matrix)*
+
 ### 📝 [Prompts](prompts/) & 🗄️ [Legacy Notes](legacy_notes/)
 * [Architecture Onboarding Prompt](prompts/Architecture-OnBoarding.md)
 * [Git Journey Timeline Orchestration](prompts/git-journey-timeline-orchestration.md)

@@ -1,3 +1,10 @@
+"""
+Editor Commands Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 # This rule is for quickly opening files for editing, WIP
 
 from dragonfly import MappingRule, Pause, Function, Choice

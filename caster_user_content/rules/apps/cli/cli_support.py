@@ -1,3 +1,10 @@
+"""
+Cli Support Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 TRELLO_COMMANDS = {
     "help": "--help ",
     "auth": "auth",

@@ -1,3 +1,10 @@
+"""
+Text Editing Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from dragonfly import MappingRule, Function, Dictation, Integer, Choice, Repetition
 from castervoice.lib.actions import Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

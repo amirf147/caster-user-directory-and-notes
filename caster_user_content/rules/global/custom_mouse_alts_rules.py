@@ -1,3 +1,14 @@
+"""
+Custom Mouse Alternatives Rule
+
+Derived from Caster MouseAlternativesRule (castervoice/rules/core/utility_rules/mouse_alts_rules.py)
+Copyright (c) 2015-2026 LexiconCode, Caster Contributors
+
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import MappingRule, Function, Choice, ShortIntegerRef
 from castervoice.lib.navigation import Grid
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

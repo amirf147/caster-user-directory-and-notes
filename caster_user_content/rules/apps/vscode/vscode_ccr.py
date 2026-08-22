@@ -1,4 +1,14 @@
-# thanks to Casper for contributing commands to this.
+"""
+Custom VS Code CCR Rule
+
+Derived from Caster VSCodeCcrRule (castervoice/rules/apps/editor/vscode_rules/vscode.py)
+Copyright (c) 2015-2026 Casper, Caster Contributors
+
+Extended CCR cursor navigation, bracket selections, and personal shortcuts:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Repeat, Dictation, Choice, ShortIntegerRef
 
 from castervoice.lib.actions import Key

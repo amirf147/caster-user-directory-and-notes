@@ -1,3 +1,14 @@
+"""
+Custom Microsoft PowerPoint Rule
+
+Derived from Caster Office automation patterns (castervoice/rules/apps/microsoft_office/)
+Copyright (c) 2015-2026 Caster Contributors
+
+Slide navigation, shape manipulation, and presentation macros:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef, IntegerRef, Choice, Function
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

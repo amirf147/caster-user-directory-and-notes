@@ -1,3 +1,10 @@
+"""
+Variable Tracker Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 # Currently just does the environment variables file
 # TODO: Generalize to other files
 

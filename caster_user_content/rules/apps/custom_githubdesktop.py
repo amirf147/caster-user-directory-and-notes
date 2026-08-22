@@ -1,3 +1,14 @@
+"""
+Custom GitHub Desktop Rule
+
+Base commands derived from Caster GitHubDeskRule (castervoice/rules/apps/git_clients/githubdesktop.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Custom repository navigation commands and workflow extensions:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Repeat, MappingRule, ShortIntegerRef, Choice, Pause
 
 from castervoice.lib.actions import Key, Text

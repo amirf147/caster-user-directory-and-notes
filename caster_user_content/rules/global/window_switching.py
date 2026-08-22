@@ -1,3 +1,10 @@
+"""
+Window Switching Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from dragonfly import MappingRule, Function, Choice, Dictation
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R

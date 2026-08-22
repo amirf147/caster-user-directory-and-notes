@@ -1,3 +1,15 @@
+"""
+Custom File Dialog Rule
+
+Base pane navigation and dialog commands derived from Caster FileDialogueRule
+(castervoice/rules/apps/windows_os/file_dialogue.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Windows Explorer address bar shortcuts and personal extensions:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key

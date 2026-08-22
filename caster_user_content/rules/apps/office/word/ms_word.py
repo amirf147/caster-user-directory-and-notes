@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Word Rule
+
+Derived from Caster MSWordRule (castervoice/rules/apps/windows_os/winword.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Extensive Word formatting, layout, bookmarking, and navigation command suite:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Dictation, MappingRule, ShortIntegerRef
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

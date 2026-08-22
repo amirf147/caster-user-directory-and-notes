@@ -1,3 +1,10 @@
+"""
+Telegram Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from dragonfly import MappingRule, ShortIntegerRef
 from castervoice.lib.actions import Key
 from castervoice.lib.merge.state.short import R

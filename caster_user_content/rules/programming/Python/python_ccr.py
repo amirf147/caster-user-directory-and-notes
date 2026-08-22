@@ -1,9 +1,12 @@
 """
-Originally Created on Sep 1, 2015
+Custom Python CCR Rule
 
-@author: synkarius
+Originally part of Caster (castervoice/rules/ccr/python_rules/python.py)
+Copyright (c) 2015-2026 synkarius, Caster Contributors
 
-Personal customizations added by Amir Farhadi
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
 """
 
 from dragonfly import Dictation, Choice

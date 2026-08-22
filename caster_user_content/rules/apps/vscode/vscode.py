@@ -1,3 +1,14 @@
+"""
+Custom VS Code Rule
+
+Derived from Caster VSCodeNonCcrRule (castervoice/rules/apps/editor/vscode_rules/vscode2.py & vscode.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Extended VS Code shortcuts, multi-cursor workflows, and personal navigation commands:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Mouse

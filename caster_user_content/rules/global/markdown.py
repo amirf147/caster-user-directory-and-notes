@@ -1,3 +1,14 @@
+"""
+Custom Markdown CCR Rule
+
+Originally part of Caster (castervoice/rules/ccr/markdown_rules/markdown.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Personal customizations:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import Function, Dictation, Choice, ShortIntegerRef
 
 from castervoice.lib.actions import Text, Key

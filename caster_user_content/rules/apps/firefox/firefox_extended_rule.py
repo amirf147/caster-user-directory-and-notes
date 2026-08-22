@@ -1,3 +1,14 @@
+"""
+Firefox Extended Rule
+
+Derived from Caster browser rules (castervoice/rules/apps/browser/firefox.py & chrome.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Comprehensive tab navigation, address bar, devtools, and page control macros:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import MappingRule, IntegerRef, Choice, Dictation, Repeat, Function, Pause, Mouse
 from castervoice.lib.actions import Key, Text
 from castervoice.lib.merge.state.short import R

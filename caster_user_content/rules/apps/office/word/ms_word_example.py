@@ -1,3 +1,10 @@
+"""
+Ms Word Example Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from dragonfly import MappingRule, Choice, IntegerRef
 from castervoice.lib.actions import Text, Key
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails

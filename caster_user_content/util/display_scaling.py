@@ -1,3 +1,10 @@
+"""
+Display Scaling: Multi-Monitor Geometry & DPI Scaling Engine
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 import ctypes
 from ctypes import wintypes
 from typing import Optional, Dict, Any, List

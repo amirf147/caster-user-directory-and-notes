@@ -1,3 +1,10 @@
+"""
+Caster Toggle Mic Key Module
+
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: Apache-2.0
+"""
+
 # Caster custom rule hosting an XML-RPC server for external hotkey toggle
 # This file is loaded by Caster from your user directory and binds to port 8341.
 

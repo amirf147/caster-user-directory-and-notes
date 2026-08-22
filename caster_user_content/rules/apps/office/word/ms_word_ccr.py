@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Word CCR Rule
+
+Derived from Caster Word formatting patterns (castervoice/rules/apps/windows_os/winword.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Continuous word formatting and editing macros:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from dragonfly import IntegerRef
 
 from castervoice.lib.actions import Key

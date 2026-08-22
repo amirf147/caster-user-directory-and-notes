@@ -1,0 +1,25 @@
+Caster User Directory & Custom Extensions
+Copyright 2024-2026 Amir Farhadi
+
+This product includes software developed by Amir Farhadi.
+
+========================================================================
+Third-Party & Upstream Software Notices
+========================================================================
+
+Portions of this repository are derived from or build upon the following
+open source projects:
+
+1. Caster (https://github.com/dictation-toolbox/Caster)
+   - Copyright (c) 2015-2026 Caster Contributors
+   - Licensed under GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later)
+   - Key credited contributors:
+     * synkarius (Original Caster author, Python CCR & standard grammar rules)
+     * LexiconCode (Caster core architecture & mouse alternatives rules)
+     * Alex Boche (Excel navigation & cell selection grammar patterns)
+     * Casper (VS Code CCR contributions)
+
+2. Dragonfly (https://github.com/dragonfly2/dragonfly)
+   - Copyright (c) 2008 by Christo Butcher
+   - Copyright (c) 2016-2026 by Dragonfly contributors
+   - Licensed under GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later)

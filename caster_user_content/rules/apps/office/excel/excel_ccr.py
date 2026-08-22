@@ -1,3 +1,14 @@
+"""
+Custom Microsoft Excel CCR Rule
+
+Derived from Caster Excel CCR commands (castervoice/rules/apps/microsoft_office/excel.py)
+Copyright (c) 2015-2026 Caster Contributors
+
+Continuous command recognition macros and editing extensions:
+Copyright (c) 2024-2026 Amir Farhadi
+SPDX-License-Identifier: LGPL-3.0-or-later
+"""
+
 from castervoice.lib.actions import Key
 
 from castervoice.lib.const import CCRType
