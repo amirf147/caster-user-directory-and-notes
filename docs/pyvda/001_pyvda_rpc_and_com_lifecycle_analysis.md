@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **001: PyVDA COM Lifecycle & Threading Analysis**
+
+---
+
 # PyVDA Architecture Analysis: COM Lifecycle, RPC Server Unavailability, and Threading Paradigms
 
 This document provides a deep architectural analysis of `pyvda` (specifically the `fix/rpc-server-unavailable` branch, commit `d2c6f2b`), examines the root cause of COM RPC server unavailability, evaluates the retry solution, and integrates verified insights from the **Wayfinder UIA & Threading Research Corpus** regarding COM Apartment Threading (**STA vs. MTA**).
@@ -89,7 +93,7 @@ In Windows COM, threading apartments govern how threads make cross-process calls
 
 | Feature | Single-Threaded Apartment (STA) | Multi-Threaded Apartment (MTA) |
 | :--- | :--- | :--- |
-| **Initialization** | `CoInitialize()` or `CoInitializeEx(COINIT_APARTMENTTHREADED)` | `CoInitializeEx(COINIT_MULTITHREADED)` |
+| **Initialization** | `CoInitialize()` / `CoInitializeEx(COINIT_APARTMENTTHREADED)` | `CoInitializeEx(COINIT_MULTITHREADED)` |
 | **Message Pump** | **Mandatory:** Requires active `GetMessage` / `DispatchMessage` loop. | **None required:** Method calls are dispatched directly on thread pools. |
 | **Deadlock Risk** | **High:** If the thread blocks or does synchronous work without pumping messages, cross-apartment calls freeze. | **Low:** No message pump to starve. |
 | **Primary Use Case** | User Interface threads (WPF, WinForms, Win32 window owners). | **Background observer/automation threads** (UIA clients, daemons). |

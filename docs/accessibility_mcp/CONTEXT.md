@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **ADCE Living Context Hub**
+
+---
+
 # Active Desktop Context Engine (ADCE) & Accessibility MCP — Evolving Context
 
 This document serves as the **living single source of truth** for the Desktop Context Engine / Accessibility MCP project. It aggregates domain knowledge, architectural decisions, observed behaviors, and roadmap goals from all exploratory research (`001`–`008`).

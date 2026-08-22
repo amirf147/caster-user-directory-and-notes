@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **006: PoC Architecture**
+
+---
+
 # Proof of Concept: Python Desktop Context Engine
 
 ## 1. Critique and Evaluation of Your Proposal
@@ -19,39 +23,41 @@ Triggering this from Caster is a great workflow test. We can create a simple voi
 
 ## 2. Proposed Architecture for the PoC
 
-To keep this performant and adhere to the design patterns we discussed (Event-Driven rather than Polling), the PoC will consist of three main logical components running in a single Python script.
-
-### Component A: The Event Hook (The Trigger)
-We will not use a `while True` loop that checks the screen every second. Instead, we will use Python's `ctypes` library to register a `SetWinEventHook` with the Windows OS.
-* **What it listens for:** `EVENT_SYSTEM_FOREGROUND` (Window switch) and `EVENT_OBJECT_FOCUS` (Clicking inside a window).
-* **What it does:** When an event fires, it passes the window handle (`HWND`) to the Extractor.
-
-### Component B: The UIA Extractor (The Brain)
-When triggered by the Event Hook, this component uses the `uiautomation` Python library to interrogate the focused window.
-* Instead of scraping the *entire* screen, it will use the focused element as the root and extract:
-  1. The Application Name (e.g., "Google Chrome")
-  2. The Window Title (e.g., "GitHub - User/Repo")
-  3. The focused control type (e.g., "Edit", "Document", "Button")
-  4. A localized tree of the immediate parents and children of the focused element.
-
-### Component C: The Formatter (The Output)
-This takes the raw UIAutomation objects and formats them into a clean, LLM-friendly JSON structure or a readable terminal tree, then prints it to standard output (your side terminal).
+```
+[Windows OS Events (SetWinEventHook)]
+       │
+       ▼
+[Event Listener (Python ctypes / pywin32)]
+       │  (EVENT_SYSTEM_FOREGROUND, EVENT_OBJECT_FOCUS)
+       ▼
+[Active Element Inspector (uiautomation)]
+       │  - Extract Window Title & Process Name
+       │  - Extract Focused Element (Type, Name, BoundingBox)
+       │  - Walk Up Tree (Ancestry Hierarchy)
+       │  - (Optional) Walk Down Tree (Extract Immediate Text Children)
+       ▼
+[Structured Context Graph (Python Dict / JSON)]
+       │
+       ▼
+[Terminal Visualizer (Rich or simple ANSI prints)]
+```
 
 ---
 
-## 3. Workflow for the Proof of Concept
+## 3. Step-by-Step Implementation Blueprint
 
-Here is how we will actually build and test this:
+### Step 1: Install Dependencies
+We will need `uiautomation` and `pywin32`.
+```bash
+py -3.10 -m pip install uiautomation pywin32
+```
 
-1. **Setup:** Create a standalone Python script (e.g., `context_poc.py`).
-2. **Implementation:** We will write a lightweight script using the `uiautomation` library.
-3. **Execution via Caster:** We will add a temporary rule in your Caster user directory to launch this script via a voice command.
-4. **Testing:**
-   * You say the command.
-   * A terminal window pops up.
-   * You click on a web browser. The terminal instantly prints the browser's tab name and focused text box.
-   * You click back to VS Code. The terminal instantly prints the line of code your cursor is on.
+### Step 2: Build the Event Hook Engine (`scripts/context_poc.py`)
+We will write a standalone script that:
+1. Registers a Win32 event hook for `EVENT_SYSTEM_FOREGROUND` (when the active window changes) and `EVENT_OBJECT_FOCUS` (when the user clicks a button, focuses a text box, switches tabs, etc.).
+2. Uses `uiautomation` to inspect the focused UI element and its parent hierarchy.
+3. Formats the output into a clean, colored terminal view.
 
-## 4. Next Steps
-
-If you approve of this architecture, our next step is to actually write the `context_poc.py` script. We can start with a very basic version that just prints the title of whatever window you click on, and then iteratively add the deeper UI tree extraction.
+### Step 3: Integrate with Caster (`caster_user_content/rules/global/context_engine_launcher.py`)
+We will create a Caster rule with a voice command:
+* `"launch context engine"` $\rightarrow$ Spawns `scripts/context_poc.py` in a new terminal window using `subprocess.Popen(["py", "-3.10", "scripts/context_poc.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)`.

@@ -1,19 +1,10 @@
-Listed directory caster
-Listed directory docs
-Listed directory context
-Viewed repository-brain.md:1-87
-Listed directory wayfinder-uia-threading
-Listed directory research
-Viewed map.md:1-91
-Viewed 034_determine_mcp_implementation_path_research.md:1-25
-Viewed 036_app_switcher_mcp_investigation.md:1-25
-Viewed claude-critique-verified-takeaways.md:1-120
-Viewed claude-critique-verified-takeaways.md:121-180
-Listed directory architecture
-Listed directory features
-Viewed app_switcher.md:1-70
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **001: Exploration, Analysis & Planning**
 
-Here is the comprehensive architectural exploration, security analysis, and planning framework for the **Windows C# Accessibility Hub & Micro MCP Server**.
+---
+
+# Exploration, Analysis & Planning (001)
+
+This document provides the foundational architectural exploration, security analysis, and planning framework for the Accessibility Hub and Context Engine.
 
 ---
 

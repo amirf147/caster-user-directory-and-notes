@@ -1,3 +1,22 @@
+## Archived Status Update: Sub-Millisecond Native Win32 App Switcher v3 (August 2026)
+
+### Production Deployment & Architectural Breakthroughs
+
+We successfully implemented and deployed the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).
+
+* **Direct Win32 Hot Path**: Replaced pywinauto wrapper overhead in the critical focus path with direct Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`, `AllowSetForegroundWindow`), achieving instant 0–10ms focus transitions.
+* **Guarded Keystate Safety**: Wrapped foreground-lock bypasses and thread input attachments in guarded context managers (`_alt_key_bypass`, `_attached_threads`) with guaranteed nested `finally` release of `VK_NONE` (`0xFF`) and `VK_MENU`, eliminating sticky Alt keys, menu bar lockups, and thread queue deadlocks.
+* **Encapsulated `AliasRegistry`**: Refactored alias dictionary persistence and stale handle pruning into an encapsulated `AliasRegistry` class managing `caster_user_content/window_aliases.json`.
+* **10ms Micro-Polling**: Replaced coarse sleep intervals with non-blocking 10ms micro-polling in `verify_focus(target_hwnd)`.
+* **Elimination of Brittle Macros**: Completely removed legacy `Win+T` taskbar keyboard traversal macros.
+
+#### Related Architectural Documents:
+* 🏗️ **[App Switcher Architectural Blueprint (v3)](docs/architecture/app_switcher_architectural_blueprint.md)**
+* 📜 **[App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md)**
+* 📖 **[App Switcher Feature Guide](docs/features/app_switcher.md)**
+
+---
+
 ## Archived Status Update: Wayfinder Session & Dragonfly BPC Fork (August 2026)
 
 ### App Switching & UIA Threading Investigation (Wayfinder Session)

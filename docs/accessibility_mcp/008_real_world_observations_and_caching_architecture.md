@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **008: Real-World Observations & Caching Architecture**
+
+---
+
 # Real-World Observations, Diagnostics, and Caching Architecture (008)
 
 This document captures the diagnostic findings from live testing of the ADCE monitor (v2.1), synthesizes verified findings from the **Wayfinder UIA & Threading Research Corpus**, and establishes the architectural rules for **Windows Virtual Desktops**, **COM Apartments (STA vs MTA)**, **Windows Console QuickEdit pitfalls**, **Multi-Tabstrip Management**, and **Direct Non-UIA Process Bridges**.

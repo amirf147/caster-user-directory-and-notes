@@ -9,15 +9,36 @@ Welcome to the Caster documentation repository. This directory contains architec
 Start here to understand the core architecture, active features, and engineering history:
 
 1. **[Repository Brain](context/repository-brain.md)** — **The Canonical Single Source of Truth (SSOT)**. Read this first for current facts, feature maps, confirmed architectural decisions, and known risks.
-2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-3. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
-4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
-5. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
-6. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
+2. **[ADCE Context Hub](accessibility_mcp/CONTEXT.md)** — Living context hub and technical blueprint for the **Active Desktop Context Engine (ADCE)** and Accessibility MCP.
+3. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
+4. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+5. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
+6. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
+7. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
 ---
 
 ## 📁 Categorized Directory Map
+
+### 🌐 [Accessibility MCP & Active Context Engine](accessibility_mcp/)
+Real-time OS semantic state tracking, deep tab discovery, and Model Context Protocol (MCP) server architecture.
+* **[ADCE Living Context Hub](accessibility_mcp/CONTEXT.md)** *(Living Single Source of Truth)*
+* [001: Exploration, Analysis & Planning](accessibility_mcp/001_exploration_analysis_planning.md)
+* [002: Epistemology, Patterns & Observability](accessibility_mcp/002_epistemology_patterns_and_observability.md)
+* [003: Cross-Platform Strategic Analysis](accessibility_mcp/003_strategic_analysis_cross_platform_and_context.md)
+* [004: Deep Research Metaprompt](accessibility_mcp/004_deep_research_metaprompt.md)
+* [005: Semantic Index & App SDK Analysis](accessibility_mcp/005_semantic_index_and_app_sdk.md)
+* [006: PoC Architecture Specification](accessibility_mcp/006_poc_architecture.md)
+* [007: Tab Extraction & Context Representation](accessibility_mcp/007_tab_extraction_and_context_representation.md)
+* [008: Real-World Observations & Caching Architecture](accessibility_mcp/008_real_world_observations_and_caching_architecture.md)
+
+### 🪟 [PyVDA Virtual Desktop Analysis](pyvda/)
+Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and threading.
+* [001: PyVDA COM Lifecycle & Threading Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
+
+### 🖥️ [Caster HUD Architecture](caster_hud/)
+Educational primers on the Caster on-screen heads-up display overlay.
+* [001: Caster HUD Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md)
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).

@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](001_caster_hud_architecture_and_threading_primer.md) › **001: Caster HUD Architecture & Threading Primer**
+
+---
+
 # Caster Heads-Up Display (HUD): Architecture, Threading, and IPC Primer
 
 This document provides an educational primer on the **Caster Heads-Up Display (HUD)**, explaining its process isolation, threading model, and Qt event architecture, and exploring how it achieves high performance in Python without hanging or blocking Caster's recognition loop.

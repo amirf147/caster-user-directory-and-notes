@@ -1,8 +1,12 @@
-Viewed Real-Time-OS-Semantic-State-Tracking-Architectural-Paradigms-for-LLM-Context-Del.md:1-141
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **005: Semantic Index & App SDK Analysis**
 
-You are absolutely right. The second half of this document is largely redundant to the first one we reviewed—it reiterates the same COM threading traps (STA vs. MTA), the `RPC_E_DISCONNECTED` errors, and the UIPI admin-privilege bypasses. 
+---
 
-However, the first half introduces some highly relevant concepts that drastically change the architecture we should be aiming for. Here is an analysis of what is new in this file, followed by the primer on the Microsoft tech you asked for.
+# Semantic Index & Windows App SDK Context Donation (005)
+
+This document analyzes the architectural paradigms of Microsoft Semantic Index, Windows Recall, Windows App SDK context donation, and the trade-offs with accessibility scraping.
+
+---
 
 ### 1. Analysis: What is new and valuable in this file?
 * **The "Capability Cliff" Data:** The document explicitly cites why we can't just use screenshots and a vision model. Benchmarks (UI-Vision) show that models like GPT-4o and Claude 3.5 have less than a **5% success rate on "Spatial Grounding"** (knowing exactly where on the screen a specific button is). This proves your intuition: we *must* have programmatic text/JSON data, not just pictures.

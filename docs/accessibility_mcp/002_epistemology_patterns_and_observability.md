@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **002: Epistemology, Patterns & Observability**
+
+---
+
 # Architectural Patterns, Epistemology Framework, and Observability Design
 
 **Document ID:** `docs/accessibility_mcp/002_epistemology_patterns_and_observability.md`  

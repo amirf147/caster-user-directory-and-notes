@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **003: Cross-Platform Strategic Analysis**
+
+---
+
 # Strategic Analysis: Language Trade-Offs, Desktop Context Graph, and Purpose Validation
 
 **Document ID:** `docs/accessibility_mcp/003_strategic_analysis_cross_platform_and_context.md`  

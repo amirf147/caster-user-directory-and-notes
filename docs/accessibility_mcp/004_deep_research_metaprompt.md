@@ -1,3 +1,7 @@
+[ 🏠 Docs Home ](../README.md) › [ 📁 Accessibility MCP ](CONTEXT.md) › **004: Deep Research Metaprompt**
+
+---
+
 # Deep Research Meta-Prompt: Active Desktop Context Engines (ADCE) & Real-Time OS State Hubs
 
 **Document ID:** `docs/accessibility_mcp/004_deep_research_metaprompt.md`  
