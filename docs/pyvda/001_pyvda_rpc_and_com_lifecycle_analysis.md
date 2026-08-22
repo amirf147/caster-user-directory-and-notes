@@ -1,30 +1,30 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **001: PyVDA COM Lifecycle & Threading Analysis**
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **001: RPC Server Unavailability & Stale Proxy Fix Analysis**
 
 ---
 
-# PyVDA Architecture Analysis: COM Lifecycle, RPC Server Unavailability, and Threading Paradigms
+# PyVDA: RPC Server Unavailability & Stale COM Proxy Fix Analysis (001)
 
-This document provides a deep architectural analysis of `pyvda` (specifically the `fix/rpc-server-unavailable` branch, commit `d2c6f2b`), examines the root cause of COM RPC server unavailability, evaluates the retry solution, and integrates verified insights from the **Wayfinder UIA & Threading Research Corpus** regarding COM Apartment Threading (**STA vs. MTA**).
+This document provides a technical analysis of `pyvda`'s `fix/rpc-server-unavailable` branch (commit `d2c6f2b`), examining the specific failure mode where `explorer.exe` restarts cause stale COM proxies, evaluating the `@_com_retry` implementation, and reviewing the re-hydration mechanics.
 
 ---
 
-## 1. Context & The Problem in PyVDA
+## 1. Context & The Specific Failure Mode
 
-`pyvda` provides Python bindings to the undocumented Windows Virtual Desktop APIs (`IVirtualDesktopManagerInternal`, `IApplicationViewCollection`, `IVirtualDesktopPinnedApps`). These COM interfaces are hosted out-of-process inside **`explorer.exe`**.
+`pyvda` provides Python bindings to undocumented Windows Virtual Desktop COM interfaces (`IVirtualDesktopManagerInternal`, `IApplicationViewCollection`, `IVirtualDesktopPinnedApps`) hosted out-of-process inside **`explorer.exe`**.
 
-### The Failure Mode:
-When `explorer.exe` restarts (due to a crash, display driver reset, shell restart, or user configuration change), the COM server hosting the virtual desktop interfaces is destroyed and recreated. 
+### The Failure Trigger:
+When `explorer.exe` restarts (due to a crash, shell restart, or display change), the out-of-process COM server is destroyed and recreated. 
 
-* **Before the Fix:** Any long-lived COM pointers held by `pyvda` in Python memory (`self._view`, `self._virtual_desktop`, `managers.manager_internal`) immediately became **stale/orphaned proxy stubs**.
-* Any subsequent method invocation (e.g. `get_virtual_desktops()`, `AppView.is_on_desktop()`) crashed with:
+* **Before the Fix:** Any long-lived COM pointers held in Python memory (`self._view`, `self._virtual_desktop`, `managers.manager_internal`) immediately became **orphaned proxy stubs**.
+* Any subsequent method invocation crashed with:
   - `RPC_S_SERVER_UNAVAILABLE` (`0x800706BA` / `-2147023174`)
   - `RPC_E_DISCONNECTED` (`0x80010108` / `-2147417848`)
 
 ---
 
-## 2. Analysis of the Fix in `fix/rpc-server-unavailable` (Commit `d2c6f2b`)
+## 2. Analysis of the Fix in Commit `d2c6f2b`
 
-The solution implemented in `pyvda` consists of three interconnected mechanisms:
+The solution implemented on `fix/rpc-server-unavailable` consists of three interconnected mechanisms:
 
 ```
                             ┌──────────────────────────────┐
@@ -75,40 +75,23 @@ def _com_retry(func):
 ```
 
 ### B. Object Re-Hydration (`_refresh()`)
-Instead of assuming a cached COM pointer is valid for the lifetime of a `VirtualDesktop` Python object, `VirtualDesktop` caches its immutable GUID (`self._id_cached = self._virtual_desktop.GetID()`).
+Instead of assuming a cached COM pointer is valid forever, `VirtualDesktop` and `AppView` cache their immutable identifiers:
+* `VirtualDesktop` caches `self._id_cached = self._virtual_desktop.GetID()`
+* `AppView` caches `self._hwnd_cached = self._view.GetThumbnailWindow()`
+
 When an RPC failure occurs:
 1. `managers.__init__()` reconnects to the newly launched `explorer.exe` instance via `CoCreateInstance(CLSID_ImmersiveShell, IServiceProvider)`.
 2. `self._virtual_desktop = managers.manager_internal.FindDesktop(self._id_cached)` re-fetches a fresh, valid COM interface pointer matching that GUID.
 
 ### C. Thread-Local COM Initialization (`threading.local`)
-`Managers` inherits from `threading.local`. When a new thread accesses `managers`, it automatically calls `CoInitialize()` on that thread.
-* If COM was already initialized on that thread in a different apartment mode (such as `COINIT_MULTITHREADED` / MTA), `CoInitialize` returns `0x80010106` (`RPC_E_CHANGED_MODE` / `-2147417850`).
-* PyVDA catches this specific `winerror == -2147417850`, logs a debug message, and proceeds safely, allowing PyVDA to be called from both STA UI threads and MTA background worker threads.
+`Managers` inherits from `threading.local`. When a new thread accesses `managers`, it automatically calls `CoInitializeEx()` on that thread.
+* If COM was already initialized on that thread in a different mode (such as `COINIT_MULTITHREADED` / MTA), `CoInitializeEx` returns `0x80010106` (`RPC_E_CHANGED_MODE` / `-2147417850`).
+* PyVDA catches this specific error gracefully without crashing.
 
 ---
 
-## 3. The STA vs. MTA Threading Refresher (Wayfinder Verified)
+## 3. Summary & Scope
 
-In Windows COM, threading apartments govern how threads make cross-process calls and receive callbacks:
+This fix provides a pragmatic, backward-compatible patch that solves runtime crashes when `explorer.exe` restarts.
 
-| Feature | Single-Threaded Apartment (STA) | Multi-Threaded Apartment (MTA) |
-| :--- | :--- | :--- |
-| **Initialization** | `CoInitialize()` / `CoInitializeEx(COINIT_APARTMENTTHREADED)` | `CoInitializeEx(COINIT_MULTITHREADED)` |
-| **Message Pump** | **Mandatory:** Requires active `GetMessage` / `DispatchMessage` loop. | **None required:** Method calls are dispatched directly on thread pools. |
-| **Deadlock Risk** | **High:** If the thread blocks or does synchronous work without pumping messages, cross-apartment calls freeze. | **Low:** No message pump to starve. |
-| **Primary Use Case** | User Interface threads (WPF, WinForms, Win32 window owners). | **Background observer/automation threads** (UIA clients, daemons). |
-
-### Microsoft Guidance on UI Automation:
-Microsoft explicitly mandates MTA for automation clients:
-> *"You should make all UI Automation calls from a separate thread. This thread should not own any windows, and should be a Multithreaded Apartment (MTA) model thread."*
-> — [Microsoft Learn: UI Automation Threading](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-threading)
-
----
-
-## 4. Architectural Synthesis & Recommendations
-
-1. **In PyVDA:** The `@_com_retry` and `_refresh()` pattern is the proven, correct solution for managing long-lived COM wrappers across `explorer.exe` lifecycle transitions.
-2. **In ADCE (Context Engine):**
-   * Keep the Win32 Event Hook message pump on Thread 1.
-   * Offload all UIAutomation and PyVDA calls to an **MTA background worker thread** (Thread 2).
-   * Extract primitive Python data (strings, numbers, GUIDs) immediately and discard COM proxies, avoiding stale pointer accumulation.
+For a comprehensive critique of PyVDA's deeper threading architecture, apartment boundary management, and whether this fix is a symptom of a broader architectural pattern, see **[`002_pyvda_core_architecture_and_threading_critique.md`](002_pyvda_core_architecture_and_threading_critique.md)**.

@@ -44,11 +44,11 @@ When resolving conflicting information within this repository, adhere to the fol
 | **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving |
 | **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3 |
 | **Active Desktop Context Engine (ADCE)** | [`scripts/context_poc.py`](../../scripts/context_poc.py) & [`caster_user_content/rules/global/context_engine_launcher.py`](../../caster_user_content/rules/global/context_engine_launcher.py) | [`docs/accessibility_mcp/CONTEXT.md`](../accessibility_mcp/CONTEXT.md) | Active Prototype (v2.1) |
-| **PyVDA Virtual Desktop Tracking** | Local library dependency (`pyvda`) | [`docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md) | Integrated / Resilient |
+| **PyVDA Virtual Desktop Tracking** | `pyvda` fork (`fix/rpc-server-unavailable` branch) | [`docs/pyvda/001`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md) & [`docs/pyvda/002`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md) | Custom Fork (RPC Fix) / Pending Upstream PR |
 | **Caster HUD Overlay & IPC** | [`castervoice/asynch/hud.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/001_caster_hud_architecture_and_threading_primer.md`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md) | Core Architecture Primer |
 | **Foot Pedal Integration** | [`caster_user_content/util/foot_pedal.py`](../../caster_user_content/util/foot_pedal.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
 | **LexiconCode Window Switching** | [`caster_user_content/rules/global/window_switching.py`](../../caster_user_content/rules/global/window_switching.py) | [`docs/features/lexicon_code_window_switching_functionality.md`](../features/lexicon_code_window_switching_functionality.md) | Evaluating / Active |
-| **Numeric CCR Integration** | [`caster_user_content/rules/global/numeric.py`](../../caster_user_content/rules/global/numeric.py) | [`docs/features/number-series-ccr-analysis.md`](../features/number-series-ccr-analysis.md) | Custom Setup Fork / Pending Upstream PR |
+| **Numeric CCR Integration** | `castervoice/rules/core/numbers_rules/numeric.py` (custom Caster fork) | [`docs/features/number-series-ccr-analysis.md`](../features/number-series-ccr-analysis.md) | Custom Setup Fork / Pending Upstream PR |
 
 ## 4. Current Facts & Architecture
 

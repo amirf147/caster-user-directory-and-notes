@@ -50,6 +50,7 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 
 ### PyVDA Analysis (`docs/pyvda/`)
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
+- [`002_pyvda_core_architecture_and_threading_critique.md`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md): Core architectural critique of PyVDA threading, apartment boundaries, and stateless design alternatives.
 
 ### Caster HUD Primer (`docs/caster_hud/`)
 - [`001_caster_hud_architecture_and_threading_primer.md`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md): Educational primer on Caster HUD process isolation, XML-RPC IPC, and Qt `postEvent` architecture.

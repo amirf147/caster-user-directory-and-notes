@@ -34,7 +34,8 @@ Real-time OS semantic state tracking, deep tab discovery, and Model Context Prot
 
 ### 🪟 [PyVDA Virtual Desktop Analysis](pyvda/)
 Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and threading.
-* [001: PyVDA COM Lifecycle & Threading Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
+* [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
+* [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers on the Caster on-screen heads-up display overlay.
