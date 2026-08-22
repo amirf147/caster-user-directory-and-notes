@@ -176,4 +176,4 @@ This doesn't mean the C# direction is wrong — native UIA support, a cleaner pr
 - ["How do I get back the OLD SetForegroundWindow" — bobmoore.mvps.org](http://bobmoore.mvps.org/Win32/w32tip33.htm)
 - [Windows Terminal issue #34 — console QuickEdit blocking output, confirmed "by design"](https://github.com/microsoft/terminal/issues/34)
 - [NVDA PR #14888 — moving UIA event handling into C++, MTA/GIL discussion](https://github.com/nvaccess/nvda/pull/14888)
-- [NVDA source — `_UIAHandler.py`](https://github.com/nvaccess/nvda/blob/master/source/_UIAHandler.py)
+- [NVDA source — `UIAHandler/`](https://github.com/nvaccess/nvda/tree/master/source/UIAHandler)

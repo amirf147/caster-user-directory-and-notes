@@ -42,12 +42,12 @@ If we leverage this, we don't have to build a hacky, brittle UIA scraper that br
 ### 3. Relevant Links for Further Reading
 If you want to dive deeper into how we might integrate this into the MCP tool, here are the core Microsoft documentation concepts to explore:
 
-1. **Windows Copilot Runtime Overview:**
-   * [Microsoft Learn: Windows Copilot Runtime](https://learn.microsoft.com/en-us/windows/ai/copilot-runtime/)
-2. **Integrating with Windows Recall / User Activity API:**
-   * [Microsoft Learn: Recall User Activity API](https://learn.microsoft.com/en-us/windows/apps/develop/user-activity) (How apps donate their semantic state).
-3. **App Actions (The future of executing agentic tasks without clicking):**
-   * [Microsoft Learn: Windows App Actions](https://learn.microsoft.com/en-us/windows/apps/develop/app-actions/)
+1. **Windows AI Overview:**
+   * [Microsoft Learn: Windows AI](https://learn.microsoft.com/en-us/windows/ai/)
+2. **Integrating with Windows App SDK:**
+   * [Microsoft Learn: Windows App SDK](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/)
+3. **App Activities & APIs:**
+   * [Microsoft Learn: Windows App Development](https://learn.microsoft.com/en-us/windows/apps/)
 
 **Next Steps for our architecture:** We should design the MCP Context Hub with two modules:
 1. A **"Modern Context Provider"** that attempts to pull clean semantic data from the Windows App SDK/Semantic Index.

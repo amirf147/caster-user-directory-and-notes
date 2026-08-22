@@ -4,7 +4,7 @@ Superseded by: docs/architecture/app_switcher_architectural_blueprint.md
 Archived Date: 2026-08-14
 ---
 
-[ 🏠 Docs Home](../../README.md) › [ 🏗️ Architecture ](../README.md#architecture) › [ 🗄️ Architecture Archive ](./) › **Architectural Blueprint v1: `util/app_switcher.py` (Archived)**
+[ 🏠 Docs Home ](../../README.md) › [ 🏗️ Architecture ](../app_switcher_architectural_blueprint.md) › [ 🗄️ Architecture Archive ](./) › **Architectural Blueprint v1: `util/app_switcher.py` (Archived)**
 
 > [!NOTE]
 > **Historical Archive**: This document represents **Blueprint v1** (initial pre-refactor architectural analysis).

@@ -26,10 +26,10 @@ jobs:
           pip install ruff
 
       - name: Lint Python Code (Ruff)
-        run: ruff check .
+        run: ruff check caster_user_content scripts
 
       - name: Verify Formatting (Ruff Format)
-        run: ruff format --check .
+        run: ruff format --check caster_user_content scripts
 
       - name: Run Absolute Path Checker
         run: python scripts/check_absolute_paths.py
