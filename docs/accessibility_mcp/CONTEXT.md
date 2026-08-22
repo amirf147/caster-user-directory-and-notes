@@ -33,6 +33,7 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 | **Multi-Tabstrip & F1** | Sidebars (Tree Style Tab, Sidebery) create multiple active tabs; collapsing with `F1` unmounts them from UIA. | Group tabs by parent container; consider Native Messaging bridges for persistent background tab states. | [`008`](008_real_world_observations_and_caching_architecture.md) |
 | **Console QuickEdit** | Clicking inside Windows command prompt pauses `stdout` draining at the OS level. | Disable QuickEdit or decouple human terminal rendering from the core background data pipeline. | [`008`](008_real_world_observations_and_caching_architecture.md) |
 | **Terminal Overflow** | Large tab sets (40+ tabs) push hierarchy and element details off-screen. | Implement compact summaries for human monitor; stream full arrays via JSON/MCP. | [`008`](008_real_world_observations_and_caching_architecture.md) |
+| **Multi-App Container Bleed** | When focused on an overlay (e.g. record button), `GetParentControl()` climbs to root shell, flattening 42 tabs across background windows (Waterfox + Explorer instances) into one list. | Anchor `top_window` strictly to Win32 `GetForegroundWindow()`; group discovered tabs by `HWND` and parent container. | [`009`](009_live_telemetry_and_tab_diagnostics.md) |
 
 ---
 
@@ -47,6 +48,8 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`006_poc_architecture.md`](006_poc_architecture.md): Blueprint for the Python event-driven Proof of Concept.
 - [`007_tab_extraction_and_context_representation.md`](007_tab_extraction_and_context_representation.md): Technical mechanics of tab extraction, selection bitmasks, and node highlighting.
 - [`008_real_world_observations_and_caching_architecture.md`](008_real_world_observations_and_caching_architecture.md): Live diagnostics, multi-tabstrip findings, QuickEdit stalls, and non-UIA direct process bridges.
+- [`009_live_telemetry_and_tab_diagnostics.md`](009_live_telemetry_and_tab_diagnostics.md): Multi-app container bleed diagnostics, latency post-mortem, rolling observability stream, and time-series telemetry architecture.
+- [`010_telemetry_benchmarks_and_live_findings.md`](010_telemetry_benchmarks_and_live_findings.md): Empirical telemetry benchmarks, 6,800-node browser traversal costs, and File Explorer dual-tabstrip resolution.
 
 ### PyVDA Analysis (`docs/pyvda/`)
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
