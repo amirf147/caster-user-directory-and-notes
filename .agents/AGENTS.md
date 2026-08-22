@@ -18,3 +18,7 @@
 
 ### Validation
 - Every behavior change to code or configuration must be followed by running the relevant validation command(s) to verify safety and correctness (e.g., custom validation scripts for absolute paths and duplicate phrases).
+
+### Status Updates & README Preservation
+- Whenever making changes to the master `README.md` at the repository root related to status updates or active engineering focus, any previous content being replaced or removed must be preserved and prepended to `status-update-history.md` exactly as it was, maintaining a continuous, accurate historical timeline.
+

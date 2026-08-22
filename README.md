@@ -33,19 +33,21 @@ Contains workflows (such as `/commit`) and workspace configuration rules specifi
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, and accessibility mechanics:
 
-### 1. Current Focus: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.1 PoC & v3 Caching Architecture)
-* **Status Update (Active Prototype & Architecture)**: We have built and are actively validating the **Active Desktop Context Engine (ADCE)** live monitor (`scripts/context_poc.py`), launched via the voice rule `"launch context engine"` (`caster_user_content/rules/global/context_engine_launcher.py`).
+### 1. Current Focus: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.2 Live Telemetry & Benchmarks)
+* **Status Update (Active Prototype & Architecture)**: We have built and verified the **Active Desktop Context Engine (ADCE v2.2)** live monitor (`scripts/context_poc.py`), launched via the voice rule `"launch context engine"` (`caster_user_content/rules/global/context_engine_launcher.py`).
 * **What Was Implemented & Discovered**:
-  * **Event-Driven OS Hooks**: Zero-polling Win32 event hooks (`SetWinEventHook` listening to `EVENT_SYSTEM_FOREGROUND` and `EVENT_OBJECT_FOCUS`), running in a COM Multithreaded Apartment (MTA) with 0% idle CPU usage.
-  * **Deep Tab Discovery & Active Item Marking**: Comprehensive tab extraction traversing top-level windows down to depth 14 across Waterfox, Chrome, Firefox, and VS Code/Antigravity IDE, with active tab identification via `SelectionItemPattern`, legacy MSAA state bitmasks, and focus heuristics.
-  * **Root Window Anchoring**: Fixed Electron/Gecko `DocumentControl` trapping by anchoring to top-level Win32 `GetForegroundWindow()` handles.
-  * **PyVDA COM Resiliency**: Documented and verified `pyvda`'s `@_com_retry` and `_refresh()` mechanisms for recovering from `RPC_S_SERVER_UNAVAILABLE` and `RPC_E_DISCONNECTED` errors when `explorer.exe` restarts.
-  * **Two-Tier State Caching Blueprint**: Designed the v3 caching architecture (Macro Sync on window change, Micro Mutation on focus change) to eliminate redundant deep UIA tree traversals.
+  * **High-Resolution Execution Telemetry**: Integrated microsecond performance timers (`time.perf_counter()`) and live traversal metrics (`nodes_scanned`, `max_depth_reached`, `hwnd_class`), logging structured telemetry events to `data/adce_telemetry.jsonl`.
+  * **Console QuickEdit Protection**: Automatically clears `ENABLE_QUICK_EDIT_MODE` via `kernel32.SetConsoleMode` at startup to eliminate click-to-pause terminal freezes.
+  * **Empirical COM RPC Benchmarks**: Quantified real-world traversal latencies across Electron (62 nodes, 120ms), Gecko/Waterfox (6,806 nodes, 5.9s), and Windows 11 File Explorer (618 nodes, 723ms), proving the necessity of web document subtree pruning.
+  * **Multi-Container & Dual-Tabstrip Resolution**: Resolved the multi-active tab mechanism by mapping Windows 11 File Explorer's native window tabstrip vs in-page sub-pivot (`Recent`/`Favorites`/`Shared`).
+  * **Top Window & Process Anchoring**: Anchored `top_window` strictly to Win32 `GA_ROOT` and `GetForegroundWindow()` to prevent cross-app container scope bleed.
 * **Key Documentation**:
   * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
-  * 🔬 **[Real-World Observations & Caching Architecture (008)](docs/accessibility_mcp/008_real_world_observations_and_caching_architecture.md)**
-  * 🗂️ **[Tab Extraction & Context Representation (007)](docs/accessibility_mcp/007_tab_extraction_and_context_representation.md)**
-  * ⚙️ **[PyVDA COM Lifecycle Analysis (001)](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)**
+  * 📊 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](docs/accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
+  * 🔬 **[Live Telemetry, Observability & Tab Diagnostics (009)](docs/accessibility_mcp/009_live_telemetry_and_tab_diagnostics.md)**
+  * 🗂️ **[Real-World Observations & Caching Architecture (008)](docs/accessibility_mcp/008_real_world_observations_and_caching_architecture.md)**
+  * 📑 **[Tab Extraction & Context Representation (007)](docs/accessibility_mcp/007_tab_extraction_and_context_representation.md)**
+  * ⚙️ **[PyVDA COM Lifecycle Analysis (001)](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)** | **[Core Architecture Critique (002)](docs/pyvda/002_pyvda_core_architecture_and_threading_critique.md)**
   * 🖥️ **[Caster HUD Threading Primer (001)](docs/caster_hud/001_caster_hud_architecture_and_threading_primer.md)**
 
 ### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)

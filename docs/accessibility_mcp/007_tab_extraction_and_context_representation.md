@@ -95,5 +95,5 @@ The live terminal dashboard in `context_poc.py` outputs a structured, colorized 
 
 ## 4. Next Steps & Evolution
 
-* **Group by Tabstrip Container:** Separate top tab bars from sidebar extensions (e.g. Tree Style Tab / Sidebery).
+* **Group by Tabstrip Container:** Separate top tab bars from sidebar extensions (e.g. Tree Style Tab).
 * **Two-Tier Caching:** Avoid re-walking the tree on micro-focus events by updating the active tab via $O(1)$ window title matching against cached tab arrays.

@@ -27,7 +27,7 @@ This document captures the diagnostic findings from live testing of the ADCE mon
 ### Observation C: The Multi-Tabstrip Phenomenon (Tree Style Tab & F1 Toggling)
 * **What Happened:** 
   1. A browser displayed 40 tabs with two active items (`Tab 11: Active Web Page` in the horizontal tab strip and `Tab 39: Extension Tool` in the sidebar).
-  2. When pressing `F1` (toggling Tree Style Tab / Sidebery sidebar visibility), the discovered tab count changed dynamically.
+  2. When pressing `F1` (toggling Tree Style Tab sidebar visibility), the discovered tab count changed dynamically.
 * **The Mechanism:** 
   1. Modern browsers with sidebar extensions maintain **two separate `TabControl` containers** in the same window (top horizontal tab strip vs vertical sidebar). Both containers legitimately maintain an active item with `SelectionItemPattern.IsSelected == True`.
   2. UIA is an *accessibility* API; it only reflects UI elements currently mounted in the active render tree. When a sidebar or tab bar is collapsed/hidden (`F1`), the OS prunes those accessibility proxies from the tree.

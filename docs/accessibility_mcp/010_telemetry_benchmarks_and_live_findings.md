@@ -216,7 +216,7 @@ When clicking on the Windows Taskbar (`Shell_TrayWnd`), the monitor initially ca
    * *Strengths:* Zero installation, zero external plugin friction, works universally across legacy Win32, WinUI, WPF, and OS dialogs.
    * *Hard Boundaries:*
      * **Performance Ceiling:** Deep COM RPC across process boundaries is inherently CPU- and latency-intensive without aggressive pruning.
-     * **Epistemic Incompleteness:** When tabs are hidden (e.g. Sidebery collapsed with `F1`, minimized editor groups), UIA *literally does not know they exist* because the OS prunes unmounted DOM nodes from the accessibility tree.
+     * **Epistemic Incompleteness:** When tabs are hidden (e.g. Tree Style Tab collapsed with `F1`, minimized editor groups), UIA *literally does not know they exist* because the OS prunes unmounted DOM nodes from the accessibility tree.
      * **Electron Laziness:** Chromium's on-demand accessibility model requires constant heuristic tuning to coax it into exposing HTML tabs.
 
 2. **Option B: Dual-Plane Architecture (Universal UIA Base + Direct Process Bridges)**
