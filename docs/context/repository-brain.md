@@ -66,6 +66,7 @@ When resolving conflicting information within this repository, adhere to the fol
 - **Root Window Anchoring:** Resolves the true top-level application window by anchoring to Win32 `GetForegroundWindow()` rather than climbing up from child Chromium/Gecko render panes (`Chrome Legacy Window` / `DocumentControl`).
 - **Deep Tab Extraction:** Walks top-level windows down to depth 14 across Waterfox, Chrome, Firefox, and VS Code/Antigravity, identifying active tabs via `SelectionItemPattern`, legacy MSAA state bitmasks, and focus heuristics.
 - **Two-Tier Caching Blueprint:** Tier 1 (Macro Sync on window switch) caches the full tab array; Tier 2 (Micro Mutation on focus change) matches the active tab via $O(1)$ window title comparisons, eliminating deep recursive tree walks on every mouse click.
+- **Epistemic Circuit Breaker & 4-Gate Protocol:** Exploratory research on transitioning to a compiled C# daemon ([`014`](../accessibility_mcp/014_csharp_daemon_handover_and_skill_spec.md)) is paused under [`015`](../accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md) pending Gate 3 empirical micro-spikes (`spike_csharp_flaui_cache.cs` vs `spike_win32_shallow_python.py`) to prevent premature convergence and validate OS physics before building formal specs.
 - **PyVDA COM Lifecycle:** Undocumented Windows Virtual Desktop COM interfaces hosted in `explorer.exe` can become invalid if Explorer restarts. `pyvda`'s `@_com_retry` decorator with exponential backoff and GUID re-hydration (`_refresh()`) is the verified pattern for preventing `RPC_S_SERVER_UNAVAILABLE` (`0x800706BA`) and `RPC_E_DISCONNECTED` (`0x80010108`) crashes.
 - **Caster HUD Architecture:** The Caster HUD runs as an isolated OS process with a background `SimpleXMLRPCServer` daemon. It avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls to dispatch HTML updates directly to the main Qt GUI event queue.
 
@@ -88,6 +89,7 @@ When resolving conflicting information within this repository, adhere to the fol
 
 - **Python Version:** Always use `py -3.10`.
 - **Relative Markdown Links:** All documentation links must be relative to prevent local metadata leaks.
+- **Epistemic Discipline & Falsification Spikes:** Do not propose multi-file architectural rewrites or cross-runtime pivots based on theoretical advantages alone. Every major proposal must pass the 4-gate protocol (Telemetry → Adversarial Red-Team → <50-line Micro-Spike → Blueprint).
 - **Synchronous Execution:** Brief synchronous blocking during a focus command is correct. Later voice input must not be sent to a window whose focus transition is still in flight. Execution must be bounded, observable, and recoverable.
 - **Process Lifecycle:** The client owns the child-process lifecycle for MCP servers and must always terminate/await the server in `try`/`finally` to avoid orphan processes.
 - **UIA Traversal:** Do not add unbounded UIA traversals, busy waits, or unsafely shared COM objects. Use `CacheRequest` for narrow properties.

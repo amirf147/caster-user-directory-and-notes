@@ -11,7 +11,7 @@ This repository houses custom voice grammars, low-latency window switching utili
 
 ## 🤖 .agents Folder
 
-Contains workflows (such as `/commit`) and workspace configuration rules specifically for the **Antigravity** editor.
+Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-architecture-review`) and workspace configuration rules specifically for the **Antigravity** editor.
 
 ---
 
@@ -33,22 +33,22 @@ Contains workflows (such as `/commit`) and workspace configuration rules specifi
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, and accessibility mechanics:
 
-### 1. Current Focus: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.2 Live Telemetry & Benchmarks)
-* **Status Update (Active Prototype & Architecture)**: We have built and verified the **Active Desktop Context Engine (ADCE v2.2)** live monitor (`scripts/context_poc.py`), launched via the voice rule `"launch context engine"` (`caster_user_content/rules/global/context_engine_launcher.py`).
-* **What Was Implemented & Discovered**:
-  * **High-Resolution Execution Telemetry**: Integrated microsecond performance timers (`time.perf_counter()`) and live traversal metrics (`nodes_scanned`, `max_depth_reached`, `hwnd_class`), logging structured telemetry events to `data/adce_telemetry.jsonl`.
-  * **Console QuickEdit Protection**: Automatically clears `ENABLE_QUICK_EDIT_MODE` via `kernel32.SetConsoleMode` at startup to eliminate click-to-pause terminal freezes.
-  * **Empirical COM RPC Benchmarks**: Quantified real-world traversal latencies across Electron (62 nodes, 120ms), Gecko/Waterfox (6,806 nodes, 5.9s), and Windows 11 File Explorer (618 nodes, 723ms), proving the necessity of web document subtree pruning.
-  * **Multi-Container & Dual-Tabstrip Resolution**: Resolved the multi-active tab mechanism by mapping Windows 11 File Explorer's native window tabstrip vs in-page sub-pivot (`Recent`/`Favorites`/`Shared`).
-  * **Top Window & Process Anchoring**: Anchored `top_window` strictly to Win32 `GA_ROOT` and `GetForegroundWindow()` to prevent cross-app container scope bleed.
+### 1. Current Focus: Epistemic Recalibration & Adversarial Review (Phase 3 Gate 3 Micro-Spikes)
+* **Status Update (Epistemic Circuit Breaker & Falsification Spikes)**: In accordance with **[015: Epistemic Recalibration](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**, we have paused the premature compiled C# daemon handover (`014`) to prevent solution bias. We have established a permanent **4-Gate Epistemic Gating Protocol** and are executing empirical micro-spikes to falsify core physical assumptions before committing to any architecture.
+* **What Was Concluded & Synthesized**:
+  * **The Jumping-the-Gun Post-Mortem**: Acknowledged teleological solution bias where multi-second browser DOM traversal latencies (6,800 nodes) triggered an immediate leap to a multi-runtime C# rewrite (`014`) without empirical proof that UIA 3 caching avoids underlying browser IPC stalls.
+  * **Adversarial Critique & 3 Mutually Exclusive Options**: Evaluated three distinct architectural paths with fatal flaws and hidden operational assumptions: (A) Direct Browser Extension / Native Messaging, (B) Standalone C# .NET 10 FlaUI 5 Daemon, and (C) Pruned In-Process Python Win32/UIA.
+  * **4-Gate Epistemic Protocol**: Codified workspace rules and an automated workflow (`.agents/workflows/adversarial-architecture-review.md`) enforcing: (1) Physical logs only → (2) Adversarial red-team → (3) <50-line micro-spike → (4) Architectural blueprint.
+  * **Next Empirical Step (Gate 3 Micro-Spikes)**: Measuring raw latency across two minimal scripts: compiled C# FlaUI 5 `CacheRequest` (`spike_csharp_flaui_cache.cs`) vs shallow Win32 top-level caching in Python (`spike_win32_shallow_python.py`).
 * **Key Documentation**:
   * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
-  * 📊 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](docs/accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
-  * 🔬 **[Live Telemetry, Observability & Tab Diagnostics (009)](docs/accessibility_mcp/009_live_telemetry_and_tab_diagnostics.md)**
-  * 🗂️ **[Real-World Observations & Caching Architecture (008)](docs/accessibility_mcp/008_real_world_observations_and_caching_architecture.md)**
-  * 📑 **[Tab Extraction & Context Representation (007)](docs/accessibility_mcp/007_tab_extraction_and_context_representation.md)**
+  * 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
+  * 🚀 **[C# Context Daemon Handover Blueprint (014)](docs/accessibility_mcp/014_csharp_daemon_handover_and_skill_spec.md)** *(Exploratory Blueprint - Paused)*
+  * 📑 **[Empirical Post-Mortem & WinEvent Diagnostics (013)](docs/accessibility_mcp/013_v23_empirical_postmortem_and_event_diagnostics.md)**
+  * 📊 **[Live Empirical Tab Extraction Report (012)](docs/accessibility_mcp/012_empirical_tab_extraction_report.md)**
+  * 🔬 **[Landscape Review, FlaUI & Dual-Plane Architecture (011)](docs/accessibility_mcp/011_flaui_evaluation_and_dual_plane_architecture.md)**
+  * 📈 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](docs/accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
   * ⚙️ **[PyVDA COM Lifecycle Analysis (001)](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)** | **[Core Architecture Critique (002)](docs/pyvda/002_pyvda_core_architecture_and_threading_critique.md)**
-  * 🖥️ **[Caster HUD Threading Primer (001)](docs/caster_hud/001_caster_hud_architecture_and_threading_primer.md)**
 
 ### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
 * **Status (Active Production)**: Running with the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).

@@ -101,9 +101,9 @@ To understand traversal costs, tree depth, and timing in real time, the engine r
 │  WINDOW A: Live Context Dashboard      │       │  WINDOW B: Rolling Telemetry & Logs    │
 │  (Clean, Bounded, Human-Readable TUI)  │       │  (High-Velocity Trace Stream / JSONL)  │
 ├────────────────────────────────────────┤       ├────────────────────────────────────────┤
-│ • Macro Workspace: Desktop 1 (Job)     │       │ [12:16:26.102] [HOOK] FOCUS_CHANGED    │
+│ • Macro Workspace: Desktop 1 (Dev)     │       │ [12:16:26.102] [HOOK] FOCUS_CHANGED    │
 │ • Active App: Waterfox (PID: 1968)     │       │ [12:16:26.105] [HWND] 0x002A0B42       │
-│ • Active Tab: [Waterfox] Portfolio     │       │ [12:16:26.110] [WALK] Depth: 9, Nodes: │
+│ • Active Tab: [Waterfox] Docs Portal   │       │ [12:16:26.110] [WALK] Depth: 9, Nodes: │
 │ • Secondary Tabs: 41 open (Condensed)  │       │                342, Latency: 48.2ms    │
 │ • Focused Node: [Button] Stop Record   │       │ [12:16:26.158] [CACHE] Hit: False      │
 │ • Tree Depth: 4 levels                 │       │ [12:16:26.160] [RENDER] Paint: 1.4ms   │

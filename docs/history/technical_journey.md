@@ -6,20 +6,22 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Current Focus: Active Desktop Context Engine (ADCE) & Accessibility MCP (Active / Prototype v2.1)
-- **Active Prototype Status**: We have implemented and are actively validating the **Active Desktop Context Engine (ADCE)** live monitor (`scripts/context_poc.py`), launched via the voice rule `"launch context engine"` ([`context_engine_launcher.py`](../../caster_user_content/rules/global/context_engine_launcher.py)).
-- **Core Engineering Breakthroughs**:
-  - **Zero-Polling Win32 Event Hooks**: Implemented native Windows Event Hooks (`SetWinEventHook`) for `EVENT_SYSTEM_FOREGROUND` and `EVENT_OBJECT_FOCUS` running in a COM Multithreaded Apartment (MTA), achieving real-time state updates with 0% idle CPU usage.
-  - **Deep Tab Discovery**: Added recursive UIA traversal down to depth 14 across Waterfox, Chrome, Firefox, and VS Code/Antigravity IDE, with multi-heuristic active tab detection (`SelectionItemPattern`, MSAA legacy bitmasks, and focus heuristics).
-  - **PyVDA COM Resiliency**: Documented and verified `pyvda`'s `@_com_retry` decorator and GUID re-hydration (`_refresh()`) to make virtual desktop queries completely resilient against `explorer.exe` restarts.
-  - **Caster HUD Threading Analysis**: Documented the Caster HUD's out-of-process Qt + XML-RPC + `postEvent` architecture as a proven pattern for zero-blocking GUI overlays.
-  - **Two-Tier Caching Blueprint**: Formulated the v3 caching architecture (Macro Sync on window change, Micro Mutation on focus change) to prevent expensive tree traversals on micro-clicks.
+### 1. Current Focus: Epistemic Recalibration & Adversarial Review (Phase 3 Gate 3 Micro-Spikes)
+- **Active Status**: In accordance with **[015: Epistemic Recalibration](../accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**, we have paused the premature compiled C# daemon handover (`014`) to eliminate solution bias. We have established a permanent **4-Gate Epistemic Gating Protocol** and are executing empirical micro-spikes to falsify core physical assumptions before committing to any architecture.
+- **Core Engineering Breakthroughs & Findings**:
+  - **The Jumping-the-Gun Post-Mortem**: Acknowledged teleological solution bias where multi-second browser DOM traversal latencies (6,800 nodes) triggered an immediate leap to a multi-runtime C# rewrite (`014`) without empirical proof that UIA 3 caching avoids underlying browser IPC stalls.
+  - **Adversarial Critique & 3 Mutually Exclusive Options**: Evaluated three distinct architectural paths with fatal flaws and hidden operational assumptions: (A) Direct Browser Extension / Native Messaging, (B) Standalone C# .NET 10 FlaUI 5 Daemon, and (C) Pruned In-Process Python Win32/UIA.
+  - **4-Gate Epistemic Protocol**: Codified workspace rules and an automated workflow (`.agents/workflows/adversarial-architecture-review.md`) enforcing: (1) Physical logs only → (2) Adversarial red-team → (3) <50-line micro-spike → (4) Architectural blueprint.
+  - **Next Empirical Step (Gate 3 Micro-Spikes)**: Measuring raw latency across two minimal scripts: compiled C# FlaUI 5 `CacheRequest` (`spike_csharp_flaui_cache.cs`) vs shallow Win32 top-level caching in Python (`spike_win32_shallow_python.py`).
 - **Key Documentation**:
   - 🧠 **[ADCE Living Context Hub](../accessibility_mcp/CONTEXT.md)**
-  - 🔬 **[Real-World Observations & Caching Architecture (008)](../accessibility_mcp/008_real_world_observations_and_caching_architecture.md)**
-  - 🗂️ **[Tab Extraction & Context Representation (007)](../accessibility_mcp/007_tab_extraction_and_context_representation.md)**
+  - 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](../accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
+  - 🚀 **[C# Context Daemon Handover Blueprint (014)](../accessibility_mcp/014_csharp_daemon_handover_and_skill_spec.md)** *(Exploratory Blueprint - Paused)*
+  - 📑 **[Empirical Post-Mortem & WinEvent Diagnostics (013)](../accessibility_mcp/013_v23_empirical_postmortem_and_event_diagnostics.md)**
+  - 📊 **[Live Empirical Tab Extraction Report (012)](../accessibility_mcp/012_empirical_tab_extraction_report.md)**
+  - 🔬 **[Landscape Review, FlaUI & Dual-Plane Architecture (011)](../accessibility_mcp/011_flaui_evaluation_and_dual_plane_architecture.md)**
+  - 📈 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](../accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
   - ⚙️ **[PyVDA COM Lifecycle Analysis (001)](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)**
-  - 🖥️ **[Caster HUD Threading Primer (001)](../caster_hud/001_caster_hud_architecture_and_threading_primer.md)**
 
 ---
 

@@ -34,6 +34,8 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 | **Console QuickEdit** | Clicking inside Windows command prompt pauses `stdout` draining at the OS level. | Disable QuickEdit or decouple human terminal rendering from the core background data pipeline. | [`008`](008_real_world_observations_and_caching_architecture.md) |
 | **Terminal Overflow** | Large tab sets (40+ tabs) push hierarchy and element details off-screen. | Implement compact summaries for human monitor; stream full arrays via JSON/MCP. | [`008`](008_real_world_observations_and_caching_architecture.md) |
 | **Multi-App Container Bleed** | When focused on an overlay (e.g. record button), `GetParentControl()` climbs to root shell, flattening 42 tabs across background windows (Waterfox + Explorer instances) into one list. | Anchor `top_window` strictly to Win32 `GetForegroundWindow()`; group discovered tabs by `HWND` and parent container. | [`009`](009_live_telemetry_and_tab_diagnostics.md) |
+| **Python Traversal Debt vs. C# UIA3** | Manual recursive tree walking in Python encounters severe DOM traversal lag, sidebar iframe clipping, and synchronous COM message pump stalls. | Initial proposal to pivot to C# FlaUI (`014`) paused in `015` pending empirical micro-spikes to verify whether UIA3 caching actually circumvents browser DOM walk costs. | [`011`](011_flaui_evaluation_and_dual_plane_architecture.md), [`013`](013_v23_empirical_postmortem_and_event_diagnostics.md), [`014`](014_csharp_daemon_handover_and_skill_spec.md), [`015`](015_recalibration_and_adversarial_architecture_review.md) |
+| **Epistemic Gating & Anti-Jumping-the-Gun** | High-reasoning models have teleological bias to rush into elaborate architectures before empirical validation. | Enforce 4-gate verification protocol: (1) Physical logs/telemetry only → (2) Adversarial red-team with 3 fatal flaws → (3) <50-line micro-spike → (4) Architecture spec. | [`015`](015_recalibration_and_adversarial_architecture_review.md) |
 
 ---
 
@@ -50,6 +52,11 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`008_real_world_observations_and_caching_architecture.md`](008_real_world_observations_and_caching_architecture.md): Live diagnostics, multi-tabstrip findings, QuickEdit stalls, and non-UIA direct process bridges.
 - [`009_live_telemetry_and_tab_diagnostics.md`](009_live_telemetry_and_tab_diagnostics.md): Multi-app container bleed diagnostics, latency post-mortem, rolling observability stream, and time-series telemetry architecture.
 - [`010_telemetry_benchmarks_and_live_findings.md`](010_telemetry_benchmarks_and_live_findings.md): Empirical telemetry benchmarks, 6,800-node browser traversal costs, and File Explorer dual-tabstrip resolution.
+- [`011_flaui_evaluation_and_dual_plane_architecture.md`](011_flaui_evaluation_and_dual_plane_architecture.md): Landscape review, FlaUI C# vs Python COM evaluation, and dual-plane architecture roadmap.
+- [`012_empirical_tab_extraction_report.md`](012_empirical_tab_extraction_report.md): Non-interactive tab extraction and subtree pruning benchmark matrix across active desktop windows.
+- [`013_v23_empirical_postmortem_and_event_diagnostics.md`](013_v23_empirical_postmortem_and_event_diagnostics.md): Post-mortem diagnostics for v2.3 regressions (Tree Style Tab pruning cut-off, terminal self-monitoring, and WinEvent transition stalls).
+- [`014_csharp_daemon_handover_and_skill_spec.md`](014_csharp_daemon_handover_and_skill_spec.md): Self-contained C# (.NET 10 / FlaUI 5) daemon exploratory blueprint & skill specification (Paused pending Gate 3 empirical spikes).
+- [`015_recalibration_and_adversarial_architecture_review.md`](015_recalibration_and_adversarial_architecture_review.md): Epistemic circuit breaker, post-mortem on premature solution lock-in, adversarial critique of C# daemon, 3 mutually exclusive alternatives, and 4-gate verification protocol.
 
 ### PyVDA Analysis (`docs/pyvda/`)
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
@@ -62,8 +69,8 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 
 ## 4. Current Status & Next Milestones
 
-- `[x]` **Phase 1: Foundations & PoC** — Event-driven Win32 hooks, UIA focus extraction, and Caster voice launcher (`scripts/context_poc.py`).
-- `[x]` **Phase 2: Tab Extraction** — Basic tab discovery and active tab marking across browsers and editors.
-- `[ ]` **Phase 3: Two-Tier Caching Engine (v3)** — Transition to HWND-level tab caching, Virtual Desktop tracking (`pyvda`), and async worker queue.
-- `[ ]` **Phase 4: Direct Process Bridges** — Explore WebExtensions Native Messaging & VS Code extension hooks.
-- `[ ]` **Phase 5: MCP Server Bridge** — Expose live state as a Streamable HTTP MCP Resource for local AI agents.
+- `[x]` **Phase 1: Foundations & Exploratory PoC** — Event-driven Win32 hooks, UIA focus extraction, and Caster voice launcher (`scripts/context_poc.py`).
+- `[x]` **Phase 2: Empirical Tab Extraction & DOM Profiling** — Benchmarked 6,800-node browser DOM traversal costs, WebExtension sidebar structures, and Monaco accessibility boundaries.
+- `[x]` **Phase 3: Epistemic Recalibration & Adversarial Review (`015`)** — Established 4-gate verification protocol; paused C# daemon implementation (`014`) until Gate 3 micro-spikes validate UIA 3 caching vs native browser bridges.
+- `[ ]` **Phase 4: Gate 3 Micro-Spikes** — Execute minimal (<50 line) standalone benchmarks: C# FlaUI 5 CacheRequest vs Python shallow window caching.
+- `[ ]` **Phase 5: Architectural Synthesis & MCP Server Stream** — Synthesize validated findings into production engine and expose Streamable SSE / HTTP MCP Resource for local AI agents and voice grammars.

@@ -31,6 +31,12 @@ Real-time OS semantic state tracking, deep tab discovery, and Model Context Prot
 * [006: PoC Architecture Specification](accessibility_mcp/006_poc_architecture.md)
 * [007: Tab Extraction & Context Representation](accessibility_mcp/007_tab_extraction_and_context_representation.md)
 * [008: Real-World Observations & Caching Architecture](accessibility_mcp/008_real_world_observations_and_caching_architecture.md)
+* [009: Live Telemetry & Tab Diagnostics](accessibility_mcp/009_live_telemetry_and_tab_diagnostics.md)
+* [010: Telemetry Benchmarks & Live Findings](accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)
+* [011: Landscape Review, FlaUI & Dual-Plane Architecture](accessibility_mcp/011_flaui_evaluation_and_dual_plane_architecture.md)
+* [012: Live Empirical Tab Extraction Report](accessibility_mcp/012_empirical_tab_extraction_report.md)
+* [014: C# Context Daemon Handover & Skill Specification](accessibility_mcp/014_csharp_daemon_handover_and_skill_spec.md) *(Exploratory Blueprint - Paused)*
+* [015: Epistemic Recalibration & Adversarial Architecture Review](accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)
 
 ### 🪟 [PyVDA Virtual Desktop Analysis](pyvda/)
 Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and threading.

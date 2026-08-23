@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Active Desktop Context Engine (ADCE) - Python Proof of Concept (v2.2)
+Active Desktop Context Engine (ADCE) - Python Proof of Concept (v2.3)
 Monitors Windows OS foreground and focus events in real-time, extracting
 window state, active/open tabs (VS Code, Antigravity, Waterfox, Firefox, Chrome, Edge, Explorer),
 focused UI element hierarchy, and high-fidelity microsecond execution telemetry.
@@ -167,11 +167,133 @@ def get_element_hierarchy(element, max_depth=5):
     return hierarchy
 
 
+def walk_control_pruned(
+    control,
+    include_top=False,
+    max_depth=14,
+    prune_control_types=(auto.ControlType.DocumentControl,),
+):
+    """
+    Depth-first UI tree traversal with subtree pruning capability.
+    Skips descending into expensive subtrees (e.g. DocumentControl in browsers)
+    while continuing traversal of sibling chrome, toolbars, and tabstrips.
+    """
+    if include_top:
+        yield control, 0
+    if max_depth <= 0:
+        return
+    depth = 0
+    child = control.GetFirstChildControl()
+    control_list = [child]
+    while depth >= 0:
+        last_control = control_list[-1]
+        if last_control:
+            yield last_control, depth + 1
+            child = last_control.GetNextSiblingControl()
+            control_list[depth] = child
+
+            should_prune = False
+            if prune_control_types:
+                try:
+                    if last_control.ControlType in prune_control_types:
+                        should_prune = True
+                except Exception:
+                    pass
+
+            if not should_prune and depth + 1 < max_depth:
+                child = last_control.GetFirstChildControl()
+                if child:
+                    depth += 1
+                    control_list.append(child)
+        else:
+            del control_list[depth]
+            depth -= 1
+
+
+def extract_electron_tabs_bottom_up(focused_element, max_ancestor_depth=8):
+    """
+    Bottom-up tab discovery for Electron / VS Code / Antigravity IDE.
+    Climbs upward from the active editor/control to locate the editor group container,
+    then inspects the title/tabstrip header container directly.
+    """
+    found_tabs = []
+    if not focused_element:
+        return found_tabs
+
+    curr = focused_element
+    ancestor_count = 0
+    seen_names = set()
+
+    while curr and ancestor_count < max_ancestor_depth:
+        try:
+            parent = curr.GetParentControl()
+            if not parent:
+                break
+
+            # Check siblings of ancestors for tab containers
+            # In Monaco/VS Code, the tab bar is a sibling of the editor body within the editor group
+            for sibling in parent.GetChildren():
+                auto_id = (sibling.AutomationId or "").lower()
+
+                if (
+                    "tab" in auto_id
+                    or "title" in auto_id
+                    or "tabs-container" in auto_id
+                    or "tabs" in auto_id
+                    or "editor-group-header" in auto_id
+                ):
+                    for item in sibling.GetChildren():
+                        iname = (item.Name or "").strip()
+                        ictype = item.ControlTypeName or ""
+                        iauto = (item.AutomationId or "").lower()
+
+                        if iname and (
+                            ictype in ("TabItemControl", "ListItemControl", "CustomControl", "ButtonControl")
+                            or "tab" in iauto
+                        ):
+                            is_selected = False
+                            try:
+                                sel = item.GetSelectionItemPattern()
+                                if sel and sel.IsSelected:
+                                    is_selected = True
+                            except Exception:
+                                pass
+                            if not is_selected:
+                                try:
+                                    legacy = item.GetLegacyIAccessiblePattern()
+                                    if legacy and (legacy.State & 0x00000004):
+                                        is_selected = True
+                                except Exception:
+                                    pass
+
+                            display_name = iname
+                            if ", Editor Group" in display_name:
+                                display_name = display_name.split(", Editor Group")[0].strip()
+                            if display_name.startswith("● "):
+                                display_name = display_name[2:].strip()
+
+                            if display_name not in seen_names:
+                                seen_names.add(display_name)
+                                found_tabs.append({"name": display_name, "selected": is_selected, "control": item})
+
+            if found_tabs:
+                break
+
+            curr = parent
+            ancestor_count += 1
+        except Exception:
+            break
+
+    return found_tabs
+
+
 def extract_window_tabs(top_window, focused_element=None, max_depth=14, hwnd_class=""):
     """
     Search the application window for open tabs across VS Code, Antigravity,
     Waterfox, Firefox, Chrome, Edge, Windows Terminal, and File Explorer.
     Collects traversal statistics (nodes scanned, max depth reached).
+    Utilizes subtree pruning (skipping DocumentControl bodies in browsers)
+    and bottom-up sibling lookup in Electron/Monaco editors.
     """
     tabs = []
     traversal_stats = {
@@ -187,8 +309,13 @@ def extract_window_tabs(top_window, focused_element=None, max_depth=14, hwnd_cla
     is_explorer = hwnd_class in ("CabinetWClass", "ExplorerBrowserControl")
     is_electron = "Chrome_WidgetWin" in hwnd_class
 
+    # Subtree pruning: In browsers, prune DocumentControl to avoid crawling thousands of web DOM nodes
+    prune_types = (auto.ControlType.DocumentControl,) if ("Mozilla" in hwnd_class or is_electron) else ()
+
     try:
-        for ctrl, depth in auto.WalkControl(top_window, includeTop=False, maxDepth=max_depth):
+        for ctrl, depth in walk_control_pruned(
+            top_window, include_top=False, max_depth=max_depth, prune_control_types=prune_types
+        ):
             traversal_stats["nodes_scanned"] += 1
             if depth > traversal_stats["max_depth_reached"]:
                 traversal_stats["max_depth_reached"] = depth
@@ -268,6 +395,12 @@ def extract_window_tabs(top_window, focused_element=None, max_depth=14, hwnd_cla
 
     except Exception:
         pass
+
+    # Fast-path / Fallback for Electron / Monaco: If top-down walk missed tabs, use bottom-up search
+    if is_electron and not found_tab_items and focused_element:
+        bottom_up_tabs = extract_electron_tabs_bottom_up(focused_element)
+        if bottom_up_tabs:
+            found_tab_items.extend(bottom_up_tabs)
 
     # Fallback heuristic: If no tab was marked as selected by UIA patterns,
     # match against focused element or window title
@@ -363,7 +496,7 @@ def capture_and_display_context(event_type_name="FOCUS_CHANGE"):
         total_pipeline_ms = (time.perf_counter() - t_start) * 1000
 
         print("=" * 78)
-        print("  ACTIVE DESKTOP CONTEXT ENGINE (ADCE) - LIVE MONITOR (v2.2)")
+        print("  ACTIVE DESKTOP CONTEXT ENGINE (ADCE) - LIVE MONITOR (v2.3)")
         print("=" * 78)
         print(f" Timestamp     : {time.strftime('%Y-%m-%d %H:%M:%S')}")
         print(f" Event Trigger : {event_type_name}")

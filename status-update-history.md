@@ -1,3 +1,26 @@
+## Archived Status Update: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.2–v2.3 Exploratory PoC & Empirical Post-Mortem - August 2026)
+
+### Exploratory Python Prototype & Empirical Benchmarks
+We conducted comprehensive empirical testing of the **Active Desktop Context Engine (ADCE v2.2–v2.3)** live monitor (`scripts/context_poc.py`), benchmark test harness (`scripts/test_tab_benchmark.py`), and voice launcher (`caster_user_content/rules/global/context_engine_launcher.py`).
+
+* **High-Resolution Execution Telemetry**: Integrated microsecond performance timers (`time.perf_counter()`) and live traversal metrics (`nodes_scanned`, `max_depth_reached`, `hwnd_class`), logging structured telemetry events to `data/adce_telemetry.jsonl`.
+* **Console QuickEdit Protection**: Automatically cleared `ENABLE_QUICK_EDIT_MODE` via `kernel32.SetConsoleMode` at startup to eliminate click-to-pause terminal freezes.
+* **Empirical Traversal Benchmarks & Pruning Analysis**: Quantified real-world traversal latencies across Electron (62 nodes, 120ms), Gecko/Waterfox (6,806 nodes, 5.9s unpruned vs 107 nodes, 113ms pruned), and Windows 11 File Explorer (618 nodes, 723ms).
+* **Multi-Container & Tree Style Tab Findings**: Uncovered the structural tension between blanket `DocumentControl` pruning and WebExtension sidebar containers (Tree Style Tab), proving that manual recursive crawling in Python leads to fragile heuristic debt.
+* **WinEvent Message Pump & COM Concurrency Limits**: Diagnosed console self-monitoring feedback loops and leading-edge debounce drop races, establishing the empirical foundation for transitioning to a compiled native C# UIA 3 engine.
+
+#### Related Documentation:
+* 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
+* 📑 **[Empirical Post-Mortem & WinEvent Diagnostics (013)](docs/accessibility_mcp/013_v23_empirical_postmortem_and_event_diagnostics.md)**
+* 📊 **[Live Empirical Tab Extraction Report (012)](docs/accessibility_mcp/012_empirical_tab_extraction_report.md)**
+* 🔬 **[Landscape Review, FlaUI & Dual-Plane Architecture (011)](docs/accessibility_mcp/011_flaui_evaluation_and_dual_plane_architecture.md)**
+* 📈 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](docs/accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
+* 🔭 **[Live Telemetry, Observability & Tab Diagnostics (009)](docs/accessibility_mcp/009_live_telemetry_and_tab_diagnostics.md)**
+* 🗂️ **[Real-World Observations & Caching Architecture (008)](docs/accessibility_mcp/008_real_world_observations_and_caching_architecture.md)**
+* 📑 **[Tab Extraction & Context Representation (007)](docs/accessibility_mcp/007_tab_extraction_and_context_representation.md)**
+
+---
+
 ## Archived Status Update: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.1 PoC & v3 Caching Architecture - August 2026)
 
 ### Initial Prototype & Foundations
