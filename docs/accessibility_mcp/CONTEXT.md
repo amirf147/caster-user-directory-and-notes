@@ -57,6 +57,8 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`013_v23_empirical_postmortem_and_event_diagnostics.md`](013_v23_empirical_postmortem_and_event_diagnostics.md): Post-mortem diagnostics for v2.3 regressions (Tree Style Tab pruning cut-off, terminal self-monitoring, and WinEvent transition stalls).
 - [`014_csharp_daemon_handover_and_skill_spec.md`](014_csharp_daemon_handover_and_skill_spec.md): Self-contained C# (.NET 10 / FlaUI 5) daemon exploratory blueprint & skill specification (Paused pending Gate 3 empirical spikes).
 - [`015_recalibration_and_adversarial_architecture_review.md`](015_recalibration_and_adversarial_architecture_review.md): Epistemic circuit breaker, post-mortem on premature solution lock-in, adversarial critique of C# daemon, 3 mutually exclusive alternatives, and 4-gate verification protocol.
+- [`016_micro_spike_2_win32_shallow_python_telemetry.md`](016_micro_spike_2_win32_shallow_python_telemetry.md): Gate 3 empirical telemetry benchmarks comparing pure Win32 envelope (0.8 µs), shallow UIA focus (0.66 ms), and C# FlaUI 5 tab extraction (10.17 ms).
+- [`017_ui_automation_tree_structures_and_target_zones_reference.md`](017_ui_automation_tree_structures_and_target_zones_reference.md): Single Source of Truth reference directory for UIA3 tree hierarchies, depths, class names, and target zones across Antigravity IDE, Waterfox, and File Explorer.
 
 ### PyVDA Analysis (`docs/pyvda/`)
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
@@ -72,5 +74,6 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - `[x]` **Phase 1: Foundations & Exploratory PoC** — Event-driven Win32 hooks, UIA focus extraction, and Caster voice launcher (`scripts/context_poc.py`).
 - `[x]` **Phase 2: Empirical Tab Extraction & DOM Profiling** — Benchmarked 6,800-node browser DOM traversal costs, WebExtension sidebar structures, and Monaco accessibility boundaries.
 - `[x]` **Phase 3: Epistemic Recalibration & Adversarial Review (`015`)** — Established 4-gate verification protocol; paused C# daemon implementation (`014`) until Gate 3 micro-spikes validate UIA 3 caching vs native browser bridges.
-- `[ ]` **Phase 4: Gate 3 Micro-Spikes** — Execute minimal (<50 line) standalone benchmarks: C# FlaUI 5 CacheRequest vs Python shallow window caching.
+- `[x]` **Phase 4: Gate 3 Micro-Spikes & Ground Truth Mapping (`016`, `017`)** — Executed minimal standalone benchmarks: C# FlaUI 5 (`ADCE.Spikes`) vs Python shallow window caching (`spike_win32_shallow_python.py`); codified full UIA tree structure SSOT.
 - `[ ]` **Phase 5: Architectural Synthesis & MCP Server Stream** — Synthesize validated findings into production engine and expose Streamable SSE / HTTP MCP Resource for local AI agents and voice grammars.
+
