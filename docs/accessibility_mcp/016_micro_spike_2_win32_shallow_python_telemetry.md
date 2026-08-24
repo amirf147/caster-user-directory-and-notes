@@ -79,40 +79,55 @@ The severe 5,800 ms crawl latencies observed in Document `010` were entirely cau
   * Shallow focus extraction in Python completes in **0.66 ms**.
   * Direct container tab extraction in C# completes in **10.17 ms**.
 
-### Insight 3: The Tradeoff Spectrum (Option B vs Option C)
+### Insight 3: The Unified Architectural Verdict
 
 ```mermaid
-graph LR
-    subgraph OptionC ["Option C: Pure Shallow Context (Python)"]
-        C1["Win32 HWND + UIA Focus Node"]
-        C2["Latency: 0.66 ms (Instant)"]
-        C3["Zero New Toolchains (.NET Free)"]
-        C4["Limitation: No Background Tabs"]
+graph TD
+    subgraph OS ["Windows Operating System"]
+        W1["WinEvent Hooks (Foreground/Focus)"]
+        W2["Multi-Zone UI Trees (Antigravity, Waterfox, Explorer)"]
     end
 
-    subgraph OptionB ["Option B: Direct Container Context (C# FlaUI)"]
-        B1["Direct Sidebar/Tabstrip Search"]
-        B2["Latency: 10.17 ms (30 Tabs)"]
-        B3["Extracts Full Tab Arrays"]
-        B4["Tradeoff: Out-of-Process .NET Daemon"]
+    subgraph ADCE ["C# ADCE Background Daemon / System Tray Service"]
+        A1["Channel-based WinEvent Ingestion (0% CPU)"]
+        A2["Targeted UIA3 Multi-Zone Extractor (10–50 ms)"]
+        A3["Live In-Memory Semantic Context Graph"]
+        A4["Historical State Persistence (SQLite / DuckDB)"]
+        A5["MCP Server (SSE / HTTP / Stdio)"]
     end
+
+    subgraph Consumers ["Consumers"]
+        C1["Local AI Agents & IDE Assistants"]
+        C2["Caster Voice Recognition Grammars"]
+        C3["Command Line & Analytics Tools"]
+    end
+
+    W1 --> A1
+    W2 --> A2
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A3 --> A5
+    A5 --> C1
+    A5 --> C2
+    A5 --> C3
 ```
 
-1. **Option C (Pruned In-Process Python):**
-   - **Pros:** 0.66 ms latency, zero external runtime dependencies, 100% native to Caster repository.
-   - **Coverage:** Active window title, Win32 class, process ID, focused element name, control type, and bounding box.
-   - **Blindspot:** Does not extract open background tabs.
+1. **The C# ADCE Background Daemon (`ADCE.Daemon`):**
+   - **Role:** Always-on system tray service starting at boot.
+   - **Physics:** Captures both shallow focus (< 1 ms) and full multi-zone context (tabs, breadcrumbs, sidebar views, commit buffers) in **10–50 ms** across all active applications without DOM traversal.
+   - **Persistence:** Extensible with an embedded database (e.g. SQLite / DuckDB / RocksDB) to record historical context timelines for agent reasoning ("what files and tabs was I working on earlier?").
+   - **Integration:** Exposes standard Model Context Protocol (MCP) endpoints for seamless consumption by AI agents, IDEs, and voice grammars.
 
-2. **Option B (Compiled C# FlaUI Daemon):**
-   - **Pros:** 10.17 ms full extraction of 30 tabs without DOM crawling; streams complete semantic graphs over MCP.
-   - **Tradeoff:** Requires running an external C# background daemon process (`ADCE.Daemon`).
+2. **The Role of In-Process Python:**
+   - Functions as an MCP consumer / client for Caster voice rules, querying the live local ADCE daemon with sub-millisecond roundtrips rather than maintaining a duplicate scraper stack.
 
 ---
 
-## 4. Next Step: Advancing to Gate 4
+## 4. Next Step: Advancing to Gate 4 & Phase 5
 
-With both Micro-Spike 1 and Micro-Spike 2 empirically validated:
-1. **No Guesswork Remaining:** We know the exact physics and latencies of both paths.
-2. **Path Selection:** We can now build a clean, unified architecture:
-   - Use **In-Process Python (Option C)** for high-frequency sub-millisecond focus & active window tracking within Caster.
-   - Use the **C# ADCE Service (Option B)** as a dedicated MCP provider when full desktop multi-tab graphs are requested by AI agents.
+With both Micro-Spike 1 and Micro-Spike 2 empirically validated and all major desktop application trees mapped:
+1. **Gate 3 Falsifications Complete:** Verified that targeted container queries eliminate 100% of DOM crawl latency, running in 10–50 ms.
+2. **Advancing to Phase 5 Production Implementation:**
+   - Formalize Gate 4 Architectural Blueprint in `active-desktop-context-engine`.
+   - Build `ADCE.Daemon` as a Windows startup tray application with MCP server streaming and optional historical context logging.

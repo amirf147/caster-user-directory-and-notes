@@ -35,3 +35,8 @@
   3. **Gate 3: Empirical Micro-Spike** (minimal <50-line test script executed live against active OS targets to validate/falsify physical assumptions).
   4. **Gate 4: Architectural Blueprint & Spec** (formalize specs only after empirical micro-spikes prove viability).
 
+### Version Control & Commits
+- **NEVER execute `git commit` or `git push` commands autonomously.**
+- When changes are complete, stage files (`git add`) if appropriate, and generate a copy-paste ready conventional commit message using the `/commit` workflow for user review and manual execution.
+
+
