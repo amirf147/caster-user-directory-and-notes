@@ -129,5 +129,5 @@ graph TD
 With both Micro-Spike 1 and Micro-Spike 2 empirically validated and all major desktop application trees mapped:
 1. **Gate 3 Falsifications Complete:** Verified that targeted container queries eliminate 100% of DOM crawl latency, running in 10–50 ms.
 2. **Advancing to Phase 5 Production Implementation:**
-   - Formalize Gate 4 Architectural Blueprint in `active-desktop-context-engine`.
+   - Formalize Gate 4 Architectural Blueprint in [`active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).
    - Build `ADCE.Daemon` as a Windows startup tray application with MCP server streaming and optional historical context logging.

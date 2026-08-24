@@ -59,6 +59,8 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`015_recalibration_and_adversarial_architecture_review.md`](015_recalibration_and_adversarial_architecture_review.md): Epistemic circuit breaker, post-mortem on premature solution lock-in, adversarial critique of C# daemon, 3 mutually exclusive alternatives, and 4-gate verification protocol.
 - [`016_micro_spike_2_win32_shallow_python_telemetry.md`](016_micro_spike_2_win32_shallow_python_telemetry.md): Gate 3 empirical telemetry benchmarks comparing pure Win32 envelope (0.8 µs), shallow UIA focus (0.66 ms), and C# FlaUI 5 tab extraction (10.17 ms).
 - [`017_ui_automation_tree_structures_and_target_zones_reference.md`](017_ui_automation_tree_structures_and_target_zones_reference.md): Single Source of Truth reference directory for UIA3 tree hierarchies, depths, class names, and target zones across Antigravity IDE, Waterfox, and File Explorer.
+- [`018_epistemic_gaps_dynamic_app_discovery_and_requirements.md`](018_epistemic_gaps_dynamic_app_discovery_and_requirements.md): Epistemic gap analysis, 5 Desktop Framework Archetypes, dynamic heuristic discovery pipeline, SQLite/DuckDB persistence, and engine PRS.
+
 
 ### PyVDA Analysis (`docs/pyvda/`)
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.

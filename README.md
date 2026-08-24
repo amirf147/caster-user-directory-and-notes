@@ -33,22 +33,20 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, and accessibility mechanics:
 
-### 1. Current Focus: Epistemic Recalibration & Adversarial Review (Phase 3 Gate 3 Micro-Spikes)
-* **Status Update (Epistemic Circuit Breaker & Falsification Spikes)**: In accordance with **[015: Epistemic Recalibration](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**, we have paused the premature compiled C# daemon handover (`014`) to prevent solution bias. We have established a permanent **4-Gate Epistemic Gating Protocol** and are executing empirical micro-spikes to falsify core physical assumptions before committing to any architecture.
+### 1. Current Focus: ADCE Research Completion & Standalone Engine Handover (Phase 4 / Gate 4)
+* **Status Update (Handover to Standalone ADCE Repository)**: Foundational accessibility research in Caster has concluded with the completion of Gate 3 empirical micro-spikes (Docs `016`–`017`) and epistemic gap analysis (Doc `018`). Active engine development has officially transitioned to the standalone **[`active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)** repository.
 * **What Was Concluded & Synthesized**:
-  * **The Jumping-the-Gun Post-Mortem**: Acknowledged teleological solution bias where multi-second browser DOM traversal latencies (6,800 nodes) triggered an immediate leap to a multi-runtime C# rewrite (`014`) without empirical proof that UIA 3 caching avoids underlying browser IPC stalls.
-  * **Adversarial Critique & 3 Mutually Exclusive Options**: Evaluated three distinct architectural paths with fatal flaws and hidden operational assumptions: (A) Direct Browser Extension / Native Messaging, (B) Standalone C# .NET 10 FlaUI 5 Daemon, and (C) Pruned In-Process Python Win32/UIA.
-  * **4-Gate Epistemic Protocol**: Codified workspace rules and an automated workflow (`.agents/workflows/adversarial-architecture-review.md`) enforcing: (1) Physical logs only → (2) Adversarial red-team → (3) <50-line micro-spike → (4) Architectural blueprint.
-  * **Next Empirical Step (Gate 3 Micro-Spikes)**: Measuring raw latency across two minimal scripts: compiled C# FlaUI 5 `CacheRequest` (`spike_csharp_flaui_cache.cs`) vs shallow Win32 top-level caching in Python (`spike_win32_shallow_python.py`).
+  * **Empirical Validation Complete (Docs 016 & 017)**: Disproved the hypothesis that UIA cannot extract tabs/focus in real-time; demonstrated that targeted container queries (e.g. `tabs-container` for Antigravity, `tabs normal` for Waterfox) execute in **10–15 ms** with zero recursive DOM crawling.
+  * **Single Source of Truth (SSOT)**: Codified exact UIA node hierarchies, class names, and target zones for Antigravity IDE, Waterfox, and Windows 11 File Explorer in [Doc 017](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md).
+  * **Epistemic Gaps & Requirements (Doc 018)**: Defined the 5 Universal Desktop Framework Archetypes, dynamic heuristic discovery pipeline, time-series storage options (SQLite WAL vs DuckDB), and engine performance SLAs.
+  * **Caster Integration Role**: Caster acts as a high-speed MCP consumer querying the local C# ADCE daemon rather than running a duplicate scraping loop.
 * **Key Documentation**:
   * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
+  * 📋 **[Epistemic Gaps, Dynamic Discovery & Engine PRS (018)](docs/accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md)**
+  * 📑 **[UI Automation SSOT & Target Zones Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+  * 📊 **[Micro-Spike 2 Telemetry & Comparative Analysis (016)](docs/accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)**
   * 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
-  * 🚀 **[C# Context Daemon Handover Blueprint (014)](docs/accessibility_mcp/014_csharp_daemon_handover_and_skill_spec.md)** *(Exploratory Blueprint - Paused)*
-  * 📑 **[Empirical Post-Mortem & WinEvent Diagnostics (013)](docs/accessibility_mcp/013_v23_empirical_postmortem_and_event_diagnostics.md)**
-  * 📊 **[Live Empirical Tab Extraction Report (012)](docs/accessibility_mcp/012_empirical_tab_extraction_report.md)**
-  * 🔬 **[Landscape Review, FlaUI & Dual-Plane Architecture (011)](docs/accessibility_mcp/011_flaui_evaluation_and_dual_plane_architecture.md)**
-  * 📈 **[Live Telemetry Benchmarks & Multi-Container Diagnostics (010)](docs/accessibility_mcp/010_telemetry_benchmarks_and_live_findings.md)**
-  * ⚙️ **[PyVDA COM Lifecycle Analysis (001)](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)** | **[Core Architecture Critique (002)](docs/pyvda/002_pyvda_core_architecture_and_threading_critique.md)**
+  * 🚀 **[Standalone ADCE Repository (GitHub)](https://github.com/amirf147/active-desktop-context-engine)**
 
 ### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
 * **Status (Active Production)**: Running with the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).

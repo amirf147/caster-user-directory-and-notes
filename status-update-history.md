@@ -1,3 +1,22 @@
+## Archived Status Update: ADCE Epistemic Recalibration & Gate 3 Micro-Spikes (August 2026)
+
+### Epistemic Circuit Breaker & Gate 3 Micro-Spikes Execution
+In accordance with **[015: Epistemic Recalibration](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**, we paused premature solution lock-in and executed empirical micro-spikes comparing pure Win32/Python shallow context (< 1 ms) against C# FlaUI 5 container-scoped tab extraction (~10 ms):
+
+* **Micro-Spike 1 (`ADCE.Spikes` / C# .NET 10 + FlaUI 5)**: Validated direct container targeting and batch UIA3 extraction across running Gecko / Electron instances (30 tabs in 10.17 ms).
+* **Micro-Spike 2 (`spike_win32_shallow_python.py` / Python 3.10)**: Measured pure Win32 C-call envelope extraction (0.8 µs) and shallow UIA focus retrieval (0.66 ms) with zero recursive tree traversal.
+* **UI Automation Hierarchy SSOT (Doc 017)**: Codified the definitive structural maps and container queries for Antigravity IDE (`tabs-container`, `monaco-breadcrumbs`, `actions-container`), Waterfox (`tabs normal`), and Windows 11 File Explorer (`TabView`, `PART_BreadcrumbBar`).
+* **Epistemic Gaps & Requirements (Doc 018)**: Interrogated knowledge gaps regarding dynamic application adaptation, multi-window topologies, and time-series persistence (SQLite vs DuckDB), transitioning active engine implementation to the standalone [`active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) repository.
+
+#### Related Documentation:
+* 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
+* 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
+* 📊 **[Micro-Spike 2 Python Telemetry & Comparative Analysis (016)](docs/accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)**
+* 📑 **[UI Automation SSOT & Target Zones Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+* 📋 **[Epistemic Gaps, Dynamic Discovery & Engine PRS (018)](docs/accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md)**
+
+---
+
 ## Archived Status Update: Active Desktop Context Engine (ADCE) & Accessibility MCP (v2.2–v2.3 Exploratory PoC & Empirical Post-Mortem - August 2026)
 
 ### Exploratory Python Prototype & Empirical Benchmarks
