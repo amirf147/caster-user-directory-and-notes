@@ -46,6 +46,8 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and th
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers on the Caster on-screen heads-up display overlay.
 * [001: Caster HUD Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md)
+* [002: System Tray Integration, Architectural Audit & Upstream PR Strategy](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md)
+* [003: Modular Architecture, Themes, Profiles, Drag Mode & Frameless Resizing](caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md)
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).

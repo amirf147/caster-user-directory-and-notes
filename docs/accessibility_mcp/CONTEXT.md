@@ -26,7 +26,7 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 | Category | Observation / Finding | Architectural Rule / Solution | Reference Doc |
 | :--- | :--- | :--- | :--- |
 | **Virtual Desktops** | Virtual desktops provide macro-workspace context (e.g. workspace labels); COM pointers can become stale across Explorer restarts. | Adopt stateless COM lifecycle architecture (avoiding stateful retry anti-patterns); extract desktop names as high-level context envelopes. | [`docs/pyvda/001`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md), [`docs/pyvda/002`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md), [`008`](008_real_world_observations_and_caching_architecture.md) |
-| **UI Threading & HUD** | Caster HUD uses out-of-process Qt + XML-RPC + `postEvent` to guarantee zero freezes on main speech recognition. | Decouple GUI/Observer processes from main engine; use asynchronous thread-safe message queues. | [`docs/caster_hud/001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md) |
+| **UI Threading & HUD** | Caster HUD uses out-of-process Qt + XML-RPC + `postEvent` to guarantee zero freezes on main speech recognition. | Decouple GUI/Observer processes from main engine; use asynchronous thread-safe message queues. | [`docs/caster_hud/001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md), [`002`](../caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md), [`003`](../caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md) |
 | **Vision Grounding** | VLMs (GPT-4o, Claude) have <10% accuracy on UI element spatial grounding. | Must feed programmatic structural truth (UIA/JSON), not raw screenshots. | [`001`](001_exploration_analysis_planning.md), [`004`](004_deep_research_metaprompt.md) |
 | **App SDK vs Scraping** | Windows Recall / App SDK is an opt-in model that ignores legacy apps. | Must maintain a direct UIA scraper fallback for universal coverage. | [`005`](005_semantic_index_and_app_sdk.md) |
 | **Pruning Traps** | Electron & Gecko wrap their entire UI in a `DocumentControl`. | Never prune `DocumentControl` near the top of the tree; anchor search to true root `HWND`. | [`007`](007_tab_extraction_and_context_representation.md), [`008`](008_real_world_observations_and_caching_architecture.md) |
@@ -66,8 +66,10 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
 - [`002_pyvda_core_architecture_and_threading_critique.md`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md): Core architectural critique of PyVDA threading, apartment boundaries, and stateless design alternatives.
 
-### Caster HUD Primer (`docs/caster_hud/`)
+### Caster HUD Subsystem (`docs/caster_hud/`)
 - [`001_caster_hud_architecture_and_threading_primer.md`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md): Educational primer on Caster HUD process isolation, XML-RPC IPC, and Qt `postEvent` architecture.
+- [`002_caster_hud_system_tray_and_upstream_evolution_audit.md`](../caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md): System tray integration, zero-taskbar tool window styling, and upstream PR strategy.
+- [`003_caster_hud_modular_theming_and_profiles_architecture.md`](../caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md): Modular QSS theming, interactive profile manager dialog, drag mode, and frameless edge resizing.
 
 ---
 
