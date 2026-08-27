@@ -68,6 +68,7 @@ Living repository memory and foundational state.
 ### 🚀 [Features](features/)
 Feature specifications, implementation notes, and voice workflows.
 * [App Switcher](features/app_switcher.md)
+* [ADCE Dynamic IDE Terminal Context Guide](features/adce_dynamic_terminal_context_guide.md)
 * [Foot Pedal Configuration](features/foot_pedal.md)
 * [Top Voice Automations](features/top_voice_automations.md)
 * [Antigravity Editor Insights](features/antigravity_editor_insights.md)
