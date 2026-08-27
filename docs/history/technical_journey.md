@@ -6,20 +6,17 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Active Desktop Context Engine (ADCE) & Accessibility MCP (Phase 4 / Gate 4 Handover)
-- **Active Handover Status**: Foundational accessibility and UIA research in Caster has concluded with the completion of Gate 3 empirical micro-spikes ([Doc 016](../accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)), the UI Automation Hierarchy Single Source of Truth ([Doc 017](../accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)), and Epistemic Gap Analysis & Requirements ([Doc 018](../accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md)). Active engine implementation has officially transitioned to the standalone **[`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)** repository.
-- **Core Engineering Breakthroughs & Empirical Findings**:
-  - **Empirical Falsification of DOM Crawling**: Proved that UIA3 is blazingly fast when scoped directly to named containers (`tabs-container`, `tabs normal`, `monaco-breadcrumbs`), extracting 30 tabs in **10.17 ms** and full focus envelopes in **0.66 ms** with zero recursive tree crawling.
-  - **Single Source of Truth (SSOT)**: Codified exact UIA node hierarchies, class names, and target extraction recipes for Antigravity IDE, Waterfox, and Windows 11 File Explorer in [Doc 017](../accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md).
-  - **Dynamic App Discovery & Archetypes**: Formulated the 5 Universal Desktop Framework Archetypes and dynamic discovery pipeline in [Doc 018](../accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md) to eliminate brittle hardcoded selectors.
-  - **Unified Daemon Synthesis**: The C# .NET 10 ADCE service runs as an always-on background daemon at Windows boot (system tray), maintaining the live desktop graph, persisting historical context (SQLite/DuckDB), and streaming state over Model Context Protocol (MCP) to Caster and AI assistants.
+### 1. Active Focus: Dragonfly Recognition Observers, `FuncContext` & ADCE Dynamic Grammar Spiking
+- **Status (Active Exploration & Prototyping)**: Nothing is finalized or locked in yet; actively exploring and testing dynamic, fine-grained sub-window grammar activation (e.g., dynamically activating terminal rules when focused in VS Code's integrated terminal vs code editing rules in Monaco) without introducing speech recognition latency.
+- **Core Architecture Under Test**:
+  - **Dragonfly `FuncContext` & Recognition Observers**: Investigating how Dragonfly evaluates `FuncContext` synchronously on `process_begin` and evaluating engine-wide `RecognitionObserver` lifecycle hooks (`on_begin`, `on_recognition`, `on_failure`) for telemetry and HUD state synchronization.
+  - **Decoupled Telemetry Architecture**: Testing a dual-plane design where the standalone [Active Desktop Context Engine (ADCE)](https://github.com/amirf147/active-desktop-context-engine) resolves element-level interaction zones in the background and streams snapshots over HTTP/SSE, allowing `FuncContext` to execute sub-microsecond O(1) RAM checks (< 0.0001 ms) on the speech thread.
+  - **Race Condition Verification**: Testing the empirical race condition window identified in discussions with upstream maintainer LexiconCode (comparing human vocal onset latency of ~250–450 ms against ADCE's 5–15 ms FlaUI `CacheRequest` background extractions).
 - **Key Documentation**:
+  * 🔬 **[Dragonfly Recognition Observers & Functional Contexts](../framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)** *(Master Explainer & Blueprint)*
   * 🧠 **[ADCE Living Context Hub](../accessibility_mcp/CONTEXT.md)**
-  * 📋 **[Epistemic Gaps, Dynamic Discovery & Engine PRS (018)](../accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md)**
-  * 📑 **[UI Automation SSOT & Target Zones Reference (017)](../accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
-  * 📊 **[Micro-Spike 2 Telemetry & Comparative Analysis (016)](../accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)**
-  * 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](../accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
-  * 🚀 **[Standalone ADCE Repository (GitHub)](https://github.com/amirf147/active-desktop-context-engine)**
+  * 📑 **[UI Automation Structures Reference (017)](../accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+  * 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
 
 ---
 

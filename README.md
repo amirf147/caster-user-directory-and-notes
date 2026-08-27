@@ -33,20 +33,17 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, and accessibility mechanics:
 
-### 1. Current Focus: ADCE Research Completion & Standalone Engine Handover (Phase 4 / Gate 4)
-* **Status Update (Handover to Standalone ADCE Repository)**: Foundational accessibility research in Caster has concluded with the completion of Gate 3 empirical micro-spikes (Docs `016`–`017`) and epistemic gap analysis (Doc `018`). Active engine development has officially transitioned to the standalone **[`active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)** repository.
-* **What Was Concluded & Synthesized**:
-  * **Empirical Validation Complete (Docs 016 & 017)**: Disproved the hypothesis that UIA cannot extract tabs/focus in real-time; demonstrated that targeted container queries (e.g. `tabs-container` for Antigravity, `tabs normal` for Waterfox) execute in **10–15 ms** with zero recursive DOM crawling.
-  * **Single Source of Truth (SSOT)**: Codified exact UIA node hierarchies, class names, and target zones for Antigravity IDE, Waterfox, and Windows 11 File Explorer in [Doc 017](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md).
-  * **Epistemic Gaps & Requirements (Doc 018)**: Defined the 5 Universal Desktop Framework Archetypes, dynamic heuristic discovery pipeline, time-series storage options (SQLite WAL vs DuckDB), and engine performance SLAs.
-  * **Caster Integration Role**: Caster acts as a high-speed MCP consumer querying the local C# ADCE daemon rather than running a duplicate scraping loop.
+### 1. Active Focus: Dragonfly Recognition Observers, `FuncContext` & ADCE Dynamic Grammar Spiking
+* **Status (Active Exploration & Prototyping)**: Nothing is finalized or locked in yet; we are actively exploring and testing dynamic, fine-grained sub-window grammar activation (e.g. dynamically activating terminal rules when focused in VS Code's integrated terminal vs code editing rules in Monaco) without introducing speech recognition latency.
+* **Core Architecture Under Test**:
+  * **Dragonfly `FuncContext` & Recognition Observers**: Investigating how Dragonfly evaluates `FuncContext` synchronously on `process_begin` and evaluating engine-wide `RecognitionObserver` lifecycle hooks (`on_begin`, `on_recognition`, `on_failure`) for telemetry and HUD state synchronization.
+  * **Decoupled Telemetry Architecture**: Testing a dual-plane design where the standalone [Active Desktop Context Engine (ADCE)](https://github.com/amirf147/active-desktop-context-engine) resolves element-level interaction zones in the background and streams snapshots over HTTP/SSE, allowing `FuncContext` to execute sub-microsecond O(1) RAM checks (< 0.0001 ms) on the speech thread.
+  * **Race Condition Verification**: Testing the empirical race condition window identified in discussions with upstream maintainer LexiconCode (comparing human vocal onset latency of ~250–450 ms against ADCE's 5–15 ms FlaUI `CacheRequest` background extractions).
 * **Key Documentation**:
+  * 🔬 **[Dragonfly Recognition Observers & Functional Contexts](docs/framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)** *(Master Explainer & Blueprint)*
   * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
-  * 📋 **[Epistemic Gaps, Dynamic Discovery & Engine PRS (018)](docs/accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md)**
-  * 📑 **[UI Automation SSOT & Target Zones Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
-  * 📊 **[Micro-Spike 2 Telemetry & Comparative Analysis (016)](docs/accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)**
-  * 🛡️ **[Epistemic Recalibration & Adversarial Review (015)](docs/accessibility_mcp/015_recalibration_and_adversarial_architecture_review.md)**
-  * 🚀 **[Standalone ADCE Repository (GitHub)](https://github.com/amirf147/active-desktop-context-engine)**
+  * 📑 **[UI Automation Structures Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+  * 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
 
 ### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
 * **Status (Active Production)**: Running with the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).
