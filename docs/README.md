@@ -79,6 +79,7 @@ Feature specifications, implementation notes, and voice workflows.
 Educational breakdowns of underlying voice engines and Dragonfly internals.
 * [Dragonfly DictList Analysis](framework_explainers/dragonfly_dictlist_analysis.md)
 * [Dragonfly Rule Deep Dive](framework_explainers/dragonfly_rule_deepdive.md)
+* [Dragonfly Recognition Observers & Functional Contexts](framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)
 
 ### 📜 [History](history/)
 Timelines and evolution of subsystems.
