@@ -1,0 +1,8 @@
+# Lychee Link Checker Ignore List
+# Ignore untracked local machine configuration and private state files
+settings/.*
+data/.*
+sikuli/.*
+environment_variables\.py
+window_aliases\.json
+\.var_positions\.json

@@ -292,7 +292,7 @@ When using a background cache, there is a theoretical race condition: *What if t
 
 ## 6. ADCE Semantic Zone Mapping (VS Code & Beyond)
 
-Inside ADCE's core models ([`ADCE.Core.Enums.DesktopSemanticZone`](https://github.com/amirf147/active-desktop-context-engine/blob/main/src/ADCE.Core/Enums/DesktopSemanticZone.cs)), desktop interaction zones are surfaced as typed primitives:
+Inside ADCE's core models ([`ADCE.Core.Enums.DesktopSemanticZone`](https://github.com/amirf147/active-desktop-context-engine/blob/master/src/ADCE.Core/Enums/DesktopSemanticZone.cs)), desktop interaction zones are surfaced as typed primitives:
 
 ```csharp
 public enum DesktopSemanticZone

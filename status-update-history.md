@@ -1,3 +1,16 @@
+## Archived Status Update: Initial Exploration of Dragonfly Recognition Observers & ADCE Spiking (August 2026)
+
+### Initial Exploration & Architecture Formulation
+Explored dynamic, fine-grained sub-window grammar activation using Dragonfly `FuncContext` and `RecognitionObserver` connected to the standalone Active Desktop Context Engine (ADCE). Formulated the decoupled dual-plane architecture and analyzed the race condition window identified by upstream maintainer LexiconCode.
+
+#### Related Documentation:
+* 🔬 **[Dragonfly Recognition Observers & Functional Contexts](docs/framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)**
+* 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
+* 📑 **[UI Automation Structures Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+* 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
+
+---
+
 ## Archived Status Update: ADCE Research Completion & Standalone Engine Handover (August 2026)
 
 ### Handover to Standalone ADCE Repository
