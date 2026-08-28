@@ -31,6 +31,8 @@ class GeminiRule(MappingRule):
         R(Key("tab:3/50, space/50, enter")),
         "voice chat":  # Requires that you are in the message composer box, starts the voice chat interface
         R(Key("tab:4/50") + Mimic("caster sleep") + Pause("50") + Key("space")),
+        # Selects the correct microphone in the Waterfox permission dialog when clicking the mic in the Gemini chat interface
+        "mic set": R(Key("f6") + Pause("50") + Key("f6") + Pause("50") + Key("down/30, tab:2/30, enter")),
     }
 
 
