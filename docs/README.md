@@ -111,6 +111,7 @@ Bug post-mortems, crash logs, and diagnostic runbooks.
 * [Kaldi Race Condition Answers](troubleshooting/kaldi_race_condition_answers.md)
 * [2026-07-07 Kaldi Compiler Bug](troubleshooting/2026-07-07-kaldi-compiler-bug.md)
 * [Fix Comparison](troubleshooting/Fix_Comparison.md)
+* [AsynchronousAction Lifecycle Failure & Clipboard Polling Loop](troubleshooting/asynchronous_action_uncancellable_and_clipboard_loop.md)
 
 ### 🧭 [Wayfinder UIA & Threading Research](wayfinder-uia-threading/)
 Consolidated research session archive from the Wayfinder investigation into Windows UI Automation, COM apartment threading models, and `app_switcher.py` hang mechanisms.
