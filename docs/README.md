@@ -44,10 +44,22 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and th
 * [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
-Educational primers on the Caster on-screen heads-up display overlay.
-* [001: Caster HUD Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md)
-* [002: System Tray Integration, Architectural Audit & Upstream PR Strategy](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md)
-* [003: Modular Architecture, Themes, Profiles, Drag Mode & Frameless Resizing](caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md)
+Educational primers, specifications, and post-mortems for the Modular Caster HUD overlay.
+* **[005: Master Requirements & Specifications (SSoT)](caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Authoritative Single Source of Truth)*
+* [001: Baseline Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md) *(Foundational Reference)*
+* [002: System Tray Integration & Upstream Evolution Audit](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md) *(Historical Context)*
+* [003: Theming Presets & Layout Persistence Specification](caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md)
+* [004: Next-Iteration Modular Architecture Blueprint](caster_hud/004_caster_hud_nextgen_modular_architecture_and_context_integration.md) *(Architectural Design)*
+* [006: Thread Safety & Compatibility Post-Mortem](caster_hud/006_caster_hud_thread_safety_and_compatibility_postmortem.md) *(RCA & Deadlock Analysis)*
+* [007: Continuous Lessons Learned Timeline](caster_hud/007_caster_hud_lessons_learned_timeline.md) *(Living Engineering Trail)*
+* [008: Dragonfly & ADCE Active Rules Resolution Deep Dive](caster_hud/008_dragonfly_and_adce_active_rules_resolution_deep_dive.md)
+* [009: Architectural Review & Clean Architecture Synthesis](caster_hud/009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)
+* [010: Fine-Grained Context: Native OS vs ADCE Explainer](caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md)
+* [011: ADCE Realtime Stream & Native Focus Decoupling](caster_hud/011_adce_realtime_stream_and_native_focus_decoupling_deep_dive.md)
+
+### 💡 [Future Ideas & Iterations](future_ideas/)
+Conceptual designs and future capability blueprints for upcoming Caster iterations.
+* [001: Caster Help Rule & Context-Aware Assistance Architecture](future_ideas/001_caster_help_rule_and_context_aware_assist_architecture.md)
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).
@@ -128,3 +140,4 @@ If you are an AI agent operating in this repository:
 1. **Adhere to [AGENTS.md](../.agents/AGENTS.md)**: Follow all workspace rules (e.g., `py -3.10`, relative links, local state isolation).
 2. **Context Window Discipline**: Use relative breadcrumbs at the top of documents and reference the [Repository Brain](context/repository-brain.md) rather than duplicating large file trees.
 3. **Verify Links**: Maintain valid relative markdown links across all documentation.
+

@@ -9,7 +9,7 @@ Copyright (c) 2024-2026 Amir Farhadi
 SPDX-License-Identifier: LGPL-3.0-or-later
 """
 
-from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, ShortIntegerRef
+from dragonfly import Function, Repeat, Choice, Dictation, MappingRule, Pause, ShortIntegerRef
 
 from castervoice.lib.actions import Key, Mouse
 
@@ -68,6 +68,8 @@ class CustomVSCodeRule(MappingRule):
         "Zen mode":
         # note: use esc esc to exit
         R(Key("c-k, z")),
+        "reading mode":  # Opens full markdown preview, pauses for render, then enters Zen mode
+        R(Key("cs-v") + Pause("60") + Key("c-k, z")),
         # File Management
         "copy path": R(Key("c-k, p")),
         "[open] commander [<text>]": R(Key("cs-p/3") + Text("%(text)s"), rdescript="VS Code: Command Palette"),
@@ -292,6 +294,6 @@ class CustomVSCodeRule(MappingRule):
 def get_rule():
     return CustomVSCodeRule, RuleDetails(
         name="CustomVSCode",
-        executable=["VSCodium", "cursor", "Windsurf", "Antigravity IDE"],
-        title=["VSCodium", "Cursor", "Windsurf", "Antigravity IDE"],
+        executable=["Code", "VSCodium", "cursor", "Windsurf", "Antigravity IDE"],
+        title=["Visual Studio Code", "VSCodium", "Cursor", "Windsurf", "Antigravity IDE"],
     )

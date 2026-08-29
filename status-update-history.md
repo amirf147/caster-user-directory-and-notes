@@ -1,3 +1,24 @@
+## Archived Status Update: Dynamic Sub-Window Grammar Activation & LexiconCode Window Switching Analysis (August 2026)
+
+### Dynamic Sub-Window Grammar Activation with ADCE & Dragonfly (Empirically Verified)
+* **Status (Active Exploration & Prototyping - Verified)**: We have successfully tested and verified that we are able to dynamically activate voice grammars based on element-level desktop interaction zones—specifically activating terminal rules (`IDETerminalRule`) within the integrated terminal instance of VS Code / Antigravity IDE using the Active Desktop Context Engine (ADCE) and Dragonfly `FuncContext`.
+* **Empirical Validation & Breakthroughs**:
+  * **Zero Speech Lag**: Speech recognition onset evaluates `FuncContext` directly against an atomic Python RAM cache in **`< 0.001 ms`**, completely bypassing heavy UI Automation lookups on the audio thread.
+  * **Asynchronous MCP Synchronization**: The local ADCE daemon streams live interaction zone transitions over Server-Sent Events (SSE) and MCP JSON-RPC, resolving `IntegratedTerminal` in **~21 ms**.
+  * **Engine-Wide Telemetry**: Integrated Dragonfly `RecognitionObserver` (`AdceRecognitionObserver`) to log real-time recognition telemetry, rule matching, and active desktop zones to the console and Caster HUD.
+* **Key Documentation**:
+  * 📘 **[ADCE Dynamic IDE Terminal Context Guide](docs/features/adce_dynamic_terminal_context_guide.md)** *(Feature Guide & Runbook)*
+  * 🔬 **[Dragonfly Recognition Observers & Functional Contexts](docs/framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)** *(Master Explainer & Blueprint)*
+  * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
+  * 📑 **[UI Automation Structures Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+  * 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
+
+### LexiconCode Window Switching Investigation
+* **Active Evaluation**: Documenting the historical pull request by LexiconCode using dynamic grammar (`DictList`) background polling.
+* **Reference**: [Caster PR #881](https://github.com/dictation-toolbox/Caster/pull/881) | [Feature Guide](docs/features/lexicon_code_window_switching_functionality.md).
+
+---
+
 ## Archived Status Update: Initial Exploration of Dragonfly Recognition Observers & ADCE Spiking (August 2026)
 
 ### Initial Exploration & Architecture Formulation

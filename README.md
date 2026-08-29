@@ -17,33 +17,37 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 
 ## ⚡ Key Engineering & Voice Automations
 
+* **[Modular Caster HUD Overlay](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)**: Educational breakdown, Single Source of Truth (SSoT), 5-layer Clean Architecture, zero-polling native Win32 window focus hooks, decoupled ADCE SSE stream ingestion, and multi-theme layout persistence.
 * **[Active Desktop Context Engine (ADCE) & MCP Hub](docs/accessibility_mcp/CONTEXT.md)**: Real-time, event-driven OS state tracking (`scripts/context_poc.py`), tab discovery across browsers and IDEs, Virtual Desktop awareness, and Model Context Protocol (MCP) integration.
 * **[App & Window Switcher v3](docs/features/app_switcher.md)**: Sub-millisecond direct Win32 window switching, workspace isolation, guarded keystate context managers, and automated tab navigation.
 * **[App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md)**: 2-year retrospective tracing the 5 evolution eras of window switching from Windhawk taskbar macros to native Win32 v3.
 * **[App Switcher Architectural Blueprint (v3)](docs/architecture/app_switcher_architectural_blueprint.md)**: Authoritative technical specification, focus tier state machines, and sequence diagrams.
 * **[PyVDA COM Lifecycle & Threading Analysis](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)**: Deep analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), and STA/MTA threading rules.
-* **[Caster HUD Architecture & Threading Primer](docs/caster_hud/001_caster_hud_architecture_and_threading_primer.md)**: Educational breakdown of out-of-process Qt rendering, XML-RPC IPC, and asynchronous `postEvent` dispatching.
 * **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, paired with a local XML-RPC IPC bridge for thread-safe microphone toggling.
 * **[Top Voice Automations Showcase](docs/features/top_voice_automations.md)**: Curated showcase of desktop, editor, and system voice workflows.
-* **[LexiconCode Window Switching PR #881 Analysis](docs/features/lexicon_code_window_switching_functionality.md)**: Dynamic grammar (`DictList`) background polling architecture and diagnostic review.
 
 ---
 
 ## 🧭 Technical Journey & Recent Focus
 
-Our ongoing work focuses on real-time desktop context tracking, window switching, and accessibility mechanics:
+Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness:
 
-### 1. Active Focus: Dynamic Sub-Window Grammar Activation with ADCE & Dragonfly (Empirically Verified)
-* **Status (Active Exploration & Prototyping - Verified)**: We have successfully tested and verified that we are able to dynamically activate voice grammars based on element-level desktop interaction zones—specifically activating terminal rules (`IDETerminalRule`) within the integrated terminal instance of VS Code / Antigravity IDE using the Active Desktop Context Engine (ADCE) and Dragonfly `FuncContext`.
-* **Empirical Validation & Breakthroughs**:
-  * **Zero Speech Lag**: Speech recognition onset evaluates `FuncContext` directly against an atomic Python RAM cache in **`< 0.001 ms`**, completely bypassing heavy UI Automation lookups on the audio thread.
-  * **Asynchronous MCP Synchronization**: The local ADCE daemon streams live interaction zone transitions over Server-Sent Events (SSE) and MCP JSON-RPC, resolving `IntegratedTerminal` in **~21 ms**.
-  * **Engine-Wide Telemetry**: Integrated Dragonfly `RecognitionObserver` (`AdceRecognitionObserver`) to log real-time recognition telemetry, rule matching, and active desktop zones to the console and Caster HUD.
+### 1. Active Focus: Next-Iteration Modular Caster HUD & Real-Time Context Integration
+* **Status (Active Exploration & Production Blueprint - Complete)**: Refactored and modernized the Caster Heads-Up Display (HUD) into a high-performance, modular 5-layer Clean Architecture overlay that provides instant visual feedback for speech recognition, microphone safety states, native OS window tracking, active contextual voice rules, and sub-window semantic interaction zones from the Active Desktop Context Engine (ADCE).
+* **Core Architecture & Breakthroughs**:
+  * **5-Layer Clean Architecture & Unidirectional Data Flow**: Decoupled presentation (`MainWindow`, `StatusBarWidget`, `ActiveRulesBarWidget`, `AdceBarWidget`), immutable domain state & pure reducers (`HudState`, `reduce_event`), cross-thread IPC (`SignalBridge`, Qt Signals), OS/context observers (`IFocusTracker`, `AdceTracker`), and speech engine integration.
+  * **Zero-Polling Win32 Window Focus Tracking (`IFocusTracker`)**: Native `SetWinEventHook` (`EVENT_SYSTEM_FOREGROUND`, `EVENT_OBJECT_NAMECHANGE`) provides instantaneous (< 1 ms) window title and process tracking on mouse clicks and Alt+Tab without waiting for speech recognition.
+  * **Decoupled ADCE Micro-Context & SSE Ingestion**: Dedicated `AdceTracker` ingests real-time semantic interaction zones (`{IntegratedTerminal}`, `{EditorCodeBuffer}`) over Server-Sent Events (SSE on port 8424), updating sub-pane clicks in ~10–20 ms. Stale context across process switches is actively guarded, and disconnected states cleanly render `⚪ ADCE [ADCE is not connected]`.
+  * **Contextual Active Rules Resolution & Engine Noise Suppression**: Dynamically resolves active application rules (e.g. `[VS Code]`, `[IDE Terminal]`, `[PowerShell]`) with terminal host fuzzy matching, CCR companion rule resolution, and automatic suppression of engine merger artifacts (`Repeater1`, `PreparedRule`, `dictation_sink_rule`), providing clean `[Global Context]` and `[Microphone Sleeping]` states.
+  * **Multi-Theme System & Dynamic Safety Glow**: 4 preset themes (`classic`, `frosted-dark`, `minimal-transparent`, `high-contrast`), custom `.qss` loading, multi-window stylesheet propagation, full `QMenu` styling, and priority border status glow (🟢 Listening $\succ$ 🔴 Sleeping $\succ$ 🟡 Drag Mode $\succ$ 🔵 Window Focus).
+  * **Zero-Latency IPC Isolation**: Dedicated port allocation (Port 8338 for XML-RPC, Port 8339 for ndjson telemetry) with non-blocking drop-oldest queues (`queue.Queue(maxsize=1024)`) guaranteeing `< 0.001 ms` speech thread overhead.
+  * **Ergonomics & Controls**: Direct header click-and-drag window movement, 'D' drag mode with arrow nudging, 'T' frameless toggle, system tray docking, font scaling, modal help/rules dialogs, and comprehensive voice/context-menu controls.
 * **Key Documentation**:
-  * 📘 **[ADCE Dynamic IDE Terminal Context Guide](docs/features/adce_dynamic_terminal_context_guide.md)** *(Feature Guide & Runbook)*
-  * 🔬 **[Dragonfly Recognition Observers & Functional Contexts](docs/framework_explainers/dragonfly_recognition_observers_and_functional_contexts.md)** *(Master Explainer & Blueprint)*
-  * 🧠 **[ADCE Living Context Hub](docs/accessibility_mcp/CONTEXT.md)**
-  * 📑 **[UI Automation Structures Reference (017)](docs/accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md)**
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Authoritative SSoT)*
+  * 🏛️ **[Caster HUD Clean Architecture Synthesis (009)](docs/caster_hud/009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)**
+  * 📜 **[Caster HUD Continuous Lessons Learned Timeline (007)](docs/caster_hud/007_caster_hud_lessons_learned_timeline.md)**
+  * 🔄 **[ADCE Realtime Stream & Native Focus Decoupling (011)](docs/caster_hud/011_adce_realtime_stream_and_native_focus_decoupling_deep_dive.md)**
+  * 🔬 **[Fine-Grained Context: Native OS vs ADCE Explainer (010)](docs/caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md)**
   * 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
 
 ### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
@@ -51,12 +55,8 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 * **Highlights**: Instant 0–10ms focus transitions via direct Win32 APIs (`SetForegroundWindow`), guarded keystate context managers (`_alt_key_bypass`, `_attached_threads`), and encapsulated `AliasRegistry` persistence.
 * **Key Docs**: [App Switcher Blueprint v3](docs/architecture/app_switcher_architectural_blueprint.md) | [App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md) | [App Switcher Feature Guide](docs/features/app_switcher.md).
 
-### 3. LexiconCode Window Switching Investigation
-* **Active Evaluation**: Documenting the historical pull request by LexiconCode using dynamic grammar (`DictList`) background polling.
-* **Reference**: [Caster PR #881](https://github.com/dictation-toolbox/Caster/pull/881) | [Feature Guide](docs/features/lexicon_code_window_switching_functionality.md).
-
-### 4. Historical Status & Archived Investigations
-* **[Status Update History](status-update-history.md)**: Full archive of previous status updates (including the Wayfinder session, Dragonfly BPC Fork Kaldi race condition fixes, and 2024 development logs).
+### 3. Historical Status & Archived Investigations
+* **[Status Update History](status-update-history.md)**: Full archive of previous status updates (including Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, Wayfinder session, Dragonfly BPC Fork Kaldi race condition fixes, and 2024 development logs).
 * **[Kaldi Compiler & Engine Race Condition Post-Mortem](docs/troubleshooting/kaldi_crash_explanation.md)**: Root-cause debugging of Caster speech compiler crashes.
 * **[Speech Stack Thread Architecture Report](docs/architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)**: Thread interaction models and execution boundaries.
 * **[Technical Journey Log](docs/history/technical_journey.md)**: Active and archived engineering focus roadmap.
