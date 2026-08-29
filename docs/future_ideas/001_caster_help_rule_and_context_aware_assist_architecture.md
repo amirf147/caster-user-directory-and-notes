@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](001_caster_hud_architecture_and_threading_primer.md) › **008: Caster Help Rule & Context-Aware Voice Assistance Architecture**
+[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](../caster_hud/001_caster_hud_architecture_and_threading_primer.md) › **008: Caster Help Rule & Context-Aware Voice Assistance Architecture**
 
 ---
 
