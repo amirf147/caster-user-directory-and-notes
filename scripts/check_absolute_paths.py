@@ -2,28 +2,43 @@
 """
 Check Absolute Paths Module
 
+Validates Python rules/scripts and Markdown documentation across the repository
+for hardcoded absolute paths, local system metadata leaks, and absolute file:/// links.
+
 Copyright (c) 2024-2026 Amir Farhadi
 SPDX-License-Identifier: Apache-2.0
 """
 
-import os
-import sys
 import ast
+import os
 import re
+import sys
 
-# Directory to scan
-RULES_DIR = os.path.join("caster_user_content", "rules")
+# Scanning roots
+SCAN_DIRS = [
+    ("caster_user_content", [".py"]),
+    ("scripts", [".py"]),
+    ("docs", [".md"]),
+]
 
-# Regex to detect absolute paths
-# 1. Windows: e.g. C:\Users\... or C:/Users/...
+# Files explicitly exempt from absolute path scanning (untracked local environment definitions)
+EXEMPT_FILES = {
+    "environment_variables.py",
+}
+
+# Regex patterns for Python code string literals
 WINDOWS_ABS_PATH_RE = re.compile(
     r"^[A-Za-z]:[\\/](Users|Documents|Program Files|AppData|Windows|Temp|python)[\\/]", re.IGNORECASE
 )
-# 2. Unix: e.g. /Users/... or /home/...
 UNIX_ABS_PATH_RE = re.compile(r"^/(Users|home|root|opt|var|etc|usr|bin)[/]", re.IGNORECASE)
 
+# Regex pattern for Markdown link destinations e.g. [text](file:///...) or [text](C:/Users/...)
+MD_LINK_ABS_RE = re.compile(
+    r"\[([^\]]*)\]\((file:///[^\)]+|[A-Za-z]:[\\/][^\)]+|/(Users|home)/[^\)]+)\)", re.IGNORECASE
+)
 
-def check_file_for_abs_paths(file_path):
+
+def check_python_file(file_path):
     violations = []
     try:
         with open(file_path, "r", encoding="utf-8") as f:
@@ -38,38 +53,69 @@ def check_file_for_abs_paths(file_path):
                 val = node.s
 
             if val:
-                # Check both regexes
                 if WINDOWS_ABS_PATH_RE.search(val) or UNIX_ABS_PATH_RE.search(val):
-                    violations.append((node.lineno, val))
+                    violations.append((node.lineno, f"Hardcoded absolute path: '{val}'"))
 
     except Exception as e:
-        print(f"Error parsing {file_path}: {e}")
+        print(f"Error parsing Python file {file_path}: {e}")
+    return violations
+
+
+def check_markdown_file(file_path):
+    violations = []
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+
+        for line_no, line in enumerate(lines, start=1):
+            # Allow educational discussion in specific insights document
+            if "antigravity_editor_insights.md" in file_path and ("`file:///" in line or "system prompt" in line):
+                continue
+
+            matches = MD_LINK_ABS_RE.findall(line)
+            for link_text, link_target in matches:
+                violations.append((line_no, f"Absolute markdown link destination: '[{link_text}]({link_target})'"))
+
+    except Exception as e:
+        print(f"Error reading Markdown file {file_path}: {e}")
     return violations
 
 
 def main():
-    if not os.path.exists(RULES_DIR):
-        print(f"Rules directory '{RULES_DIR}' not found. Ensure you are running this from the repository root.")
-        sys.exit(1)
-
     total_violations = 0
-    print(f"Scanning '{RULES_DIR}' for hardcoded absolute paths...")
+    print("Running repository-wide absolute path and link audit...")
 
-    for root, _, files in os.walk(RULES_DIR):
-        for file in files:
-            if file.endswith(".py"):
+    for dir_name, extensions in SCAN_DIRS:
+        if not os.path.exists(dir_name):
+            continue
+
+        for root, _, files in os.walk(dir_name):
+            for file in files:
+                if file in EXEMPT_FILES:
+                    continue
+
+                file_ext = os.path.splitext(file)[1].lower()
+                if file_ext not in extensions:
+                    continue
+
                 file_path = os.path.join(root, file)
-                violations = check_file_for_abs_paths(file_path)
+                if file_ext == ".py":
+                    violations = check_python_file(file_path)
+                elif file_ext == ".md":
+                    violations = check_markdown_file(file_path)
+                else:
+                    violations = []
+
                 if violations:
                     total_violations += len(violations)
-                    for line_no, val in violations:
-                        print(f"Violation in {file_path}:{line_no}: Hardcoded absolute path '{val}'")
+                    for line_no, msg in violations:
+                        print(f"Violation in {file_path}:{line_no}: {msg}")
 
     if total_violations > 0:
-        print(f"\nFound {total_violations} hardcoded absolute path violations.")
+        print(f"\nFound {total_violations} path/link violation(s).")
         sys.exit(1)
     else:
-        print("\nNo hardcoded absolute path violations found.")
+        print("\nNo hardcoded absolute paths or absolute markdown links found.")
         sys.exit(0)
 
 
