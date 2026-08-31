@@ -30,7 +30,7 @@ def _search_youtube(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://www.youtube.com/results?search_query={formatted_search}"
     (
-        Key("a-d/5").execute()
+        Key("c-l/5").execute()
         + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url})
         + Key("enter").execute()
     )
@@ -81,7 +81,7 @@ def _search_github(query):
     formatted_search = query.replace(" ", "+")
     formatted_url = f"https://github.com/search?q={formatted_search}&type=repositories"
     (
-        Key("a-d/5").execute()
+        Key("c-l/5").execute()
         + Text("%(formatted_url)s", pause=0.0).execute({"formatted_url": formatted_url})
         + Key("enter").execute()
     )
@@ -99,7 +99,7 @@ def _go_to_tab(n):
 def _split_right_with_tab(n):
     Key("w-left/50").execute()
     _go_to_tab(n)
-    Key("a-d/30, c-c/30, c-w/30, c-n/80, c-v/20, enter/30, w-right/50").execute()
+    Key("c-l/30, c-c/30, c-w/30, c-n/80, c-v/20, enter/30, w-right/50").execute()
 
 
 class FirefoxExtendedRule(MappingRule):
@@ -124,18 +124,18 @@ class FirefoxExtendedRule(MappingRule):
         "page under [<n>]": R(Key("c-pgdown/3")) * Repeat(extra="n"),
         "show pages": R(Key("c-b/30, f1")),  # workaround for when pressing just F1 doesn't work
         "hide left": R(Key("c-b:2")),  # workaround for when pressing just F1 doesn't work
-        "duplicate page": R(Key("a-d/5, a-enter")),
-        "pop out page": R(Key("a-d/30, c-c, c-w, c-n/50, c-v, enter")),
+        "duplicate page": R(Key("c-l/5, a-enter")),
+        "pop out page": R(Key("c-l/30, c-c, c-w, c-n/50, c-v, enter")),
         "split right [with] <n>": R(Function(_split_right_with_tab)),
         "show downloads": R(Key("c-j")),
         "show history": R(Key("cs-h")),
-        "address bar": R(Key("a-d")),
+        "address bar": R(Key("c-l")),
         "extensions bar":  # Focuses on extensions located to the right of the address bar
-        R(Key("a-d/5, tab:2, right:2")),
+        R(Key("c-l/5, tab:2, right:2")),
         "show menu":  # Opens the hamburger menu
-        R(Key("a-d/5, tab:2, right:7, enter")),
+        R(Key("c-l/5, tab:2, right:7, enter")),
         # Address bar querying with dictation
-        "netzer <query>": R(Key("a-d/5") + Text("%(query)s", pause=0.0) + Key("enter")),
+        "netzer <query>": R(Key("c-l/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer tab <query>": R(Key("c-t/5") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer window <query>": R(Key("c-n/120") + Text("%(query)s", pause=0.0) + Key("enter")),
         "netzer sprite <query>": R(
@@ -145,7 +145,7 @@ class FirefoxExtendedRule(MappingRule):
             + Text("%(query)s", pause=0.0)
             + Key("enter")
         ),
-        "reddit <query>": R(Key("a-d/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
+        "reddit <query>": R(Key("c-l/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit tab <query>": R(Key("c-t/5") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit window <query>": R(Key("c-n/120") + Text("%(query)s reddit", pause=0.0) + Key("enter")),
         "reddit sprite <query>": R(
@@ -154,7 +154,7 @@ class FirefoxExtendedRule(MappingRule):
             + Text("%(query)s reddit", pause=0.0)
             + Key("enter")
         ),
-        "hister <query>": R(Key("a-d/5") + Text("^%(query)s", pause=0.0)),
+        "hister <query>": R(Key("c-l/5") + Text("^%(query)s", pause=0.0)),
         "hister tab <query>": R(Key("c-t/5") + Text("^%(query)s", pause=0.0)),
         "hister window <query>": R(Key("c-n/120") + Text("^%(query)s", pause=0.0)),
         "hister sprite <query>": R(
@@ -163,7 +163,7 @@ class FirefoxExtendedRule(MappingRule):
             + Text("%(query)s reddit", pause=0.0)
             + Key("enter")
         ),
-        "bookzer <query>": R(Key("a-d/5") + Text("*%(query)s", pause=0.0)),
+        "bookzer <query>": R(Key("c-l/5") + Text("*%(query)s", pause=0.0)),
         "bookzer tab <query>": R(Key("c-t/5") + Text("*%(query)s", pause=0.0)),
         "bookzer window <query>": R(Key("c-n/120") + Text("*%(query)s", pause=0.0)),
         "bookzer sprite <query>": R(
@@ -175,7 +175,7 @@ class FirefoxExtendedRule(MappingRule):
         # Specific website navigation in new tab
         "go tab <website>": R(Key("c-t/5") + Text("%(website)s", pause=0.0) + Key("enter")),
         # Specific website navigation via address bar
-        "go <website>": R(Key("a-d/5") + Text("%(website)s", pause=0.0) + Key("enter")),
+        "go <website>": R(Key("c-l/5") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go window <website>": R(Key("c-n/120") + Text("%(website)s", pause=0.0) + Key("enter")),
         "go sprite <website>":  # Opens Website in new window and splits windows vertically
         R(
@@ -185,7 +185,7 @@ class FirefoxExtendedRule(MappingRule):
             + Key("enter")
         ),
         # Pasting clipboard content into address bar
-        "go clipboard": R(Key("a-d/5") + Key("c-v") + Key("enter")),
+        "go clipboard": R(Key("c-l/5") + Key("c-v") + Key("enter")),
         "go tab clipboard": R(Key("c-t/5") + Key("c-v") + Key("enter")),
         "go window clipboard": R(Key("c-n/120") + Key("c-v") + Key("enter")),
         "go sprite clipboard":  # Opens clipboard content in new window and splits windows vertically
@@ -216,7 +216,7 @@ class FirefoxExtendedRule(MappingRule):
         # Querying gemini
         # Navigates to Gemini webapp, waits for it to loads then types the query into the chat input and presses enter
         "gemzer <query>": R(
-            Key("a-d/50")
+            Key("c-l/50")
             + Text("https://gemini.google.com/app", pause=0.0)
             + Key("enter/200")
             + Text("%(query)s", pause=0.0)
@@ -242,8 +242,8 @@ class FirefoxExtendedRule(MappingRule):
         "translate that":  # Translates the selection via the context menu
         R(Key("s-f10/30, n")),
         "translate page":  # Presses the translate button in the address bar and enables page translation
-        R(Key("a-d/50, tab, right:4, left:2, enter/50, tab:3, enter")),
-        "remove translation": R(Key("a-d/50, tab, right:4, left:2, enter/50, tab:2, enter")),
+        R(Key("c-l/50, tab, right:4, left:2, enter/50, tab:3, enter")),
+        "remove translation": R(Key("c-l/50, tab, right:4, left:2, enter/50, tab:2, enter")),
         # Job search automation
         "text to job postings": R(
             Store() + Function(_save_to_job_postings),
@@ -285,7 +285,7 @@ class FirefoxExtendedRule(MappingRule):
         "show sidebar": R(Key("f4")),
         "insert <text>": R(Text("%(text)s")),
         "copy back address":  # Copy address bar contents and switch back to previous application
-        R(Key("a-d/5, c-c/3, f6/3, a-tab")),
+        R(Key("c-l/5, c-c/3, f6/3, a-tab")),
         "log pross":  # Speed up school website navigation
         R(
             Key("down/20, tab/30, tab/20:2, enter/50, tab:2, enter/50")

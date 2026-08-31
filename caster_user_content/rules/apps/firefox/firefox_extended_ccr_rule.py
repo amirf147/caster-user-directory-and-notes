@@ -22,13 +22,13 @@ class FirefoxCcrRule(MergeRule):
 
     mapping = {
         "switch focus": R(Key("f6/3")),
-        "copy address": R(Key("a-d/5, c-c, escape, f6, tab/5, tab")),
+        "copy address": R(Key("c-l/5, c-c, escape, f6, tab/5, tab")),
         # CCR versions of a focusing address so you can continue to type characters without pausing
         # Web search
-        "netspell": R(Key("a-d/5")),
+        "netspell": R(Key("c-l/5")),
         "netspell tab": R(Key("c-t/50")),
         # History search
-        "hispell": R(Key("a-d/20, ^")),
+        "hispell": R(Key("c-l/20, ^")),
         "hispell tab": R(Key("c-t/50, ^")),
         # "insert <text>": R(Text("%(text)s")), # Not working for some reason
         "juice": R(Key("c-f/20")),  # for spelling into find dialog
