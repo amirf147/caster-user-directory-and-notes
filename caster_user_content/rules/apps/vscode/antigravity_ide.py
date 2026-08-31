@@ -1,22 +1,20 @@
 """
-Antigravity Module
+Antigravity IDE Module
 
 Copyright (c) 2024-2026 Amir Farhadi
 SPDX-License-Identifier: Apache-2.0
 """
 
-from dragonfly import Dictation, MappingRule, Pause, ShortIntegerRef, Choice, Mimic
-
-from castervoice.lib.actions import Key
-
-from castervoice.lib.actions import Text
+from dragonfly import Choice, Dictation, MappingRule, Mimic, Pause, ShortIntegerRef
+from castervoice.lib.actions import Key, Text
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
 
 
-class AntigravityRule(MappingRule):
+class AntigravityIDERule(MappingRule):
+    pronunciation = "antigravity i d e"
     mapping = {
         # Chat Panel Initialization/Toggling
         "show chat": R(Key("c-l")),
@@ -36,12 +34,6 @@ class AntigravityRule(MappingRule):
         "reject change": R(Key("sa-backspace")),
         "debug console": R(Key("cs-y")),
         # Custom Commands
-        # "generate commit prompt": R(
-        #     Key("cs-backtick") + # Create new terminal instance
-        #     Pause("50") + Function(text_to_clipboard, text=ev.POWERSHELL_COMMIT_PROMPT_BUILDER) +
-        #     Pause("100") + Key("s-insert/30, enter/30, c-k, c-f4/30") + Key("cs-l/180, c-v")),
-        # "generate commit prompt": R(
-        #     Function(text_to_clipboard, text=ev.COMMIT_PROMPT_ANTIGRAVITY) + Key("cs-l/50, c-v")),
         # First stages changes and opens stage, then inputs /commit into agent chat window to get commit message.
         # new chat session
         "generate commit message": R(
@@ -67,4 +59,8 @@ class AntigravityRule(MappingRule):
 
 
 def get_rule():
-    return AntigravityRule, RuleDetails(name="Antigravity", executable="Antigravity IDE", title="Antigravity IDE")
+    return AntigravityIDERule, RuleDetails(
+        name="Antigravity IDE",
+        executable="Antigravity IDE",
+        title="Antigravity IDE",
+    )
