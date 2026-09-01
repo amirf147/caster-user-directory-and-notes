@@ -60,6 +60,7 @@ Educational primers, specifications, and post-mortems for the Modular Caster HUD
 ### 💡 [Future Ideas & Iterations](future_ideas/)
 Conceptual designs and future capability blueprints for upcoming Caster iterations.
 * [001: Caster Help Rule & Context-Aware Assistance Architecture](future_ideas/001_caster_help_rule_and_context_aware_assist_architecture.md)
+* [003: Variable Changer Teardown & Reliable Editor Navigation Architecture](future_ideas/003_variable_changer_teardown_and_reliable_editor_navigation_architecture.md)
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).
