@@ -270,6 +270,24 @@ class AdceBridgeClient:
     def get_active_file(self) -> str:
         return self._active_file
 
+    _ZONE_SYNONYMS = {
+        "integratedterminal": "terminal",
+        "terminal": "terminal",
+        "editorcodebuffer": "editorbuffer",
+        "editorbuffer": "editorbuffer",
+        "gitcommitbox": "gitcommitbox",
+        "chatassistant": "chatconversation",
+        "chatconversation": "chatconversation",
+        "chatprompt": "chatprompt",
+        "documentcontent": "webdocument",
+        "webdocument": "webdocument",
+    }
+
+    @classmethod
+    def _canonicalize_zone(cls, zone_str: str) -> str:
+        norm = str(zone_str or "").lower().replace("_", "").replace(" ", "")
+        return cls._ZONE_SYNONYMS.get(norm, norm)
+
     def is_zone(self, target_zone: str, app_names=None) -> bool:
         if app_names is not None:
             if isinstance(app_names, str):
@@ -278,27 +296,22 @@ class AdceBridgeClient:
             if self._current_process not in app_set and not any(a in self._current_process for a in app_set):
                 return False
 
-        normalized_target = target_zone.lower().replace("_", "")
-        normalized_current = self._current_zone.lower().replace("_", "")
-        return normalized_current == normalized_target
+        return self._canonicalize_zone(self._current_zone) == self._canonicalize_zone(target_zone)
 
     def is_ide_terminal(self) -> bool:
         """Predicate checking if focus is currently in an integrated IDE terminal."""
         is_ide_app = any(ide in self._current_process for ide in IDE_PROCESS_NAMES)
-        normalized_zone = self._current_zone.lower().replace("_", "")
-        return is_ide_app and normalized_zone == "integratedterminal"
+        return is_ide_app and self._canonicalize_zone(self._current_zone) == "terminal"
 
     def is_ide_editor(self) -> bool:
         """Predicate checking if focus is currently in a code editor buffer."""
         is_ide_app = any(ide in self._current_process for ide in IDE_PROCESS_NAMES)
-        normalized_zone = self._current_zone.lower().replace("_", "")
-        return is_ide_app and normalized_zone == "editorcodebuffer"
+        return is_ide_app and self._canonicalize_zone(self._current_zone) == "editorbuffer"
 
     def is_ide_git_commit(self) -> bool:
         """Predicate checking if focus is in a Git commit message box."""
         is_ide_app = any(ide in self._current_process for ide in IDE_PROCESS_NAMES)
-        normalized_zone = self._current_zone.lower().replace("_", "")
-        return is_ide_app and normalized_zone == "gitcommitbox"
+        return is_ide_app and self._canonicalize_zone(self._current_zone) == "gitcommitbox"
 
 
 # Global client singleton initialized on import

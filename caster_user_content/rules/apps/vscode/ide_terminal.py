@@ -44,6 +44,7 @@ class IDETerminalRule(MappingRule):
         "run tests": R(Text("npm test") + Key("enter")),
         "run build": R(Text("npm run build") + Key("enter")),
         "run dev": R(Text("npm run dev") + Key("enter")),
+        "cargo run": R(Text("cargo run") + Key("enter")),
         "cargo check": R(Text("cargo check") + Key("enter")),
         "cargo test": R(Text("cargo test") + Key("enter")),
         "cargo build": R(Text("cargo build") + Key("enter")),
@@ -70,14 +71,5 @@ class IDETerminalRule(MappingRule):
 def get_rule():
     return IDETerminalRule, RuleDetails(
         name="IDETerminal",
-        executable=["Code", "Antigravity", "Antigravity IDE", "cursor", "Windsurf", "VSCodium", "code - oss"],
-        title=[
-            "Visual Studio Code",
-            "Antigravity",
-            "Antigravity IDE",
-            "Cursor",
-            "Windsurf",
-            "VSCodium",
-        ],
         function_context=is_ide_terminal_focused,
     )
