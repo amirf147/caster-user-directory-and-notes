@@ -101,3 +101,72 @@ For editing or positioning within text fields, use `IUIAutomationTextPattern` di
 
 ### 5.3 Deterministic Shortcut Chords
 Application-level operations (opening files, searching symbols, running tests, splitting panes) must rely on application shortcuts and command palettes rather than simulating mouse clicks on menu items.
+
+---
+
+## 6. Case Study: Link-Hinting via Native UIA Patterns (Hunt and Peck)
+
+To evaluate how desktop accessibility tools solve arbitrary UI element activation without semantic text collisions, consider the architecture of **Hunt and Peck** (`hap.exe`). Hunt and Peck adapts the Vimium / Vimperator link-hinting model to the Windows desktop using native UI Automation COM interfaces.
+
+### 6.1 Architectural Differences
+
+Rather than matching arbitrary user speech against text properties, Hunt and Peck decouples element discovery from element naming:
+
+```
+[HotKey: Alt + ;] -> KeyListenerService (Win32 RegisterHotKey)
+                           |
+                           v
+[Window Capture]  -> GetForegroundWindow() (Target HWND)
+                           |
+                           v
+[UIA Tree Query]  -> IUIAutomation.FindAll(TreeScope_Descendants, Condition)
+                           |
+                           v
+[Pattern Filter]  -> CreateHint() (Tests Invoke, Toggle, Select, ExpandCollapse, Value)
+                           |
+                           v
+[Label Generator] -> HintLabelService (Generates prefix-free codes: S, A, D, F, J, K...)
+                           |
+                           v
+[Visual Overlay]  -> ForegroundWindow / OverlayView (WPF Canvas over target HWND)
+                           |
+                           v (User types matching hint code)
+[Direct Execution]-> Hint.Invoke() -> IUIAutomationInvokePattern.Invoke() (Zero mouse movement)
+```
+
+1. **Strict Pattern-Based Filtering:**
+   Instead of filtering by text content, `UiAutomationHintProviderService.CreateHint()` tests whether each element implements an actionable COM pattern interface:
+   * `IUIAutomationInvokePattern` (`UiAutomationInvokeHint`): Invokes buttons, links, and menu items.
+   * `IUIAutomationTogglePattern` (`UiAutomationToggleHint`): Toggles checkboxes and switches.
+   * `IUIAutomationSelectionItemPattern` (`UiAutomationSelectHint`): Selects radio buttons and combo items.
+   * `IUIAutomationExpandCollapsePattern` (`UiAutomationExpandCollapseHint`): Expands tree nodes and accordions.
+   * `IUIAutomationValuePattern` / `IUIAutomationRangeValuePattern` (`UiAutomationFocusHint` where `CurrentIsReadOnly == 0`): Focuses editable input fields.
+   Elements without these patterns are discarded immediately, filtering out thousands of passive layout containers and text blocks.
+
+2. **Prefix-Free Spatial Tagging:**
+   `HintLabelService` generates deterministic, unique letter sequences (from home-row characters `S, A, D, F, J, K, L, E, W, C, M, P, G, H`). Because each target receives an unambiguous visual tag, substring collisions and grammar disambiguation loops are eliminated entirely.
+
+3. **Direct COM Invocation (Zero Mouse Simulation):**
+   When a hint code resolves, `OverlayViewModel` calls `hint.Invoke()` directly on the COM interface pointer (such as `_invokePattern.Invoke()`). It does not simulate cursor movement (`SetCursorPos`) or synthetic mouse clicks (`mouse_event`). The hardware cursor remains stationary, preventing caret loss, hover tooltip occlusion, and multi-monitor DPI drift.
+
+### 6.2 Comparative Architecture Matrix
+
+| Dimension | Unscoped Text Voice Clicker (`"click <text>"`) | Link-Hinting Model (`Hunt and Peck`) |
+| :--- | :--- | :--- |
+| **Addressing Method** | Semantic / Substring text matching | Spatial / Visual hint codes (`AD`, `JK`) |
+| **Target Filtering** | Text property grep across entire tree | Actionable COM pattern interfaces (`Invoke`, `Toggle`, `Select`) |
+| **False Positives** | High (collides with documentation, chat text, diff lines) | Zero (each visual badge is mathematically unique) |
+| **Action Execution** | Synthetic mouse movement + Win32 click | Native COM pattern method (`IUIAutomationInvokePattern.Invoke()`) |
+| **Hardware Cursor State** | Displaced; triggers hover tooltips | Stationary; cursor is never moved |
+| **DPI Sensitivity** | High (mouse coordinate translation drift) | Low (handled via WPF `LayoutTransform`) |
+| **Disambiguation Flow** | Halts and prompts user (`"choose 1"`, `"choose 2"`) | Continuous character typing narrowing down matches in real time |
+
+### 6.3 Technical Limitations of the Link-Hinting Approach
+
+While link-hinting resolves the ambiguity and mouse-drift issues of unscoped text clickers, it carries distinct engineering constraints:
+
+* **Uncached Synchronous Traversal:** Hunt and Peck queries `FindAll(TreeScope_Descendants)` and calls `GetCurrentPattern()` synchronously on the UI thread without a `CacheRequest`. On large trees with 10,000+ elements (such as full VS Code or Chromium windows), this blocks the UI thread for 200 to 500 milliseconds.
+* **Virtualized List Limits:** Controls inside virtualized lists (such as long file trees or log feeds) are not instantiated in the accessibility tree until scrolled into view.
+* **Canvas and Non-UIA Renderers:** Applications rendering directly to DirectX, Skia, or HTML Canvas surfaces without backing accessibility peers cannot expose COM patterns.
+* **Input Modality:** Visual link badges require visual inspection and rapid keystrokes; adapting them to voice requires dedicated phonetic alphabet grammars rather than natural speech.
+
