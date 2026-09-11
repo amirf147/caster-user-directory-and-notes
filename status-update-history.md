@@ -1,3 +1,19 @@
+## Archived Status Update: Virtual Desktop Window & Multi-Window Application Pinning Refactor (September 2026)
+
+### Virtual Desktop Window & Multi-Window App Pinning Architecture (Empirically Verified)
+* **Status (Active Production - Verified)**: Designed, implemented, and verified end-to-end voice-driven virtual desktop window and application pinning. Feature implemented cleanly in Caster on branch `feat/virtual-desktop-pinning` (commit `b549ca2b`), accompanied by an architectural refactor in `pyvda` on branch `fix/multi-window-app-pinning` (commit `66d3f64`).
+* **Empirical Validation & Breakthroughs**:
+  * **Sub-AUMID Exact Matching Diagnosis**: Identified the exact root cause of Windows Terminal's secondary window isolation. Modern XAML Island apps receive per-window synthetic identifiers (`Package!App~Wh~w<HEX_HWND>`), while Windows COM `IVirtualDesktopPinnedApps` performs strict exact string matching. Naive pinning registered isolated window handles and left dead registry keys upon window closure.
+  * **Foundational Upstream Library Refactor**: Refactored `pyvda` to expose `base_app_id`, pin canonical app identities, pin active sub-views via in-memory `PinView()` (guaranteeing zero registry pollution), and reconcile newly opened windows upon desktop transitions via `sync_pinned_apps()` (< 1 ms).
+  * **Cross-Application Empirical Verification**: Verified live multi-window pinning across Windows Terminal (`0x9091a`, `0x10e0a34`), Waterfox (`0x10602`, `0x20586`), and Antigravity IDE (`0xd0a76`, `0x180404`).
+  * **HUD Voice Integration**: Bound `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py` with immediate visual feedback via `printer.out`.
+* **Key Documentation**:
+  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+  * 🏠 **[Main Caster User Hub](README.md)**
+
+---
+
 ## Archived Status Update: Dynamic Sub-Window Grammar Activation & LexiconCode Window Switching Analysis (August 2026)
 
 ### Dynamic Sub-Window Grammar Activation with ADCE & Dragonfly (Empirically Verified)

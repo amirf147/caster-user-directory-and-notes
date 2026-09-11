@@ -22,7 +22,8 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 * **[App & Window Switcher v3](docs/features/app_switcher.md)**: Sub-millisecond direct Win32 window switching, workspace isolation, guarded keystate context managers, and automated tab navigation.
 * **[App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md)**: 2-year retrospective tracing the 5 evolution eras of window switching from Windhawk taskbar macros to native Win32 v3.
 * **[App Switcher Architectural Blueprint (v3)](docs/architecture/app_switcher_architectural_blueprint.md)**: Authoritative technical specification, focus tier state machines, and sequence diagrams.
-* **[PyVDA COM Lifecycle & Threading Analysis](docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)**: Deep analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), and STA/MTA threading rules.
+* **[PyVDA COM Lifecycle & Multi-Window Pinning Architecture](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**: Deep analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), exact-match AUMID resolution, and multi-window XAML Island pinning (`~Wh~w<HEX_HWND>`) across Windows Terminal, Waterfox, and Antigravity IDE.
+* **[Virtual Desktop Window & App Pinning Voice Grammar](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**: Voice-driven pinning and unpinning of individual windows and full application envelopes across all virtual workspaces with Caster HUD notifications.
 * **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, paired with a local XML-RPC IPC bridge for thread-safe microphone toggling.
 * **[Top Voice Automations Showcase](docs/features/top_voice_automations.md)**: Curated showcase of desktop, editor, and system voice workflows.
 
@@ -32,7 +33,20 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness:
 
-### 1. Active Focus: Next-Iteration Modular Caster HUD & Real-Time Context Integration
+### 1. Active Production: Virtual Desktop Window & Multi-Window App Pinning (Caster & PyVDA Refactor)
+* **Status (Active Production - Verified)**: Implemented complete voice-driven virtual desktop window and application pinning across Caster (`feat/virtual-desktop-pinning` branch, commit `b549ca2b`) and solved the foundational multi-window XAML Island sub-AUMID limitation in the upstream `pyvda` library (`fix/multi-window-app-pinning` branch, commit `66d3f64`).
+* **Core Architecture & Breakthroughs**:
+  * **Caster Voice Grammar & HUD Integration**: Bound commands `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py`, routing user-facing state transitions through `printer.out` for instantaneous Caster HUD feedback.
+  * **Root Cause Diagnosis of App Pinning Failure**: Diagnosed why `pin app` previously pinned only isolated secondary windows of Windows Terminal. Modern Windows Shell assigns hosted/XAML Island windows unique sub-AUMIDs suffixed with `~Wh~w<HEX_HWND>`, while Windows COM `IVirtualDesktopPinnedApps::PinAppID` performs exact string matching (`wcscmp`) against a flat registry table. Naive pass-through in `pyvda` caused secondary windows to pin their transient handle while leaving primary windows unpinned (and vice-versa).
+  * **Zero Technical Debt / Upstream Library Refactor**: Kept Caster 100% free of band-aid workarounds. Implemented canonical `base_app_id` resolution in `pyvda.AppView`, pinned persistent application identities via `PinAppID(base_id)`, and pinned active sub-views in-memory via `PinView()` (preventing transient registry pollution and orphaned dead HWND keys).
+  * **Active Window Synchronization (`sync_pinned_apps`)**: Added sub-millisecond synchronization into `VirtualDesktop.go()`, ensuring newly opened windows of pinned applications carry over across workspace transitions automatically.
+  * **Cross-Framework Validation**: Empirically verified across heterogeneous application archetypes: Gecko (Waterfox profile-hash AUMIDs), Chromium/Electron (Antigravity IDE), and XAML Islands (Windows Terminal).
+* **Key Documentation**:
+  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)** *(Comprehensive Deep Dive & Test Matrix)*
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+  * 📜 **[Status Update History](status-update-history.md)**
+
+### 2. Next-Iteration Modular Caster HUD & Real-Time Context Integration
 * **Status (Active Exploration & Production Blueprint - Complete)**: Refactored and modernized the Caster Heads-Up Display (HUD) into a high-performance, modular 5-layer Clean Architecture overlay that provides instant visual feedback for speech recognition, microphone safety states, native OS window tracking, active contextual voice rules, and sub-window semantic interaction zones from the Active Desktop Context Engine (ADCE).
 * **Core Architecture & Breakthroughs**:
   * **5-Layer Clean Architecture & Unidirectional Data Flow**: Decoupled presentation (`MainWindow`, `StatusBarWidget`, `ActiveRulesBarWidget`, `AdceBarWidget`), immutable domain state & pure reducers (`HudState`, `reduce_event`), cross-thread IPC (`SignalBridge`, Qt Signals), OS/context observers (`IFocusTracker`, `AdceTracker`), and speech engine integration.

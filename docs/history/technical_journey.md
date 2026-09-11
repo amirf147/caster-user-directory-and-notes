@@ -6,7 +6,21 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Active Focus: Next-Iteration Modular Caster HUD & Real-Time Context Integration
+### 1. Active Production: Virtual Desktop Window & Multi-Window App Pinning (Caster & PyVDA Refactor)
+- **Status (Active Production - Verified)**: Designed, implemented, and empirically verified end-to-end voice-driven virtual desktop window and application pinning. Integrated cleanly into Caster (eat/virtual-desktop-pinning, commit 549ca2b) and eliminated the upstream XAML Island multi-window limitation in pyvda (ix/multi-window-app-pinning, commit 66d3f64).
+- **Core Engineering Breakthroughs**:
+  - **Sub-AUMID Exact Matching Diagnosis**: Diagnosed why pin app previously only pinned isolated secondary windows of Windows Terminal. Modern XAML Island apps receive per-window synthetic identifiers (Package!App~Wh~w<HEX_HWND>), while Windows COM IVirtualDesktopPinnedApps performs strict exact string matching (wcscmp).
+  - **Zero Technical Debt Upstream Refactor**: Refactored pyvda.AppView to decouple canonical ase_app_id, pin canonical app identities, pin active sub-views via in-memory PinView() (preventing transient registry clutter), and reconcile newly opened windows upon desktop transitions via sync_pinned_apps() (< 1 ms).
+  - **Cross-Framework Validation**: Empirically verified across heterogeneous application archetypes: Gecko (Waterfox profile-hash AUMIDs), Chromium/Electron (Antigravity IDE), and XAML Islands (Windows Terminal).
+  - **HUD Voice Integration**: Bound ([toggle] pin | unpin) window [all work [spaces]] and ([toggle] pin | unpin) app [all work [spaces]] in window_mgmt_rule.py with immediate visual feedback via printer.out.
+- **Key Documentation**:
+  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
+  * 📜 **[Status Update History](../../status-update-history.md)**
+
+---
+
+### 2. Next-Iteration Modular Caster HUD & Real-Time Context Integration
 - **Status (Active Exploration & Production Blueprint - Complete)**: Refactored and modernized the Caster Heads-Up Display (HUD) into a high-performance, modular 5-layer Clean Architecture overlay that provides instant visual feedback for speech recognition, microphone safety states, native OS window tracking, active contextual voice rules, and sub-window semantic interaction zones from the Active Desktop Context Engine (ADCE).
 - **Core Architecture & Breakthroughs**:
   - **5-Layer Clean Architecture & Unidirectional Data Flow**: Decoupled presentation (`MainWindow`, `StatusBarWidget`, `ActiveRulesBarWidget`, `AdceBarWidget`), immutable domain state & pure reducers (`HudState`, `reduce_event`), cross-thread IPC (`SignalBridge`, Qt Signals), OS/context observers (`IFocusTracker`, `AdceTracker`), and speech engine integration.

@@ -42,6 +42,7 @@ Real-time OS semantic state tracking, deep tab discovery, and Model Context Prot
 Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and threading.
 * [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
 * [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
+* [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers, specifications, and post-mortems for the Modular Caster HUD overlay.
