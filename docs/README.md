@@ -62,6 +62,7 @@ Educational primers, specifications, and post-mortems for the Modular Caster HUD
 Conceptual designs and future capability blueprints for upcoming Caster iterations.
 * [001: Caster Help Rule & Context-Aware Assistance Architecture](future_ideas/001_caster_help_rule_and_context_aware_assist_architecture.md)
 * [003: Variable Changer Teardown & Reliable Editor Navigation Architecture](future_ideas/003_variable_changer_teardown_and_reliable_editor_navigation_architecture.md)
+* [004: Phonetic Collision Atlas & Grammar Verification Engine](future_ideas/004_phonetic_collision_atlas_and_grammar_verification_engine.md)
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).
@@ -89,6 +90,7 @@ Feature specifications, implementation notes, and voice workflows.
 * [Lexicon Code Window Switching Functionality](features/lexicon_code_window_switching_functionality.md)
 * [Lexicon PR 881 Feedback](features/lexicon_pr_881_feedback.md)
 * [Number Series CCR Analysis](features/number-series-ccr-analysis.md)
+* [Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](features/virtual_desktop_pinning_and_grammar_ergonomics.md)
 
 ### 🔬 [Framework Explainers](framework_explainers/)
 Educational breakdowns of underlying voice engines and Dragonfly internals.
