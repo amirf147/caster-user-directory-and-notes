@@ -1,4 +1,4 @@
-﻿# Caster Documentation Hub
+# Caster Documentation Hub
 
 Welcome to the Caster documentation repository. This directory contains architectural blueprints, technical deep dives, troubleshooting diagnostics, framework breakdowns, and historical research for this Windows-only personal Caster/Dragonfly voice configuration.
 
@@ -19,6 +19,11 @@ Start here to understand the core architecture, active features, and engineering
 ---
 
 ## 📁 Categorized Directory Map
+
+### 🤖 [Antigravity Field of Study](antigravity/)
+Emergent research into agentic cognition, context window mechanics, KV cache economics, disposable scaffolding, and hierarchical orchestration.
+* **[001: Epistemic Detachment, Disposable Scaffolding, & Memory Mechanics](antigravity/001_ethos_memory_and_disposable_scaffolding.md)** *(Living Foundational Note)*
+* [Antigravity Editor Insights & System Prompt Overrides](features/antigravity_editor_insights.md)
 
 ### 🌐 [Accessibility MCP & Active Context Engine](accessibility_mcp/)
 Real-time OS semantic state tracking, deep tab discovery, and Model Context Protocol (MCP) server architecture.

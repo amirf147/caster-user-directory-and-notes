@@ -4,10 +4,8 @@ A high-performance, Windows-only personal voice computing and automation toolkit
 
 This repository houses custom voice grammars, low-latency window switching utilities, hardware IPC bridges, and in-depth engineering research into Windows UI Automation, speech engine threading, and real-time desktop context tracking.
 
-> 📜 **[Repository Timeline & 2-Year Technical Journey](docs/history/repository_timeline.md)**  
-> Historical retrospective covering early repository foundations through mid-2026 (Kaldi ASR migration, desktop automation, AI IDE workflows, and initial window switching).  
->
-> *Note on Scope:* This timeline only captures early work up to mid-2026 and has not yet been updated for recent engineering milestones. Over the last several months, the architecture has progressed into significantly deeper systems territory, including sub-millisecond native Win32 window switching (v3), real-time desktop context tracking via ADCE and MCP, the modular 5-layer Caster HUD overlay, and multi-window virtual desktop pinning architecture. Consult the [Key Engineering & Voice Automations](#-key-engineering--voice-automations) and [Recent Focus](#-technical-journey--recent-focus) sections below for the current technical baseline.
+> 📚 **[Documentation Hub](docs/README.md)**  
+> Master navigation, architectural blueprints, subsystem deep dives, and technical specifications for all repository subsystems.
 
 ---
 
@@ -74,6 +72,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 * **Key Docs**: [App Switcher Blueprint v3](docs/architecture/app_switcher_architectural_blueprint.md) | [App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md) | [App Switcher Feature Guide](docs/features/app_switcher.md).
 
 ### 3. Historical Status & Archived Investigations
+* **[Repository Timeline & 2-Year Technical Journey](docs/history/repository_timeline.md)**: Historical retrospective covering early repository foundations through mid-2026 (Kaldi ASR migration, desktop automation, AI IDE workflows, and initial window switching). *(Note on Scope: Captures foundations up to mid-2026; consult [Key Engineering](#-key-engineering--voice-automations) and [Recent Focus](#-technical-journey--recent-focus) above for current sub-millisecond Win32 v3, ADCE, and HUD systems).*
 * **[Status Update History](status-update-history.md)**: Full archive of previous status updates (including Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, Wayfinder session, Dragonfly BPC Fork Kaldi race condition fixes, and 2024 development logs).
 * **[Kaldi Compiler & Engine Race Condition Post-Mortem](docs/troubleshooting/kaldi_crash_explanation.md)**: Root-cause debugging of Caster speech compiler crashes.
 * **[Speech Stack Thread Architecture Report](docs/architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)**: Thread interaction models and execution boundaries.
