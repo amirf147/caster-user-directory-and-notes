@@ -1,4 +1,4 @@
-# Caster Documentation Hub
+﻿# Caster Documentation Hub
 
 Welcome to the Caster documentation repository. This directory contains architectural blueprints, technical deep dives, troubleshooting diagnostics, framework breakdowns, and historical research for this Windows-only personal Caster/Dragonfly voice configuration.
 
@@ -91,6 +91,13 @@ Feature specifications, implementation notes, and voice workflows.
 * [Lexicon PR 881 Feedback](features/lexicon_pr_881_feedback.md)
 * [Number Series CCR Analysis](features/number-series-ccr-analysis.md)
 * [Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](features/virtual_desktop_pinning_and_grammar_ergonomics.md)
+
+### 🪟 [PyVDA Virtual Desktop Subsystem](pyvda/)
+Deep architectural analysis, COM lifecycle investigations, and multi-window pinning fixes for Windows 10/11 Virtual Desktops.
+* [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
+* [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
+* [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
+* [004: Adversarial Audit, Edge Cases, & Hardened COM Architecture](pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
 
 ### 🔬 [Framework Explainers](framework_explainers/)
 Educational breakdowns of underlying voice engines and Dragonfly internals.

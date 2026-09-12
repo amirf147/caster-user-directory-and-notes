@@ -1,3 +1,20 @@
+﻿## Active Status Update: Adversarial Virtual Desktop Audit, Multi-Repo Analysis, & Resilient Architecture (September 2026)
+
+### Adversarial Virtual Desktop Audit & Multi-Repo Synthesis (In Progress)
+* **Status (Active Investigation & Architectural Blueprint - Complete)**: Conducted a rigorous adversarial audit of the multi-window application pinning fix, performed cross-repository research across pyvda, VirtualDesktopAccessor (Rust), WinStasis (C# .NET 10), and ADCE (C# .NET 10), and synthesized a long-term architectural blueprint for resilient Windows Virtual Desktop integration.
+* **Empirical Validation & Breakthroughs**:
+  * **Adversarial Failure Modes Identified**: Exposed five boundary conditions in pyvda: silent failures on applications lacking AppUserModelIDs (pp_id is None), passive desktop transition blind spots (native Windows gestures/hotkeys bypassing VirtualDesktop.go()), 50–200 ms latency from synchronous whole-system Z-order scans, non-standard multi-instance ID schemes, and UIPI elevation boundaries.
+  * **Multi-Repo Comparative Insights**:
+    * **WinStasis (winst)**: Immune to Explorer restart COM invalidation because of its execution model—a transient, point-in-time CLI utility (~200 ms) that terminates before Explorer can crash.
+    * **VirtualDesktopAccessor (Rust)**: Shares the exact same multi-window pinning limitation (passes raw AUMID to COM without stripping ~Wh~ or pinning active sibling views) and uses an identical 3-iteration retry macro (etry_function) on RpcServerNotAvailable / ComObjectNotConnected.
+    * **ADCE (Active Desktop Context Engine)**: Successfully solved the STA message pump freezing trap by strictly delegating COM inspection to a dedicated background MTA worker queue (SingleThreadTaskScheduler), decoupled from the UI/hook thread via unbuffered struct channels.
+  * **C# vs. Rust vs. Python Blueprint**: Concluded that C# (.NET 10 with Native AOT) provides the highest ecosystem reliability on Windows due to first-class COM support and mature community packages (Slions.VirtualDesktop supporting build 10240 to 26100+). Formulated the target architecture for Caster: stateless value objects, proactive reconnection via TaskbarCreated window messages, and dedicated MTA worker isolation.
+* **Key Documentation**:
+  * 🪟 **[Adversarial Audit, Multi-Repo Cross-Analysis, & Hardened Architecture (004)](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
+  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+
+---
 ## Archived Status Update: Virtual Desktop Window & Multi-Window Application Pinning Refactor (September 2026)
 
 ### Virtual Desktop Window & Multi-Window App Pinning Architecture (Empirically Verified)

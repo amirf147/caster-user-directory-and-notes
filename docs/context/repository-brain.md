@@ -1,4 +1,4 @@
----
+﻿---
 Status: Active
 Last verified: 2026-09-12
 Canonical/Related code: caster_user_content/
