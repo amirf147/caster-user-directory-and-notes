@@ -1,4 +1,4 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **003: Multi-Window & XAML Island Application Pinning Architecture**
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **003: Multi-Window & XAML Island Application Pinning Architecture**
 
 ---
 
@@ -127,7 +127,7 @@ def is_app_pinned(self) -> bool:
 
 ## 5. The Architectural Solution in `pyvda`
 
-Rather than placing band-aid hacks in Caster, the problem was solved at the foundational library layer in `pyvda` (`C:\Users\Amir\Documents\repos\pyvda`) on branch `fix/multi-window-app-pinning` (commit `66d3f64`).
+Rather than placing band-aid hacks in Caster, the problem was solved at the foundational library layer in `pyvda` on branch `fix/multi-window-app-pinning` (commit `66d3f64`).
 
 ```
                             ┌──────────────────────────────┐

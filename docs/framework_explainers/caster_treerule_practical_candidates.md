@@ -318,9 +318,9 @@ To activate any `TreeRule` in Caster:
 2. **Configure State Persistence Path**: Add the path key to `settings.toml` under the `[Tree_Node_Path]` section.
    ```toml
    [Tree_Node_Path]
-   SM_DOCKER_TREE_TREE_PATH = "C:/Users/Amir/AppData/Local/caster/data/sm_docker_tree_tree_node.toml"
-   SM_OLLAMA_TREE_TREE_PATH = "C:/Users/Amir/AppData/Local/caster/data/sm_ollama_tree_tree_node.toml"
-   SM_SYSTEM_TREE_TREE_PATH = "C:/Users/Amir/AppData/Local/caster/data/sm_system_tree_tree_node.toml"
+   SM_DOCKER_TREE_TREE_PATH = "%LOCALAPPDATA%/caster/data/sm_docker_tree_tree_node.toml"
+   SM_OLLAMA_TREE_TREE_PATH = "%LOCALAPPDATA%/caster/data/sm_ollama_tree_tree_node.toml"
+   SM_SYSTEM_TREE_TREE_PATH = "%LOCALAPPDATA%/caster/data/sm_system_tree_tree_node.toml"
    ```
 3. **Merger Specification**: Ensure `get_rule()` returns `RuleDetails(ccrtype=CCRType.SELFMOD)`.
 4. **Voice Activation**: Say `Enable <Pronunciation>` (e.g., `"Enable Docker Tree Rule"`).
