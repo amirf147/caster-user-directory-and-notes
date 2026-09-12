@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **002: PyVDA Core Architecture & Threading Critique**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **002: PyVDA Core Architecture & Threading Critique**
 
 ---
 

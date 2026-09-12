@@ -1,10 +1,10 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **004: Adversarial Audit, Multi-Repo Cross-Analysis, & Hardened Architecture**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design**
 
 ---
 
-# PyVDA: Adversarial Audit, Multi-Repo Cross-Analysis, & Hardened Architecture (004)
+# PyVDA: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design (004)
 
-This document provides a comprehensive adversarial audit of the multi-window application pinning fix (`fix/multi-window-app-pinning`), conducts a cross-repository comparative analysis across four related projects (`pyvda`, `VirtualDesktopAccessor`, `WinStasis`, and `ADCE`), diagnoses COM lifecycle and threading mismatches, and outlines an architectural roadmap for a resilient, next-generation Virtual Desktop subsystem.
+This document provides a comprehensive adversarial audit of the multi-window application pinning fix (`fix/multi-window-app-pinning`), demystifies how the Windows native Virtual Desktop subsystem and Task View actually operate under the hood, explains why external hooking suffers from closed-OS fragility, conducts a cross-repository comparative analysis across four related projects (`pyvda`, `VirtualDesktopAccessor`, `WinStasis`, and `ADCE`), and outlines a resilient client bridge architecture.
 
 ---
 
@@ -74,9 +74,87 @@ The live probe confirms that `~Wh~` sub-AUMIDs exist dynamically in Electron/Chr
 
 ---
 
-## 3. Four-Repository Cross-Comparative Analysis
+## 3. The Windows Native Virtual Desktop Engine: Under the Hood
 
-Connecting the architecture across `pyvda`, `VirtualDesktopAccessor`, `WinStasis`, and `ADCE` reveals why different tools experience or avoid COM issues:
+A common question arises: *Windows already has a virtual desktop engine driving Task View (`Win + Tab`) and the Taskbar. Why does hooking into it feel fragile, and why can't external programs interact with it as smoothly as Task View does?*
+
+To understand this, we must examine the internal architecture of the Windows Virtual Desktop subsystem:
+
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 EXPLORER.EXE PROCESS SPACE                                │
+│                                                                                           │
+│  ┌─────────────────────────┐                 ┌─────────────────────────────────────────┐  │
+│  │   Task View UI          │                 │     twinui.pcshell.dll                  │  │
+│  │   (Workstation Viewer)  │                 │                                         │  │
+│  │   Win + Tab             │                 │   VirtualDesktopManagerInternal         │  │
+│  └────────────┬────────────┘                 │   VirtualDesktopPinnedApps              │  │
+│               │ In-Process C++ Call          │   VirtualDesktopNotificationService     │  │
+│               │ (< 0.001 ms, No Marshaling)  └────────────────────▲────────────────────┘  │
+│               ▼                                                   │                       │
+│  ┌────────────────────────────────────────────────────────────────┴────────────────────┐  │
+│  │                     Native Virtual Desktop COM Implementation                       │  │
+│  └────────────────────────────────────────▲────────────────────────────────────────────┘  │
+└───────────────────────────────────────────┼───────────────────────────────────────────────┘
+                                            │ Cross-Process ALPC / RPC Boundary
+                                            │ (Network / Local IPC Marshaling)
+                                            ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                              EXTERNAL THIRD-PARTY PROCESSES                               │
+│                                                                                           │
+│     [pyvda (Python)]      [VirtualDesktopAccessor (Rust)]      [WinStasis / ADCE (C#)]     │
+│                                                                                           │
+│   • Must locate unexported interfaces via IServiceProvider::QueryService                  │
+│   • Pointers become invalid whenever explorer.exe restarts (RPC_S_SERVER_UNAVAILABLE)     │
+│   • Vtable offsets shift across Windows 10/11 updates (Closed OS ABI churn)               │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### A. The Public vs. Private Interface Barrier
+Microsoft split the Virtual Desktop API into two starkly different layers:
+
+1. **The Public Documented Interface (`IVirtualDesktopManager`):**
+   Microsoft published exactly one interface in the official Windows SDK (`shobjidl.h`). It exposes only three methods:
+   - `IsWindowOnCurrentVirtualDesktop(HWND, BOOL*)`
+   - `GetWindowDesktopId(HWND, GUID*)`
+   - `MoveWindowToDesktop(HWND, REFGUID)`
+   
+   Microsoft intentionally omitted all desktop lifecycle methods. There is **no public API** to create a desktop, remove a desktop, switch desktops, enumerate desktops, rename a desktop, or pin windows/apps.
+
+2. **The Private Undocumented Interfaces (`IVirtualDesktopManagerInternal`, etc.):**
+   The methods that Task View actually uses (`SwitchDesktop`, `CreateDesktop`, `PinAppID`, `GetViewsByZOrder`) are quarantined inside undocumented COM interfaces.
+   - Microsoft treats these interfaces as internal shell implementation details rather than an external contract.
+   - Because they are private, Microsoft reserves the right to alter the interface GUIDs, reorder vtable methods, add new arguments, or change data types in every Windows update without warning.
+
+### B. The Crucial Fact: `pyvda` IS Hooking the Native Engine
+`pyvda` and `VirtualDesktopAccessor` do not build an artificial desktop emulator. They hook into the **exact same native C++ COM service inside `explorer.exe`** that Task View calls:
+- They obtain `IServiceProvider` from the Shell.
+- They query private service ID `{C5E0CDCA-22AC-4E2F-A0AD-4D12E9A7F275}` for `IVirtualDesktopManagerInternal`.
+- When `VirtualDesktop(2).go()` runs, it calls `IVirtualDesktopManagerInternal::SwitchDesktop()`, invoking the exact kernel/shell transition that Task View triggers.
+
+### C. Why External Hooking is Inherently Fragile
+If third-party tools are calling the exact same native methods as Task View, why do third-party tools fail while Task View works reliably?
+
+1. **The In-Process vs. Out-of-Process Boundary:**
+   - **Task View** runs *inside* `explorer.exe`. Its function calls are direct C++ pointer dispatches in memory. It never marshals data across process boundaries, never waits on ALPC synchronization, and can never experience an RPC disconnection (if Explorer crashes, Task View restarts with it).
+   - **External Applications** (Python, Rust, C#) live outside `explorer.exe`. They talk to Explorer via cross-process RPC. If Explorer restarts, the remote ALPC port closes, leaving all external COM pointers pointing to dead proxy memory.
+
+2. **ABI Churn Across Windows Updates:**
+   - In Windows 10 Build 19041, `SwitchDesktop` was slot 9 in the vtable.
+   - In Windows 11 Build 22000, Microsoft rearranged the vtable to support desktop naming and wallpapers.
+   - In Windows 11 Build 22621, Microsoft changed `SwitchDesktop` to accept an `IVirtualDesktop` pointer instead of a GUID.
+   - In Windows 11 24H2 Build 26100, Microsoft updated interface IDs and struct layouts again.
+   - Task View never breaks because it is recompiled alongside the DLL. Third-party tools break on OS updates unless their vtable definitions are manually updated.
+
+3. **Event Notification Subscriptions:**
+   - Task View stays updated on hotkey switches (`Win + Ctrl + Arrows`) because it registers in-process callbacks with `IVirtualDesktopNotificationService`.
+   - External tools typically rely on synchronous polling or method wrapping, leaving them blind to native gestures unless they host an out-of-process COM notification sink.
+
+---
+
+## 4. Four-Repository Cross-Comparative Analysis
+
+Connecting the architecture across `pyvda`, `VirtualDesktopAccessor`, `WinStasis`, and `ADCE` reveals how their lifecycles and runtimes interact with the Windows Shell:
 
 | Dimension | `pyvda` (Python) | `VirtualDesktopAccessor` (Rust) | `WinStasis` (C# / .NET 10) | `ADCE` (C# / .NET 10) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -111,7 +189,7 @@ pub fn pin_app(&self, window: &HWND) -> Result<()> {
 
 ---
 
-## 4. Architectural Comparison: C# vs. Rust vs. Python on Windows
+## 5. Architectural Comparison: C# vs. Rust vs. Python on Windows
 
 Evaluating the optimal technological foundation for Windows Virtual Desktop automation:
 
@@ -132,37 +210,73 @@ Evaluating the optimal technological foundation for Windows Virtual Desktop auto
 
 ---
 
-## 5. Blueprint: Decoupled MTA Engine Architecture for Caster
+## 6. Client Bridge Architecture: Epistemic Audit & The Zero-Cached-State Model
 
-To achieve zero speech lag and complete resilience against Explorer crashes, Caster should transition from direct in-process COM manipulation to a decoupled architecture inspired by ADCE:
+Clarification of terminology: We are **not** proposing building an artificial desktop manager to replace Windows. The Windows kernel (`win32k.sys`) and `explorer.exe` are the only components that can switch desktops.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Caster Speech Loop (STA)                     │
-│  - Speech Recognition Grammar (Dragonfly)                       │
-│  - SetWinEventHook (Foreground & Desktop Switch Events)         │
-│  - Non-blocking command dispatch (< 0.001 ms overhead)          │
-└────────────────────────────────┬────────────────────────────────┘
-                                 │ Dispatch Token / IPC
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│               Dedicated Virtual Desktop Engine                  │
-│  - Executes on MTA Thread / Native AOT Daemon                   │
-│  - Pure Value Objects: VirtualDesktop(guid), AppView(hwnd)     │
-│  - TaskbarCreated Window Message Listener (Proactive Reconnect) │
-│  - Bounded TTL Cache for base_app_id string lookups             │
-│  - Debounced sync_pinned_apps() execution                       │
-└─────────────────────────────────────────────────────────────────┘
-```
+### A. The Audit of the Audit: Why `TaskbarCreated` is an Anti-Pattern
 
-### Core Design Rules
-1. **Stateless Value Objects:** Never store raw COM interface pointers in long-lived Python or C# domain models. Store only stable OS identifiers (`HWND`, `Desktop GUID`).
-2. **Proactive Invalidation via `TaskbarCreated`:** Register `RegisterWindowMessage("TaskbarCreated")`. When Explorer restarts, invalidate cached COM factories immediately rather than waiting for an RPC failure during user interaction.
-3. **MTA Thread Isolation:** Run all Virtual Desktop COM RPC queries on an MTA worker thread, ensuring the STA speech loop never freezes.
+An earlier draft of this specification proposed listening for the `RegisterWindowMessage("TaskbarCreated")` broadcast to proactively invalidate cached COM proxies when `explorer.exe` restarts.
+
+**A critical adversarial review rejects that proposal as a second-order band-aid:**
+
+1. **Symptom Treatment:** Listening for `TaskbarCreated` attempts to patch the symptom (dead cached pointers) by adding more moving parts: a hidden Win32 window, a dedicated message pump, and cross-thread invalidation signals.
+2. **Failure Coverage Gaps:** `TaskbarCreated` only fires when the Explorer taskbar window initializes. It does not fire when:
+   - An internal COM worker thread inside `twinui.pcshell.dll` terminates or hangs.
+   - The workstation locks, suspends, or undergoes a remote desktop (RDP) session reconnect.
+   - Desktop Window Manager (`dwm.exe`) resets without a full taskbar recreation.
+   - The message is dropped or delayed relative to the user's voice command.
+3. **The Root Cause:** The only reason an application cares when Explorer restarts is because the application committed the cardinal sin of **stateful remote proxy caching** (holding a live out-of-process COM interface pointer across arbitrary time).
 
 ---
 
-## 6. Action Plan & Phasing
+### B. The True Solution: Zero-Cached-State / Call-Scoped Transient Invocation
+
+Instead of inventing machinery to detect when a cached pointer dies, **never cache the pointer.**
+
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                                 CASTER VOICE RUNTIME (STA)                                │
+│  - Dragonfly Grammar Execution                                                            │
+│  - Non-blocking Command Dispatch (< 0.001 ms audio path overhead)                         │
+└─────────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                              │ Command Token: { Action: Switch, Target: 2 }
+                                              ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                        CALL-SCOPED TRANSIENT COM WORKER (MTA)                             │
+│                                                                                           │
+│   1. Receive request on dedicated MTA background worker.                                  │
+│   2. Acquire fresh IServiceProvider and IVirtualDesktopManagerInternal from OS.           │
+│      (Local ALPC lookup cost: ~0.015 ms / 15 microseconds).                               │
+│   3. Execute single atomic method: SwitchDesktop(targetGuid).                             │
+│   4. Release interface pointer immediately.                                               │
+│                                                                                           │
+│   Zero cached state. Zero invalidation listeners. Zero dead proxy stubs.                  │
+└─────────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                              │ Direct ALPC
+                                              ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│                               NATIVE WINDOWS SHELL ENGINE                                 │
+│                               (explorer.exe / twinui.pcshell.dll)                         │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Why Transient Invocation Eliminates the Entire Failure Class
+1. **Immunity to Explorer Restarts:** If Explorer restarts at 03:00, and a user speaks a command at 03:05, the worker acquires a fresh interface from the newly spawned Explorer instance. It never touches a stale pointer.
+2. **Clean Failure Mode During Restarts:** If a user speaks a command at the exact millisecond Explorer is mid-restart, `QueryService` fails immediately with `CO_E_SERVER_EXEC_FAILURE` or `REGDB_E_CLASSNOTREG`. The operation returns a clean "Shell unavailable" error rather than crashing on an invalid memory address.
+3. **No Thread Marshaling Complexity:** Because interface pointers are created and destroyed within the scope of a single function call on the MTA worker thread, they are never passed across threads or apartments.
+4. **Performance Overhead is Negligible:** `IServiceProvider::QueryService` against a running `explorer.exe` takes **10 to 25 microseconds** (`0.010 - 0.025 ms`). Compared to the 150–400 ms latency of human speech recognition, 20 microseconds of connection setup is completely imperceptible.
+
+---
+
+### C. Decoupled Read-Only Event Sink (Optional)
+If Caster requires knowing when a virtual desktop changes passively (e.g. to update a HUD indicator when the user swipes on a touchpad):
+* This must be implemented as a **read-only event sink** (`IVirtualDesktopNotification`), completely decoupled from command execution.
+* The sink simply receives `CurrentVirtualDesktopChanged` and posts a message to Caster's event queue. It does not manage or share COM pointers with the command executor.
+
+---
+
+## 7. Action Plan & Phasing
 
 1. **Phase 1 (Immediate Upstream Contribution):**
    - Submit the clean, scoped pull request `fix/multi-window-app-pinning` to `mirober/pyvda`.

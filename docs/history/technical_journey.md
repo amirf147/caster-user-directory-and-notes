@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 History ](../README.md#history) › **Technical Journey & Recent Focus**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 History ](../README.md#history) › **Technical Journey & Recent Focus**
 
 ---
 
@@ -15,6 +15,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   - **HUD Voice Integration**: Bound ([toggle] pin | unpin) window [all work [spaces]] and ([toggle] pin | unpin) app [all work [spaces]] in window_mgmt_rule.py with immediate visual feedback via printer.out.
 - **Key Documentation**:
   * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
+  * 🪟 **[Adversarial Audit & Resilient Client Design (004)](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
   * 🎙️ **[Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](../features/virtual_desktop_pinning_and_grammar_ergonomics.md)**
   * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
   * 📜 **[Status Update History](../../status-update-history.md)**

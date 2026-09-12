@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **001: RPC Server Unavailability & Stale Proxy Fix Analysis**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **001: RPC Server Unavailability & Stale Proxy Fix Analysis**
 
 ---
 

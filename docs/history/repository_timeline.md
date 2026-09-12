@@ -6,6 +6,9 @@
 **From Exploratory Speech Setup to Resilient Voice OS**
 The journey of this repository represents a 27-month evolution from initial experiments with speech recognition alternatives to a highly robust, multi-modal Voice OS. Starting as an exploratory migration away from legacy Windows Speech Recognition towards the Kaldi ASR engine, the codebase progressively matured. It expanded through deep application-specific workflows, overcame profound architectural challenges in latency and threading, and culminated in a resilient, research-backed systems architecture capable of hands-free coding and desktop control.
 
+> [!NOTE]
+> **Scope Notice:** This timeline captures early repository evolution through mid-2026 (Eras 1 through 4). In recent months, development has advanced significantly deeper into real-time systems architecture, including native Win32 direct window switching (v3), real-time desktop context tracking via ADCE and MCP, the modular 5-layer Caster HUD overlay, and multi-window virtual desktop pinning architecture. Consult the [Key Engineering & Voice Automations](../../README.md#-key-engineering--voice-automations) and [Recent Focus](../../README.md#-technical-journey--recent-focus) sections in the root documentation for current systems.
+
 ## Executive Overview & Metrics
 - **969 total commits spanning 27 months**
 - **4 Distinct Eras** characterizing the transition from basic mappings to complex OS-level integrations.

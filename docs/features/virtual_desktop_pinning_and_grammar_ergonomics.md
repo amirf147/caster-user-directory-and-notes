@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 Features ](../README.md#features) › **Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 Features ](../README.md#features) › **Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics**
 
 ---
 
@@ -356,6 +356,8 @@ To verify pinning functionality and grammar reliability, execute the following t
 ## 7. Cross-Reference Index
 
 - **PyVDA Multi-Window Architecture Deep Dive:** [docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
+- **PyVDA Adversarial Audit & Resilient Client Design:** [docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
+- **PyVDA Subsystem Hub:** [docs/pyvda/README.md](../pyvda/README.md)
 - **PyVDA RPC & COM Lifecycle:** [docs/pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
 - **Caster Documentation Hub:** [docs/README.md](../README.md)
 - **Caster Repository Brain (SSOT):** [docs/context/repository-brain.md](../context/repository-brain.md)

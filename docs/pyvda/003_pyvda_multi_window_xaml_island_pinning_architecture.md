@@ -1,4 +1,4 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](001_pyvda_rpc_and_com_lifecycle_analysis.md) › **003: Multi-Window & XAML Island Application Pinning Architecture**
+﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **003: Multi-Window & XAML Island Application Pinning Architecture**
 
 ---
 

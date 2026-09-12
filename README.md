@@ -5,7 +5,9 @@ A high-performance, Windows-only personal voice computing and automation toolkit
 This repository houses custom voice grammars, low-latency window switching utilities, hardware IPC bridges, and in-depth engineering research into Windows UI Automation, speech engine threading, and real-time desktop context tracking.
 
 > 📜 **[Repository Timeline & 2-Year Technical Journey](docs/history/repository_timeline.md)**  
-> Explore the 27-month, 969-commit retrospective covering 4 distinct architectural eras (Kaldi ASR migration, desktop automation, AI IDE workflows, and 3-tier window switching).
+> Historical retrospective covering early repository foundations through mid-2026 (Kaldi ASR migration, desktop automation, AI IDE workflows, and initial window switching).  
+>
+> *Note on Scope:* This timeline only captures early work up to mid-2026 and has not yet been updated for recent engineering milestones. Over the last several months, the architecture has progressed into significantly deeper systems territory, including sub-millisecond native Win32 window switching (v3), real-time desktop context tracking via ADCE and MCP, the modular 5-layer Caster HUD overlay, and multi-window virtual desktop pinning architecture. Consult the [Key Engineering & Voice Automations](#-key-engineering--voice-automations) and [Recent Focus](#-technical-journey--recent-focus) sections below for the current technical baseline.
 
 ---
 
@@ -22,7 +24,7 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 * **[App & Window Switcher v3](docs/features/app_switcher.md)**: Sub-millisecond direct Win32 window switching, workspace isolation, guarded keystate context managers, and automated tab navigation.
 * **[App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md)**: 2-year retrospective tracing the 5 evolution eras of window switching from Windhawk taskbar macros to native Win32 v3.
 * **[App Switcher Architectural Blueprint (v3)](docs/architecture/app_switcher_architectural_blueprint.md)**: Authoritative technical specification, focus tier state machines, and sequence diagrams.
-* **[PyVDA COM Lifecycle & Multi-Window Pinning Architecture](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**: Deep analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), exact-match AUMID resolution, and multi-window XAML Island pinning (`~Wh~w<HEX_HWND>`) across Windows Terminal, Waterfox, and Antigravity IDE.
+* **[PyVDA Virtual Desktop Subsystem](docs/pyvda/README.md)**: Deep architectural analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), exact-match AUMID resolution, multi-window XAML Island pinning ([003](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)), and native shell client bridge design ([004](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)).
 * **[Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](docs/features/virtual_desktop_pinning_and_grammar_ergonomics.md)**: Voice-driven pinning and unpinning across virtual workspaces, phonetic coarticulation failure analysis (`pin window` -> `new window`), Kaldi decoder language model priors, Caster noun-first syntactic alignment, and upstream PR coordination.
 * **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, paired with a local XML-RPC IPC bridge for thread-safe microphone toggling.
 * **[Top Voice Automations Showcase](docs/features/top_voice_automations.md)**: Curated showcase of desktop, editor, and system voice workflows.
@@ -42,7 +44,8 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   * **Active Window Synchronization (`sync_pinned_apps`)**: Added sub-millisecond synchronization into `VirtualDesktop.go()`, ensuring newly opened windows of pinned applications carry over across workspace transitions automatically.
   * **Cross-Framework Validation**: Empirically verified across heterogeneous application archetypes: Gecko (Waterfox profile-hash AUMIDs), Chromium/Electron (Antigravity IDE), and XAML Islands (Windows Terminal).
 * **Key Documentation**:
-  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)** *(Comprehensive Deep Dive & Test Matrix)*
+  * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
+  * 🪟 **[Adversarial Audit & Resilient Client Design (004)](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)** *(Native Shell Analysis, 4-Repo Benchmark & Zero-Cached-State Architecture)*
   * 🎙️ **[Virtual Desktop Pinning & Grammar Ergonomics](docs/features/virtual_desktop_pinning_and_grammar_ergonomics.md)** *(Phonetic Misrecognition, Kaldi Trellis Priors & Syntactic Design)*
   * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
   * 📜 **[Status Update History](status-update-history.md)**
