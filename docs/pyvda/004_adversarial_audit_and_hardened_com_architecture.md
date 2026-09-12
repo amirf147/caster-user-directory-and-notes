@@ -1,8 +1,13 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design**
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design**
 
 ---
 
 # PyVDA: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design (004)
+
+> **Document Status**: *Active Architectural Blueprint (Canonical SSOT)*  
+> **Supersedes**: Stateful remote proxy caching and `@_com_retry` recovery patterns from [`001`](001_pyvda_rpc_and_com_lifecycle_analysis.md) and [`002`](002_pyvda_core_architecture_and_threading_critique.md)  
+> **Target Architecture**: Zero-Cached-State / Call-Scoped Transient MTA Invocation  
+> **Cross-Subsystem Synergy**: Informs [ADCE Multi-Window State Modeling](../accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md#1-epistemic-pause-interrogating-our-knowledge-gaps)
 
 This document provides a comprehensive adversarial audit of the multi-window application pinning fix (`fix/multi-window-app-pinning`), demystifies how the Windows native Virtual Desktop subsystem and Task View actually operate under the hood, explains why external hooking suffers from closed-OS fragility, conducts a cross-repository comparative analysis across four related projects (`pyvda`, `VirtualDesktopAccessor`, `WinStasis`, and `ADCE`), and outlines a resilient client bridge architecture.
 

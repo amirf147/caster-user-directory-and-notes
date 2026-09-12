@@ -4,6 +4,11 @@
 
 # PyVDA: Multi-Window & XAML Island Application Pinning Architecture (003)
 
+> **Document Status**: *Active Specification (Empirically Verified)*  
+> **Scope**: Sub-AUMID Exact Matching Diagnosis & Upstream Multi-Window Pinning Implementation  
+> **Companion Architectural Blueprint**: [`004: Adversarial Audit & Hardened COM Architecture`](004_adversarial_audit_and_hardened_com_architecture.md)  
+> **Cross-Subsystem Synergy**: Informs [ADCE Sub-Window Discovery](../accessibility_mcp/CONTEXT.md#2-key-insights--lessons-learned) via out-of-band Sub-AUMID inspection.
+
 This document provides a comprehensive technical investigation, architectural analysis, and empirical evaluation of application pinning across virtual desktops in Windows 10 and 11. It examines the Windows COM virtual desktop subsystem, diagnoses why `pin app` previously pinned only isolated window instances, evaluates application model taxonomies (Gecko/Waterfox, Chromium/Electron/Antigravity, and XAML Islands), and details the upstream library refactoring implemented in `pyvda` (commit `66d3f64` on branch `fix/multi-window-app-pinning`).
 
 ---

@@ -36,6 +36,7 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 | **Multi-App Container Bleed** | When focused on an overlay (e.g. record button), `GetParentControl()` climbs to root shell, flattening 42 tabs across background windows (Waterfox + Explorer instances) into one list. | Anchor `top_window` strictly to Win32 `GetForegroundWindow()`; group discovered tabs by `HWND` and parent container. | [`009`](009_live_telemetry_and_tab_diagnostics.md) |
 | **Python Traversal Debt vs. C# UIA3** | Manual recursive tree walking in Python encounters severe DOM traversal lag, sidebar iframe clipping, and synchronous COM message pump stalls. | Initial proposal to pivot to C# FlaUI (`014`) paused in `015` pending empirical micro-spikes to verify whether UIA3 caching actually circumvents browser DOM walk costs. | [`011`](011_flaui_evaluation_and_dual_plane_architecture.md), [`013`](013_v23_empirical_postmortem_and_event_diagnostics.md), [`014`](014_csharp_daemon_handover_and_skill_spec.md), [`015`](015_recalibration_and_adversarial_architecture_review.md) |
 | **Epistemic Gating & Anti-Jumping-the-Gun** | High-reasoning models have teleological bias to rush into elaborate architectures before empirical validation. | Enforce 4-gate verification protocol: (1) Physical logs/telemetry only → (2) Adversarial red-team with 3 fatal flaws → (3) <50-line micro-spike → (4) Architecture spec. | [`015`](015_recalibration_and_adversarial_architecture_review.md) |
+| **Sub-AUMID Window Identity** | Hosted applications (Windows Terminal, detached editor panes) append synthetic `~Wh~w<HEX_HWND>` sub-AUMIDs; browsers encode profile hashes into AUMIDs. | Inspecting AUMIDs out-of-band gives ADCE deterministic, zero-crawl window classification: disambiguates secondary terminal windows, child island panes, and multi-profile browsers directly from the OS shell without UIA tree traversal. | [`docs/pyvda/003`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md), [`docs/pyvda/004`](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md), [`018`](018_epistemic_gaps_dynamic_app_discovery_and_requirements.md) |
 
 ---
 
@@ -62,9 +63,12 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 - [`018_epistemic_gaps_dynamic_app_discovery_and_requirements.md`](018_epistemic_gaps_dynamic_app_discovery_and_requirements.md): Epistemic gap analysis, 5 Desktop Framework Archetypes, dynamic heuristic discovery pipeline, SQLite/DuckDB persistence, and engine PRS.
 
 
-### PyVDA Analysis (`docs/pyvda/`)
-- [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): Deep analysis of `pyvda` commit `d2c6f2b`, COM lifecycle, RPC errors, and STA/MTA threading.
-- [`002_pyvda_core_architecture_and_threading_critique.md`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md): Core architectural critique of PyVDA threading, apartment boundaries, and stateless design alternatives.
+### PyVDA Virtual Desktop Subsystem (`docs/pyvda/`)
+- [`README.md`](../pyvda/README.md): Subsystem overview, architectural lineage, and ADCE synergy summary.
+- [`001_pyvda_rpc_and_com_lifecycle_analysis.md`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md): *Historical Analysis (Superseded)* — Early analysis of `@_com_retry` and `explorer.exe` restart recovery.
+- [`002_pyvda_core_architecture_and_threading_critique.md`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md): *Architectural Critique (Formative Baseline)* — Critique of stateful remote proxies and apartment leaks.
+- [`003_pyvda_multi_window_xaml_island_pinning_architecture.md`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md): *Active Specification* — Multi-window XAML Island pinning, Sub-AUMID diagnosis (`~Wh~w<HEX_HWND>`), and upstream library refactor.
+- [`004_adversarial_audit_and_hardened_com_architecture.md`](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md): *Active Blueprint (SSOT)* — 5 failure modes, 4-repo benchmark, and zero-cached-state call-scoped MTA architecture.
 
 ### Caster HUD Subsystem (`docs/caster_hud/`)
 - [`001_caster_hud_architecture_and_threading_primer.md`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md): Educational primer on Caster HUD process isolation, XML-RPC IPC, and Qt `postEvent` architecture.

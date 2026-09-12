@@ -1,8 +1,12 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **002: PyVDA Core Architecture & Threading Critique**
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **002: PyVDA Core Architecture & Threading Critique**
 
 ---
 
 # PyVDA Core Architecture & Threading Critique (002)
+
+> **Document Status**: *Architectural Evaluation (Formative Baseline)*  
+> **Target Architecture Formalized in**: [`004: Adversarial Audit & Hardened COM Architecture`](004_adversarial_audit_and_hardened_com_architecture.md)  
+> **Note**: This critique exposed the stateful remote proxy and apartment leak anti-patterns in `pyvda`. Its recommended stateless design principles are fully formalized and synthesized in Document `004`.
 
 This document provides a deep architectural critique of `pyvda`, examining its underlying threading model, COM apartment handling, and object lifecycle patterns. It evaluates whether the `@_com_retry` fix is a band-aid for deeper structural flaws and outlines how an optimal Windows Virtual Desktop bridge should be designed from first principles.
 

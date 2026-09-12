@@ -39,9 +39,9 @@ In accordance with our **4-Gate Epistemic Protocol**, before proceeding with ful
 │ **Persistence**    │ & focus transitions without disk │ Unbounded growth, query lag    │
 │                    │ bloat or locking MCP queries?    │ during real-time speech.       │
 ├────────────────────┼──────────────────────────────────┼────────────────────────────────┤
-│ **3. Multi-Window**│ When an app has multiple windows │ **MEDIUM**                     │
-│ **State Modeling** │ or tool palettes, how is active  │ Ambiguous context for AI       │
-│                    │ workspace state reconciled?      │ reasoning models.              │
+| **3. Multi-Window**│ When an app has multiple windows │ **RESOLVED (Sub-AUMID)**       │
+│ **State Modeling** │ or tool palettes, how is active  │ Synthetic `~Wh~w<HEX_HWND>`    │
+│                    │ workspace state reconciled?      │ identifies hosted sub-windows. │
 ├────────────────────┼──────────────────────────────────┼────────────────────────────────┤
 │ **4. 24/7 Daemon** │ How does memory footprint behave │ **MEDIUM**                     │
 │ **Resiliency**     │ over days of continuous uptime   │ COM leaks / memory growth      │
@@ -74,8 +74,9 @@ graph TD
 
 ### The 4-Tier Self-Healing Extraction Pipeline:
 
-1. **Tier 1: Fast Win32 Envelope (< 1 µs):**
-   * Instantly query HWND, Process Name, Window Title, and Window Rect via direct Win32 C-calls.
+1. **Tier 1: Fast Win32 Envelope & AUMID Introspection (< 10 µs):**
+   * Query HWND, Process Name, Window Title, and Window Rect via direct Win32 C-calls.
+   * **Sub-AUMID Multi-Window Resolution:** Inspect AppUserModelID via `SHGetPropertyStoreForWindow(PKEY_AppUserModel_ID)` or `IApplicationView::GetAppUserModelId()`. If the AUMID contains `~Wh~w<HEX_HWND>`, the window is instantly identified as a secondary hosted island or terminal sub-instance ([`pyvda/003`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md), [`pyvda/004`](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)). Browser profile hashes in the AUMID immediately isolate separate profile instances without DOM tree inspection.
 2. **Tier 2: Universal Pattern Probing (1–3 ms):**
    * Query `GetFocusedControl()`. Probe for standard UIA patterns (`ValuePattern`, `TextPattern`, `SelectionItemPattern`) regardless of application class.
 3. **Tier 3: Archetype Container Discovery (5–15 ms):**

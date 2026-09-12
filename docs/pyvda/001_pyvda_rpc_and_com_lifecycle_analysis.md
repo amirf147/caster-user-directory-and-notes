@@ -1,8 +1,12 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **001: RPC Server Unavailability & Stale Proxy Fix Analysis**
+[ 🏠 Docs Home ](../README.md) › [ 📁 PyVDA ](README.md) › **001: RPC Server Unavailability & Stale Proxy Fix Analysis**
 
 ---
 
 # PyVDA: RPC Server Unavailability & Stale COM Proxy Fix Analysis (001)
+
+> **Document Status**: *Historical / Interim Analysis (Superseded)*  
+> **Superseded by**: [`002: PyVDA Core Architecture & Threading Critique`](002_pyvda_core_architecture_and_threading_critique.md) and [`004: Adversarial Audit & Hardened COM Architecture`](004_adversarial_audit_and_hardened_com_architecture.md)  
+> **Note**: This document analyzes the early `@_com_retry` reactive exception-handling mechanism from commit `d2c6f2b`. While functionally validated for single-threaded Python, its pointer re-hydration approach is superseded by the zero-cached-state transient invocation pattern codified in Document `004`.
 
 This document provides a technical analysis of `pyvda`'s `fix/rpc-server-unavailable` branch (commit `d2c6f2b`), examining the specific failure mode where `explorer.exe` restarts cause stale COM proxies, evaluating the `@_com_retry` implementation, and reviewing the re-hydration mechanics.
 
