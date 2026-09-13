@@ -22,6 +22,9 @@ This directory houses deep architectural analyses, COM lifecycle investigations,
 * **[004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design](004_adversarial_audit_and_hardened_com_architecture.md)** — *Active Architectural Blueprint (Canonical SSOT)*  
   Rigorous adversarial audit exposing 5 failure modes in `pyvda`, demystification of Windows's native `explorer.exe` / `twinui.pcshell.dll` engine, 4-repo cross-comparative analysis (`pyvda`, `VirtualDesktopAccessor`, `WinStasis`, `ADCE`), rejection of `TaskbarCreated` band-aids, and the zero-cached-state transient invocation blueprint.
 
+* **[005: Task View Pinning Internals & Windows Shell Reverse Engineering](005_task_view_pinning_internals_and_shell_reverse_engineering.md)** — *Empirical Shell Audit (twinui.pcshell.dll)*  
+  Binary disassembly and PDB symbol audit of VirtualPinnedAppsHandler, proving CompareStringOrdinal full-string mismatch on ~Wh~w<HWND> sub-AUMIDs, and verifying that Task View natively iterates window groups to call PinView individually.
+
 ---
 
 ## 🔄 Synergy with Active Desktop Context Engine (ADCE)
