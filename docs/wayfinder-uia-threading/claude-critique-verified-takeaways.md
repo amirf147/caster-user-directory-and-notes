@@ -172,7 +172,7 @@ This doesn't mean the C# direction is wrong — native UIA support, a cleaner pr
 - [UI Automation threading issues — Microsoft Learn](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-threading)
 - [contextSwitchDeadlock MDA — Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/framework/debug-trace-profile/contextswitchdeadlock-mda)
 - [SetForegroundWindow function — Microsoft Learn](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow)
-- [Bypassing SetForegroundWindow Restrictions (AttachThreadInput / Alt-key injection) — GitHub Gist](https://gist.github.com/Aetopia/1581b40f00cc0cadc93a0e8ccb65dc8c)
+- [Bypassing SetForegroundWindow Restrictions (AttachThreadInput / Alt-key injection) — GitHub Gist (Archived)](https://web.archive.org/web/20260315225459/https://gist.github.com/Aetopia/1581b40f00cc0cadc93a0e8ccb65dc8c)
 - ["How do I get back the OLD SetForegroundWindow" — bobmoore.mvps.org](http://bobmoore.mvps.org/Win32/w32tip33.htm)
 - [Windows Terminal issue #34 — console QuickEdit blocking output, confirmed "by design"](https://github.com/microsoft/terminal/issues/34)
 - [NVDA PR #14888 — moving UIA event handling into C++, MTA/GIL discussion](https://github.com/nvaccess/nvda/pull/14888)

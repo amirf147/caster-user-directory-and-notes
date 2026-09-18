@@ -6,3 +6,7 @@ sikuli/.*
 environment_variables\.py
 window_aliases\.json
 \.var_positions\.json
+
+# Web archive URLs (frequently rate-limited or return HTTP 429 in automated CI runners)
+https://web\.archive\.org/.*
+https://gist\.github\.com/Aetopia/.*
