@@ -97,7 +97,7 @@ Below is the complete audit of all modules in `caster_user_content/` and `script
 | `rules/caster_toggle_mic_key.py` | XML-RPC Hotkey Daemon & Bridge | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
 | `rules/global/test_desktop_pilot_mcp_standalone.py` | MCP Desktop Pilot Client / Server Suite | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
 | `rules/global/test_mcp_rule.py` & `test_mcp_standalone.py` | MCP Protocol Harness & Stasis Testing Suite | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
-| `rules/global/context_engine_launcher.py` & `scripts/context_poc.py` | ADCE Context Architecture & Daemon Engine | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
+| `attic/adce_spikes/` (`context_poc.py`, etc.) | Historical ADCE Context Architecture & Daemon Engine | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
 | `scripts/check_absolute_paths.py` & `scripts/check_command_uniqueness.py` | Workspace QA & Linting Architecture | `Copyright (c) 2024-2026 Amir Farhadi` — **Apache-2.0** |
 | `docs/` (Architecture Blueprints & Research Tickets) | Complete Technical & Design Documentation Suite | `Copyright (c) 2024-2026 Amir Farhadi` — **CC BY 4.0 / Apache-2.0** |
 

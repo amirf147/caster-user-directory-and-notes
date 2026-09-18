@@ -1,6 +1,6 @@
 ---
 Status: Active
-Last verified: 2026-09-12
+Last verified: 2026-09-19
 Canonical/Related code: caster_user_content/
 Supersedes: docs/wayfinder-uia-threading/codex-context-extract.md, docs/legacy_notes/*
 ---
@@ -9,90 +9,94 @@ Supersedes: docs/wayfinder-uia-threading/codex-context-extract.md, docs/legacy_n
 
 ---
 
-# Repository Brain
+# Repository Brain: Empirical Baseline & Working Constraints
 
-**Purpose:** This document is the canonical project memory and the central source of truth for the repository's architecture, verified facts, decisions, and risks. It is designed to be concise and context-rich for both human developers and AI agents.
+**Purpose:** This document captures the current working understanding, empirically observed behaviors, verified architectural constraints, and operational boundaries of the repository as of **September 2026**. It serves as an orienting baseline for both human developers and AI agents.
 
-**Requirement:** You MUST update this document whenever a confirmed finding changes, an experiment becomes a direction, or a new Architectural Decision Record (ADR) is logged.
+**Epistemic Posture & Falsifiability:**
+- **Empirical Baseline, Not Immutable Dogma:** Findings recorded here reflect concrete telemetry and code state at the time of verification. They should guide decisions, but they remain open to falsification whenever new runtime behavior, OS updates, or empirical benchmarks contradict them.
+- **Verify Before Concluding:** Future models and contributors should not treat past notes as unquestionable dogma. When an anomaly arises, verify against active code and live OS telemetry rather than assuming past conclusions are permanently infallible.
 
 ## 1. Truth Hierarchy
 
 When resolving conflicting information within this repository, adhere to the following order of precedence:
 
-1. **Source Code & Empirical Tests** (Highest priority)
-2. **ADR / Current Context** (This document & [ADCE Context Hub](../accessibility_mcp/CONTEXT.md))
-3. **Canonical Feature Guides**
-4. **Research Documents / Open Tickets**
-5. **Archive / Old History** (Lowest priority)
-
-*Note: The Wayfinder corpus has evolved theories alongside later empirical corrections. Rely on the facts consolidated here rather than older research documents.*
+1. **Source Code & Live Empirical Tests** (Highest priority — physical reality always trumps documentation)
+2. **Current Baseline & Active Architecture Specs** (This document & living subsystem blueprints)
+3. **Canonical Feature Guides & Runbooks**
+4. **Research Tickets & Exploratory Logs**
+5. **Archived / Incubator Notes** (Lowest priority — e.g., superseded Wayfinder tickets or incubation drafts)
 
 ## 2. Mission and Runtime Boundaries
 
-**Mission:** Maintain a highly reliable, deterministic, Windows-only personal Caster/Dragonfly configuration for voice-driven productivity, paired with high-performance real-time desktop context tracking for AI agents.
+**Mission:** Maintain a highly reliable, deterministic, Windows-only personal Caster/Dragonfly configuration for voice-driven productivity, paired with high-performance desktop context awareness for AI agents.
 
 **Runtime Boundaries:**
 - The active, loadable Caster rules live strictly in `caster_user_content/`.
-- Local configuration (`settings/`, `data/`, environment variables) must remain untracked. They are needed for a functioning local setup but are not part of the distributable code payload.
-- Experimental prototypes and LLM "computer use" explorations (e.g., standalone MCP servers and ADCE monitors in `scripts/`) must not interfere with the deterministic voice execution path. They are triggered explicitly or run as isolated background processes.
+- Never commit secrets or absolute file paths; store local environment references in the untracked `caster_user_content/environment_variables.py`.
+- Experimental tools or test scripts must not interfere with the deterministic voice execution path.
 
-## 3. Active Component Map
+## 3. Subsystem & Component Map
 
-| Feature / Component | Code Location | Canonical Documentation | Maturity |
+### A. Active Voice Productivity Stack (Daily Personal Use)
+
+| Feature / Component | Code Location | Canonical Documentation | Status / Role |
 | :--- | :--- | :--- | :--- |
-| **Global Rules** | [`caster_user_content/rules/global/`](../../caster_user_content/rules/global/) | - | Stable / Production |
-| **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving |
-| **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3 |
-| **Active Desktop Context Engine (ADCE)** | [`scripts/context_poc.py`](../../scripts/context_poc.py) & [`caster_user_content/rules/global/context_engine_launcher.py`](../../caster_user_content/rules/global/context_engine_launcher.py) | [`docs/accessibility_mcp/CONTEXT.md`](../accessibility_mcp/CONTEXT.md) | Handover to [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) |
-| **PyVDA Virtual Desktop Tracking** | `pyvda` fork (`fix/multi-window-app-pinning` branch) | [`docs/pyvda/001`](../pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md), [`002`](../pyvda/002_pyvda_core_architecture_and_threading_critique.md), [`003`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md) | Custom Fork (RPC Fix + Multi-Window Pinning) |
-| **Virtual Desktop Pinning Rules** | `castervoice/lib/windows_virtual_desktops.py` & `window_mgmt_rule.py` | [`docs/features`](../features/virtual_desktop_pinning_and_grammar_ergonomics.md), [`docs/pyvda/003`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md) | Production / Branch `feat/virtual-desktop-pinning` |
-| **Caster HUD Overlay & IPC** | [`castervoice/asynch/hud.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md), [`002`](../caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md), [`003`](../caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md) | Modular Theming & Profiles |
+| **Global Rules** | [`caster_user_content/rules/global/`](../../caster_user_content/rules/global/) | - | Active / Production |
+| **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving / Active |
+| **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3 (Sub-millisecond Win32) |
+| **Virtual Desktop Management & Pinning** | `castervoice/lib/windows_virtual_desktops.py` & `window_mgmt_rule.py` | [`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md), [`docs/features`](../features/virtual_desktop_pinning_and_grammar_ergonomics.md) | Active / Production (Migrated to **WinVDA**) |
+| **Caster HUD Overlay & IPC** | [`castervoice/asynch/hud.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (5-layer Clean Architecture) |
 | **Foot Pedal Integration** | [`caster_user_content/rules/caster_toggle_mic_key.py`](../../caster_user_content/rules/caster_toggle_mic_key.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
-| **LexiconCode Window Switching** | [`caster_user_content/rules/global/window_switching.py`](../../caster_user_content/rules/global/window_switching.py) | [`docs/features/lexicon_code_window_switching_functionality.md`](../features/lexicon_code_window_switching_functionality.md) | Evaluating / Active |
-| **Numeric CCR Integration** | `castervoice/rules/core/numbers_rules/numeric.py` (custom Caster fork) | [`docs/features/number-series-ccr-analysis.md`](../features/number-series-ccr-analysis.md) | Custom Setup Fork / Pending Upstream PR |
 
-## 4. Current Facts & Architecture
+### B. External Subsystem Integrations
+
+| Subsystem | Integration Point in Caster | External Authority / Repository | Status / Relationship |
+| :--- | :--- | :--- | :--- |
+| **Active Desktop Context Engine (ADCE)** | `AdceTracker` in Caster HUD (SSE port 8424) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Daemon / Client Ingestion |
+| **WinVDA Engine** | `winvda` package import in Caster Virtual Desktops | [`amirf147/winvda`](https://github.com/amirf147/winvda) | Upstream Clean-Room Engine |
+
+### C. Evaluated Experiments & In-Flight Research
+
+| Feature / Exploration | Code Location | Documentation | Status / Note |
+| :--- | :--- | :--- | :--- |
+| **LexiconCode Window Switching** | [`caster_user_content/rules/global/window_switching.py`](../../caster_user_content/rules/global/window_switching.py) | [`docs/features/lexicon_code_window_switching_functionality.md`](../features/lexicon_code_window_switching_functionality.md) | Evaluated / Alternative switcher experiment |
+| **Numeric CCR Integration** | `castervoice/rules/core/numbers_rules/numeric.py` | [`docs/features/number-series-ccr-analysis.md`](../features/number-series-ccr-analysis.md) | Custom Setup Fork / Upstream PR evaluation |
+| **ADCE Python PoC & Spikes** | `attic/adce_spikes/` | [`docs/accessibility_mcp/CONTEXT.md`](../accessibility_mcp/CONTEXT.md) | Archived incubation research |
+
+## 4. Current Empirical Baseline & Architectural Facts
 
 ### A. Window Management & App Switching (Production v3)
 - Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using the **v3 progressive Win32 focus architecture** ([Blueprint v3](../architecture/app_switcher_architectural_blueprint.md), [Evolution Timeline](../history/app_switcher_timeline.md)). Focus transitions operate on a sub-millisecond hot path (0–10ms) via direct Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`), backed by guarded context managers (`_alt_key_bypass`, `_attached_threads`) with `VK_NONE` (`0xFF`) dummy key injection to prevent menu bar lockup.
 - Alias persistence is strictly encapsulated within the `AliasRegistry` class managing `caster_user_content/window_aliases.json`.
 - Focus confirmation uses a 10ms micro-polling loop (`verify_focus`), eliminating coarse static sleep delays.
-- The only observed hard "freezes" during testing were traced to Windows PowerShell QuickEdit mode pausing console `stdout` when Caster attempted to log messages.
-- A Python COM deadlock is **disproven/unsupported** by empirical logs. Do not reintroduce the disproven causal chain "PowerShell/QuickEdit freeze = Python COM deadlock."
+- Observed hard freezes during past testing were traced to Windows PowerShell QuickEdit mode pausing console `stdout` when Caster logged messages.
+- A Python COM deadlock hypothesis was disproven by empirical logs; avoid re-attributing console pauses to COM deadlocks.
 - `win32gui.GetForegroundWindow()` is the preferred lightweight way to read the active HWND. Avoid heavy UIA active-window traversal when only the HWND is needed.
 - Browser tabs are not top-level windows; tab switching is handled via hotkey cycling (`Ctrl+Tab`, `Ctrl+PgDn`).
 
-### B. Active Desktop Context Engine (ADCE) & Accessibility MCP
-- **Event-Driven Interception:** The ADCE monitor uses native Win32 `SetWinEventHook` listening for `EVENT_SYSTEM_FOREGROUND` (window switches) and `EVENT_OBJECT_FOCUS` (micro-focus changes) initialized in a COM Multithreaded Apartment (MTA), achieving 0% idle CPU usage.
-- **Direct Container Scoping vs. DOM Crawl Elimination:** Empirical Gate 3 benchmarks ([`016`](../accessibility_mcp/016_micro_spike_2_win32_shallow_python_telemetry.md)) proved that direct container targeting (`tabs-container`, `tabs normal`) extracts 30 tabs in **10.17 ms** and shallow focus in **0.66 ms**, completely bypassing 6,800+ node web page DOM crawl traps.
-- **UI Automation Hierarchy SSOT:** Exact node hierarchies, class names, and target extraction recipes for Antigravity IDE, Waterfox, and Windows 11 File Explorer are codified in [`017`](../accessibility_mcp/017_ui_automation_tree_structures_and_target_zones_reference.md).
-- **Standalone Engine Handover (Gate 4 / Phase 5):** Following the epistemic gap analysis and PRS in [`018`](../accessibility_mcp/018_epistemic_gaps_dynamic_app_discovery_and_requirements.md), active development of the production C# background daemon (with system tray UI, SQLite/DuckDB persistence, and MCP server streaming) has officially transitioned to the standalone repository [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine). Caster serves as an upstream research archive and high-speed MCP consumer.
-- **Sub-AUMID Window Introspection for ADCE:** The PyVDA multi-window discovery ([`003`](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md), [`004`](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)) revealed that modern Windows Shell hosted applications (Windows Terminal, detached IDE windows, WinUI 3 islands) tag secondary windows with synthetic Sub-AppUserModelIDs (`<BaseAUMID>~Wh~w<HEX_HWND>`). ADCE leverages fast Win32/COM AUMID inspection (`IApplicationView::GetAppUserModelId` or `SHGetPropertyStoreForWindow` with `PKEY_AppUserModel_ID`) to instantly determine whether a window is a child terminal instance or detached editor window, without performing expensive recursive UI Automation tree walks.
-- **PyVDA COM Lifecycle & Multi-Window Pinning:** Undocumented Windows Virtual Desktop COM interfaces hosted in explorer.exe can become invalid if Explorer restarts. In [`004`](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md), an adversarial audit exposed five boundary conditions in pyvda (un-AUMID'd app no-ops, passive native desktop transitions bypassing go(), 50-200 ms whole-system Z-order enumeration latency, non-standard multi-instance schemes, and UIPI elevation limits). Cross-repository analysis against VirtualDesktopAccessor (Rust), WinStasis (C# .NET 10), and ADCE revealed that WinStasis is immune because of its transient CLI execution model (~200 ms), while VirtualDesktopAccessor shares the exact same sub-AUMID blind spot. The long-term architecture for Virtual Desktops in Caster converges on C# (.NET 10 / Native AOT with Slions.VirtualDesktop), decoupled MTA worker isolation, and zero-cached-state transient invocation.
-- **Caster Virtual Desktop Pinning Grammar:** Caster provides voice grammars `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py`, routing transitions through `printer.out` for HUD feedback and delegating low-level pinning directly to `pyvda.AppView` without local band-aids.
-- **Caster HUD Architecture:** The Caster HUD runs as an isolated OS process with a background `SimpleXMLRPCServer` daemon. It avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls to dispatch HTML updates directly to the main Qt GUI event queue. It features opt-in system tray docking (`QSystemTrayIcon`), modular QSS theme switching, interactive profile management (`ProfileDialog`), and 8-direction frameless edge resizing ([`001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md), [`002`](../caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md), [`003`](../caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md)).
+### B. Virtual Desktop Subsystem (WinVDA Migration)
+- Windows Virtual Desktop tracking and application pinning have been migrated to the clean-room native engine **[WinVDA](https://github.com/amirf147/winvda)** ([`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)), resolving upstream PyVDA COM proxy invalidation and multi-window Sub-AUMID blind spots.
+- Caster provides voice grammars `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py`, routing transitions through `printer.out` for HUD feedback.
 
-### C. Exploratory Research (Wayfinder Session)
+### C. Active Desktop Context Engine (ADCE) External Ingestion
+- Active engine architecture, C# background daemons, SQLite/DuckDB persistence, and MCP server streaming live in the standalone repository [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).
+- Caster functions strictly as an **external client consumer**: the Caster HUD (`AdceTracker`) connects to the local ADCE daemon via Server-Sent Events (SSE on port 8424) to ingest element-level micro-zones (`{IntegratedTerminal}`, `{EditorCodeBuffer}`) in ~10–20 ms without running internal scrapers.
+- Incubation research tickets (`001`–`018` in [`docs/accessibility_mcp/`](../accessibility_mcp/CONTEXT.md)) are preserved in Caster as historical research references.
+
+### D. Caster HUD Architecture
+- The Caster HUD runs as an isolated OS process with a background `SimpleXMLRPCServer` daemon. It avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls to dispatch HTML updates directly to the main Qt GUI event queue.
+- Features opt-in system tray docking (`QSystemTrayIcon`), modular QSS theme switching, interactive profile management (`ProfileDialog`), and 8-direction frameless edge resizing ([`001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md), [`005`](../caster_hud/005_caster_hud_requirements_and_specifications.md)).
+
+### E. Exploratory Research (Wayfinder Archive)
 - Wayfinder was an AI agent research session investigating whether an out-of-process C#/.NET Micro MCP Server using FlaUI.UIA3 could offload accessibility and UIA queries.
 - The tickets and findings are archived in [`docs/wayfinder-uia-threading/`](../wayfinder-uia-threading/map.md).
-- If an external accessibility server is explored in the future:
-  - It must remain an isolated process communicating over local `stdio` or named pipes without blocking the core speech recognition engine.
-  - COM objects and UIA event handling remain inside the external process; return serialized snapshots only.
-  - The runtime voice path must be deterministic and use one pre-planned tool call, not open-ended LLM exploration loops.
-  - The client must own process lifecycle and always terminate/await child processes in `try`/`finally`.
 
-## 5. Local Configuration Contract
-
-- **Ignored files:** `settings/`, `data/`, `sikuli/`, aliases, and environment variables are local and git-ignored.
-- **Templates:** Use tracked, safe starter configs (e.g., `config/examples/`) rather than checking in personal state.
-- **Secrets:** Never commit absolute paths or API keys. Store them in the untracked `caster_user_content/environment_variables.py`.
-
-## 6. "Do Not Regress" Constraints
+## 5. "Do Not Regress" Constraints
 
 - **Python Version:** Always use `py -3.10`.
 - **Relative Markdown Links:** All documentation links must be relative to prevent local metadata leaks.
 - **Epistemic Discipline & Falsification Spikes:** Do not propose multi-file architectural rewrites or cross-runtime pivots based on theoretical advantages alone. Every major proposal must pass the 4-gate protocol (Telemetry → Adversarial Red-Team → <50-line Micro-Spike → Blueprint).
 - **Synchronous Execution:** Brief synchronous blocking during a focus command is correct. Later voice input must not be sent to a window whose focus transition is still in flight. Execution must be bounded, observable, and recoverable.
-- **Process Lifecycle:** The client owns the child-process lifecycle for MCP servers and must always terminate/await the server in `try`/`finally` to avoid orphan processes.
 - **UIA Traversal:** Do not add unbounded UIA traversals, busy waits, or unsafely shared COM objects. Use `CacheRequest` for narrow properties.
 - **Focus Verification:** After every focus attempt, verify that the target became foreground within a finite timeout. Return a clear failure rather than spinning or sleeping indefinitely.

@@ -8,13 +8,12 @@ Welcome to the Caster documentation repository. This directory contains architec
 
 Start here to understand the core architecture, active features, and engineering history:
 
-1. **[Repository Brain](context/repository-brain.md)** — **The Canonical Single Source of Truth (SSOT)**. Read this first for current facts, feature maps, confirmed architectural decisions, and known risks.
-2. **[ADCE Context Hub](accessibility_mcp/CONTEXT.md)** — Living context hub and technical blueprint for the **Active Desktop Context Engine (ADCE)** and Accessibility MCP.
-3. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-4. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
-5. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
-6. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
-7. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
+1. **[Repository Brain](context/repository-brain.md)** — **Current Empirical Baseline & Constraints**. Read this first for verified facts, active component mappings, and "do not regress" rules.
+2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
+3. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
+5. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
+6. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
 ---
 
@@ -25,9 +24,10 @@ Emergent research into agentic cognition, context window mechanics, KV cache eco
 * **[001: Epistemic Detachment, Disposable Scaffolding, & Memory Mechanics](antigravity/001_ethos_memory_and_disposable_scaffolding.md)** *(Living Foundational Note)*
 * [Antigravity Editor Insights & System Prompt Overrides](features/antigravity_editor_insights.md)
 
-### 🌐 [Accessibility MCP & Active Context Engine](accessibility_mcp/)
-Real-time OS semantic state tracking, deep tab discovery, and Model Context Protocol (MCP) server architecture.
-* **[ADCE Living Context Hub](accessibility_mcp/CONTEXT.md)** *(Living Single Source of Truth)*
+### 🗄️ [Historical Incubation Archive: Accessibility MCP (ADCE)](accessibility_mcp/)
+Formative research spikes, UIA tree references, and empirical benchmarks conducted during the incubation of the Active Desktop Context Engine within Caster.
+> **Note:** Production engine development has officially transitioned to the standalone repository: **[`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)**. Within Caster, ADCE is consumed externally via HUD SSE on port 8424.
+* **[ADCE Incubation Hub](accessibility_mcp/CONTEXT.md)** *(Historical Archive & Reference)*
 * [001: Exploration, Analysis & Planning](accessibility_mcp/001_exploration_analysis_planning.md)
 * [002: Epistemology, Patterns & Observability](accessibility_mcp/002_epistemology_patterns_and_observability.md)
 * [003: Cross-Platform Strategic Analysis](accessibility_mcp/003_strategic_analysis_cross_platform_and_context.md)

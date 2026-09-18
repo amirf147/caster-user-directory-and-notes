@@ -2,9 +2,16 @@
 
 ---
 
-# Active Desktop Context Engine (ADCE) & Accessibility MCP — Evolving Context
+# Active Desktop Context Engine (ADCE) & Accessibility MCP — Incubation Archive
 
-This document serves as the **living single source of truth** for the Desktop Context Engine / Accessibility MCP project. It aggregates domain knowledge, architectural decisions, observed behaviors, and roadmap goals from all exploratory research (`001`–`008`).
+> [!IMPORTANT]
+> **Standalone Engine Transition & Historical Archive Notice:**
+> The exploratory research, empirical spikes, and specifications in this directory (`001`–`018`) document the incubation phase of the Active Desktop Context Engine within the Caster repository.
+> 
+> Active engine development, production C# background daemons, SQLite/DuckDB persistence, and MCP server streaming have officially transitioned to the standalone repository:
+> 🚀 **[`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)**
+> 
+> Within Caster, ADCE is treated strictly as an **external service** consumed via HTTP/SSE on port 8424 by the Caster HUD (`AdceTracker`). This directory is preserved as a historical record and architectural reference (e.g. the 4-Gate Epistemic Gating Protocol in [`015`](015_recalibration_and_adversarial_architecture_review.md)).
 
 ---
 
@@ -77,11 +84,11 @@ The goal of the **Active Desktop Context Engine (ADCE)** is to maintain a live, 
 
 ---
 
-## 4. Current Status & Next Milestones
+## 4. Incubation Milestones & Standalone Handover
 
-- `[x]` **Phase 1: Foundations & Exploratory PoC** — Event-driven Win32 hooks, UIA focus extraction, and Caster voice launcher (`scripts/context_poc.py`).
+- `[x]` **Phase 1: Foundations & Exploratory PoC** — Event-driven Win32 hooks, UIA focus extraction, and initial exploratory scripts (archived in `attic/adce_spikes/`).
 - `[x]` **Phase 2: Empirical Tab Extraction & DOM Profiling** — Benchmarked 6,800-node browser DOM traversal costs, WebExtension sidebar structures, and Monaco accessibility boundaries.
 - `[x]` **Phase 3: Epistemic Recalibration & Adversarial Review (`015`)** — Established 4-gate verification protocol; paused C# daemon implementation (`014`) until Gate 3 micro-spikes validate UIA 3 caching vs native browser bridges.
-- `[x]` **Phase 4: Gate 3 Micro-Spikes & Ground Truth Mapping (`016`, `017`)** — Executed minimal standalone benchmarks: C# FlaUI 5 (`ADCE.Spikes`) vs Python shallow window caching (`spike_win32_shallow_python.py`); codified full UIA tree structure SSOT.
-- `[ ]` **Phase 5: Architectural Synthesis & MCP Server Stream** — Synthesize validated findings into production engine and expose Streamable SSE / HTTP MCP Resource for local AI agents and voice grammars.
+- `[x]` **Phase 4: Gate 3 Micro-Spikes & Ground Truth Mapping (`016`, `017`)** — Executed minimal standalone benchmarks: C# FlaUI 5 (`ADCE.Spikes`) vs Python shallow window caching; codified full UIA tree structure reference.
+- `[x]` **Phase 5: Standalone Engine Handover & External MCP Daemon (`018`)** — Production engine development officially transitioned to standalone repo [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine). Caster now consumes ADCE externally via HUD SSE on port 8424.
 
