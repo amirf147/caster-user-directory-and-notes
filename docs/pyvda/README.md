@@ -6,6 +6,9 @@
 
 This directory houses deep architectural analyses, COM lifecycle investigations, adversarial audits, and multi-window application pinning solutions for the Windows 10/11 Virtual Desktop manager and its Python bridge (`pyvda`).
 
+> 🚀 **Production Engine Update (September 2026)**  
+> `pyvda` has been formally superseded and retired in Caster production. Virtual desktop management is now powered by **[WinVDA](https://github.com/amirf147/winvda)**, an independent, zero-cached-state clean-room library implementing the transient MTA COM architecture specified in Document 004 and realized in [Document 006](006_winvda_clean_room_engine_realization_and_caster_migration.md).
+
 ---
 
 ## 📑 Document Index & Architectural Lineage
@@ -25,6 +28,9 @@ This directory houses deep architectural analyses, COM lifecycle investigations,
 * **[005: Task View Pinning Internals & Windows Shell Reverse Engineering](005_task_view_pinning_internals_and_shell_reverse_engineering.md)** — *Empirical Shell Audit (twinui.pcshell.dll)*  
   Binary disassembly and PDB symbol audit of VirtualPinnedAppsHandler, proving CompareStringOrdinal full-string mismatch on ~Wh~w<HWND> sub-AUMIDs, and verifying that Task View natively iterates window groups to call PinView individually.
 
+
+* **[006: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration](006_winvda_clean_room_engine_realization_and_caster_migration.md)** — *Production Milestone (Published & Active)*  
+  Realization of the hardened virtual desktop engine as a standalone, clean-room Python library ([`winvda`](https://github.com/amirf147/winvda), Apache-2.0). Documents the zero-cached-state direct ctypes vtable architecture, multi-apartment safety, Task View parity application pinning, and the production migration in Caster replacing `pyvda`.
 ---
 
 ## 🔄 Synergy with Active Desktop Context Engine (ADCE)

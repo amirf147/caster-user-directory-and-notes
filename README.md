@@ -22,7 +22,7 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 * **[App & Window Switcher v3](docs/features/app_switcher.md)**: Sub-millisecond direct Win32 window switching, workspace isolation, guarded keystate context managers, and automated tab navigation.
 * **[App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md)**: 2-year retrospective tracing the 5 evolution eras of window switching from Windhawk taskbar macros to native Win32 v3.
 * **[App Switcher Architectural Blueprint (v3)](docs/architecture/app_switcher_architectural_blueprint.md)**: Authoritative technical specification, focus tier state machines, and sequence diagrams.
-* **[PyVDA Virtual Desktop Subsystem](docs/pyvda/README.md)**: Deep architectural analysis of Windows Virtual Desktop COM interfaces, RPC error recovery (`@_com_retry`), exact-match AUMID resolution, multi-window XAML Island pinning ([003](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)), and native shell client bridge design ([004](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)).
+* **[WinVDA Virtual Desktop Subsystem](https://github.com/amirf147/winvda)**: Clean-room, zero-cached-state Windows Virtual Desktop engine ([006](docs/pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)) replacing legacy `pyvda` in Caster production. Built on direct ctypes vtable dispatch, transient MTA sessions immune to Explorer restarts, exact-match sub-AUMID normalization ([003](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)), and native Task View parity ([005](docs/pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)).
 * **[Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](docs/features/virtual_desktop_pinning_and_grammar_ergonomics.md)**: Voice-driven pinning and unpinning across virtual workspaces, phonetic coarticulation failure analysis (`pin window` -> `new window`), Kaldi decoder language model priors, Caster noun-first syntactic alignment, and upstream PR coordination.
 * **[Foot Pedal & XML-RPC IPC Bridge](docs/features/foot_pedal.md)**: Hardware debouncing, smart tap/drag/scroll control for the Olympus RS31H foot pedal, paired with a local XML-RPC IPC bridge for thread-safe microphone toggling.
 * **[Top Voice Automations Showcase](docs/features/top_voice_automations.md)**: Curated showcase of desktop, editor, and system voice workflows.
@@ -33,8 +33,8 @@ Contains workflows (such as `/commit`, `/relative-paths`, and `/adversarial-arch
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness:
 
-### 1. Active Production: Virtual Desktop Window & Multi-Window App Pinning (Caster & PyVDA Refactor)
-* **Status (Active Production - Verified)**: Implemented complete voice-driven virtual desktop window and application pinning across Caster (`feat/virtual-desktop-pinning` branch, commit `b549ca2b`) and solved the foundational multi-window XAML Island sub-AUMID limitation in the upstream `pyvda` library (`fix/multi-window-app-pinning` branch, commit `66d3f64`).
+### 1. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
+* **Status (Active Production - Deployed & Published)**: Designed, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library, completely replacing legacy `pyvda` across Caster production (`custom-setup` branch, commit `85feab8e`). Eliminates explorer restart crashes, apartment threading collisions, and synthetic sub-AUMID isolation.
 * **Core Architecture & Breakthroughs**:
   * **Caster Voice Grammar & HUD Integration**: Bound commands `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py`, routing user-facing state transitions through `printer.out` for instantaneous Caster HUD feedback.
   * **Root Cause Diagnosis of App Pinning Failure**: Diagnosed why `pin app` previously pinned only isolated secondary windows of Windows Terminal. Modern Windows Shell assigns hosted/XAML Island windows unique sub-AUMIDs suffixed with `~Wh~w<HEX_HWND>`, while Windows COM `IVirtualDesktopPinnedApps::PinAppID` performs exact string matching (`wcscmp`) against a flat registry table. Naive pass-through in `pyvda` caused secondary windows to pin their transient handle while leaving primary windows unpinned (and vice-versa).
@@ -42,8 +42,11 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   * **Active Window Synchronization (`sync_pinned_apps`)**: Added sub-millisecond synchronization into `VirtualDesktop.go()`, ensuring newly opened windows of pinned applications carry over across workspace transitions automatically.
   * **Cross-Framework Validation**: Empirically verified across heterogeneous application archetypes: Gecko (Waterfox profile-hash AUMIDs), Chromium/Electron (Antigravity IDE), and XAML Islands (Windows Terminal).
 * **Key Documentation**:
+  * 🌐 **[WinVDA Public Repository](https://github.com/amirf147/winvda)** *(Independent Clean-Room Engine)*
+  * 🪟 **[WinVDA Realization & Caster Migration (006)](docs/pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)** *(Production Milestone)*
   * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](docs/pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
   * 🪟 **[Adversarial Audit & Resilient Client Design (004)](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)** *(Native Shell Analysis, 4-Repo Benchmark & Zero-Cached-State Architecture)*
+  * 🪟 **[Task View Pinning Internals (005)](docs/pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)**
   * 🎙️ **[Virtual Desktop Pinning & Grammar Ergonomics](docs/features/virtual_desktop_pinning_and_grammar_ergonomics.md)** *(Phonetic Misrecognition, Kaldi Trellis Priors & Syntactic Design)*
   * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
   * 📜 **[Status Update History](status-update-history.md)**

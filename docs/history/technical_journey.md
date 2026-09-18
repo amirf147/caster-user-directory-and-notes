@@ -6,16 +6,21 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Active Production: Virtual Desktop Window & Multi-Window App Pinning (Caster & PyVDA Refactor)
-- **Status (Active Production - Verified)**: Designed, implemented, and empirically verified end-to-end voice-driven virtual desktop window and application pinning. Integrated cleanly into Caster (`feat/virtual-desktop-pinning`, commit `b549ca2b`) and eliminated the upstream XAML Island multi-window limitation in pyvda (`fix/multi-window-app-pinning`, commit `66d3f64`).
+### 1. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
+- **Status (Active Production - Deployed & Published)**: Following the adversarial audit and 5 failure modes in legacy `pyvda`, designed, built, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library. Deployed `winvda` across Caster production (`custom-setup` branch, commit `85feab8e`), completely replacing `pyvda` across all virtual desktop switching and window pinning workflows.
 - **Core Engineering Breakthroughs**:
-  - **Sub-AUMID Exact Matching Diagnosis**: Diagnosed why pin app previously only pinned isolated secondary windows of Windows Terminal. Modern XAML Island apps receive per-window synthetic identifiers (Package!App~Wh~w<HEX_HWND>), while Windows COM IVirtualDesktopPinnedApps performs strict exact string matching (wcscmp).
-  - **Zero Technical Debt Upstream Refactor**: Refactored pyvda.AppView to decouple canonical base_app_id, pin canonical app identities, pin active sub-views via in-memory PinView() (preventing transient registry clutter), and reconcile newly opened windows upon desktop transitions via sync_pinned_apps() (< 1 ms).
+  - **Zero-Cached-State COM Invocation**: Eliminated long-lived remote interface proxies. Every operation acquires fresh pointers directly from `explorer.exe` ALPC endpoints, executes via direct `ctypes` vtable offsets, and safely releases pointers inside `finally` blocks, guaranteeing immunity to Explorer crashes.
+  - **Apartment Threading Resilience**: Joins MTA (`COINIT_MULTITHREADED`), detects `RPC_E_CHANGED_MODE` (`0x80010106`) if the caller thread is already initialized in STA, executes safely without crashing, and preserves caller apartment state on exit.
+  - **Task View Parity Application Pinning**: Normalizes application identities by stripping synthetic `~Wh~w<HEX_HWND>` sub-AUMIDs, registers canonical base package identities via `PinAppID`, and iterates active views to pin sibling windows (`PinView`).
+  - **Dual-Mode Automation & Diagnostic CLI**: Extended `python -m winvda` with `pin-window`, `unpin-window`, `pin-app`, and `unpin-app` supporting explicit `--hwnd` for scripts, `--delay` for interactive terminal use, and active foreground window capture for background hotkey daemons.
   - **Cross-Framework Validation**: Empirically verified across heterogeneous application archetypes: Gecko (Waterfox profile-hash AUMIDs), Chromium/Electron (Antigravity IDE), and XAML Islands (Windows Terminal).
-  - **HUD Voice Integration**: Bound ([toggle] pin | unpin) window [all work [spaces]] and ([toggle] pin | unpin) app [all work [spaces]] in window_mgmt_rule.py with immediate visual feedback via printer.out.
+  - **HUD Voice Integration**: Bound `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py` with immediate visual feedback via `printer.out`.
 - **Key Documentation**:
+  * 🌐 **[WinVDA Public Repository](https://github.com/amirf147/winvda)** *(Independent Clean-Room Engine)*
+  * 🪟 **[WinVDA Realization & Caster Migration (006)](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)** *(Production Milestone)*
   * 🪟 **[PyVDA Multi-Window & XAML Island Pinning Architecture (003)](../pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)**
   * 🪟 **[Adversarial Audit & Resilient Client Design (004)](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
+  * 🪟 **[Task View Pinning Internals & Shell Reverse Engineering (005)](../pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)**
   * 🎙️ **[Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](../features/virtual_desktop_pinning_and_grammar_ergonomics.md)**
   * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
   * 📜 **[Status Update History](../../status-update-history.md)**

@@ -97,12 +97,14 @@ Feature specifications, implementation notes, and voice workflows.
 * [Number Series CCR Analysis](features/number-series-ccr-analysis.md)
 * [Virtual Desktop Pinning Architecture, Phonetic Misrecognition & Grammar Ergonomics](features/virtual_desktop_pinning_and_grammar_ergonomics.md)
 
-### 🪟 [PyVDA Virtual Desktop Subsystem](pyvda/)
-Deep architectural analysis, COM lifecycle investigations, and multi-window pinning fixes for Windows 10/11 Virtual Desktops.
-* [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
-* [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
+### 🪟 [WinVDA / PyVDA Virtual Desktop Subsystem](pyvda/)
+Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, clean-room realization, and multi-window pinning. Powered in production by **[WinVDA](https://github.com/amirf147/winvda)**.
+* **[006: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration](pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)** *(Production Milestone - Active)*
+* [005: Task View Pinning Internals & Windows Shell Reverse Engineering](pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)
+* [004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design](pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
 * [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
-* [004: Adversarial Audit, Edge Cases, & Hardened COM Architecture](pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
+* [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
+* [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
 
 ### 🔬 [Framework Explainers](framework_explainers/)
 Educational breakdowns of underlying voice engines and Dragonfly internals.

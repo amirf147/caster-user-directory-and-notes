@@ -1,4 +1,25 @@
-﻿## Active Status Update: Adversarial Virtual Desktop Audit, Multi-Repo Analysis, & Resilient Architecture (September 2026)
+## Active Status Update: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration (September 2026)
+
+### WinVDA Zero-Cached-State Engine Realization & Production Rollout
+* **Status (Active Production - Deployed & Published)**: Following the adversarial audit and 5 failure modes uncovered in `pyvda` (Docs 001–005), designed, developed, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library. Deployed `winvda` into Caster production (`custom-setup` branch, commit `85feab8e`), completely retiring `pyvda` across all virtual desktop switching and window pinning workflows.
+* **Empirical Validation & Breakthroughs**:
+  * **Zero-Cached-State COM Invocation**: Eliminated long-lived remote interface proxies. Every call acquires fresh pointers (`IServiceProvider`, `IVirtualDesktopManagerInternal`, `IVirtualDesktopPinnedApps`) directly from `explorer.exe` ALPC endpoints, executes via direct `ctypes` vtable pointer arithmetic, and safely releases pointers deterministically inside `finally` blocks.
+  * **Explorer Crash Immunity**: When `explorer.exe` restarts or crashes, `winvda` leaves zero dead ALPC stubs in memory. The subsequent command automatically binds to the newly spawned Explorer process without restart-polling loops or reactive retry decorators.
+  * **Apartment Threading Resilience**: Joins MTA (`COINIT_MULTITHREADED`), detects `RPC_E_CHANGED_MODE` (`0x80010106`) if the caller thread is already initialized in STA, executes safely without crashing, and preserves caller apartment state on exit.
+  * **Task View Parity Application Pinning**: Normalizes application identities by stripping synthetic `~Wh~w<HEX_HWND>` sub-AUMIDs, registers canonical base package identities via `PinAppID`, and iterates active views to pin sibling windows (`PinView`).
+  * **Dual-Mode Automation & Diagnostic CLI**: Extended `python -m winvda` with `pin-window`, `unpin-window`, `pin-app`, and `unpin-app` supporting explicit `--hwnd` for tiling window managers/scripts, `--delay` for interactive terminal use, and active foreground window capture for background hotkey daemons.
+  * **Production Caster Migration**: Migrated `castervoice/lib/windows_virtual_desktops.py` to `winvda`. Verified 14/14 automated tests passing in 0.11s and verified live voice recognition in Kaldi Caster environment.
+* **Key Documentation**:
+  * 🌐 **[WinVDA Public Repository](https://github.com/amirf147/winvda)** *(Independent Clean-Room Engine)*
+  * 🪟 **[WinVDA Realization & Caster Migration (006)](docs/pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)** *(Production Milestone)*
+  * 🪟 **[Adversarial Audit & Resilient Client Design (004)](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
+  * 🪟 **[Task View Pinning Internals & Shell Reverse Engineering (005)](docs/pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)**
+  * 🎙️ **[Virtual Desktop Pinning & Grammar Ergonomics](docs/features/virtual_desktop_pinning_and_grammar_ergonomics.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+
+---
+
+## Archived Status Update: Adversarial Virtual Desktop Audit, Multi-Repo Analysis, & Resilient Architecture (September 2026)
 
 ### Adversarial Virtual Desktop Audit & Multi-Repo Synthesis (In Progress)
 * **Status (Active Investigation & Architectural Blueprint - Complete)**: Conducted a rigorous adversarial audit of the multi-window application pinning fix, performed cross-repository research across pyvda, VirtualDesktopAccessor (Rust), WinStasis (C# .NET 10), and ADCE (C# .NET 10), and synthesized a long-term architectural blueprint for resilient Windows Virtual Desktop integration.
@@ -6,7 +27,7 @@
   * **Adversarial Failure Modes Identified**: Exposed five boundary conditions in pyvda: silent failures on applications lacking AppUserModelIDs (pp_id is None), passive desktop transition blind spots (native Windows gestures/hotkeys bypassing VirtualDesktop.go()), 50–200 ms latency from synchronous whole-system Z-order scans, non-standard multi-instance ID schemes, and UIPI elevation boundaries.
   * **Multi-Repo Comparative Insights**:
     * **WinStasis (winst)**: Immune to Explorer restart COM invalidation because of its execution model—a transient, point-in-time CLI utility (~200 ms) that terminates before Explorer can crash.
-    * **VirtualDesktopAccessor (Rust)**: Shares the exact same multi-window pinning limitation (passes raw AUMID to COM without stripping ~Wh~ or pinning active sibling views) and uses an identical 3-iteration retry macro (etry_function) on RpcServerNotAvailable / ComObjectNotConnected.
+    * **VirtualDesktopAccessor (Rust)**: Shares the exact same multi-window pinning limitation (passes raw AUMID to COM without stripping ~Wh~ or pinning active sibling views) and uses an identical 3-iteration retry macro (retry_function) on RpcServerNotAvailable / ComObjectNotConnected.
     * **ADCE (Active Desktop Context Engine)**: Successfully solved the STA message pump freezing trap by strictly delegating COM inspection to a dedicated background MTA worker queue (SingleThreadTaskScheduler), decoupled from the UI/hook thread via unbuffered struct channels.
   * **C# vs. Rust vs. Python Blueprint**: Concluded that C# (.NET 10 with Native AOT) provides the highest ecosystem reliability on Windows due to first-class COM support and mature community packages (Slions.VirtualDesktop supporting build 10240 to 26100+). Formulated the target architecture for Caster: stateless value objects, proactive reconnection via TaskbarCreated window messages, and dedicated MTA worker isolation.
 * **Key Documentation**:
