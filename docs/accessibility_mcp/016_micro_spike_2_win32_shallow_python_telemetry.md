@@ -18,7 +18,7 @@
 In accordance with the **4-Gate Epistemic Gating Protocol** established in [015: Epistemic Recalibration](015_recalibration_and_adversarial_architecture_review.md), we executed two live, empirical micro-spikes against active OS targets (Waterfox with 30 tabs and Antigravity IDE):
 
 * **Micro-Spike 1 (`ADCE.Spikes` / C# .NET 10 + FlaUI 5):** Validated direct container targeting and batch UIA3 extraction across running Gecko / Electron instances.
-* **Micro-Spike 2 (`scripts/spike_win32_shallow_python.py` / Python 3.10):** Measured pure Win32 C-call envelope extraction and shallow UIA focused control retrieval with **zero recursive tree traversal**.
+* **Micro-Spike 2 (`attic/adce_spikes/spike_win32_shallow_python.py` / Python 3.10):** Measured pure Win32 C-call envelope extraction and shallow UIA focused control retrieval with **zero recursive tree traversal**.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -44,8 +44,8 @@ In accordance with the **4-Gate Epistemic Gating Protocol** established in [015:
 
 ## 2. Micro-Spike 2 Telemetry Breakdown (Python 3.10)
 
-Script: [`scripts/spike_win32_shallow_python.py`](../../scripts/spike_win32_shallow_python.py)  
-Execution: `py -3.10 scripts/spike_win32_shallow_python.py` (100 sample runs against live desktop session)
+Script: [`attic/adce_spikes/spike_win32_shallow_python.py`](../../attic/adce_spikes/spike_win32_shallow_python.py)  
+Execution: `py -3.10 attic/adce_spikes/spike_win32_shallow_python.py` (100 sample runs against live desktop session)
 
 ### A. Phase Latencies (100 Iterations)
 

@@ -45,7 +45,7 @@ In Python (`uiautomation` or `pywinauto`), every single property check (`ctrl.Na
 
 The Python PoC was a **diagnostic scout**, not the permanent high-throughput end-state:
 
-1. **Mapping the Landmines Early:** Building the Python PoC ([context_poc.py](../../scripts/context_poc.py)) allowed us to immediately discover:
+1. **Mapping the Landmines Early:** Building the Python PoC ([context_poc.py](../../attic/adce_spikes/context_poc.py)) allowed us to immediately discover:
    * The Gecko/Chromium DOM tree traps (6,800 nodes).
    * The dual-tabstrip architecture in Windows 11 File Explorer.
    * The QuickEdit console freeze issue (disproving false COM deadlocks).
@@ -94,6 +94,6 @@ To avoid endless optimization of faulty foundations, we adopt a **Dual-Plane Arc
 ```
 
 ### Concrete Implementation Roadmap:
-1. **Prune the Python PoC (Immediate Baseline):** Add `DocumentControl` pruning and bottom-up sibling lookup to [context_poc.py](../../scripts/context_poc.py) so our current Python workbench is snappy ($<20\text{ms}$) while exploring rules.
+1. **Prune the Python PoC (Immediate Baseline):** Add `DocumentControl` pruning and bottom-up sibling lookup to [context_poc.py](../../attic/adce_spikes/context_poc.py) so our current Python workbench is snappy ($<20\text{ms}$) while exploring rules.
 2. **Shift High-Speed Extraction to C# FlaUI:** Transition the heavy UIA observation engine into a standalone C# `.NET` Micro MCP / Daemon service using `FlaUI.UIA3` with `CacheRequest` and MTA threading.
 3. **Layer Direct Native Bridges for Browsers/Editors:** Add a lightweight WebExtension (Native Messaging) and VS Code extension to push high-fidelity URLs, hidden tabs, and file context directly into the daemon, bypassing UIA DOM scraping entirely for Tier-1 apps.
