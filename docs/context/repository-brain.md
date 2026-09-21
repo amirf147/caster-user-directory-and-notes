@@ -1,6 +1,6 @@
 ---
 Status: Active
-Last verified: 2026-09-19
+Last verified: 2026-09-21
 Canonical/Related code: caster_user_content/
 Supersedes: docs/wayfinder-uia-threading/codex-context-extract.md, docs/legacy_notes/*
 ---
@@ -44,7 +44,7 @@ When resolving conflicting information within this repository, adhere to the fol
 | :--- | :--- | :--- | :--- |
 | **Global Rules** | [`caster_user_content/rules/global/`](../../caster_user_content/rules/global/) | - | Active / Production |
 | **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving / Active |
-| **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3 (Sub-millisecond Win32) |
+| **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3.1 (Sub-millisecond Win32 + Tier 4 Shell Hotkey Fail-Safe) |
 | **Virtual Desktop Management & Pinning** | `castervoice/lib/windows_virtual_desktops.py` & `window_mgmt_rule.py` | [`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md), [`docs/features`](../features/virtual_desktop_pinning_and_grammar_ergonomics.md) | Active / Production (Migrated to **WinVDA**) |
 | **Caster HUD Overlay & IPC** | [`castervoice/asynch/hud.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (5-layer Clean Architecture) |
 | **Foot Pedal Integration** | [`caster_user_content/rules/caster_toggle_mic_key.py`](../../caster_user_content/rules/caster_toggle_mic_key.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
@@ -66,8 +66,18 @@ When resolving conflicting information within this repository, adhere to the fol
 
 ## 4. Current Empirical Baseline & Architectural Facts
 
-### A. Window Management & App Switching (Production v3)
-- Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using the **v3 progressive Win32 focus architecture** ([Blueprint v3](../architecture/app_switcher_architectural_blueprint.md), [Evolution Timeline](../history/app_switcher_timeline.md)). Focus transitions operate on a sub-millisecond hot path (0–10ms) via direct Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`), backed by guarded context managers (`_alt_key_bypass`, `_attached_threads`) with `VK_NONE` (`0xFF`) dummy key injection to prevent menu bar lockup.
+### A. Window Management & App Switching (Production v3.1)
+- Production window switching is actively performed by [`app_switcher.py`](../../caster_user_content/util/app_switcher.py) using the **v3.1 progressive 4-tier focus architecture** ([Blueprint v3.1](../architecture/app_switcher_architectural_blueprint.md), [Evolution Timeline](../history/app_switcher_timeline.md)):
+  1. **Tier 1 (Direct Win32)**: Sub-millisecond hot path (0–10ms) executing `SetForegroundWindow` and `BringWindowToTop`.
+  2. **Tier 2 (Alt-Key Bypass)**: Overcomes `ForegroundLockTimeout` via the guarded `_alt_key_bypass()` context manager with `VK_NONE` (`0xFF`) dummy key injection (80–120ms).
+  3. **Tier 3 (Thread Attachment)**: Synchronizes calling and foreground input queues via `_attached_threads()` with shell `SwitchToThisWindow` (120–200ms).
+  4. **Tier 4 (Taskbar Shell Hotkey Navigation)**: Resolves the target application's slot index via read-only Windows 11 XAML Island discovery (`TaskListButton` in `Shell_TrayWnd`) and delegates window activation to `explorer.exe` via `Win+<N>` or `Win+T` traversal, completely replacing obsolete Windows 10 UIA mouse clicks.
+- **UIPI Security Boundaries & Elevation Delineation**:
+  - When an elevated process (High Integrity Level / Administrator, such as Windhawk, Task Manager, or elevated terminals) holds foreground focus, Windows User Interface Privilege Isolation (UIPI) blocks unprivileged processes (Caster, Medium Integrity) from calling `SetForegroundWindow` (Error 5) or `AttachThreadInput` (Error 5).
+  - Furthermore, Windows UIPI silently drops all synthetic keyboard events (`keybd_event`, `SendInput`) emitted while an elevated window has focus. Under pure Medium Integrity execution without user interaction, Tiers 1 through 4 are dropped by the OS kernel.
+  - The Caster Heads-Up Display overlay (`Caster HUD v 1.7.0`) and the Windows Taskbar (`Shell_TrayWnd`) run at Medium Integrity. A physical hardware mouse click on the HUD or taskbar acts as an "integrity airlock", releasing the elevated foreground lock. Once the foreground process drops to Medium Integrity, Caster regains full Win32 focus rights, allowing the subsequent voice command to succeed immediately on Tier 1 in 25ms.
+  - Hands-free voice operation against elevated windows without physical mouse intervention requires running the speech recognition host elevated (Run as Administrator) or compiling with `uiAccess="true"` in a signed application manifest installed in `Program Files`.
+  - Detailed telemetry and post-mortems are maintained in [`docs/troubleshooting/app_switcher_findings.md`](../troubleshooting/app_switcher_findings.md) and [`docs/architecture/app_switcher_focus_analysis.md`](../architecture/app_switcher_focus_analysis.md).
 - Alias persistence is strictly encapsulated within the `AliasRegistry` class managing `caster_user_content/window_aliases.json`.
 - Focus confirmation uses a 10ms micro-polling loop (`verify_focus`), eliminating coarse static sleep delays.
 - Observed hard freezes during past testing were traced to Windows PowerShell QuickEdit mode pausing console `stdout` when Caster logged messages.

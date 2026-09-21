@@ -1,6 +1,6 @@
 ---
 Status: Active / Production
-Architecture Version: v3 (August 2026 Refactor)
+Architecture Version: v3.1 (September 2026 Refactor)
 Canonical Code: caster_user_content/util/app_switcher.py
 Related Features: docs/features/app_switcher.md
 Evolution Timeline: docs/history/app_switcher_timeline.md
@@ -10,13 +10,13 @@ Evolution Timeline: docs/history/app_switcher_timeline.md
 
 ---
 
-# Architectural Blueprint: `util/app_switcher.py` (v3)
+# Architectural Blueprint: `util/app_switcher.py` (v3.1)
 
 This document provides the authoritative architectural blueprint for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py), the low-level desktop window manager, focus orchestration engine, and voice-driven application switcher for the Caster voice recognition framework.
 
 > [!NOTE]
-> **Blueprint Version 3 (August 2026 Production Release)**
-> This blueprint documents the modern sub-millisecond native Win32 focus engine introduced in commit `8397b0c`. It supersedes legacy blueprints ([Blueprint v1](archive/app_switcher_architectural_blueprint_v1.md) and [Blueprint v2](archive/app_switcher_architectural_blueprint_v2.md)), detailing the removal of brittle keyboard macros, elimination of pywinauto hot-path wrappers, addition of guarded keystate context managers (`_alt_key_bypass`, `_attached_threads`), micro-polling focus verification, and encapsulation of persistence within `AliasRegistry`.
+> **Blueprint Version 3.1 (September 2026 Production Release)**
+> This blueprint documents the 4-tier focus architecture introduced in v3 and enhanced in v3.1. It supersedes legacy blueprints ([Blueprint v1](archive/app_switcher_architectural_blueprint_v1.md) and [Blueprint v2](archive/app_switcher_architectural_blueprint_v2.md)), detailing the addition of Tier 4 Taskbar Keystroke Navigation (`taskbar_keystroke_switch`), Windows 11 XAML Island read-only discovery (`TaskListButton`), retirement of obsolete Windows 10 UIA mouse clicks, and Windows UIPI security boundary delineation.
 
 ---
 
@@ -24,13 +24,14 @@ This document provides the authoritative architectural blueprint for [`caster_us
 
 `app_switcher.py` solves a fundamental challenge in hands-free computing: **deterministic, zero-latency desktop application switching under strict Windows OS foreground-lock restrictions**. 
 
-When background processes (such as a speech recognition loop) attempt to bring an application to the foreground, Windows restricts window activation via `ForegroundLockTimeout` to prevent focus stealing. Historically, voice configurations relied on slow UI Automation traversals, synthetic Alt-Tab bursts, or fragile keyboard macros (`Win+T`).
+When background processes (such as a speech recognition loop) attempt to bring an application to the foreground, Windows restricts window activation via `ForegroundLockTimeout` to prevent focus stealing. Historically, voice configurations relied on slow UI Automation traversals, synthetic Alt-Tab bursts, or fragile mouse clicks.
 
-The v3 architecture establishes a high-performance, deterministic focus engine built around three core design principles:
+The v3.1 architecture establishes a high-performance, deterministic focus engine built around four core design principles:
 
 1. **Direct Win32 Hot-Path Execution**: Focus transitions bypass pywinauto wrapper overhead in favor of direct sub-millisecond Win32 APIs (`SetForegroundWindow`, `BringWindowToTop`, `ShowWindowAsync`, `SwitchToThisWindow`).
 2. **Guarded Keystate Safety**: Simulated keyboard events and thread input attachments are strictly wrapped in Python context managers (`_alt_key_bypass` and `_attached_threads`) with guaranteed nested `finally` blocks, eliminating sticky modifier keys and thread deadlocks.
 3. **Micro-Polling Verification**: Focus state is confirmed using a non-blocking 10ms micro-polling loop (`verify_focus`) rather than static sleeps, ensuring immediate response times (typically 10–80ms).
+4. **Shell Hotkey Delegation**: When native Win32 focus APIs fail or hit foreground locks, Tier 4 resolves button slot coordinates via read-only Windows 11 XAML Island discovery and delegates activation to `explorer.exe` using system hotkeys (`Win+<N>` or `Win+T`).
 
 ---
 
@@ -78,11 +79,12 @@ The v3 architecture establishes a high-performance, deterministic focus engine b
   - `app_name` (*str*): Resolved application family name.
   - `is_tab` (*bool*): Flag indicating whether tab cycling is required.
   - `window_type` (*str*): Hotkey group (`"ctrl_tab"` for browsers/terminals, `"ctrl_pgdn"` for IDEs).
-- **`TaskbarItem`** (`NamedTuple`): Metadata for a running application button located on the Windows taskbar.
-  - `name` (*str*): Application caption.
-  - `index` (*int*): Zero-based taskbar button index.
-  - `control` (*UIAElementInfo*): Reference to the taskbar button element.
-  - `item_type` (*str*): Element category (`"taskbar"`).
+- **`TaskbarItem`** (`NamedTuple`): Metadata for an application button discovered on the Windows taskbar.
+  - `slot_index` (*int*): 1-based sequential button slot on the taskbar.
+  - `text` (*str*): Raw button accessibility name or caption.
+  - `app_name` (*str*): Extracted application name matching `WINDOWS_APP_NAMES`.
+  - `instance_index` (*int*): 1-based instance counter for this application family.
+  - `total_instances` (*int*): Total running window count parsed from taskbar grouping suffixes.
 
 #### 2. Persistence Layer (`AliasRegistry`)
 The `AliasRegistry` encapsulates all alias state mutations and disk synchronization:
@@ -127,13 +129,14 @@ The `AliasRegistry` encapsulates all alias state mutations and disk synchronizat
 Singleton adapter managing low-level OS interactions:
 - Direct Win32 APIs: `win32gui`, `win32process`, `win32api`, `ctypes.windll.user32`.
 - Virtual Desktop Management: Uses `pyvda.VirtualDesktop` and `pyvda.AppView` to filter windows strictly to the active workspace.
-- Dual Pywinauto Backends: Lazily initializes `_desktop_uia` and `_desktop_win32` for taskbar fallback inspection.
+- Read-Only Taskbar Discovery: Implements `get_taskbar_order()` targeting Windows 11 XAML Island (`TaskListButton`) and Windows 10 ToolBar.
+- Shell Hotkey Delegation: Implements `taskbar_keystroke_switch()` executing `Win+<N>` and `Win+T` traversal.
 
 ---
 
-## 3. VIEW 2: Progressive 3-Tier Win32 Focus Engine
+## 3. VIEW 2: Progressive 4-Tier Focus Engine
 
-When focusing a target window handle, `WindowsOSAdapter.restore_and_focus(handle)` executes a progressive 3-tier Win32 pipeline. Each tier escalates privilege only if the preceding tier fails to verify focus within the micro-polling window:
+When focusing a target window handle, `WindowsOSAdapter.restore_and_focus(handle, app_name, instance)` executes a progressive 4-tier focus pipeline. Each tier escalates privilege only if the preceding tier fails to verify focus within the micro-polling window:
 
 ```
 [ Target HWND Received ]
@@ -179,17 +182,32 @@ When focusing a target window handle, `WindowsOSAdapter.restore_and_focus(handle
                               │
                     verify_focus() == True?
                      ├── Yes ──► [ Focus Succeeded ]
-                     └── No ──► [ Return False -> Trigger Fallback ]
+                     └── No
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Tier 4: Taskbar Shell Hotkey Navigation Fail-Safe          │
+│  • taskbar_keystroke_switch(target_hwnd, app_name, instance)│
+│  • Read-only discovery: get_taskbar_order()                 │
+│  • Slot 1–10: Win+<slot % 10>                               │
+│  • Slot > 10: Win+T -> Home -> Right * (slot - 1) -> Enter  │
+│  • Delegates foreground activation to explorer.exe          │
+│  Latency: 50–150ms                                          │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                    verify_focus() == True?
+                     ├── Yes ──► [ Focus Succeeded ]
+                     └── No ──► [ Return False -> Report Failure ]
 ```
 
-### Fallback Strategy in `switch_to_app(app_name, instance)`
-If `restore_and_focus(target_hwnd)` returns `False` across all three Win32 tiers, `switch_to_app` falls back to the **Taskbar UIA Button Click**:
-1. Queries taskbar buttons via `get_taskbar_items()`.
-2. Locates the matching application button in `Shell_TrayWnd`.
-3. Dispatches a direct UIA click (`control.click_input()`).
-4. Verifies focus via `verify_focus(target_hwnd)`.
+### Tier 4 Recovery Strategy & Obsolete UIA Retirement
+If Tiers 1 through 3 fail due to OS foreground lockouts, `restore_and_focus()` immediately escalates to Tier 4:
+1. Performs pure read-only tree traversal in `get_taskbar_order()` targeting `Shell_TrayWnd` -> `InputSite` -> `TaskbarFrame` -> `TaskListButton` on Windows 11 XAML Island, or the legacy `ToolBar` on Windows 10.
+2. Normalizes captions in `extract_app_name()` by stripping taskbar grouping suffixes (` - \d+ running window.*`).
+3. Computes the 1-based button slot `K` (accounting for pinned unlaunched items and multi-window grouping).
+4. Emits `Win+<K % 10>` (slots 1 to 10) or `Win+T` traversal (slots > 10). Because `explorer.exe` owns these registered system hotkeys, Windows Explorer processes the activation natively without requiring brittle synthetic mouse clicks.
 
-*Note: The legacy Tier 3 keyboard traversal macro (`Win+T -> Home -> Right * N -> Enter`) was completely eliminated in v3 due to timing instability on Windows 11.*
+*Note: The legacy Era 3/4 UIA button click (`control.click_input()`) was completely retired because Windows 11 XAML Island does not support legacy ToolBar click targets, and synthetic mouse clicks are dropped by UIPI when an elevated window has focus.*
 
 ---
 
@@ -234,13 +252,12 @@ stateDiagram-v2
             Tier2_AltBypass --> Verified : verify_focus == True
             Tier2_AltBypass --> Tier3_ThreadAttachment : verify_focus == False
             Tier3_ThreadAttachment --> Verified : verify_focus == True
-            Tier3_ThreadAttachment --> Win32Failed : verify_focus == False
+            Tier3_ThreadAttachment --> Tier4_TaskbarKeystrokes : verify_focus == False
+            Tier4_TaskbarKeystrokes --> Verified : verify_focus == True
+            Tier4_TaskbarKeystrokes --> SwitchFailed : verify_focus == False
         }
 
         ResolveTargetHWND --> Win32FocusTiers
-        Win32Failed --> TaskbarUIAFallback : Locate Shell_TrayWnd button
-        TaskbarUIAFallback --> Verified : click_input() succeeds
-        TaskbarUIAFallback --> SwitchFailed : Button not found / click failed
     }
 
     state ExecutingAliasSwitch {
@@ -248,7 +265,6 @@ stateDiagram-v2
         LookupAlias --> AliasNotFound : Not in registry
         LookupAlias --> FocusAliasHWND : Handle found
         FocusAliasHWND --> Win32FocusTiers
-        Win32Failed --> FallbackToAppSwitch : switch_to_app(info.app_name)
         Verified --> CheckTabFlag
         
         state TabCycling {
@@ -383,7 +399,7 @@ sequenceDiagram
 
 ## 6. Performance Characteristics & Benchmark Comparison
 
-| Metric | Legacy Architecture (v1 / v2) | Modern Architecture (v3 - August 2026) | Practical Impact |
+| Metric | Legacy Architecture (v1 / v2) | Modern Architecture (v3.1 - Sep 2026) | Practical Impact |
 | :--- | :--- | :--- | :--- |
 | **Happy-Path Focus Latency** | 150ms – 400ms (Pywinauto UIA traversal) | **0ms – 10ms** (Direct Win32 `SetForegroundWindow`) | Instantaneous window activation |
 | **OS Bypass Latency** | 300ms – 600ms (Unguarded thread attachment) | **80ms – 120ms** (`_alt_key_bypass`) | 4x faster recovery under foreground locks |
@@ -391,13 +407,25 @@ sequenceDiagram
 | **Modifier Keystate Safety** | Brittle; prone to stuck Alt / menu bar lockup | **Guarded context manager** with `VK_NONE` dummy key | 100% immune to menu activation lockup |
 | **Thread Queue Safety** | Naked `AttachThreadInput` (deadlock risk) | **Guarded try-finally context manager** | Guaranteed input queue detachment |
 | **Alias State Management** | Global mutable dictionary | **Encapsulated `AliasRegistry`** | Thread-safe, clean persistence & pruning |
-| **Fallback Reliability** | Keyboard macro `Win+T` (breaks on Win11) | **Targeted UIA Taskbar Button Click** | Deterministic across all Windows 11 updates |
+| **Fallback Reliability** | Keyboard macro `Win+T` (breaks on Win11) | **Tier 4 Shell Hotkey Traversal (`Win+<N>`)** | Bypasses UIA mouse drops; delegated to explorer.exe |
 
 ---
 
-## 7. Architectural Integrity & Verification
+## 7. UIPI Security Boundaries & Integrity Delineation (Error 5)
+
+Under standard user execution (Medium Integrity Level), Windows User Interface Privilege Isolation (UIPI) introduces strict operational boundaries:
+- **Elevated Windows Block Programmatic Control**: If the active foreground window is elevated (High Integrity Level / Administrator, such as Windhawk, Task Manager, or elevated terminals), Windows UIPI blocks unprivileged processes (Caster) from calling `SetForegroundWindow` (Error 5) or `AttachThreadInput` (Error 5).
+- **Synthetic Input Dropping**: Windows UIPI silently discards synthetic keyboard events (`keybd_event`, `SendInput`) emitted while an elevated window has focus. Under pure Medium Integrity execution without user interaction, Tiers 1 through 4 are dropped by the OS kernel.
+- **The HUD Focus-Breaking Airlock**: The Caster Heads-Up Display overlay (`Caster HUD v 1.7.0`) and the Windows Taskbar (`Shell_TrayWnd`) run at Medium Integrity. A physical hardware mouse click on the HUD or taskbar acts as an "integrity airlock", releasing the elevated foreground lock. Once the foreground process drops to Medium Integrity, Caster regains full Win32 focus rights, allowing the subsequent voice command to succeed immediately on Tier 1 in 25ms.
+- **Hands-Free Elevated Operation**: Hands-free voice operation against elevated windows without physical mouse intervention requires running the speech recognition host elevated (Run as Administrator) or compiling with `uiAccess="true"` in a signed application manifest installed in `Program Files`.
+- In-depth telemetry and diagnostics are documented in [`docs/troubleshooting/app_switcher_findings.md`](../troubleshooting/app_switcher_findings.md) and [`docs/architecture/app_switcher_focus_analysis.md`](app_switcher_focus_analysis.md).
+
+---
+
+## 8. Architectural Integrity & Verification
 
 1. **Deterministic Execution**: All focus transitions complete or fail within a bounded timeout (max 500ms).
 2. **Platform Constraints**: Relies on native Win32 APIs; strictly confined to Windows 10/11 environments.
 3. **Virtual Desktop Hygiene**: Integrates with `pyvda` to prevent cross-desktop window contamination.
 4. **Clean Decoupling**: Separation between `AliasRegistry` (persistence), `WindowsOSAdapter` (OS interface), and high-level command rules ensures maintainability.
+

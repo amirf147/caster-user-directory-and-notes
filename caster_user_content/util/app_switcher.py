@@ -10,6 +10,7 @@ import ctypes
 import datetime
 import json
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any, Dict, List, NamedTuple, Optional, Tuple
@@ -58,11 +59,12 @@ class WindowInfo(NamedTuple):
 
 
 class TaskbarItem(NamedTuple):
-    control: Any
+    slot_index: int
     text: str
     app_name: str
     instance_index: int
     total_instances: int
+    control: Any = None
 
 
 # Get path to store aliases
@@ -239,23 +241,28 @@ def extract_app_name(caption: str) -> str:
     if not caption:
         return "<blank>"
 
-    caption = caption.strip()
+    # Strip taskbar suffix if present (e.g. " - 1 running window")
+    cleaned = caption.strip()
+    suffix_match = re.search(r"\s*-\s*\d+\s+running\s+window.*$", cleaned, flags=re.IGNORECASE)
+    if suffix_match:
+        cleaned = cleaned[: suffix_match.start()].strip()
+
     for name in sorted(WINDOWS_APP_NAMES, key=len, reverse=True):
-        if name.lower() in caption.lower():
+        if name.lower() in cleaned.lower():
             return name
 
-    if caption.lower().startswith(("windows powershell", "caster: status window")):
+    if cleaned.lower().startswith(("windows powershell", "powershell", "caster: status window")):
         return "Windows PowerShell"
-    if caption.lower().startswith("copilot"):
+    if cleaned.lower().startswith("copilot"):
         return "Copilot"
 
     for sep in _SEPARATORS:
-        if sep in caption:
-            parts = caption.split(sep)
+        if sep in cleaned:
+            parts = cleaned.split(sep)
             if len(parts) >= 2:
                 return parts[-1].strip()
 
-    return caption
+    return cleaned
 
 
 def extract_total_instances(caption: str) -> int:
@@ -300,34 +307,120 @@ class WindowsOSAdapter:
             _log("DEBUG", f"get_active_window fallback exception: {e}")
         return None, None, ""
 
-    def get_taskbar_items(self) -> List[TaskbarItem]:
-        items = []
+    def get_taskbar_order(self) -> List[str]:
+        """
+        Retrieves the ordered list of application button captions on the Windows taskbar.
+        Pure read-only discovery supporting both Windows 11 (XAML Island) and Windows 10 (ToolBar).
+        No mouse simulation or UIA activation patterns are invoked.
+        """
+        captions = []
         try:
-            taskbar = self._desktop_uia.window(class_name="Shell_TrayWnd")
+            hwnd_tb = win32gui.FindWindow("Shell_TrayWnd", None)
+            if not hwnd_tb:
+                return []
+            taskbar = self._desktop_uia.window(handle=hwnd_tb)
             if not taskbar.exists():
                 return []
-            all_toolbars = taskbar.descendants(control_type="ToolBar")
-            button_container = None
-            for tb in all_toolbars:
-                if tb.window_text() == "Running applications":
-                    button_container = tb
+
+            # 1. Windows 11 XAML Island Path
+            for c in taskbar.children():
+                if "InputSite" in c.element_info.class_name:
+                    for child in c.children():
+                        if "TaskbarFrame" in child.element_info.class_name:
+                            for btn in child.children():
+                                if "TaskListButton" in btn.element_info.class_name:
+                                    captions.append(btn.window_text())
+                            if captions:
+                                return captions
+
+            # 2. Windows 10 Fallback Path (Win32 ToolBar)
+            for tb_bar in taskbar.descendants(control_type="ToolBar"):
+                if tb_bar.window_text() == "Running applications":
+                    for btn in tb_bar.children(control_type="Button"):
+                        captions.append(btn.window_text())
+                    break
+        except Exception as e:
+            _log("DEBUG", f"get_taskbar_order exception: {e}")
+        return captions
+
+    def get_taskbar_items(self) -> List[TaskbarItem]:
+        """
+        Builds an ordered list of TaskbarItem objects for taskbar navigation.
+        Derived from pure read-only taskbar discovery.
+        """
+        items: List[TaskbarItem] = []
+        captions = self.get_taskbar_order()
+        instance_tracker: Dict[str, int] = {}
+
+        for slot_idx, caption in enumerate(captions, start=1):
+            app = extract_app_name(caption)
+            total = extract_total_instances(caption)
+            count = instance_tracker.get(app, 0) + 1
+            instance_tracker[app] = count
+
+            items.append(
+                TaskbarItem(
+                    slot_index=slot_idx,
+                    text=caption,
+                    app_name=app,
+                    instance_index=count,
+                    total_instances=total,
+                )
+            )
+        return items
+
+    def taskbar_keystroke_switch(self, target_hwnd: int, app_name: Optional[Any] = None, instance: int = 1) -> bool:
+        """
+        Tier 4 Fail-Safe: Activates target window via shell hotkeys (Win+T traversal / Win+<N>).
+        Delegates foreground activation to explorer.exe, bypassing Windows UIPI restrictions.
+        """
+        items = self.get_taskbar_items()
+        if not items:
+            _log("DEBUG", "Tier 4: No taskbar items discovered.")
+            return False
+
+        target_item: Optional[TaskbarItem] = None
+
+        if app_name:
+            if isinstance(app_name, (list, tuple)):
+                app_names_lc = [a.lower() for a in app_name]
+            else:
+                app_names_lc = [app_name.lower()]
+
+            matching_items = [it for it in items if it.app_name.lower() in app_names_lc]
+            if matching_items and len(matching_items) >= instance:
+                matching_items.sort(key=lambda it: it.instance_index)
+                target_item = matching_items[instance - 1]
+
+        # If not matched by app name, attempt direct matching against target_hwnd title
+        if not target_item and target_hwnd and win32gui.IsWindow(target_hwnd):
+            hwnd_title = win32gui.GetWindowText(target_hwnd).strip().lower()
+            hwnd_app = extract_app_name(hwnd_title).lower()
+            for it in items:
+                if hwnd_title and hwnd_title in it.text.lower():
+                    target_item = it
+                    break
+                if hwnd_app and it.app_name.lower() == hwnd_app:
+                    target_item = it
                     break
 
-            buttons = button_container.children(control_type="Button") if button_container else []
+        if not target_item:
+            _log("DEBUG", f"Tier 4: Could not resolve taskbar button slot for HWND {target_hwnd}.")
+            return False
 
-            instance_tracker = {}
-            for btn in buttons:
-                caption = btn.window_text()
-                app = extract_app_name(caption)
-                total = extract_total_instances(caption)
-                count = instance_tracker.get(app, 0) + 1
-                instance_tracker[app] = count
-                items.append(
-                    TaskbarItem(control=btn, text=caption, app_name=app, instance_index=count, total_instances=total)
-                )
-        except Exception as e:
-            _log("DEBUG", f"get_taskbar_items exception: {e}")
-        return items
+        slot = target_item.slot_index
+        _log(
+            "INFO",
+            f"Tier 4: Selected taskbar slot {slot} for '{target_item.text}' (app: '{target_item.app_name}', instance #{target_item.instance_index})",
+        )
+
+        if 1 <= slot <= 10:
+            key_num = slot % 10
+            Key(f"w-{key_num}/50").execute()
+        else:
+            Key(f"w-t/25, home/10, right:{slot - 1}, enter/25").execute()
+
+        return verify_focus(target_hwnd, timeout=0.5)
 
     def get_current_desktop_id(self):
         if PYVDA_AVAILABLE:
@@ -349,7 +442,7 @@ class WindowsOSAdapter:
                 _log("DEBUG", f"AppView Exception for HWND {handle}: {e}")
         return None
 
-    def restore_and_focus(self, handle: int) -> bool:
+    def restore_and_focus(self, handle: int, app_name: Optional[Any] = None, instance: int = 1) -> bool:
         """
         Attempt to restore and set focus to a specific window handle
         using progressive, non-blocking Win32 tiers.
@@ -414,7 +507,21 @@ class WindowsOSAdapter:
         except Exception as e:
             _log("ERROR", f"Tier 3 Thread Attachment failed for HWND {handle}: {e}")
 
-        return verify_focus(handle, timeout=0.2)
+        if verify_focus(handle, timeout=0.2):
+            return True
+
+        # ---------------------------------------------------------
+        # TIER 4: Taskbar Keystroke Navigation (Win+T Traversal Fail-Safe)
+        # ---------------------------------------------------------
+        _log("DEBUG", f"Tier 3 failed. Attempting Tier 4 (Taskbar Keystroke Navigation) for HWND {handle}...")
+        try:
+            if self.taskbar_keystroke_switch(handle, app_name=app_name, instance=instance):
+                _log("INFO", f"Tier 4: Successfully focused HWND {handle} via taskbar keystroke navigation")
+                return True
+        except Exception as e:
+            _log("ERROR", f"Tier 4 Taskbar Keystroke Navigation failed for HWND {handle}: {e}")
+
+        return False
 
     def iter_windows(self):
         """Yields windows from both UIA and Win32 backends."""
@@ -544,27 +651,10 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     target_hwnd, target_title = matching_windows[instance - 1]
 
     _log("INFO", f"Request to switch_to_app: '{app_name_display}', instance #{instance} (HWND {target_hwnd})")
-    if os_env.restore_and_focus(target_hwnd):
+    if os_env.restore_and_focus(target_hwnd, app_name=app_name, instance=instance):
         _log("INFO", f"Successfully focused '{target_title}'")
         printer.out(f"Successfully switched to '{target_title}' using window focus APIs")
         return True
-
-    # Fallback: Taskbar UIA Click (best-effort if Win32 focus failed)
-    try:
-        t_items = os_env.get_taskbar_items()
-        app_items = [it for it in t_items if it.app_name.lower() in app_names_lc]
-        if app_items and len(app_items) >= instance:
-            app_items.sort(key=lambda it: it.instance_index)
-            target_item = app_items[instance - 1]
-            _log("INFO", f"Fallback: Attempting taskbar click for '{target_title}'...")
-            target_item.control.click_input()
-
-            if verify_focus(target_hwnd, timeout=0.8):
-                _log("INFO", f"Fallback: Successfully focused '{target_title}' via Taskbar click")
-                printer.out(f"Successfully switched to '{target_title}' using taskbar click")
-                return True
-    except Exception as e:
-        _log("DEBUG", f"Taskbar UIA fallback failed: {e}")
 
     _log("ERROR", f"Failed to focus '{app_name_display}' for HWND {target_hwnd}.")
     printer.out("Failed to switch window")

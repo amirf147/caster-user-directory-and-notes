@@ -5,9 +5,14 @@
 # Ticket 038: Empirical Investigation & Data Gathering for App Switcher Failures, Hangs, and Recovery
 
 **Type:** `wayfinder:investigation` (Empirical Testing & Data Gathering)  
-**Status:** In Progress / Claimed  
+**Status:** Closed / Resolved  
 **Depends on:** Ticket 036  
 **Blocks:** C# Micro MCP Server Refactoring  
+
+> [!NOTE]
+> **Resolution & Production Status (Closed / Resolved)**:
+> This empirical investigation was concluded following the identification of PowerShell QuickEdit mode as the root cause of apparent `stdout` logging hangs (`ca5dc70`). The app switcher was subsequently modernized in **Blueprint v3** (`8397b0c`) and **Production v3.1** (Sep 2026).
+> The legacy Tier 2 Taskbar UIA mouse click investigated in this ticket has been **formally deprecated and retired** in favor of the 4-tier progressive Win32 engine and Tier 4 Taskbar Shell Hotkeys (`Win+<N>` / `Win+T`). See the active [App Switcher Architectural Blueprint (v3.1)](../../architecture/app_switcher_architectural_blueprint.md) and [App Switcher Findings & UIPI Post-Mortem](../../troubleshooting/app_switcher_findings.md).  
 
 ## Objective
 

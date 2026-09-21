@@ -8,7 +8,7 @@ Archived Date: 2026-08-14
 
 > [!NOTE]
 > **Historical Archive**: This document represents **Blueprint v1** (initial pre-refactor architectural analysis).
-> For the current production architecture and focus engine specifications, please refer to the active [App Switcher Architectural Blueprint (v3)](../app_switcher_architectural_blueprint.md) and the [App Switcher Evolution Timeline](../../history/app_switcher_timeline.md).
+> The legacy Windows 10 UIA mouse-click fallback documented herein has been **formally deprecated and retired**. For the active production architecture and focus engine specifications, refer to the active [App Switcher Architectural Blueprint (v3.1)](../app_switcher_architectural_blueprint.md) and the [App Switcher Evolution Timeline](../../history/app_switcher_timeline.md).
 
 ---
 

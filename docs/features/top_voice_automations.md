@@ -52,10 +52,11 @@ todo
 Defined in `caster_user_content/util/app_switcher.py`, `window_switching.py`, and `window_switching_ccr.py`.
 
 ### Multi-Tier Failsafe Switcher
-Switch between applications and window instances with robust multi-tier fallback ([switch_to_app](../../caster_user_content/util/app_switcher.py#L380)):
-1. **Tier 1 (Win32 / Pywinauto)**: Attempts standard window activation and focus restore.
-2. **Tier 2 (Taskbar UIA)**: Performs a UI Automation click directly on the application's taskbar button.
-3. **Tier 3 (Keyboard Macro)**: Falls back to taskbar key navigation (`Win+T`, arrow keys, `Enter`).
+Switch between applications and window instances with progressive multi-tier fallback ([`switch_to_app`](../../caster_user_content/util/app_switcher.py#L616)):
+1. **Tier 1 (Direct Win32)**: Native `SetForegroundWindow` and `BringWindowToTop` fast path (0–10ms).
+2. **Tier 2 (Alt-Key Bypass)**: Overcomes `ForegroundLockTimeout` via guarded `_alt_key_bypass()` with `VK_NONE` dummy key injection (80–120ms).
+3. **Tier 3 (Thread Attachment)**: Merges calling and target thread input queues via `_attached_threads()` with shell `SwitchToThisWindow` (120–200ms).
+4. **Tier 4 (Taskbar Keystroke Navigation)**: Resolves button slots via read-only Windows 11 XAML Island discovery (`TaskListButton`) and delegates window activation to `explorer.exe` via `Win+<N>` or `Win+T` traversal (50–150ms).
 
 ### Workspace Awareness & Alias Management
 - **Virtual Desktop Tracking**: Uses `pyvda` to verify window desktop IDs, prioritizing windows on the active virtual desktop.

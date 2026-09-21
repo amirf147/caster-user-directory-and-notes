@@ -1,6 +1,6 @@
 ---
 Status: Active / Production
-Architecture Version: v3 (August 2026 Production)
+Architecture Version: v3.1 (September 2026 Production)
 Canonical Code: caster_user_content/util/app_switcher.py
 Canonical Blueprint: docs/architecture/app_switcher_architectural_blueprint.md
 Evolution Timeline: docs/history/app_switcher_timeline.md
@@ -23,8 +23,8 @@ Restarting Windows Explorer (`explorer.exe`) is one of the most reliable ways to
 > [!NOTE]
 > **Executive Summary & Production Status**:
 > * **The Problem**: Under foreground locks (such as post-Explorer restart or when background processes attempt window activation), standard `SetForegroundWindow` calls return `0` (failure), flashing the taskbar icon orange.
-> * **Dragonfly vs. AppSwitcher**: Dragonfly relies on a simple synthetic `Control` key press before calling `SetForegroundWindow` without thread queue synchronization. It fails if the Control key is held down or during strict shell restarts. In contrast, AppSwitcher implements a progressive 3-tier Win32 engine combining direct fast-path calls, `_alt_key_bypass()`, and `_attached_threads()` input queue attachment.
-> * **Modern Production Implementation (Commit `8397b0c`)**: All Alt-key bypasses and thread attachments are wrapped in guarded Python context managers (`_alt_key_bypass`, `_attached_threads`) with guaranteed nested `finally` blocks and a `VK_NONE` (`0xFF`) dummy key to eliminate sticky keys, menu bar lockups, and input queue deadlocks.
+> * **Dragonfly vs. AppSwitcher**: Dragonfly relies on a simple synthetic `Control` key press before calling `SetForegroundWindow` without thread queue synchronization. It fails if the Control key is held down or during strict shell restarts. In contrast, AppSwitcher implements a progressive 4-tier focus engine combining direct fast-path Win32 calls (Tier 1), `_alt_key_bypass()` (Tier 2), `_attached_threads()` input queue attachment (Tier 3), and Tier 4 taskbar shell hotkey navigation delegating to `explorer.exe`.
+> * **Modern Production Implementation (v3.1)**: All Alt-key bypasses and thread attachments are wrapped in guarded Python context managers (`_alt_key_bypass`, `_attached_threads`) with guaranteed nested `finally` blocks and a `VK_NONE` (`0xFF`) dummy key to eliminate sticky keys, menu bar lockups, and input queue deadlocks. Legacy UIA mouse clicks are retired in favor of native shell hotkeys.
 
 ---
 
@@ -38,6 +38,7 @@ Restarting Windows Explorer (`explorer.exe`) is one of the most reliable ways to
   - [2. Dragonfly's `set_foreground()` (Control Key Hack)](#2-dragonflys-set_foreground-control-key-hack)
   - [3. AppSwitcher's Guarded Alt-Bypass & Thread Attachment (Tiers 2 & 3)](#3-appswitchers-guarded-alt-bypass--thread-attachment-tiers-2--3)
 - [Safety, Concurrency & Keystate Guarantees](#safety-concurrency--keystate-guarantees)
+- [Boundary Limitation & Integrity Delineation (Error 5)](#boundary-limitation--integrity-delineation-error-5)
 - [Related Documentation & Permanent Links](#related-documentation--permanent-links)
 
 ---
@@ -46,7 +47,7 @@ Restarting Windows Explorer (`explorer.exe`) is one of the most reliable ways to
 
 In [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py), the `WindowsOSAdapter` class encapsulates all low-level Windows OS APIs (`win32gui`, `win32process`, `win32api`, `ctypes.windll.user32`) and virtual desktop integration (`pyvda`).
 
-When focusing an application or window handle, `restore_and_focus(handle)` executes a progressive 3-tier escalation pipeline:
+When focusing an application or window handle, `restore_and_focus(handle)` executes a progressive 4-tier escalation pipeline:
 
 ```
 [ Target Window Handle ]
@@ -85,7 +86,22 @@ When focusing an application or window handle, `restore_and_focus(handle)` execu
                               │
                     verify_focus() == True?
                      ├── Yes ──► [ Focus Succeeded ]
-                     └── No ──► [ Fallback to Taskbar UIA Click ]
+                     └── No
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Tier 4: Taskbar Shell Hotkey Navigation Fail-Safe          │
+│  • taskbar_keystroke_switch(handle, app_name, instance)     │
+│  • Pure read-only discovery: get_taskbar_order()            │
+│  • Slot 1–10: Win+<slot % 10>                               │
+│  • Slot > 10: Win+T -> Home -> Right * (slot - 1) -> Enter  │
+│  • Delegates foreground activation to explorer.exe          │
+│  Latency: 50–150ms                                          │
+└─────────────────────────────┬───────────────────────────────┘
+                              │
+                    verify_focus() == True?
+                     ├── Yes ──► [ Focus Succeeded ]
+                     └── No ──► [ Report Failure / Prune Alias ]
 ```
 
 ---
@@ -128,15 +144,15 @@ The thread input queue pairing satisfies the OS foreground lock, bringing the wi
 
 ## Comparative Analysis of Focus APIs
 
-| Attribute | Dragonfly `set_foreground()` | Pywinauto `set_focus()` | AppSwitcher v3 `restore_and_focus()` |
+| Attribute | Dragonfly `set_foreground()` | Pywinauto `set_focus()` | AppSwitcher v3.1 `restore_and_focus()` |
 | :--- | :--- | :--- | :--- |
 | **Primary Mechanism** | Win32 `SetForegroundWindow` | Win32 `SetForegroundWindow` | Direct Win32 `SetForegroundWindow` |
 | **Foreground Lock Bypass** | Synthetic `Control` key tap | None | Guarded `_alt_key_bypass()` + `_attached_threads()` |
 | **Modifier Safety** | Skips bypass if Ctrl is held down | N/A | Guaranteed `finally` release + `VK_NONE` (`0xFF`) dummy key |
 | **Input Queue Safety** | No thread attachment | No thread attachment | Deterministic `try-finally` detachment |
 | **Focus Verification** | None (Blind execution) | `WaitGuiThreadIdle` | Non-blocking 10ms micro-polling |
-| **External Fallback** | None | None | Targeted Taskbar UIA button click (`Shell_TrayWnd`) |
-| **Execution Latency** | 50ms – 150ms | 150ms – 400ms | **0ms – 10ms (Fast Path) / 80ms (Bypass)** |
+| **External Fallback** | None | None | **Tier 4 Taskbar Shell Hotkeys** (`Win+<N>` / `Win+T`; UIA click retired) |
+| **Execution Latency** | 50ms – 150ms | 150ms – 400ms | **0–10ms (Tier 1) / 80–120ms (Tier 2) / 120–200ms (Tier 3) / 50–150ms (Tier 4)** |
 
 ---
 
@@ -194,17 +210,30 @@ In earlier prototype iterations (Era 3/4), raw `AttachThreadInput` calls were vu
 1. **Queue Deadlocks**: If an unhandled exception occurred while threads were attached, the input queues remained permanently linked.
 2. **Sticky Modifiers**: If `keybd_event` was interrupted, the `Alt` key remained logically down.
 
-The v3 architecture completely eliminates these risks by:
+The v3.1 architecture completely eliminates these risks by:
 - Enforcing strict Python **`contextmanager` contracts** with nested `try-finally` blocks.
 - Injecting **`VK_NONE` (`0xFF`)** to suppress menu bar activation.
 - Bounding focus verification to a **maximum 500ms timeout** with 10ms micro-polling intervals.
 
 ---
 
+## Boundary Limitation & Integrity Delineation (Error 5)
+
+While guarded `_alt_key_bypass()` and `_attached_threads()` defeat standard `ForegroundLockTimeout` restrictions, Windows User Interface Privilege Isolation (UIPI) introduces fundamental boundaries when interacting with elevated applications:
+- **Elevated Windows Block Programmatic Control**: If the active foreground window is elevated (High Integrity Level / Administrator, such as Windhawk or Task Manager), Windows UIPI blocks lower-integrity processes (Caster / standard Python) from calling `SetForegroundWindow` (Error 5) or `AttachThreadInput` (Error 5).
+- **Synthetic Keystroke Dropping**: Windows UIPI silently discards synthetic keyboard events (`keybd_event`, `SendInput`) emitted while an elevated window holds focus. Under pure Medium Integrity execution without user interaction, Tiers 1 through 4 are dropped by the OS kernel.
+- **The HUD Focus-Breaking Airlock**: The Caster Heads-Up Display (`Caster HUD v 1.7.0`) and the Windows Taskbar (`Shell_TrayWnd`) run at Medium Integrity. A physical hardware mouse click on the HUD or taskbar acts as an integrity airlock, transferring foreground ownership away from the elevated process. Once the foreground process drops to Medium Integrity, Caster regains full Win32 focus rights, allowing subsequent voice commands to succeed immediately on Tier 1 in 25ms.
+- **Hands-Free Elevated Operation**: Hands-free voice switching out of elevated windows without manual mouse intervention requires running the speech recognition host elevated (Run as Administrator) or compiling with `uiAccess="true"` in a signed application manifest installed in `Program Files`.
+- In-depth telemetry and architectural analysis are documented in [`docs/troubleshooting/app_switcher_findings.md`](../troubleshooting/app_switcher_findings.md).
+
+---
+
 ## Related Documentation & Permanent Links
 
-- **Canonical Blueprint**: [App Switcher Architectural Blueprint (v3)](app_switcher_architectural_blueprint.md)
+- **Canonical Blueprint**: [App Switcher Architectural Blueprint (v3.1)](app_switcher_architectural_blueprint.md)
 - **Evolution Timeline**: [App Switcher Evolution Timeline (2-Year Retrospective)](../history/app_switcher_timeline.md)
+- **Troubleshooting & Empirical Findings**: [App Switcher Findings & UIPI Post-Mortem](../troubleshooting/app_switcher_findings.md)
 - **Feature Guide**: [App Switcher Feature Guide](../features/app_switcher.md)
 - **LexiconCode PR #881 Findings**: [PR #881 Testing Feedback](../features/lexicon_pr_881_feedback.md)
 - **Wayfinder Research Map**: [Wayfinder UIA & Threading Map](../wayfinder-uia-threading/map.md)
+

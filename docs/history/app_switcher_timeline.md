@@ -1,6 +1,6 @@
 ---
 Status: Active
-Last Updated: 2026-08-14
+Last Updated: 2026-09-21
 Canonical Blueprint: docs/architecture/app_switcher_architectural_blueprint.md
 Canonical Feature Guide: docs/features/app_switcher.md
 ---
@@ -11,7 +11,7 @@ Canonical Feature Guide: docs/features/app_switcher.md
 
 # App Switcher Evolution Timeline & Commit History
 
-This document chronicles the 27-month engineering journey of desktop window switching, application focus orchestration, and workspace isolation in this repository—from early 2024 taskbar macros to the modern sub-millisecond native Win32 architecture with guarded keystate context managers.
+This document chronicles the 27-month engineering journey of desktop window switching, application focus orchestration, and workspace isolation in this repository—from early 2024 taskbar macros to the modern sub-millisecond native Win32 architecture with guarded keystate context managers and Tier 4 taskbar shell hotkey navigation.
 
 ---
 
@@ -19,7 +19,7 @@ This document chronicles the 27-month engineering journey of desktop window swit
 
 Window switching is a deceptively difficult challenge in hands-free voice computing. On Windows 10 and 11, the operating system enforces strict foreground-lock policies (`ForegroundLockTimeout`) to prevent background processes from stealing focus. Furthermore, speech recognition engines (Dragonfly/Kaldi) run inside a continuous recognition loop that cannot afford long synchronous pauses, COM apartment deadlocks, or modifier keystate corruption (such as sticky `Alt` keys locking out voice dictation).
 
-Over more than two years, the window switching subsystem evolved through **five distinct architectural eras**:
+Over more than two years, the window switching subsystem evolved through **six distinct architectural eras**:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -46,12 +46,18 @@ Over more than two years, the window switching subsystem evolved through **five 
 │ Era 5: Sub-Millisecond Native Win32 & Keystate Guards (Aug 14, 2026 - v3)   │
 │   • 8397b0c: Direct Win32 tiers, _alt_key_bypass & _attached_threads        │
 │     context managers, AliasRegistry, 10ms micro-polling, Win+T eliminated   │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼──────────────────────────────────────┐
+│ Era 6: Taskbar Shell Hotkeys (Tier 4) & UIPI Security Delineation (Sep 2026)│
+│   • Windows 11 XAML Island discovery, Win+<N> hotkey fail-safe, UIPI/UAC    │
+│     boundary formalization, HUD airlock focus transfer pattern (v3.1)       │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## The 5 Evolution Eras
+## The 6 Evolution Eras
 
 ### Era 1: Windhawk Taskbar Indexing & Keyboard Macros (May 2024 – Sep 2024)
 - **Problem**: Moving away from Windows Speech Recognition (WSR) required a quick way to switch applications without touching the mouse.
@@ -72,14 +78,22 @@ Over more than two years, the window switching subsystem evolved through **five 
 - **Problem**: Mysterious voice hangs during window switching were initially suspected to be Python COM apartment deadlocks. Additionally, Alt-key bypass occasionally highlighted the window menu bar, swallowing subsequent voice commands.
 - **Approach**: The 38-ticket Socratic Wayfinder research initiative ran empirical telemetry (`ca5dc70`), conclusively proving that hangs were caused by Windows PowerShell QuickEdit mode pausing console `stdout` upon mouse selection. Solved menu bar activation (`004af07`) by injecting a dummy key `VK_NONE` (`0xFF`) before releasing Alt. Integrated feedback notifications with the modern asynchronous Caster HUD (`castervoice.lib.printer`).
 
-### Era 5: Sub-Millisecond Native Win32 Focus Tiers & Keystate Deadlock Elimination (Aug 14, 2026 — Present)
+### Era 5: Sub-Millisecond Native Win32 Focus Tiers & Keystate Deadlock Elimination (Aug 14, 2026 - v3)
 - **Problem**: Legacy anti-patterns remained in `app_switcher.py`: global mutable dictionary state, coarse `time.sleep` delays, unhandled exception vulnerability during thread input attachment, and pywinauto wrapper latency.
 - **Approach (Commit `8397b0c`)**:
   1. **Direct Win32 Focus Tiers**: Replaced slow pywinauto wrappers with direct `SetForegroundWindow`, `BringWindowToTop`, and `AllowSetForegroundWindow` calls (0–10ms latency).
   2. **Guarded Context Managers**: Created `_alt_key_bypass()` and `_attached_threads(target_hwnd)` with nested `try-finally` blocks ensuring deterministic keyup and thread detachment.
   3. **Encapsulated Persistence**: Built `AliasRegistry` class for atomic loading, saving, and stale handle pruning.
   4. **Micro-Polling Verification**: Replaced static sleeps with 10ms micro-polling loops in `verify_focus()`.
-  5. **Macro Elimination**: Removed brittle `Win+T` keyboard traversal macros entirely.
+  5. **Macro Elimination**: Removed brittle `Win+T` keyboard traversal macros.
+
+### Era 6: Taskbar Shell Hotkey Fail-Safe (Tier 4) & UIPI Security Delineation (Sep 2026 - v3.1)
+- **Problem**: When foreground lockouts or elevated windows (Run as Administrator) reject Direct Win32 (Tier 1), Alt-Bypass (Tier 2), and Thread Attachment (Tier 3), previous versions relied on mouse clicks via UIA on the taskbar. On Windows 11, taskbars are rendered using XAML Islands inside `Shell_TrayWnd`, causing classic Win32/UIA button click patterns to fail or produce slow, invasive cursor movements. Furthermore, synthetic keystroke injection was blocked when targeting elevated windows due to User Interface Privilege Isolation (UIPI).
+- **Approach**:
+  1. **Tier 4 Taskbar Shell Hotkey Traversal**: Leveraged read-only inspection of Windows 11 XAML Island taskbar buttons (`TaskListButton`) and Windows 10 Toolbars (`MSTaskListWClass`) to determine the target application's 1-based slot index `K`. Executed native shell shortcut `Win+<K % 10>` (or `Win+T` directional traversal for slots > 10). Because the Windows Shell (`explorer.exe`) owns the taskbar hotkeys, `explorer.exe` activates the target window with elevated OS shell privilege, circumventing standard foreground lock timeouts.
+  2. **UIPI Security Boundary Delineation**: Formally codified the security boundary between Medium Integrity (Caster) and High Integrity (Elevated/Administrator processes like Windhawk). Proved empirically that synthetic keystrokes are silently discarded by the Windows raw input thread when an elevated window holds foreground focus.
+  3. **The HUD Airlock Pattern**: Documented the focus-breaking airlock mechanism, where a physical click on the Caster HUD or taskbar immediately transfers foreground ownership to a Medium Integrity window, instantly restoring voice switching capability across all tiers.
+  4. **Retirement of UIA Mouse Click Fallback**: Formally deprecated and retired the invasive UIA mouse-click fallback mechanism in favor of zero-mouse native shell hotkey delegation.
 
 ---
 
@@ -108,21 +122,22 @@ Below is the chronological commit table tracing every major evolutionary milesto
 | **2026-07-28** | `004af07` | Amir | **VK_NONE Menu Fix**: Injected dummy key `0xFF` during Alt release to prevent window menu bar lockup. |
 | **2026-08-08** | `ca5dc70` | Amir | **Wayfinder Empirical Telemetry**: Proved focus freezes were caused by PowerShell QuickEdit console pause, debunking COM deadlocks. |
 | **2026-08-14** | `8397b0c` | Amir | **Production v3 Architecture**: Direct sub-millisecond Win32 focus tiers, `_alt_key_bypass` and `_attached_threads` context managers, `AliasRegistry` class, 10ms micro-polling, and elimination of `Win+T` macro. |
+| **2026-09-21** | *(v3.1)* | Amir | **Tier 4 Shell Hotkey Fail-Safe & UIPI Delineation**: Added Tier 4 taskbar hotkey navigation via Windows 11 XAML Island discovery, retired obsolete UIA mouse clicks, and codified UIPI integrity boundaries. |
 
 ---
 
 ## Architectural Comparison Across Eras
 
-| Capability / Metric | Era 1 (Mid 2024) | Era 2 (Mid 2025) | Era 3 (May 2026) | Era 4 (Jul 2026) | Era 5 (Aug 2026 - Modern v3) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary Execution Path** | Synthetic `Win+<n>` key sequence | Win32 `SetForegroundWindow` | Pywinauto `set_focus()` wrapper | Pywinauto + `AttachThreadInput` | **Direct native Win32 APIs** (`BringWindowToTop` + `SetForegroundWindow`) |
-| **Foreground Lock Bypass** | None (Relied on OS shell shortcut) | Raw `keybd_event(VK_MENU)` tap | `AttachThreadInput` + Alt key | Alt tap + `VK_NONE` (`0xFF`) dummy key | **Guarded `_alt_key_bypass()` context manager** with guaranteed nested `finally` |
-| **Thread Queue Safety** | N/A | None (No thread attachment) | Naked `AttachThreadInput` | Naked `AttachThreadInput` | **Guarded `_attached_threads()` context manager** (guaranteed detachment) |
-| **Alias State Architecture** | None (Position-only) | Global dict in `switch_application.py` | Global `aliases` dict in `app_switcher.py` | Global `aliases` dict + HUD feedback | **Encapsulated `AliasRegistry` class** with thread-safe persistence & pruning |
-| **Focus Verification** | None | Static sleep (`0.1s`) | Coarse polling (`0.3s`–`0.5s`) | Telemetry-instrumented sleeps | **10ms non-blocking micro-polling** (`verify_focus`) |
-| **Virtual Desktop Handling** | None (Flipped across desktops) | None | `pyvda.VirtualDesktop` filter | `pyvda` + pinned item tracking | **Integrated `pyvda` workspace isolation** |
-| **Fallback Strategy** | Fail silently | Fail silently | Taskbar UIA + `Win+T` macro | Taskbar UIA + `Win+T` macro | **Targeted Taskbar UIA Button Click** (`Win+T` macro eliminated) |
-| **Typical Activation Latency**| 300ms – 800ms | 100ms – 300ms | 200ms – 500ms | 150ms – 400ms | **0ms – 10ms (Fast Path) / 80ms (Bypass)** |
+| Capability / Metric | Era 1 (Mid 2024) | Era 2 (Mid 2025) | Era 3 (May 2026) | Era 4 (Jul 2026) | Era 5 (Aug 2026 - v3) | Era 6 (Sep 2026 - Modern v3.1) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Primary Execution Path** | Synthetic `Win+<n>` key sequence | Win32 `SetForegroundWindow` | Pywinauto `set_focus()` wrapper | Pywinauto + `AttachThreadInput` | Direct native Win32 APIs (`BringWindowToTop` + `SetForegroundWindow`) | **4-Tier Progressive Ladder** (Tier 1 Direct -> Tier 2 Alt -> Tier 3 Thread -> Tier 4 Taskbar Hotkey) |
+| **Foreground Lock Bypass** | None (Relied on OS shell shortcut) | Raw `keybd_event(VK_MENU)` tap | `AttachThreadInput` + Alt key | Alt tap + `VK_NONE` (`0xFF`) dummy key | Guarded `_alt_key_bypass()` context manager | **Guarded `_alt_key_bypass()` context manager** with guaranteed nested `finally` |
+| **Thread Queue Safety** | N/A | None (No thread attachment) | Naked `AttachThreadInput` | Naked `AttachThreadInput` | Guarded `_attached_threads()` context manager | **Guarded `_attached_threads()` context manager** (guaranteed detachment) |
+| **Alias State Architecture** | None (Position-only) | Global dict in `switch_application.py` | Global `aliases` dict in `app_switcher.py` | Global `aliases` dict + HUD feedback | Encapsulated `AliasRegistry` class | **Encapsulated `AliasRegistry` class** with thread-safe persistence & pruning |
+| **Focus Verification** | None | Static sleep (`0.1s`) | Coarse polling (`0.3s`–`0.5s`) | Telemetry-instrumented sleeps | 10ms non-blocking micro-polling | **10ms non-blocking micro-polling** (`verify_focus`) |
+| **Virtual Desktop Handling** | None (Flipped across desktops) | None | `pyvda.VirtualDesktop` filter | `pyvda` + pinned item tracking | Integrated `pyvda` workspace isolation | **Integrated `pyvda` workspace isolation** |
+| **Fallback Strategy** | Fail silently | Fail silently | Taskbar UIA + `Win+T` macro | Taskbar UIA + `Win+T` macro | Targeted Taskbar UIA Button Click (`Win+T` macro eliminated) | **Tier 4 Taskbar Shell Hotkey Delegation** (`Win+<N>` / `Win+T` via XAML Island; UIA mouse click retired) |
+| **Typical Activation Latency**| 300ms – 800ms | 100ms – 300ms | 200ms – 500ms | 150ms – 400ms | 0ms – 10ms (Fast Path) / 80ms (Bypass) | **0ms – 10ms (Tier 1) / 80–120ms (Tier 2) / 120–200ms (Tier 3) / 50–150ms (Tier 4)** |
 
 ---
 
@@ -192,10 +207,43 @@ def _attached_threads(target_hwnd):
 
 ---
 
+### 3. Fallback Escalation: UIA Mouse Click (Era 5) vs. Tier 4 Taskbar Shell Hotkey Delegation (Era 6)
+
+#### Legacy Era 5 Fallback (Retired)
+```python
+# Legacy Era 5: Targeted UIA mouse click in Shell_TrayWnd
+# Fails on Windows 11 XAML Islands and dropped by UIPI under elevated targets
+try:
+    items = self.get_taskbar_items()
+    for item in items:
+        if item.app_name.lower() == app_name.lower():
+            item.control.click_input()
+            break
+except Exception as e:
+    _log("DEBUG", f"Taskbar UIA fallback failed: {e}")
+```
+
+#### Modern Era 6 Implementation (Production v3.1)
+```python
+# Modern Era 6: Read-only XAML Island discovery + explorer.exe hotkey delegation
+# Resolves 1-based slot K and dispatches Win+<K % 10> without mouse intervention
+slot = self.get_taskbar_order(target_hwnd, app_name, instance)
+if slot is not None:
+    if 1 <= slot <= 10:
+        key_char = str(slot % 10)
+        Key(f"w-{key_char}/50").execute()
+    else:
+        # Traversal for slots beyond 10
+        Key(f"w-t, home, right:{slot - 1}, enter").execute()
+```
+
+---
+
 ## Related Documentation
 
-- **Current Architecture**: [App Switcher Architectural Blueprint (v3)](../architecture/app_switcher_architectural_blueprint.md)
+- **Current Architecture**: [App Switcher Architectural Blueprint (v3.1)](../architecture/app_switcher_architectural_blueprint.md)
 - **Feature Guide**: [App Switcher Feature Guide](../features/app_switcher.md)
+- **Troubleshooting & UIPI Analysis**: [App Switcher Findings & UIPI Post-Mortem](../troubleshooting/app_switcher_findings.md)
 - **Master Repository Timeline**: [Repository Timeline & Technical Journey](repository_timeline.md)
 - **HUD Evolution**: [Caster Printer & HUD Architectural Timeline](caster_printer_hud_timeline.md)
 - **Wayfinder Research Corpus**: [Wayfinder UIA Threading Map](../wayfinder-uia-threading/map.md)

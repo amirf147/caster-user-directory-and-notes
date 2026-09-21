@@ -10,8 +10,8 @@ Start here to understand the core architecture, active features, and engineering
 
 1. **[Repository Brain](context/repository-brain.md)** — **Current Empirical Baseline & Constraints**. Read this first for verified facts, active component mappings, and "do not regress" rules.
 2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-3. **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
-4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 5 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3).
+3. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 6 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3 → Tier 4 Shell Hotkeys v3.1).
 5. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
 6. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
@@ -62,6 +62,7 @@ Educational primers, specifications, and post-mortems for the Modular Caster HUD
 * [009: Architectural Review & Clean Architecture Synthesis](caster_hud/009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)
 * [010: Fine-Grained Context: Native OS vs ADCE Explainer](caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md)
 * [011: ADCE Realtime Stream & Native Focus Decoupling](caster_hud/011_adce_realtime_stream_and_native_focus_decoupling_deep_dive.md)
+* [012: Taskbar HUD Windhawk Injection & Telemetry Explainer](caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)
 
 ### 💡 [Future Ideas & Iterations](future_ideas/)
 Conceptual designs and future capability blueprints for upcoming Caster iterations.
@@ -71,7 +72,7 @@ Conceptual designs and future capability blueprints for upcoming Caster iteratio
 
 ### 🏗️ [Architecture](architecture/)
 High-level design documents, threading models, and Architecture Decision Records (ADRs).
-* **[App Switcher Architectural Blueprint (v3)](architecture/app_switcher_architectural_blueprint.md)** *(Active Production Blueprint)*
+* **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** *(Active Production Blueprint)*
 * [Speech Stack Thread Architecture & Diagnostic Report](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)
 * [Dragonfly Foreground Focus Breakdown](architecture/dragonfly_foreground_focus_breakdown.md)
 * [App Switcher Focus Analysis](architecture/app_switcher_focus_analysis.md)

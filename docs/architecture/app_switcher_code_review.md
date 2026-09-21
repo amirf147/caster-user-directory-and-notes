@@ -9,8 +9,8 @@
 > **Verdict**: This file works *despite* itself. It is a monument to "I'll refactor it later."  
 > 
 > > [!TIP]
-> > **Postscript (August 14, 2026 - Commit `8397b0c`)**:
-> > The critical design issues raised in this review (global mutable state, naked `AttachThreadInput` leaks, keystate menu locks, pywinauto hot-path overhead) were directly addressed and resolved in the **Blueprint v3 refactor**. See the updated [App Switcher Architectural Blueprint (v3)](app_switcher_architectural_blueprint.md) and [App Switcher Evolution Timeline](../history/app_switcher_timeline.md) for details on the new `AliasRegistry`, guarded context managers, and progressive Win32 focus tiers.
+> > **Postscript (August 2026 / September 2026 - Production v3.1)**:
+> > The critical design issues raised in this review (global mutable state, naked `AttachThreadInput` leaks, keystate menu locks, pywinauto hot-path overhead) were directly addressed and resolved in the **Blueprint v3 / v3.1 refactors**. See the updated [App Switcher Architectural Blueprint (v3.1)](app_switcher_architectural_blueprint.md) and [App Switcher Evolution Timeline](../history/app_switcher_timeline.md) for details on the new `AliasRegistry`, guarded context managers, progressive 4-tier focus ladder, and Tier 4 taskbar shell hotkey navigation.
 
 ---
 

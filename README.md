@@ -69,12 +69,27 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   * 🔬 **[Fine-Grained Context: Native OS vs ADCE Explainer (010)](docs/caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md)**
   * 🚀 **[Active Desktop Context Engine Repository](https://github.com/amirf147/active-desktop-context-engine)**
 
-### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
-* **Status (Active Production)**: Running with the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).
-* **Highlights**: Instant 0–10ms focus transitions via direct Win32 APIs (`SetForegroundWindow`), guarded keystate context managers (`_alt_key_bypass`, `_attached_threads`), and encapsulated `AliasRegistry` persistence.
-* **Key Docs**: [App Switcher Blueprint v3](docs/architecture/app_switcher_architectural_blueprint.md) | [App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md) | [App Switcher Feature Guide](docs/features/app_switcher.md).
+### 3. Native Taskbar HUD Windhawk Injection & Real-Time Telemetry Bridge (Active Exploration)
+* **Status (Active Exploration & Prototype Diagnosis)**: Prototyping an in-process Windows 11 taskbar HUD extension via Windhawk (`caster-taskbar-hud.wh.cpp`), projecting real-time speech command feedback, ADCE semantic interaction zones, and active contextual rules directly into the Windows Shell adjacent to the system tray.
+* **Core Architecture & Breakthroughs**:
+  * **In-Process Shell XAML Injection**: Hooks `taskbar.dll` symbols (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) to acquire the root `FrameworkElement` XAML Island inside `Shell_TrayWnd`, dynamically hosting controls inside `SystemTrayFrameGrid`.
+  * **Asynchronous Overlapped Named Pipe IPC**: Integrates an inbound pipe server (`\\.\pipe\CasterTaskbarHud`) consuming JSON telemetry in `< 0.5 ms`, marshaled to the taskbar UI thread via `WH_CALLWNDPROC` message hooks.
+  * **Taskbar Button Collision Diagnosis & Unified Strip Pivot**: Diagnosed horizontal space starvation where three discrete pill boxes (`[Z: --]`, `[Rules: Global]`, `[Ready]`) consumed ~260–370px of width, causing direct overlap with open window buttons in `TaskListButtonPanel` (`WorkerW`). Formulated the architectural pivot to a single, compact command strip (~160px) displaying dynamic contextual telemetry strings.
+  * **Telemetry Pipeline Diagnosis & Caster Printer Output Tap**: Identified why the initial prototype remained static on default fallback text. Caster's module loader discards non-standard hook files in `caster_user_content/hooks/` that lack `def get_hook():`. Formulated the alignment plan to tap directly into Caster's primary `printer.out` dispatcher (`DelegatingMessageHandler` / `HudPrintMessageHandler`), streaming live voice commands, ADCE zone transitions, and active rules to the taskbar HUD.
+* **Key Documentation**:
+  * 🖥️ **[Taskbar HUD Windhawk Injection & Telemetry Explainer (012)](docs/caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)** *(Architecture, RCA & Unified Strip Pivot)*
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 📜 **[Status Update History](status-update-history.md)**
 
-### 3. Historical Status & Archived Investigations
+### 4. Native Win32 App Switcher & Tier 4 Taskbar Fail-Safe (Active Production v3.1)
+* **Status (Active Production)**: Upgraded the **production focus engine** in [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) with a deterministic **Tier 4 Taskbar Keystroke Fail-Safe** (`Win+T` traversal / `Win+<N>`) to bypass Windows UIPI foreground locks when switching away from elevated windows.
+* **Core Architecture & UIPI Delineation**:
+  * **0–10ms Direct Fast Path (Tiers 1–3)**: Preserves sub-millisecond Win32 focus transitions via `SetForegroundWindow`, guarded `_alt_key_bypass()`, and `_attached_threads()` input queue attachment.
+  * **UIPI Elevation Boundary & Tier 4 Fail-Safe**: Diagnosed complete focus escalation denial (Win32 Error 5: `Access is denied`) when an elevated process (e.g. Windhawk, Task Manager) owns the foreground. Lower-integrity speech processes cannot inject input or attach threads to higher-integrity windows. Replaced the obsolete Windows 10 UIA click fallback with read-only taskbar discovery (`get_taskbar_order`) and deterministic shell hotkey delegation (`Win+<N>` or `Win+T, home, right:..., enter`), allowing `explorer.exe` to execute the window switch.
+  * **Critical Integrity Delineation**: While speech commands cannot drive or inject keystrokes into elevated windows (which Windows UIPI strictly forbids), focusing the unprivileged Caster HUD (`Caster HUD v 1.7.0`) or using Tier 4 shell traversal safely restores command execution for all standard user applications.
+* **Key Docs**: [App Switcher Blueprint v3](docs/architecture/app_switcher_architectural_blueprint.md) | [Troubleshooting Findings & UIPI Post-Mortem](docs/troubleshooting/app_switcher_findings.md) | [App Switcher Focus Analysis](docs/architecture/app_switcher_focus_analysis.md) | [App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md).
+
+### 5. Historical Status & Archived Investigations
 * **[Repository Timeline & 2-Year Technical Journey](docs/history/repository_timeline.md)**: Historical retrospective covering early repository foundations through mid-2026 (Kaldi ASR migration, desktop automation, AI IDE workflows, and initial window switching). *(Note on Scope: Captures foundations up to mid-2026; consult [Key Engineering](#-key-engineering--voice-automations) and [Recent Focus](#-technical-journey--recent-focus) above for current sub-millisecond Win32 v3, ADCE, and HUD systems).*
 * **[Status Update History](status-update-history.md)**: Full archive of previous status updates (including Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, Wayfinder session, Dragonfly BPC Fork Kaldi race condition fixes, and 2024 development logs).
 * **[Kaldi Compiler & Engine Race Condition Post-Mortem](docs/troubleshooting/kaldi_crash_explanation.md)**: Root-cause debugging of Caster speech compiler crashes.

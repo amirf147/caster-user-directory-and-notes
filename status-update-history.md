@@ -1,4 +1,39 @@
-## Active Status Update: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration (September 2026)
+## Archived Status Update: Sub-Millisecond Native Win32 App Switcher Refactor (v3 Production) (August – September 2026)
+
+### Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
+* **Status (Active Production)**: Running with the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](caster_user_content/util/app_switcher.py) (commit `8397b0c`).
+* **Highlights**: Instant 0–10ms focus transitions via direct Win32 APIs (`SetForegroundWindow`), guarded keystate context managers (`_alt_key_bypass`, `_attached_threads`), and encapsulated `AliasRegistry` persistence.
+* **Key Docs**: [App Switcher Blueprint v3](docs/architecture/app_switcher_architectural_blueprint.md) | [App Switcher Evolution Timeline](docs/history/app_switcher_timeline.md) | [App Switcher Feature Guide](docs/features/app_switcher.md).
+
+---
+
+## Active Status Update: Taskbar HUD Windhawk Injection, Layout Collision Diagnosis, & Telemetry Pipeline Alignment (September 2026)
+
+### Taskbar HUD In-Process Shell Injection & Telemetry Architecture (Active Exploration)
+* **Status (Active Exploration & Prototype Diagnosis)**: Investigated the initial test deployment of the Caster Taskbar HUD Windhawk mod (`caster-taskbar-hud.wh.cpp`), diagnosed why telemetry remained on static fallback text (`Ready`, `Z: --`, `Rules: Global`), analyzed the taskbar layout collision with running application windows, and defined the architectural pivot to a unified single command strip.
+* **Empirical Validation & Breakthroughs**:
+  * **Taskbar Button Encroachment Diagnosis**: Identified the root cause of the visual overlap observed with the running `caster - File Exp...` taskbar item. Inserting three discrete pill containers (`adceBorder`, `rulesBorder`, `commandBorder`) into `SystemTrayFrameGrid` expanded the tray panel width by 250px to 370px. `TaskListButtonPanel` does not recalculate right margins on external tray injections, causing the tray to clip running task buttons.
+  * **Architectural Pivot to Single Unified Strip**: Selected the single compact command strip design (~160px) to replace the multi-pill layout. Displays dynamic context-aware strings (e.g. `Ready (VS Code)`, `Terminal | VS Code`, `format selection`) with color-coded status backgrounds, fitting cleanly within tray margins without window title overlap.
+  * **Telemetry Disconnect Root-Cause Identification**:
+    1. `caster_user_content/hooks/taskbar_hud_hook.py` was ignored by Caster because `ContentRequestGenerator` only imports files matching `ContentType.GET_HOOK` (`def get_hook():`).
+    2. Caster hooks are designed for CCR rule activation lifecycle events, not audio recognition streams.
+    3. ADCE SSE updates on port 8424 updated `adce_bridge._current_zone` in RAM but had no forwarding call to `taskbar_hud_bridge.py`.
+    4. `\.\pipe\CasterTaskbarHud` received zero data packets, leaving the UI on initialization defaults.
+* **Taskbar HUD UX Enhancements & In-Situ Customization**:
+  * **Microphone Status Dot**: Integrated a 7x7 DIP circular indicator dot (emerald green when listening, crimson red when sleeping, amber when streaming, coral red on error).
+  * **Idle Rotational Carousel (`rotate` Mode)**: Replaced static idle fallback with a timed carousel cycling sequentially through the ADCE zone (purple badge), active CCR rules (blue badge), and last spoken command on a configurable 4-second interval. Interrupts instantly on voice activity.
+  * **Discrete Side-by-Side Mode (`multi_box`)**: Added user-selectable 3-pill mode for wide displays.
+  * **Native In-Situ Context Menu**: Hooked XAML `RightTapped` on the taskbar container to present a Win32 popup menu (`TrackPopupMenuEx`), enabling on-the-fly mode switching, component toggles, and manual carousel stepping with `HKCU\Software\Caster\TaskbarHud` registry persistence.
+  * **Caster Core Mic & Rule Synchronization**: Connected `engine_manager.set_mic_mode()` and `_caster.py` startup hooks directly to the taskbar bridge, ensuring real-time mic state tracking.
+    * **Caster HUD Output Pipeline Alignment Plan**: Formulated direct interception via Caster's verified `printer.out` pipeline (`DelegatingMessageHandler` / `HudPrintMessageHandler`), eliminating disconnected observers and feeding recognition telemetry, ADCE zones, and active contextual rules into the taskbar named pipe.
+* **Key Documentation**:
+  * 🖥️ **[Taskbar HUD Windhawk Injection & Telemetry Explainer (012)](docs/caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)** *(Authoritative Architecture & RCA)*
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 🏠 **[Main Caster User Hub](README.md)**
+
+---
+
+## Archived Status Update: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration (September 2026)
 
 ### WinVDA Zero-Cached-State Engine Realization & Production Rollout
 * **Status (Active Production - Deployed & Published)**: Following the adversarial audit and 5 failure modes uncovered in `pyvda` (Docs 001–005), designed, developed, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library. Deployed `winvda` into Caster production (`custom-setup` branch, commit `85feab8e`), completely retiring `pyvda` across all virtual desktop switching and window pinning workflows.

@@ -1,4 +1,4 @@
-﻿[ 🏠 Docs Home ](../README.md) › [ 📁 History ](../README.md#history) › **Technical Journey & Recent Focus**
+[ 🏠 Docs Home ](../README.md) › [ 📁 History ](../README.md#history) › **Technical Journey & Recent Focus**
 
 ---
 
@@ -47,22 +47,25 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 2. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3)
-- **Active Production Status**: We have refactored and deployed the **v3 production architecture** for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) (commit `8397b0c`).
+### 3. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
+- **Active Production Status**: We have refactored and deployed the **v3.1 production architecture** for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py).
 - **Core Engineering Breakthroughs**:
-  - **Native Win32 Hot Path**: Replaced slow pywinauto UI tree wrappers with direct, sub-millisecond native Win32 focus APIs (`SetForegroundWindow`, `BringWindowToTop`, `AllowSetForegroundWindow`), bringing focus transition times down to 0–10ms.
+  - **4-Tier Progressive Focus Escalation**: Fast path operates on direct Win32 APIs (Tier 1 `SetForegroundWindow` in 0–10ms), escalating upon `ForegroundLockTimeout` to guarded `_alt_key_bypass()` (Tier 2 in 80–120ms), dual-thread input queue synchronization via `_attached_threads()` (Tier 3 in 120–200ms), and finally Tier 4 taskbar hotkeys (50–150ms).
+  - **Tier 4 Taskbar Shell Hotkey Traversal**: Pure read-only inspection of Windows 11 XAML Island taskbar buttons (`TaskListButton` in `Shell_TrayWnd`) and Windows 10 Toolbars (`MSTaskListWClass`) resolves the target application's 1-based slot index `K`, dispatching native shell hotkeys `Win+<K % 10>` or `Win+T` traversal directly through `explorer.exe`.
+  - **UIPI Security Boundaries & HUD Airlock Pattern**: Codified the strict security boundary where elevated windows (High Integrity Level / Administrator) block programmatic focus and cause the Windows raw input thread to silently discard synthetic keystrokes from unprivileged callers. Demonstrated that a physical click on the Medium-Integrity Caster HUD or taskbar acts as an integrity airlock, resetting foreground ownership and enabling instant Tier 1 switching in 25ms.
+  - **Retirement of Legacy UIA Mouse Clicks**: Formally deprecated and retired invasive taskbar UIA mouse-click fallbacks in favor of deterministic shell hotkey delegation.
   - **Guarded Keystate Context Managers**: Eliminated sticky modifier keys and thread deadlocks using `_alt_key_bypass()` (with guaranteed nested `finally` release of `VK_NONE` 0xFF and `VK_MENU` 0x12) and `_attached_threads(target_hwnd)` for deterministic `AttachThreadInput` queue pairing and detachment.
   - **Encapsulated Persistence**: Refactored alias dictionary mutations and JSON serialization into a clean, thread-safe `AliasRegistry` class.
   - **Micro-Polling Verification**: Replaced coarse sleep intervals with non-blocking 10ms micro-polling loops in `verify_focus(target_hwnd)`.
-  - **Macro Elimination**: Permanently removed brittle `Win+T` taskbar keyboard traversal macros.
 - **Key Documentation**:
-  - 🏗️ **[App Switcher Architectural Blueprint (v3)](../architecture/app_switcher_architectural_blueprint.md)**
+  - 🏗️ **[App Switcher Architectural Blueprint (v3.1)](../architecture/app_switcher_architectural_blueprint.md)**
   - 📜 **[App Switcher Evolution Timeline (2-Year Retrospective)](app_switcher_timeline.md)**
   - 📖 **[App Switcher Feature Guide](../features/app_switcher.md)**
+  - 🛠️ **[App Switcher Findings & UIPI Post-Mortem](../troubleshooting/app_switcher_findings.md)**
 
 ---
 
-### 3. Wayfinder Session: App Switching & UIA Threading Investigation
+### 4. Wayfinder Session: App Switching & UIA Threading Investigation
 - **Condensed Summary**: Investigated perceived freezes in `app_switcher.py` and UIA/COM threading performance across speech stacks. Discovered through empirical telemetry (`ca5dc70`) that apparent hangs were caused by Windows PowerShell QuickEdit mode pausing standard output (`stdout`) during console logging.
 - **Key Docs & Code**:
   - Feature Guide: **[App Switcher Documentation](../features/app_switcher.md)**
@@ -71,15 +74,15 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 4. Historical Status & Archived Investigations
+### 5. Historical Status & Archived Investigations
 - Archive of past status updates with deep dives into Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, the Dragonfly BPC Fork Kaldi race condition fixes, and UIA threading synthesis:
   👉 **[Status Update History](../../status-update-history.md)**
 
 ---
 
-### 5. Git Evolution & Subsystem Timelines
+### 6. Git Evolution & Subsystem Timelines
 For complete historical retrospectives spanning our 27-month, 969-commit repository evolution:
-- 📜 **[App Switcher Evolution Timeline](app_switcher_timeline.md)**: 2-year journey across 5 eras of window switching.
+- 📜 **[App Switcher Evolution Timeline](app_switcher_timeline.md)**: 2-year journey across 6 eras of window switching.
 - 📜 **[Caster Printer & HUD Timeline](caster_printer_hud_timeline.md)**: Evolution of status messaging and async HUD overlays.
 - 📜 **[Repository Master Timeline](repository_timeline.md)**: Comprehensive 4-era narrative covering 27 months of hands-free Voice OS engineering.
 - 🌐 **[Interactive Timeline Visualizer](timeline.html)**: Interactive web timeline application.
