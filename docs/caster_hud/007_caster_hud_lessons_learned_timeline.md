@@ -1,11 +1,15 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](001_caster_hud_architecture_and_threading_primer.md) › **007: Continuous Lessons Learned Timeline & Engineering Trail**
+[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](005_caster_hud_requirements_and_specifications.md) › **007: Continuous Lessons Learned Timeline & Engineering Trail**
 
 ---
 
-# 007 — Caster Heads-Up Display: Continuous Lessons Learned Timeline & Engineering Trail
+> [!NOTE]
+> **Document Status**: *Living Engineering Log & Lessons Learned Trail (Active)*.  
+> Chronicles the chronological challenges and solutions encountered across the Caster HUD evolution.
+
+# 007: Caster Heads-Up Display: Continuous Lessons Learned Timeline & Engineering Trail
 
 **Document ID**: `CASTER-DOC-HUD-007`  
-**Status**: Living Engineering Log & Lessons Learned Trail  
+**Status**: Living Engineering Log & Lessons Learned Trail (Active)  
 **Target Subsystem**: `castervoice/asynch/hud/`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 
@@ -232,6 +236,50 @@ This document provides a continuous, chronological timeline of architectural cha
   1. Added `is_connected` to `DesktopContextState`, `DesktopContextEvent`, and `reducer.py`.
   2. Updated `AdceBarWidget` to render muted gray `⚪ ADCE` `[ADCE is not connected]` when offline, green `🟢 ADCE` when online, and `{Unknown}` for unclassified zones.
   3. Installed event filters on all header strips (`StatusBarWidget`, `ActiveRulesBarWidget`, `AdceBarWidget`, `_container`), enabling seamless direct left-click window dragging.
+
+---
+
+### Milestone 17: Out-of-Process Desktop Observation, Complete Retirement of In-Process window_tracker.py, and Authoritative rules.toml Filtering
+* **Encountered Issue**:
+  1. Duplicate desktop observers ran simultaneously: Caster ran an in-process Win32 `SetWinEventHook` hook in `window_tracker.py`, while the external .NET 10 ADCE daemon ran native Win32/UIA hooks.
+  2. When focusing Firefox, the HUD displayed `"Firefox"` even though `FirefoxRule` was disabled in `rules.toml`. When focusing Antigravity IDE, the HUD displayed `"Vscodium"`.
+  3. Focusing standalone Antigravity (`Antigravity.exe`) fell back to `[Global Context]` due to extension and case mismatches.
+* **Root Cause**:
+  1. `window_tracker.py` was an architectural contradiction: ADCE was designed to handle accessibility out-of-process, yet Caster maintained its own in-process Win32 thread under the CPython GIL.
+  2. `hud_support.py` used an ad-hoc heuristic `str(list(execs)[0]).capitalize()`, displaying the first declared executable of a rule instead of checking whether the rule was enabled in `rules.toml`.
+  3. Dynamic Dragonfly `AppContext.matches()` queried Win32 `GetForegroundWindow()` when no target was specified, creating hidden OS dependencies.
+* **Lesson Learned**:
+  1. Desktop observation belongs 100% out-of-process in ADCE. Caster must not run in-process Win32 hooks or inspect window handles.
+  2. Rule active state must be deterministically checked against `rules.toml` (`_enabled_ordered` and `[whitelisted]`), not guessed from executable lists.
+  3. CCR companion rules must propagate explicit class names (e.g. `CustomVSCode CCR`, `Firefox CCR`) rather than defaulting to generic repeater numbers or executable stems.
+* **Solution**:
+  1. Completely deleted `window_tracker.py` from Caster. Excised all in-process Win32 hooks and message loops.
+  2. Updated `get_focus_tracker()` in `hud_support.py` to instantiate `AdceTracker`, streaming desktop events over SSE on port 8424.
+  3. Added authoritative `_is_rule_enabled_in_config()` filtering and precision executable matching.
+  4. Documented the full architecture in `docs/caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md`.
+
+---
+
+### Milestone 18: Foundational Plugin Architecture, Complete HUD Modularization, and Elimination of Pseudo-Rules
+* **Encountered Issue**:
+  1. The custom setup developed an advanced customizable PyQt HUD with themes, opacity controls, status header, rules strip, and ADCE strip, while upstream master Caster maintained the original simple monolithic HUD.
+  2. Integrations (such as the Taskbar HUD Windhawk bridge and ADCE context listeners) were being initialized via pseudo-rules (`taskbar_hud_rule.py`) or hardcoded calls in `_caster.py` because Caster had no native plugin lifecycle.
+  3. Redundant bridge files and non-grammar drivers were accumulating in `caster_user_content/util/`.
+* **Root Cause**:
+  1. Caster's grammar loader (`ContentLoader`) only recognized `get_rule`, `get_transformer`, and `get_hook`. Non-grammar subsystems had no official entry point.
+  2. Disguising external service drivers as Dragonfly `MappingRule` instances caused them to register dummy voice rules in Dragonfly's grammar engine, pollute `rules.toml`, and violate the clean separation of user space vs core space.
+* **Lesson Learned**:
+  1. All non-grammar subsystems and visual interfaces must be governed by a first-class plugin lifecycle contract (`PluginBase`: `initialize`, `start`, `stop`).
+  2. `PluginManager` must isolate plugin failures, preventing buggy plugins from crashing Caster core or preventing speech engine initialization.
+  3. The HUD taxonomy must be cleanly partitioned into discrete plugins (`standard_hud`, `themed_hud`, `taskbar_hud`), allowing users to toggle their preferred interfaces declaratively via `settings.toml [plugins]`.
+  4. User content in `caster_user_content/` must remain strictly reserved for personal voice grammars, custom macros, and private configurations.
+* **Solution**:
+  1. Implemented `PluginBase` in `castervoice/lib/plugin.py` and `PluginManager` in `castervoice/lib/ctrl/mgr/plugin_manager.py`.
+  2. Created official plugins in `castervoice/plugins/`: `themed_hud`, `standard_hud`, `taskbar_hud`, `adce`, and `sikuli`.
+  3. Added the `[plugins]` table to `settings.toml` and updated `_caster.py` to orchestrate plugins via `PluginManager`.
+  4. Deleted temporary pseudo-rule `taskbar_hud_rule.py` and removed redundant bridge files from `caster_user_content/util/`.
+  5. Documented the full architecture in `docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md`.
+
 
 
 

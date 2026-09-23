@@ -2,10 +2,14 @@
 
 ---
 
-# 005 — Caster Heads-Up Display: Requirements, Feature Matrix & Technical Specifications
+> [!NOTE]
+> **Document Status**: *Active Single Source of Truth for Qt HUD UI/UX Specifications*.  
+> Window observation architecture (REQ-15) has been decoupled from in-process Win32 hooks and superseded by **[013: Multi-Process Topology & ADR](013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md)** and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**. Plugin lifecycle and HUD taxonomy (REQ-16) are formalized in **[015: Foundational Plugin System & HUD Modularization](015_foundational_plugin_system_and_hud_modularization.md)**. All UI, interaction, and styling specifications remain active.
+
+# 005: Caster Heads-Up Display: Requirements, Feature Matrix & Technical Specifications
 
 **Document ID**: `CASTER-DOC-HUD-005`  
-**Status**: Definitive Single Source of Truth (SSoT) & Technical Specifications  
+**Status**: Active SSoT for Qt HUD UI/UX (Window tracking superseded by 013 and 014; Plugin lifecycle formalized in 015)  
 **Target Subsystem**: `castervoice/asynch/hud/`, `castervoice/asynch/hud_support.py`, `castervoice/lib/settings.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 
@@ -35,7 +39,8 @@ This document serves as the **Single Source of Truth (SSoT)** for the Caster Hea
 | **REQ-12** | **Hardware DWM Resizing** | `WM_NCHITTEST` | Native Win32 hardware border resizing with 3px vertical margin (optimized for ultra-slim containers) and 6px horizontal margin. |
 | **REQ-13** | **Contextual Rules Scoping & Global Fallback** | Enforced | Prevents active rules flood (30+ global rules). Displays only application-specific contextual rules (e.g. `[VS Code]`, `[IDE Terminal]`) when active, or `[Global Context]` when in a generic app/desktop. Excludes internal merger artifacts (`Repeater1`, `PreparedRule`). |
 | **REQ-14** | **ADCE Dynamic Context Strip & Verbose Hierarchy** | Supported | Displays real-time ADCE telemetry (`🟢 ADCE`, `{Zone}`, `[Process]`, `📄 File`). Toggled via `"caster hud adce"`. `"caster hud verbose"` toggles Status Header + Rules Strip without modifying ADCE. |
-| **REQ-15** | **Zero-Polling Event-Driven Focus Tracking** | `IFocusTracker` | Uses native `SetWinEventHook` (`EVENT_SYSTEM_FOREGROUND`, `EVENT_OBJECT_NAMECHANGE`) to update HUD on mouse clicks and Alt+Tab ($< 1\text{ ms}$) without waiting for speech. Modular abstract design for cross-platform extensibility. |
+| **REQ-15** | **Out-of-Process Desktop Observation** | `AdceTracker` | Desktop observation is decoupled from Caster's in-process runtime. Uses `AdceTracker` over SSE (port 8424) backed by the .NET 10 ADCE daemon, completely retiring in-process Win32 `SetWinEventHook` and `window_tracker.py` per Docs 013 and 014. |
+| **REQ-16** | **Plugin Lifecycle & HUD Modularization** | `PluginBase` | Heads-Up Display interfaces and external service bridges are modular plugins governed by `PluginBase` and `PluginManager` per Doc 015. Configured declaratively via `settings.toml [plugins]` (`themed_hud`, `standard_hud`, `taskbar_hud`). |
 
 ---
 

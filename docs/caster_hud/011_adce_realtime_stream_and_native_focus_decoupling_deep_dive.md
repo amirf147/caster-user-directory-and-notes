@@ -2,10 +2,14 @@
 
 ---
 
-# 011 — ADCE Real-Time Stream & Native Focus Decoupling Deep Dive
+> [!NOTE]
+> **Document Status**: *Early Decoupling Proposal (Superseded)*.  
+> The dual-focus model described here (in-process top-level hook + ADCE sub-window stream) was superseded by full out-of-process observation and the retirement of `window_tracker.py` per **[013: Multi-Process Topology & ADR](013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md)** and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**.
+
+# 011: ADCE Real-Time Stream & Native Focus Decoupling Deep Dive
 
 **Document ID**: `CASTER-DOC-HUD-011`  
-**Status**: Real-Time Micro-Context Integration & SSoT Architecture Specification  
+**Status**: Early Decoupling Proposal (Superseded by 013 and 014)  
 **Target Subsystem**: `castervoice/asynch/hud/core/adce_tracker.py`, `castervoice/asynch/hud/ui/widgets/`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

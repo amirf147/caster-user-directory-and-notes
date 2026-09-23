@@ -30,5 +30,5 @@ class AntigravityAppRule(MappingRule):
 def get_rule():
     return AntigravityAppRule, RuleDetails(
         name="Antigravity Standalone",
-        executable="Antigravity.exe",
+        executable=["antigravity", "antigravity.exe"],
     )

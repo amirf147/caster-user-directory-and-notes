@@ -1,6 +1,6 @@
 ---
 Status: Active
-Last verified: 2026-09-21
+Last verified: 2026-09-23
 Canonical/Related code: caster_user_content/
 Supersedes: docs/wayfinder-uia-threading/codex-context-extract.md, docs/legacy_notes/*
 ---
@@ -32,7 +32,9 @@ When resolving conflicting information within this repository, adhere to the fol
 **Mission:** Maintain a highly reliable, deterministic, Windows-only personal Caster/Dragonfly configuration for voice-driven productivity, paired with high-performance desktop context awareness for AI agents.
 
 **Runtime Boundaries:**
-- The active, loadable Caster rules live strictly in `caster_user_content/`.
+- The active, loadable Caster rules live strictly in `caster_user_content/rules/`.
+- Official Caster infrastructure, external service bridges, and visual interfaces reside in Caster source under `castervoice/plugins/` or `castervoice/lib/`.
+- Never place background daemons, Named Pipe bridges, or SSE stream listeners in `caster_user_content/` disguised as Dragonfly `MappingRule` pseudo-rules. All integrations must implement `PluginBase` and be registered in `settings.toml [plugins]`.
 - Never commit secrets or absolute file paths; store local environment references in the untracked `caster_user_content/environment_variables.py`.
 - Experimental tools or test scripts must not interfere with the deterministic voice execution path.
 
@@ -42,18 +44,20 @@ When resolving conflicting information within this repository, adhere to the fol
 
 | Feature / Component | Code Location | Canonical Documentation | Status / Role |
 | :--- | :--- | :--- | :--- |
+| **Plugin Infrastructure** | [`castervoice/lib/plugin.py`](https://github.com/dictation-toolbox/Caster), [`castervoice/lib/ctrl/mgr/plugin_manager.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/015`](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md) | Active / Production (`PluginBase`, `PluginManager`, Failure Isolation) |
 | **Global Rules** | [`caster_user_content/rules/global/`](../../caster_user_content/rules/global/) | - | Active / Production |
 | **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving / Active |
 | **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3.1 (Sub-millisecond Win32 + Tier 4 Shell Hotkey Fail-Safe) |
 | **Virtual Desktop Management & Pinning** | `castervoice/lib/windows_virtual_desktops.py` & `window_mgmt_rule.py` | [`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md), [`docs/features`](../features/virtual_desktop_pinning_and_grammar_ergonomics.md) | Active / Production (Migrated to **WinVDA**) |
-| **Caster HUD Overlay & IPC** | [`castervoice/asynch/hud.py`](https://github.com/dictation-toolbox/Caster) | [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (5-layer Clean Architecture) |
+| **Modular HUD Plugins** | `castervoice/plugins/themed_hud/`, `castervoice/plugins/standard_hud/`, `castervoice/plugins/taskbar_hud/` | [`docs/caster_hud/015`](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md), [`docs/caster_hud/014`](../caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md), [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (HUD Taxonomy: Themed, Standard, and Taskbar Plugins) |
 | **Foot Pedal Integration** | [`caster_user_content/rules/caster_toggle_mic_key.py`](../../caster_user_content/rules/caster_toggle_mic_key.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
 
 ### B. External Subsystem Integrations
 
 | Subsystem | Integration Point in Caster | External Authority / Repository | Status / Relationship |
 | :--- | :--- | :--- | :--- |
-| **Active Desktop Context Engine (ADCE)** | `AdceTracker` in Caster HUD (SSE port 8424) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Daemon / Client Ingestion |
+| **Active Desktop Context Engine (ADCE)** | `castervoice/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority & Single Source of Truth for Desktop Window Focus, Titles, Process Identity, and Sub-Window Semantic Interaction Zones |
+| **Taskbar HUD Windhawk Mod** | `castervoice/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | Windows 11 Shell / Windhawk (`caster-taskbar-hud.wh.cpp`) | In-Process Taskbar XAML Strip Projection |
 | **WinVDA Engine** | `winvda` package import in Caster Virtual Desktops | [`amirf147/winvda`](https://github.com/amirf147/winvda) | Upstream Clean-Room Engine |
 
 ### C. Evaluated Experiments & In-Flight Research
@@ -91,20 +95,39 @@ When resolving conflicting information within this repository, adhere to the fol
 
 ### C. Active Desktop Context Engine (ADCE) External Ingestion
 - Active engine architecture, C# background daemons, SQLite/DuckDB persistence, and MCP server streaming live in the standalone repository [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).
-- Caster functions strictly as an **external client consumer**: the Caster HUD (`AdceTracker`) connects to the local ADCE daemon via Server-Sent Events (SSE on port 8424) to ingest element-level micro-zones (`{IntegratedTerminal}`, `{EditorCodeBuffer}`) in ~10–20 ms without running internal scrapers.
+- Caster functions strictly as an **external client consumer**: the standalone ADCE service is the single source of truth for desktop window context (HWND, window titles, process names, and sub-window semantic interaction zones).
+- The official ADCE plugin (`castervoice/plugins/adce/`) ingests window events directly from ADCE via SSE (port 8424), caching the state atomically in memory and exposing high-speed `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) to Dragonfly grammars.
+- All in-process Win32 window focus hooks (`SetWinEventHook`) and polling loops have been completely excised from Caster (`window_tracker.py` is deleted).
 - Incubation research tickets (`001`–`018` in [`docs/accessibility_mcp/`](../accessibility_mcp/CONTEXT.md)) are preserved in Caster as historical research references.
 
-### D. Caster HUD Architecture
-- The Caster HUD runs as an isolated OS process with a background `SimpleXMLRPCServer` daemon. It avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls to dispatch HTML updates directly to the main Qt GUI event queue.
-- Features opt-in system tray docking (`QSystemTrayIcon`), modular QSS theme switching, interactive profile management (`ProfileDialog`), and 8-direction frameless edge resizing ([`001`](../caster_hud/001_caster_hud_architecture_and_threading_primer.md), [`005`](../caster_hud/005_caster_hud_requirements_and_specifications.md)).
+### D. Caster HUD Architecture & Ecosystem
+- Heads-Up Display interfaces are fully modularized as independent plugins managed by `PluginManager` and toggled via `settings.toml [plugins]`.
+- **Themed HUD (`themed_hud`)**: Runs as an isolated Qt process with a background `SimpleXMLRPCServer` daemon. Communicates with Caster core via XML-RPC (port 8338) and ndjson telemetry (port 8339). Avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls. Features 10+ accessible themes, opacity controls, status header, sub-window ADCE context strip, active rules tag bar, and frameless drag mode ([`005`](../caster_hud/005_caster_hud_requirements_and_specifications.md), [`014`](../caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)).
+- **Standard HUD (`standard_hud`)**: Encapsulates the upstream master monolithic HUD (`dictation-toolbox/Caster`) as an official plugin, retained for minimal resource environments.
+- **Taskbar HUD (`taskbar_hud`)**: Injects real-time speech telemetry directly into the Windows 11 Shell taskbar via Named Pipe (`\\.\pipe\CasterTaskbarHud`), providing hands-free feedback with zero desktop window footprint ([`012`](../caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)).
+- Active CCR rules resolution is authoritatively filtered via `hud_support.py` against `_enabled_ordered` and `rules.toml`, suppressing disabled companions and inactive application rules.
 
-### E. Exploratory Research (Wayfinder Archive)
+### E. Foundational Plugin Architecture & Repository Boundaries
+- Caster Core provides a first-class plugin system driven by `PluginBase` (`castervoice/lib/plugin.py`) and `PluginManager` (`castervoice/lib/ctrl/mgr/plugin_manager.py`).
+- **Lifecycle Phases**:
+  1. `initialize(nexus, config)`: Pre-engine phase for registering print message handlers and microphone listeners.
+  2. `start()`: Post-engine phase for launching background threads, Named Pipe workers, and GUI processes.
+  3. `stop()`: Termination phase for releasing system resources in reverse initialization order.
+- **Failure Isolation**: `PluginManager` wraps plugin initialization in try-except handlers. A failure in an individual plugin logs a traceback without crashing Caster core or preventing speech engine startup.
+- **Elimination of Pseudo-Rules**: Background daemons and IPC bridges are no longer wrapped in dummy `MappingRule` instances (`taskbar_hud_rule.py` is deleted). All service lifecycles are governed by `PluginManager`.
+- **Repository Boundaries**: Official plugins reside in `castervoice/plugins/`. User space in `caster_user_content/` contains only personal voice grammars, custom macros, and private configurations.
+
+### F. Exploratory Research (Wayfinder Archive)
 - Wayfinder was an AI agent research session investigating whether an out-of-process C#/.NET Micro MCP Server using FlaUI.UIA3 could offload accessibility and UIA queries.
 - The tickets and findings are archived in [`docs/wayfinder-uia-threading/`](../wayfinder-uia-threading/map.md).
 
 ## 5. "Do Not Regress" Constraints
 
 - **Python Version:** Always use `py -3.10`.
+- **Plugin Architecture Enforcement:** All background bridges, Named Pipe clients, external IPC listeners, and visual overlays must implement `PluginBase` and be managed by `PluginManager`. Do not create dummy `MappingRule` voice grammars or hardcode service initialization into `_caster.py`.
+- **User Content Isolation:** Do not place core infrastructure drivers or Caster library dependencies in `caster_user_content/util/`. Keep `caster_user_content/` strictly reserved for personal voice grammars, custom macros, and private settings.
+- **Zero In-Process Window Hooks in Caster:** Do not introduce in-process Win32 window focus hooks (`SetWinEventHook`), foreground window polling loops, or internal ctypes foreground inspection into Caster core or HUD libraries. All desktop window telemetry must originate from the out-of-process ADCE daemon.
+- **Authoritative Rule Resolution:** Do not determine active CCR rules based solely on executable regex matches or naive capitalized process names. Rule activity must be validated against `_enabled_ordered` and the user's `rules.toml`.
 - **Relative Markdown Links:** All documentation links must be relative to prevent local metadata leaks.
 - **Epistemic Discipline & Falsification Spikes:** Do not propose multi-file architectural rewrites or cross-runtime pivots based on theoretical advantages alone. Every major proposal must pass the 4-gate protocol (Telemetry → Adversarial Red-Team → <50-line Micro-Spike → Blueprint).
 - **Synchronous Execution:** Brief synchronous blocking during a focus command is correct. Later voice input must not be sent to a window whose focus transition is still in flight. Execution must be bounded, observable, and recoverable.

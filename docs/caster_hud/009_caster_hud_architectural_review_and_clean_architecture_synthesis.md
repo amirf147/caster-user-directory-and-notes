@@ -2,10 +2,14 @@
 
 ---
 
-# 009 — Caster Heads-Up Display: Architectural Review & Clean Architecture Synthesis
+> [!NOTE]
+> **Document Status**: *Active Architectural Synthesis (Not Superseded)*.  
+> Defines the 5-layer Clean Architecture for Qt HUD internals. The window observation layer has been updated to pure out-of-process ADCE ingestion per **[013: Multi-Process Topology & ADR](013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md)** and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**.
+
+# 009: Caster Heads-Up Display: Architectural Review & Clean Architecture Synthesis
 
 **Document ID**: `CASTER-DOC-HUD-009`  
-**Status**: Comprehensive Architectural Review & Clean Code Synthesis  
+**Status**: Active Architectural Synthesis (Window observation updated by 013 and 014)  
 **Target Subsystem**: `castervoice/asynch/hud/`, `castervoice/asynch/hud_support.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

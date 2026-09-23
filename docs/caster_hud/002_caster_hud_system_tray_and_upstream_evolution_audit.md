@@ -1,8 +1,12 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](001_caster_hud_architecture_and_threading_primer.md) › **002: System Tray Integration, Architectural Audit & Upstream PR Strategy**
+[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](005_caster_hud_requirements_and_specifications.md) › **002: System Tray Integration, Architectural Audit & Upstream PR Strategy**
 
 ---
 
-# Caster Heads-Up Display (HUD): System Tray Integration, Architectural Audit & Upstream Contribution Strategy
+> [!NOTE]
+> **Document Status**: *Historical Context & Upstream Audit (Not Superseded)*.  
+> Documents the upstream contribution analysis and system tray design for Caster HUD.
+
+# 002: Caster Heads-Up Display: System Tray Integration, Architectural Audit & Upstream Contribution Strategy
 
 This document provides a comprehensive architectural audit and engineering guide for adding **Opt-in System Tray (Taskbar Notification Area) Minimization**, **Zero-Taskbar Tool Window Styling**, and **Voice vs. GUI Lifecycle Management** to the Caster Heads-Up Display (`castervoice/asynch/hud.py`). It covers historical context, built-in voice commands, window manager behavior, resource footprint on low-spec machines, and the isolated development workflow required to protect live accessibility environments.
 

@@ -10,10 +10,11 @@ Start here to understand the core architecture, active features, and engineering
 
 1. **[Repository Brain](context/repository-brain.md)** — **Current Empirical Baseline & Constraints**. Read this first for verified facts, active component mappings, and "do not regress" rules.
 2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-3. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
-4. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 6 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3 → Tier 4 Shell Hotkeys v3.1).
-5. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
-6. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
+3. **[Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** — Architectural blueprint for Caster's Plugin Architecture (`PluginBase`, `PluginManager`), HUD taxonomy (`standard_hud`, `themed_hud`, `taskbar_hud`), and repository boundaries.
+4. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+5. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 6 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3 → Tier 4 Shell Hotkeys v3.1).
+6. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
+7. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
 ---
 
@@ -51,18 +52,21 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and th
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers, specifications, and post-mortems for the Modular Caster HUD overlay.
-* **[005: Master Requirements & Specifications (SSoT)](caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Authoritative Single Source of Truth)*
-* [001: Baseline Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md) *(Foundational Reference)*
-* [002: System Tray Integration & Upstream Evolution Audit](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md) *(Historical Context)*
-* [003: Theming Presets & Layout Persistence Specification](caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md)
-* [004: Next-Iteration Modular Architecture Blueprint](caster_hud/004_caster_hud_nextgen_modular_architecture_and_context_integration.md) *(Architectural Design)*
-* [006: Thread Safety & Compatibility Post-Mortem](caster_hud/006_caster_hud_thread_safety_and_compatibility_postmortem.md) *(RCA & Deadlock Analysis)*
-* [007: Continuous Lessons Learned Timeline](caster_hud/007_caster_hud_lessons_learned_timeline.md) *(Living Engineering Trail)*
-* [008: Dragonfly & ADCE Active Rules Resolution Deep Dive](caster_hud/008_dragonfly_and_adce_active_rules_resolution_deep_dive.md)
-* [009: Architectural Review & Clean Architecture Synthesis](caster_hud/009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)
-* [010: Fine-Grained Context: Native OS vs ADCE Explainer](caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md)
-* [011: ADCE Realtime Stream & Native Focus Decoupling](caster_hud/011_adce_realtime_stream_and_native_focus_decoupling_deep_dive.md)
-* [012: Taskbar HUD Windhawk Injection & Telemetry Explainer](caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)
+* **[015: Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
+* **[014: Out-of-Process Desktop Observation & ADCE HUD Realization](caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
+* **[005: Master Requirements & Specifications](caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Active UI/UX SSoT - Window tracking REQ-15 superseded by 013, 014; Plugin Lifecycle REQ-16 added)*
+* [013: Multi-Process Topology, ADCE Gating, & Unified Telemetry Architecture](caster_hud/013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md) *(Active ADR - Foundational Decision for 014)*
+* [012: Taskbar HUD Windhawk Injection & Telemetry Explainer](caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md) *(Active Taskbar HUD Subsystem Specification)*
+* [007: Continuous Lessons Learned Timeline](caster_hud/007_caster_hud_lessons_learned_timeline.md) *(Living Engineering Trail - Active)*
+* [006: Thread Safety & Compatibility Post-Mortem](caster_hud/006_caster_hud_thread_safety_and_compatibility_postmortem.md) *(Diagnostic Post-Mortem Reference - Active)*
+* [002: System Tray Integration & Upstream Evolution Audit](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md) *(Historical Context & Audit - Active)*
+* [001: Baseline Architecture, Threading & IPC Primer](caster_hud/001_caster_hud_architecture_and_threading_primer.md) *(Historical Primer - Superseded by 005, 009, 014)*
+* [003: Theming Presets & Layout Persistence Specification](caster_hud/003_caster_hud_modular_theming_and_profiles_architecture.md) *(Initial Theming Spec - Superseded by 005, 014)*
+* [004: Next-Iteration Modular Architecture Blueprint](caster_hud/004_caster_hud_nextgen_modular_architecture_and_context_integration.md) *(Exploratory Blueprint - Superseded by 005, 009, 014)*
+* [008: Dragonfly & ADCE Active Rules Resolution Deep Dive](caster_hud/008_dragonfly_and_adce_active_rules_resolution_deep_dive.md) *(Early Analysis - Superseded by 013, 014)*
+* [009: Architectural Review & Clean Architecture Synthesis](caster_hud/009_caster_hud_architectural_review_and_clean_architecture_synthesis.md) *(Architectural Synthesis - Window observation superseded by 013, 014)*
+* [010: Fine-Grained Context: Native OS vs ADCE Explainer](caster_hud/010_fine_grained_context_recognition_native_vs_adce_explainer.md) *(Exploratory Analysis - Superseded by 013, 014)*
+* [011: ADCE Realtime Stream & Native Focus Decoupling](caster_hud/011_adce_realtime_stream_and_native_focus_decoupling_deep_dive.md) *(Early Proposal - Superseded by 013, 014)*
 
 ### 💡 [Future Ideas & Iterations](future_ideas/)
 Conceptual designs and future capability blueprints for upcoming Caster iterations.
@@ -148,6 +152,10 @@ Engine-specific static analysis and low-level anatomy.
 ### ⚖️ [Licensing & Attribution](licensing/licensing_and_attribution_guide.md)
 Legal architecture, repository multi-licensing strategy, and comprehensive file attribution audit.
 * **[Licensing & Attribution Guide](licensing/licensing_and_attribution_guide.md)** *(Authoritative licensing breakdown & compliance matrix)*
+
+### 📤 [Upstream Proposals & Staging](upstream_proposals/)
+Draft proposals and staged artifacts for potential upstream contribution to `dictation-toolbox/Caster`.
+* [001: Suggested Upstream Caster README](upstream_proposals/001_suggested_caster_master_readme.md) *(Staged README proposal for Foundational Plugin System PR)*
 
 ### 📝 [Prompts](prompts/) & 🗄️ [Legacy Notes](legacy_notes/)
 * [Architecture Onboarding Prompt](prompts/Architecture-OnBoarding.md)

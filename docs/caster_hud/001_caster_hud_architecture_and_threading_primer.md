@@ -3,13 +3,13 @@
 ---
 
 > [!NOTE]
-> **Document Status**: *Foundational Baseline & Historical Architecture Primer*.  
-> For the authoritative, active specifications and runtime contracts, refer to **[005: Requirements, Feature Matrix & Technical Specifications](005_caster_hud_requirements_and_specifications.md)**.
+> **Document Status**: *Historical Foundational Primer (Superseded)*.  
+> Core specifications, clean architecture, and desktop observation are superseded by **[005: Requirements & Technical Specifications](005_caster_hud_requirements_and_specifications.md)**, **[009: Clean Architecture Synthesis](009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)**, and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**. Retained for historical IPC reference.
 
-# 001 — Caster Heads-Up Display: Architecture, Threading & IPC Primer
+# 001: Caster Heads-Up Display: Architecture, Threading & IPC Primer
 
 **Document ID**: `CASTER-DOC-HUD-001`  
-**Status**: Foundational Baseline Architecture  
+**Status**: Historical Foundational Primer (Superseded by 005, 009, and 014)  
 **Target Subsystem**: `castervoice/asynch/hud.py`, `castervoice/asynch/hud/`  
 
 ---

@@ -2,10 +2,14 @@
 
 ---
 
-# 010 — Fine-Grained Context Recognition: Native OS vs ADCE Explainer & Future Architecture
+> [!NOTE]
+> **Document Status**: *Exploratory Context Analysis (Superseded)*.  
+> The dual-observer question analyzed here was resolved by retiring in-process window tracking and outsourcing all desktop observation to ADCE per **[013: Multi-Process Topology & ADR](013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md)** and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**.
+
+# 010: Fine-Grained Context Recognition: Native OS vs ADCE Explainer & Future Architecture
 
 **Document ID**: `CASTER-DOC-HUD-010`  
-**Status**: Comprehensive Technical Explainer & Context Architecture Roadmap  
+**Status**: Exploratory Context Analysis (Superseded by 013 and 014)  
 **Target Subsystem**: `castervoice/asynch/hud/`, `caster_user_content/util/adce_bridge.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

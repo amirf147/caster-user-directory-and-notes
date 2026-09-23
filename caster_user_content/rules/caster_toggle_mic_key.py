@@ -5,9 +5,6 @@ Copyright (c) 2024-2026 Amir Farhadi
 SPDX-License-Identifier: Apache-2.0
 """
 
-# Caster custom rule hosting an XML-RPC server for external hotkey toggle
-# This file is loaded by Caster from your user directory and binds to port 8341.
-
 import sys
 import threading
 from xmlrpc.server import SimpleXMLRPCServer
@@ -16,7 +13,6 @@ from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib import control
 from castervoice.lib import printer
 
-# Configuration
 RPC_HOST = "127.0.0.1"
 RPC_PORT = 8341
 
@@ -28,7 +24,6 @@ class XMLRPCServerThread(threading.Thread):
         self.host = host
         self.port = port
         self.callback = callback
-        # logRequests=False keeps Caster console output clean from ping logs
         self.server = SimpleXMLRPCServer((self.host, self.port), logRequests=False, allow_none=True)
         self.server.register_function(self.callback, "toggle_mic_mode")
 
@@ -46,28 +41,30 @@ class XMLRPCServerThread(threading.Thread):
 
 
 def toggle_caster_mic():
-    def callback():
-        callback.timer.stop()
-        nexus = control.nexus()
-        if nexus is not None and nexus.engine_modes_manager is not None:
-            manager = nexus.engine_modes_manager
-            current_mode = manager.get_mic_mode()
-            target_mode = "on" if current_mode == "sleeping" else "sleeping"
-            printer.out("Caster Hotkey IPC: Toggling mic state to '{}'".format(target_mode))
-            manager.set_mic_mode(target_mode)
-        else:
-            printer.out("Caster Hotkey IPC: Caster Nexus or engine modes manager is not initialized.")
+    nexus = control.nexus()
+    manager = nexus.engine_modes_manager if nexus else None
+    if manager is None:
+        printer.out("Caster Hotkey IPC: Engine modes manager is not initialized.")
+        return "Manager not initialized"
+
+    current_mode = manager.get_mic_mode()
+    target_mode = "on" if current_mode == "sleeping" else "sleeping"
+    printer.out("Caster Hotkey IPC: Toggling mic state to '{}'".format(target_mode))
+
+    # Synchronize engine mode and grammar exclusivity on Dragonfly engine loop
+    def _apply_engine():
+        _apply_engine.timer.stop()
+        manager.set_mic_mode(target_mode)
 
     engine = get_current_engine()
     if engine is not None:
-        callback.timer = engine.create_timer(callback, 0.05)
-        return "Scheduled toggle"
+        _apply_engine.timer = engine.create_timer(_apply_engine, 0.001)
     else:
-        printer.out("Caster Hotkey IPC: Engine not ready")
-        return "Engine not ready"
+        manager.set_mic_mode(target_mode)
+
+    return "Toggled to {}".format(target_mode)
 
 
-# Reload safety: cleanly shut down any existing server to release the port
 if hasattr(sys, "_caster_hotkey_server"):
     try:
         printer.out("Caster Hotkey IPC: Stopping existing XML-RPC server...")
@@ -77,7 +74,6 @@ if hasattr(sys, "_caster_hotkey_server"):
     finally:
         del sys._caster_hotkey_server
 
-# Start the new XML-RPC server
 try:
     server_thread = XMLRPCServerThread(RPC_HOST, RPC_PORT, toggle_caster_mic)
     server_thread.start()
@@ -86,7 +82,6 @@ except Exception as e:
     printer.out("Caster Hotkey IPC: Failed to start XML-RPC server: {}".format(e))
 
 
-# Dummy rule class to ensure Caster logs and loads this module
 class CasterHotkeyToggleRule(MappingRule):
     mapping = {}
     extras = []

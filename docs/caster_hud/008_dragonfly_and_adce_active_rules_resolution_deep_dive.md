@@ -2,10 +2,14 @@
 
 ---
 
-# 008 — Caster Heads-Up Display: Dragonfly & ADCE Active Rules Resolution Deep Dive
+> [!NOTE]
+> **Document Status**: *Early Explainer & Analysis (Superseded)*.  
+> Active rule evaluation, rules.toml configuration filtering, and out-of-process context ingestion are formalized and superseded by **[013: Multi-Process Topology & ADR](013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md)** and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**.
+
+# 008: Caster Heads-Up Display: Dragonfly & ADCE Active Rules Resolution Deep Dive
 
 **Document ID**: `CASTER-DOC-HUD-008`  
-**Status**: Educational Explainer & Technical Deep Dive  
+**Status**: Early Explainer & Analysis (Superseded by 013 and 014)  
 **Target Subsystem**: `castervoice/asynch/hud/`, `castervoice/lib/ctrl/mgr/rule_maker/`, `caster_user_content/util/adce_bridge.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

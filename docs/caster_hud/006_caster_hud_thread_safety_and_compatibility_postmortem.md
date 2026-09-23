@@ -1,11 +1,15 @@
-[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](001_caster_hud_architecture_and_threading_primer.md) › **006: Thread Safety, Event Loop Deadlocks & Port Collision Post-Mortem**
+[ 🏠 Docs Home ](../README.md) › [ 📁 Caster HUD ](005_caster_hud_requirements_and_specifications.md) › **006: Thread Safety, Event Loop Deadlocks & Port Collision Post-Mortem**
 
 ---
 
-# 006 — Caster Heads-Up Display: Thread Safety, Event Loop Deadlocks & Port Collision Post-Mortem
+> [!NOTE]
+> **Document Status**: *Active Post-Mortem & Diagnostic Reference (Not Superseded)*.  
+> Documents threading deadlocks, port collisions, and event loop synchronization for Caster HUD.
+
+# 006: Caster Heads-Up Display: Thread Safety, Event Loop Deadlocks & Port Collision Post-Mortem
 
 **Document ID**: `CASTER-DOC-HUD-006`  
-**Status**: Comprehensive Root Cause Analysis & Post-Mortem Engineering Report  
+**Status**: Active Post-Mortem & Diagnostic Reference (Not Superseded)  
 **Target Subsystem**: `castervoice/asynch/hud.py`, `castervoice/asynch/hud/ui/main_window.py`, `castervoice/asynch/hud/core/constants.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

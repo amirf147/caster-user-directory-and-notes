@@ -3,13 +3,13 @@
 ---
 
 > [!NOTE]
-> **Document Status**: *Architectural Design Blueprint*.  
-> For the authoritative, normative runtime requirements and feature matrix, refer to **[005: Requirements, Feature Matrix & Technical Specifications](005_caster_hud_requirements_and_specifications.md)**.
+> **Document Status**: *Exploratory Architecture Blueprint (Superseded)*.  
+> Formalized into the active runtime specification in **[005: Requirements, Feature Matrix & Technical Specifications](005_caster_hud_requirements_and_specifications.md)**, **[009: Clean Architecture Synthesis](009_caster_hud_architectural_review_and_clean_architecture_synthesis.md)**, and **[014: Out-of-Process Desktop Observation](014_out_of_process_desktop_observation_and_adce_hud_realization.md)**.
 
-# 004 — Caster Heads-Up Display: Next-Iteration Modular Architecture, Reactive State & Dynamic UX Indications
+# 004: Caster Heads-Up Display: Next-Iteration Modular Architecture, Reactive State & Dynamic UX Indications
 
 **Document ID**: `CASTER-DOC-HUD-004`  
-**Status**: Architectural Analysis & Engineering Design Blueprint  
+**Status**: Exploratory Architecture Blueprint (Superseded by 005, 009, and 014)  
 **Target Subsystem**: `castervoice/asynch/hud/` & `castervoice/lib/settings.py`  
 **Authors**: Antigravity Principal Architecture Team (Pair Programming with Amir Farhadi)  
 

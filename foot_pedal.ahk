@@ -1,7 +1,4 @@
-; I started trying to create this with GPT-5 thinking through several different iterations
-; but then I created a summary prompt with GPT-5 and pasted that along with the not fully working
-; code to Gemini 2.5 Pro and it gave me this after 2 prompts
-
+; AutoHotkey v2 - Event-Driven Foot Pedal Script
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
@@ -27,10 +24,26 @@ global F13_ComboFired := false
 ; State variables for scrolling
 global F14_IsDown := false
 global F14_HoldActionFired := false
-global F14_HoldStart := 0 ; <-- FIX: Added variable to store start time
+global F14_HoldStart := 0
 global F16_IsDown := false
 global F16_HoldActionFired := false
-global F16_HoldStart := 0 ; <-- FIX: Added variable to store start time
+global F16_HoldStart := 0
+
+; Persistent WinHTTP client instance for zero-allocation request dispatch
+global g_WhrClient := ""
+
+getWhrClient() {
+    global g_WhrClient
+    if (g_WhrClient == "") {
+        try {
+            g_WhrClient := ComObject("WinHttp.WinHttpRequest.5.1")
+            g_WhrClient.SetTimeouts(200, 200, 200, 200)
+        } catch {
+            g_WhrClient := ""
+        }
+    }
+    return g_WhrClient
+}
 
 showCue(msg, dur:=800) {
     MouseGetPos &mx, &my
@@ -39,23 +52,23 @@ showCue(msg, dur:=800) {
 }
 
 toggleCaster() {
+    whr := getWhrClient()
+    if (whr == "") {
+        try {
+            whr := ComObject("WinHttp.WinHttpRequest.5.1")
+            whr.SetTimeouts(200, 200, 200, 200)
+        } catch Error as err {
+            showCue("❌ Caster Toggle Failed: " . err.Message, 1000)
+            return
+        }
+    }
+
     try {
-        ; Create a WinHTTP request object
-        whr := ComObject("WinHttp.WinHttpRequest.5.1")
-        
-        ; Set timeouts: resolve, connect, send, receive (in milliseconds)
-        whr.SetTimeouts(500, 500, 500, 500)
-        
-        ; Open connection synchronously (false parameter)
         whr.Open("POST", "http://127.0.0.1:8341/", false)
         whr.SetRequestHeader("Content-Type", "text/xml")
-        
-        ; XML-RPC methodCall payload
         xmlData := "<?xml version='1.0'?><methodCall><methodName>toggle_mic_mode</methodName><params></params></methodCall>"
         whr.Send(xmlData)
-        
-        ; Display a visual cue near the mouse cursor
-        showCue("🎤 Caster Toggle Sent")
+        showCue("🎤 Caster Mic Toggled")
     } catch Error as err {
         showCue("❌ Caster Toggle Failed: " . err.Message, 1000)
     }
@@ -123,35 +136,44 @@ F15_DragStatus() {
     ToolTip "Dragging... " elapsed " ms", mx+20, my+20
 }
 
-; ---------------- F13 (Caster Toggle / Reset) ----------------
+; ---------------- F13 (Caster Toggle / Reset) - Event-Driven ----------------
 *F13::
 {
-    global F13_IsDown, F13_HoldStart, F13_LongHoldActionFired, F13_ComboFired
+    global F13_IsDown, F13_HoldStart, F13_LongHoldActionFired, F13_ComboFired, F13_HoldDelay
     if F13_IsDown
         return
     F13_IsDown := true
     F13_LongHoldActionFired := false
     F13_ComboFired := false
     F13_HoldStart := A_TickCount
-    SetTimer F13_Monitor, 50
+    SetTimer F13_LongHoldTimer, -F13_HoldDelay
 }
 
-F13_Monitor() {
-    global F13_IsDown, F13_HoldStart, F13_HoldDelay, F13_LongHoldActionFired, F13_ComboFired, F15_FirstTapPending
-    if GetKeyState("F13", "P") {
-        elapsed := A_TickCount - F13_HoldStart
-        if (!F13_LongHoldActionFired && !F13_ComboFired && elapsed >= F13_HoldDelay) {
-            F13_LongHoldActionFired := true
-            F15_FirstTapPending := true
-            Send "{F11}"
-            showCue("⟳ Reset + F11")
-        }
-    } else {
-        SetTimer F13_Monitor, 0
-        if !F13_LongHoldActionFired && !F13_ComboFired {
-            toggleCaster()
-        }
-        F13_IsDown := false
+*F13 up::
+{
+    global F13_IsDown, F13_LongHoldActionFired, F13_ComboFired
+    SetTimer F13_LongHoldTimer, 0
+    if !F13_IsDown
+        return
+    F13_IsDown := false
+
+    if F13_ComboFired {
+        F13_ComboFired := false
+        return
+    }
+
+    if !F13_LongHoldActionFired {
+        toggleCaster()
+    }
+}
+
+F13_LongHoldTimer() {
+    global F13_IsDown, F13_LongHoldActionFired, F13_ComboFired, F15_FirstTapPending
+    if F13_IsDown && !F13_ComboFired {
+        F13_LongHoldActionFired := true
+        F15_FirstTapPending := true
+        Send "{F11}"
+        showCue("⟳ Reset + F11")
     }
 }
 
@@ -165,7 +187,7 @@ F13_Monitor() {
         return
     F14_IsDown := true
     F14_HoldActionFired := false
-    F14_HoldStart := A_TickCount ; <-- FIX: Capture the start time here
+    F14_HoldStart := A_TickCount
     SetTimer F14_Monitor, 50
 }
 
@@ -173,15 +195,13 @@ F14_Monitor()
 {
     global F14_IsDown, F14_HoldActionFired, F14_HoldStart, Scroll_HoldDelay
     if GetKeyState("F14", "P") {
-        ; Key is held down. Check if hold time has elapsed.
-        elapsed := A_TickCount - F14_HoldStart ; <-- FIX: Calculate elapsed time correctly
+        elapsed := A_TickCount - F14_HoldStart
         if !F14_HoldActionFired && elapsed >= Scroll_HoldDelay {
             F14_HoldActionFired := true
             F14_ContinuousScroll()
             SetTimer F14_ContinuousScroll, Scroll_RepeatRate
         }
     } else {
-        ; Key has been released.
         SetTimer F14_Monitor, 0
         SetTimer F14_ContinuousScroll, 0
         if !F14_HoldActionFired {
@@ -203,7 +223,7 @@ F14_ContinuousScroll() {
         return
     F16_IsDown := true
     F16_HoldActionFired := false
-    F16_HoldStart := A_TickCount ; <-- FIX: Capture the start time here
+    F16_HoldStart := A_TickCount
     SetTimer F16_Monitor, 50
 }
 
@@ -211,15 +231,13 @@ F16_Monitor()
 {
     global F16_IsDown, F16_HoldActionFired, F16_HoldStart, Scroll_HoldDelay
     if GetKeyState("F16", "P") {
-        ; Key is held down. Check if hold time has elapsed.
-        elapsed := A_TickCount - F16_HoldStart ; <-- FIX: Calculate elapsed time correctly
+        elapsed := A_TickCount - F16_HoldStart
         if !F16_HoldActionFired && elapsed >= Scroll_HoldDelay {
             F16_HoldActionFired := true
             F16_ContinuousScroll()
             SetTimer F16_ContinuousScroll, Scroll_RepeatRate
         }
     } else {
-        ; Key has been released.
         SetTimer F16_Monitor, 0
         SetTimer F16_ContinuousScroll, 0
         if !F16_HoldActionFired {
