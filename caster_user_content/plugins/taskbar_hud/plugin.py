@@ -42,12 +42,12 @@ class TaskbarHudPlugin(PluginBase):
 
         # 3. Optionally attach to ADCE context listener if ADCE plugin is loaded
         try:
-            from caster_user_content.plugins.adce import add_context_listener
+            from adce import add_context_listener
 
             add_context_listener(self._on_adce_context_changed)
         except Exception:
             try:
-                from castervoice.plugins.adce import add_context_listener
+                from caster_user_content.plugins.adce import add_context_listener
 
                 add_context_listener(self._on_adce_context_changed)
             except Exception:
@@ -68,11 +68,22 @@ class TaskbarHudPlugin(PluginBase):
     def _on_adce_context_changed(
         self, process_name="", window_title="", semantic_zone="", active_file="", is_connected=True
     ):
-        """Forwards ADCE sub-window zone transitions to Taskbar HUD."""
+        """Forwards ADCE sub-window zone transitions and active rules to Taskbar HUD."""
         if not self._bridge:
             return
         zone = semantic_zone if (is_connected and semantic_zone) else "--"
-        self._bridge.send_update(adce_zone=zone)
+        rules_str = "Global"
+        if is_connected and process_name:
+            try:
+                from castervoice.asynch.hud_support import get_active_contextual_rules
+
+                active = get_active_contextual_rules(target_process=process_name, target_title=window_title)
+                rules_str = ", ".join(active) if active else "Global"
+            except Exception:
+                pass
+        if self._bridge._cached_rules != rules_str or self._bridge._cached_zone != zone:
+            print("[Taskbar HUD] Focus: '{}' -> Rules: '{}' | Zone: '{}'".format(process_name, rules_str, zone))
+        self._bridge.send_update(adce_zone=zone, rules=rules_str)
 
     def start(self):
         super(TaskbarHudPlugin, self).start()

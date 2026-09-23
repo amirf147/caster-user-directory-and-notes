@@ -31,7 +31,7 @@ When you focus the integrated terminal inside Antigravity IDE / VS Code, the spe
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │                  Caster Background Thread (Python)                     │
-│  • `adce_bridge.py` updates local memory state:                        │
+│  • ADCE plugin client (`caster_user_content/plugins/adce/client.py`) updates:          │
 │    ADCE_STATE["zone"] = "IntegratedTerminal"                           │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │ (Zero-latency RAM read: < 0.0001 ms)
@@ -52,7 +52,7 @@ All components live cleanly inside `caster_user_content`—**zero modifications 
 
 | Component | File Path | Purpose |
 | :--- | :--- | :--- |
-| **ADCE Bridge Client** | [`caster_user_content/util/adce_bridge.py`](../../caster_user_content/util/adce_bridge.py) | Background thread listening to ADCE's SSE endpoint (`http://127.0.0.1:8424/sse`), maintaining atomic in-memory state. |
+| **ADCE Plugin Client** | [`caster_user_content/plugins/adce/client.py`](../../caster_user_content/plugins/adce/client.py) | Background thread listening to ADCE's SSE endpoint (`http://127.0.0.1:8424/sse`), maintaining atomic in-memory state. |
 | **IDE Terminal Rule** | [`caster_user_content/rules/apps/vscode/ide_terminal.py`](../../caster_user_content/rules/apps/vscode/ide_terminal.py) | Dragonfly `MappingRule` gated with `function_context=is_ide_terminal_focused`. |
 | **Configuration** | `settings/rules.toml` | Whitelists and enables `IDETerminalRule = true`. |
 
@@ -80,7 +80,7 @@ dotnet run --project src/ADCE.Daemon -- --hud
 
 Launch Caster using your standard launcher script or preferred engine environment.
 
-* `adce_bridge.py` will automatically connect to the local ADCE stream in the background on startup.
+* The ADCE plugin will automatically connect to the local ADCE stream in the background on startup.
 
 ---
 

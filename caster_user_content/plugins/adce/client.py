@@ -289,6 +289,15 @@ class AdceBridgeClient(object):
     def is_connected(self) -> bool:
         return self._is_connected
 
+    def get_current_context(self) -> dict:
+        return {
+            "is_connected": self._is_connected,
+            "semantic_zone": self._current_zone,
+            "process_name": self._current_process,
+            "window_title": self._current_title,
+            "active_file": self._active_file,
+        }
+
     def get_current_zone(self) -> str:
         return self._current_zone
 
