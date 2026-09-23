@@ -181,7 +181,7 @@ When `target_process = "antigravity"` is tested against a rule declaring `execut
 Any rule authored with `.exe` fails to match on the HUD, causing the display to report `Rules: Global`.
 
 ### Flaw 4: Multi-Line NDJSON Dropping in the Windhawk Mod
-In [`taskbar_hud_bridge.py`](../../caster_user_content/util/taskbar_hud_bridge.py), the sender batches queued updates:
+In `taskbar_hud_bridge.py` (`caster_user_content/util/taskbar_hud_bridge.py`), the sender batches queued updates:
 ```python
 packets = [packet]
 while not self._queue.empty() and len(packets) < 16:

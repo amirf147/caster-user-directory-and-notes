@@ -12,7 +12,7 @@
 
 Caster is a voice programming and desktop automation platform built on top of the Dragonfly framework. It enables hands-free computer operation, code navigation, and system control across applications, programming languages, and operating system environments.
 
-For complete user guides, command reference lists, and documentation index, see the [Documentation Hub](docs/README.md).
+For complete user guides, command reference lists, and documentation index, see the [Documentation Hub](../README.md).
 
 ---
 
@@ -94,6 +94,6 @@ py -3.10 -m unittest `
 
 ## Documentation & References
 
-- [Documentation Hub](docs/README.md): Master navigation, command references, and tutorials.
-- [Plugin System & HUD Architecture Spec (Doc 015)](docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md): Architectural blueprint for `PluginBase`, `PluginManager`, and the HUD taxonomy.
+- [Documentation Hub](../README.md): Master navigation, command references, and tutorials.
+- [Plugin System & HUD Architecture Spec (Doc 015)](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md): Architectural blueprint for `PluginBase`, `PluginManager`, and the HUD taxonomy.
 - [Upstream Repository](https://github.com/dictation-toolbox/Caster): Upstream source repository and issue tracker.
