@@ -14,10 +14,7 @@ from dragonfly import Dictation, Function, Key, MappingRule, Repeat, ShortIntege
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
 
-try:
-    from castervoice.plugins.adce import is_ide_terminal_focused, print_adce_status
-except ImportError:
-    from caster_user_content.util.adce_bridge import is_ide_terminal_focused, print_adce_status
+from adce import is_ide_terminal_focused, print_adce_status
 
 
 class IDETerminalRule(MappingRule):

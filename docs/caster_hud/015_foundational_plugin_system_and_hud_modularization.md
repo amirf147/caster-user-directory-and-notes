@@ -26,10 +26,10 @@ Because Caster had no mechanism to manage non-grammar integrations, developers w
 
 ### The Architectural Resolution
 Caster Core now provides a first-class **Plugin Architecture** based on:
-1. **`PluginBase`**: A standard lifecycle contract (`initialize`, `start`, `stop`).
-2. **`PluginManager`**: An orchestrator that discovers plugins, executes lifecycle phases, isolates failures, and prevents core crashes.
+1. **`PluginBase`**: A standard lifecycle contract (`initialize`, `start`, `stop`, `get_rules`).
+2. **`PluginManager`**: An orchestrator that discovers plugins across built-in and user directories, executes lifecycle phases, isolates failures, and registers companion voice grammars.
 3. **`settings.toml [plugins]`**: A centralized configuration table governing all optional subsystems.
-4. **Official Plugin Repository Location**: All maintained, first-party integrations reside in Caster source under `castervoice/plugins/`. User content (`caster_user_content`) is reserved exclusively for personal voice rules, custom macros, and private configurations.
+4. **Externalized Distribution Model**: Caster core remains minimal, retaining only baseline fallback plugins (`standard_hud` and `sikuli`). Advanced integrations (`themed_hud`, `taskbar_hud`, `adce`) reside in user space (`caster_user_content/plugins/`) or external repositories (`caster-plugins`), installable via `plugin_cli`.
 
 ---
 
@@ -82,7 +82,7 @@ Caster supports three distinct Heads-Up Display interfaces. Each is encapsulated
 
 The Active Desktop Context Engine is an out-of-process semantic focus provider (`http://127.0.0.1:8424/sse`).
 
-In the plugin system, it is encapsulated as `castervoice/plugins/adce/`:
+In the externalized plugin system, it is encapsulated as `caster_user_content/plugins/adce/`:
 - **Lifecycle**: Connects to the local ADCE daemon on port 8424 during `start()`; disconnects during `stop()`.
 - **In-Memory Cache**: Maintains an atomic RAM cache updated via chunked SSE stream reading.
 - **Dragonfly Integration**: Exports sub-microsecond (< 0.001 ms) `FuncContext` predicates:
@@ -166,17 +166,18 @@ class PluginBase(object):
 
 | Item | Location | Governing Mechanism |
 |---|---|---|
-| **Caster Core** | `castervoice/lib/` | Core python classes |
-| **Official Plugins** | `castervoice/plugins/` | `PluginManager` & `settings.toml [plugins]` |
+| **Caster Core** | `castervoice/lib/` | Core Python classes (`PluginBase`, `PluginManager`) |
+| **Core Baseline Plugins** | `castervoice/plugins/` | Minimal in-tree fallbacks (`standard_hud`, `sikuli`) |
+| **Plugin CLI** | `castervoice/bin/plugin_cli.py` | Command-line plugin management (`list`, `install`, `remove`) |
+| **User Plugins** | `caster_user_content/plugins/` | Externalized integrations (`themed_hud`, `taskbar_hud`, `adce`) |
 | **User Voice Rules** | `caster_user_content/rules/` | `GrammarManager` & `settings/rules.toml` |
-| **User Plugins** | `caster_user_content/plugins/` | `PluginManager` & `settings.toml [plugins]` |
 | **User Configuration** | `settings/` | `settings.toml`, `rules.toml` |
 
 ### Invariants & Rules
 1. **Zero Core Inverted Dependencies**: Caster Core production files (`_caster.py`, `castervoice/lib/`, `castervoice/asynch/`) must never import from `caster_user_content`.
-2. **No Infrastructure Drivers in User Content**: Named pipe clients, SSE decoders, and print delegator hooks belong in `castervoice/plugins/`, not `caster_user_content/util/`.
+2. **Decoupled User Space Plugins**: Advanced drivers (Named Pipe clients, SSE decoders, and PyQt overlays) belong in `caster_user_content/plugins/` as modular packages, preserving core Caster minimalism.
 3. **Zero Pseudo-Rules**: Never create a `MappingRule` whose sole purpose is launching background services. Use `PluginBase` instead.
-4. **User Rule Consumption**: User voice rules (such as `IDETerminalRule`) query plugins via standard public interfaces (such as `from castervoice.plugins.adce import is_ide_terminal_focused`).
+4. **User Rule Consumption**: User voice rules (such as `IDETerminalRule`) query plugins directly via root bare imports (such as `from adce import is_ide_terminal_focused`) since `PluginManager` registers the user plugins path on `sys.path`.
 
 ---
 
@@ -189,4 +190,4 @@ This architecture creates an isolated path for contributing improvements back to
    - Wraps the existing upstream HUD in `standard_hud` and Sikuli in `sikuli`.
    - Core behavior remains 100% backward compatible.
 2. **Step 2: Modular Plugins**:
-   - The `themed_hud`, `taskbar_hud`, and `adce` integrations can be distributed as independent plugin packages that drop into `castervoice/plugins/` or `caster_user_content/plugins/` without modifying upstream core code.
+   - The `themed_hud`, `taskbar_hud`, and `adce` integrations are externalized into `caster_user_content/plugins/` or distributed via the dedicated `caster-plugins` repository without modifying upstream core code.

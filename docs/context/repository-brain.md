@@ -49,15 +49,15 @@ When resolving conflicting information within this repository, adhere to the fol
 | **App-Specific Rules** | [`caster_user_content/rules/apps/`](../../caster_user_content/rules/apps/) | - | Evolving / Active |
 | **App Switcher & Window Focus** | [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py) | [`docs/features/app_switcher.md`](../features/app_switcher.md) | Active / Production v3.1 (Sub-millisecond Win32 + Tier 4 Shell Hotkey Fail-Safe) |
 | **Virtual Desktop Management & Pinning** | `castervoice/lib/windows_virtual_desktops.py` & `window_mgmt_rule.py` | [`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md), [`docs/features`](../features/virtual_desktop_pinning_and_grammar_ergonomics.md) | Active / Production (Migrated to **WinVDA**) |
-| **Modular HUD Plugins** | `castervoice/plugins/themed_hud/`, `castervoice/plugins/standard_hud/`, `castervoice/plugins/taskbar_hud/` | [`docs/caster_hud/015`](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md), [`docs/caster_hud/014`](../caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md), [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (HUD Taxonomy: Themed, Standard, and Taskbar Plugins) |
+| **Modular HUD Plugins** | `caster_user_content/plugins/themed_hud/`, `castervoice/plugins/standard_hud/`, `caster_user_content/plugins/taskbar_hud/` | [`docs/caster_hud/015`](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md), [`docs/caster_hud/014`](../caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md), [`docs/caster_hud/005`](../caster_hud/005_caster_hud_requirements_and_specifications.md) | Active / Production (HUD Taxonomy: Themed, Standard, and Taskbar Plugins) |
 | **Foot Pedal Integration** | [`caster_user_content/rules/caster_toggle_mic_key.py`](../../caster_user_content/rules/caster_toggle_mic_key.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
 
 ### B. External Subsystem Integrations
 
 | Subsystem | Integration Point in Caster | External Authority / Repository | Status / Relationship |
 | :--- | :--- | :--- | :--- |
-| **Active Desktop Context Engine (ADCE)** | `castervoice/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority & Single Source of Truth for Desktop Window Focus, Titles, Process Identity, and Sub-Window Semantic Interaction Zones |
-| **Taskbar HUD Windhawk Mod** | `castervoice/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | Windows 11 Shell / Windhawk (`caster-taskbar-hud.wh.cpp`) | In-Process Taskbar XAML Strip Projection |
+| **Active Desktop Context Engine (ADCE)** | `caster_user_content/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority & Single Source of Truth for Desktop Window Focus, Titles, Process Identity, and Sub-Window Semantic Interaction Zones |
+| **Taskbar HUD Windhawk Mod** | `caster_user_content/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | Windows 11 Shell / Windhawk (`caster-taskbar-hud.wh.cpp`) | In-Process Taskbar XAML Strip Projection |
 | **WinVDA Engine** | `winvda` package import in Caster Virtual Desktops | [`amirf147/winvda`](https://github.com/amirf147/winvda) | Upstream Clean-Room Engine |
 
 ### C. Evaluated Experiments & In-Flight Research
