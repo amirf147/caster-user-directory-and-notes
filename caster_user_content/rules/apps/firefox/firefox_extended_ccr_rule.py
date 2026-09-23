@@ -40,5 +40,5 @@ class FirefoxCcrRule(MergeRule):
 
 
 def get_rule():
-    details = RuleDetails(executable=["firefox", "waterfox"], title=["Firefox", "Waterfox"], ccrtype=CCRType.APP)
+    details = RuleDetails(executable=["firefox", "waterfox"], ccrtype=CCRType.APP)
     return FirefoxCcrRule, details

@@ -13,6 +13,7 @@ from castervoice.lib import printer
 from castervoice.lib.plugin import PluginBase
 from .bridge import TaskbarHudBridgeClient
 from .printer_handler import TaskbarHudPrintHandler
+from .context_resolver import resolve_active_rules
 
 _logger = logging.getLogger("caster.plugins.taskbar_hud")
 
@@ -75,12 +76,14 @@ class TaskbarHudPlugin(PluginBase):
         rules_str = "Global"
         if is_connected and process_name:
             try:
-                from castervoice.asynch.hud_support import get_active_contextual_rules
-
-                active = get_active_contextual_rules(target_process=process_name, target_title=window_title)
+                active = resolve_active_rules(
+                    process_name=process_name,
+                    window_title=window_title,
+                    semantic_zone=semantic_zone,
+                )
                 rules_str = ", ".join(active) if active else "Global"
-            except Exception:
-                pass
+            except Exception as ex:
+                _logger.debug("Context resolution error: %s", ex)
         if self._bridge._cached_rules != rules_str or self._bridge._cached_zone != zone:
             print("[Taskbar HUD] Focus: '{}' -> Rules: '{}' | Zone: '{}'".format(process_name, rules_str, zone))
         self._bridge.send_update(adce_zone=zone, rules=rules_str)

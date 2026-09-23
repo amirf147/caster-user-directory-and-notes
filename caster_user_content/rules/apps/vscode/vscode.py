@@ -295,5 +295,4 @@ def get_rule():
     return CustomVSCodeRule, RuleDetails(
         name="CustomVSCode",
         executable=["Code", "VSCodium", "cursor", "Windsurf", "Antigravity IDE"],
-        title=["Visual Studio Code", "VSCodium", "Cursor", "Windsurf", "Antigravity IDE"],
     )
