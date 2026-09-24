@@ -31,6 +31,9 @@ This directory houses deep architectural analyses, COM lifecycle investigations,
 
 * **[006: WinVDA Engine Realization, Clean-Room Release, & Caster Production Migration](006_winvda_clean_room_engine_realization_and_caster_migration.md)** — *Production Milestone (Published & Active)*  
   Realization of the hardened virtual desktop engine as a standalone, clean-room Python library ([`winvda`](https://github.com/amirf147/winvda), Apache-2.0). Documents the zero-cached-state direct ctypes vtable architecture, multi-apartment safety, Task View parity application pinning, and the production migration in Caster replacing `pyvda`.
+
+* **[007: Virtual Desktop Closure Focus Deadzone & Native API Migration](007_virtual_desktop_closure_focus_deadzone_and_native_api_migration.md)** — *Issue & Proposed Solution (Backlog)*
+  Investigation of synthetic Win + Ctrl + F4 keystroke failures when closing empty virtual desktops, analysis of GetForegroundWindow() focus deadzones in Windows Explorer, and the proposed native migration to winvda.remove_desktop().
 ---
 
 ## 🔄 Synergy with Active Desktop Context Engine (ADCE)
