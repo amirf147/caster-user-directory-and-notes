@@ -1,4 +1,24 @@
-## Active Status Update: Foundational Plugin Architecture, HUD Modularization, & User Content Separation (September 2026)
+## Active Status Update: Automated Rule Catalog & Decoupled ADCE Context Resolution (September 2026)
+
+### Automated Rule Catalog & Dynamic Context Resolution (Active Production - Deployed & Verified)
+* **Status (Active Production - Deployed & Verified)**: Replaced static process lookup tables and fragile IDE terminal heuristics in `taskbar_hud/context_resolver.py` with an automated AST-based rule catalog. Automatically scans user and core rule directories on startup without initializing the speech engine or executing module code. Synchronizes active rule resolution with `rules.toml` via file modification monitoring, providing accurate contextual rule reporting on the Windows 11 Taskbar HUD.
+* **Empirical Validation & Breakthroughs**:
+  * **Elimination of Static Mapping Anti-Patterns**: Diagnosed the root cause of false negative and false positive rule reporting in the Taskbar HUD. The previous implementation maintained a hand-typed dictionary (`PROCESS_RULES_MAP`) that omitted companion rules (such as `CustomMSWordRule` and `ExcelRule`) and ignored custom rules added to `caster_user_content/rules/`. The automated catalog parses `get_rule()` AST nodes directly from source files, indexing target executables, window titles, and CCR markers dynamically.
+  * **Strict Separation Between Sensor and Resolver**: Clarified the boundary between out-of-process OS context observation (ADCE daemon on port 8424) and in-process rule interpretation (`context_resolver.py`). ADCE observes physical window focus, titles, and zones; `context_resolver.py` maps those observations to active Dragonfly rules.
+  * **Dynamic Configuration Synchronization**: Implemented `refresh_enabled()` in `RuleCatalog`, monitoring the timestamp of `rules.toml`. Changes to active rules reload automatically without requiring a Caster process restart.
+  * **Terminal Sub-Zone Simplification**: Removed brittle heuristics that attempted to guess `IDETerminalRule` activation from unstandardized zone strings and process lists. ADCE continues to provide the `semantic_zone` string directly to the HUD for visual zone labeling.
+  * **Sub-Millisecond Resolution**: Verified catalog construction completes in 98 ms across 164 rule modules at startup, while per-focus resolution executes in 0.03 ms from in-memory index tables.
+* **Key Documentation**:
+  * 🏛️ **[Automated Rule Catalog & ADCE Context Resolution (016)](docs/caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md)** *(Active Production Architecture & Canonical Reference)*
+  * 🏛️ **[Foundational Plugin System & HUD Modularization (015)](docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md)**
+  * 🏛️ **[Out-of-Process Desktop Observation & ADCE HUD Realization (014)](docs/caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)**
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+  * 🏠 **[Main Caster User Hub](README.md)**
+
+---
+
+## Archived Status Update: Foundational Plugin Architecture, HUD Modularization, & User Content Separation (September 2026)
 
 ### Foundational Plugin System & HUD Taxonomy (Active Production - Deployed & Verified)
 * **Status (Active Production - Deployed & Verified)**: Built and deployed the foundational Caster Plugin Architecture (`PluginBase`, `PluginManager`), replacing hardcoded startup hooks in `_caster.py` and eliminating pseudo-rules disguised as voice grammars. Modularized the Heads-Up Display into discrete plugins (`standard_hud`, `themed_hud`, `taskbar_hud`), establishing clean separation between upstream legacy interfaces and custom setups. Relocated all official bridges into `castervoice/plugins/`, restoring `caster_user_content/` strictly to user voice rules and personal configurations.

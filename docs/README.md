@@ -49,9 +49,11 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and th
 * [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
 * [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
 * [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
+* [007: Virtual Desktop Closure Focus Deadzone & Native API Migration](pyvda/007_virtual_desktop_closure_focus_deadzone_and_native_api_migration.md) *(Backlog)*
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers, specifications, and post-mortems for the Modular Caster HUD overlay.
+* **[016: Automated Rule Catalog & ADCE Context Resolution](caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[015: Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[014: Out-of-Process Desktop Observation & ADCE HUD Realization](caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[005: Master Requirements & Specifications](caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Active UI/UX SSoT - Window tracking REQ-15 superseded by 013, 014; Plugin Lifecycle REQ-16 added)*
@@ -108,6 +110,7 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, clean-
 * [005: Task View Pinning Internals & Windows Shell Reverse Engineering](pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)
 * [004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design](pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
 * [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
+* [007: Virtual Desktop Closure Focus Deadzone & Native API Migration](pyvda/007_virtual_desktop_closure_focus_deadzone_and_native_api_migration.md) *(Backlog)*
 * [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
 * [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)
 
@@ -170,4 +173,5 @@ If you are an AI agent operating in this repository:
 1. **Adhere to [AGENTS.md](../.agents/AGENTS.md)**: Follow all workspace rules (e.g., `py -3.10`, relative links, local state isolation).
 2. **Context Window Discipline**: Use relative breadcrumbs at the top of documents and reference the [Repository Brain](context/repository-brain.md) rather than duplicating large file trees.
 3. **Verify Links**: Maintain valid relative markdown links across all documentation.
+
 
