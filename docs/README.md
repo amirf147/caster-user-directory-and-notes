@@ -53,6 +53,7 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, and th
 
 ### 🖥️ [Caster HUD Architecture](caster_hud/)
 Educational primers, specifications, and post-mortems for the Modular Caster HUD overlay.
+* **[017: Native HUD Process Lifecycle & Plugin Decoupling](caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[016: Automated Rule Catalog & ADCE Context Resolution](caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[015: Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[014: Out-of-Process Desktop Observation & ADCE HUD Realization](caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
