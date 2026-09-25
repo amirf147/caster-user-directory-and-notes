@@ -10,11 +10,12 @@ Start here to understand the core architecture, active features, and engineering
 
 1. **[Repository Brain](context/repository-brain.md)** — **Current Empirical Baseline & Constraints**. Read this first for verified facts, active component mappings, and "do not regress" rules.
 2. **[Technical Journey](history/technical_journey.md)** — Complete engineering log detailing active focus, milestones, and architectural pivots.
-3. **[Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** — Architectural blueprint for Caster's Plugin Architecture (`PluginBase`, `PluginManager`), HUD taxonomy (`standard_hud`, `themed_hud`, `taskbar_hud`), and repository boundaries.
-4. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
-5. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 6 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3 → Tier 4 Shell Hotkeys v3.1).
-6. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
-7. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
+3. **[Native HUD Process Lifecycle & Plugin Decoupling](caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)** — Strategy pattern for cross-platform process containment (Win32 Job Objects, Linux process groups), self-healing display auto-recovery, speech loop decoupling, and engine mic listener observer pattern.
+4. **[Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** — Architectural blueprint for Caster's Plugin Architecture (`PluginBase`, `PluginManager`), HUD taxonomy (`standard_hud`, `themed_hud`, `taskbar_hud`), and repository boundaries.
+5. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)** — Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
+6. **[App Switcher Evolution Timeline](history/app_switcher_timeline.md)** — 2-year retrospective tracing window switching across 6 eras (Windhawk taskbar macros → Pywinauto → Native Win32 v3 → Tier 4 Shell Hotkeys v3.1).
+7. **[Speech Stack Thread Architecture](architecture/Speech_Stack_Thread_Architecture_and_Diagnostic_Report.md)** — Core breakdown of the Dragonfly/Caster threading model and STA/MTA constraints.
+8. **[Wayfinder Master Map](wayfinder-uia-threading/map.md)** — Index of all 38+ research tickets and technical breakdowns on Windows UI Automation & threading.
 
 ---
 
@@ -59,7 +60,8 @@ Educational primers, specifications, and post-mortems for the Modular Caster HUD
 * **[014: Out-of-Process Desktop Observation & ADCE HUD Realization](caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)** *(Active Production Architecture & Living Canonical Reference - NOT SUPERSEDED)*
 * **[005: Master Requirements & Specifications](caster_hud/005_caster_hud_requirements_and_specifications.md)** *(Active UI/UX SSoT - Window tracking REQ-15 superseded by 013, 014; Plugin Lifecycle REQ-16 added)*
 * [013: Multi-Process Topology, ADCE Gating, & Unified Telemetry Architecture](caster_hud/013_multiprocess_topology_adce_gating_and_unified_telemetry_architecture.md) *(Active ADR - Foundational Decision for 014)*
-* [012: Taskbar HUD Windhawk Injection & Telemetry Explainer](caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md) *(Active Taskbar HUD Subsystem Specification)*
+* [012: Taskbar HUD Windhawk Injection & Telemetry Explainer](caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md) *(Active Taskbar HUD Subsystem Specification - Published in [windhawk-mods](https://github.com/ramensoftware/windhawk-mods) and [caster-taskbar-hud](https://github.com/amirf147/caster-taskbar-hud))*
+* **[Standalone Caster Plugins Catalog](https://github.com/amirf147/caster-plugins)** *(Independent distribution repository for themed_hud, taskbar_hud, and dynamic context resolver)*
 * [007: Continuous Lessons Learned Timeline](caster_hud/007_caster_hud_lessons_learned_timeline.md) *(Living Engineering Trail - Active)*
 * [006: Thread Safety & Compatibility Post-Mortem](caster_hud/006_caster_hud_thread_safety_and_compatibility_postmortem.md) *(Diagnostic Post-Mortem Reference - Active)*
 * [002: System Tray Integration & Upstream Evolution Audit](caster_hud/002_caster_hud_system_tray_and_upstream_evolution_audit.md) *(Historical Context & Audit - Active)*

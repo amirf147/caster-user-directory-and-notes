@@ -6,7 +6,52 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Active Production: Foundational Plugin Architecture, HUD Modularization, & User Content Separation
+### 1. Active Production: Cross-Platform Native HUD Process Hardening & Strategy Pattern
+- **Status (Active Production - Deployed & Verified)**: Refactored and hardened Caster's native Heads-Up Display process lifecycle (`castervoice/asynch/hud_support.py`), eliminating orphaned processes, process-launch race conditions, and unhandled socket errors. Encapsulated OS-specific process containment using the **Strategy Pattern** (`process_lifecycle.py`), implementing native Windows Job Objects (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation. Built self-healing auto-recovery on `show_hud()`, graceful termination `stop_hud()`, port-release verification, clean `restart_hud()`, and asynchronous queuing in `HudPrintMessageHandler`. Added comprehensive voice commands in `caster_rule.py` and prepared a standalone upstream branch (`feat/hud-process-hardening`, commits `08d6aae3`, `06355d4e`) decoupled from the plugin system.
+- **Key Documentation**:
+  * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)** *(Active Production Architecture & Canonical Reference)*
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](../caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
+  * 📜 **[Status Update History](../../status-update-history.md)**
+
+---
+
+### 2. Active Production: Core Engine Microphone Listener Observer Pattern
+- **Status (Active Production - Deployed & Verified)**: Implemented a first-class observer pattern in Caster core (`castervoice/lib/ctrl/mgr/engine_manager.py`, commit `698de89a`, branch `feat/engine-mic-listener`) for tracking microphone state transitions (`sleeping`, `listening`, `off`). Eliminates polling and monkey-patching across UI overlays, foot pedal hardware bridges, and external telemetry streams. Synchronously and deterministically delivers state transitions to registered observers with isolated exception boundaries.
+- **Key Documentation**:
+  * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
+
+---
+
+### 3. Active Production: Native Taskbar HUD Windhawk Mod & Standalone Plugin Catalog (Published)
+- **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) to the official `windhawk-mods` ecosystem (commit `b02f3654`), established its standalone distribution repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**, and launched the modular plugin distribution repository at **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)**.
+- **Core Architecture & Breakthroughs**:
+  - **In-Process Shell XAML Injection**: Hooks `taskbar.dll` symbols (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) in `explorer.exe` to mount native WinRT XAML controls within `SystemTrayFrameGrid` across primary and secondary taskbars.
+  - **Asynchronous Overlapped Named Pipe IPC**: Listens on `\\.\pipe\CasterTaskbarHud`, ingesting JSON telemetry asynchronously with `<0.5ms` deserialization marshaled to the UI thread via `WH_CALLWNDPROC`.
+  - **Unified Single Command Strip Pivot**: Diagnosed horizontal button panel encroachment where multi-pill layouts clipped running application buttons in `TaskListButtonPanel`. Pivoted to a compact, unified command strip (~160px) displaying dynamic contextual telemetry strings (e.g., `Ready (VS Code)`, `Terminal | VS Code`).
+  - **In-Situ Context Menu & Registry Persistence**: Hooked XAML `RightTapped` on the taskbar container to render a native Win32 popup menu (`TrackPopupMenuEx`), enabling live mode toggling (single strip, rotating carousel, multi-box) persisted to `HKCU\Software\Caster\TaskbarHud`.
+  - **Standalone Plugin Catalog (`caster-plugins`)**: Decoupled the HUD plugins from core Caster, establishing `amirf147/caster-plugins` as the independent distribution catalog with automated GitHub Actions CI safety checks and live telemetry showcase animations.
+- **Key Documentation**:
+  * 🌐 **[Caster Taskbar HUD Repository](https://github.com/amirf147/caster-taskbar-hud)** *(Dedicated Windhawk Mod Distribution)*
+  * 📦 **[Caster Plugins Distribution Repository](https://github.com/amirf147/caster-plugins)** *(Independent Plugin Catalog)*
+  * 🖥️ **[Taskbar HUD Windhawk Injection & Telemetry Explainer (012)](../caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)** *(Subsystem Architecture & Unified Strip Pivot)*
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](../caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 📜 **[Status Update History](../../status-update-history.md)**
+
+---
+
+### 4. Active Production: Automated Rule Catalog & Decoupled ADCE Context Resolution
+- **Status (Active Production - Deployed & Verified)**: Replaced static process lookup tables and fragile IDE terminal heuristics in `taskbar_hud/context_resolver.py` with an automated AST-based rule catalog. Automatically scans user and core rule directories on startup without initializing the speech engine or executing module code. Synchronizes active rule resolution with `rules.toml` via file modification monitoring, providing accurate contextual rule reporting on the Windows 11 Taskbar HUD.
+- **Key Documentation**:
+  * 🏛️ **[Automated Rule Catalog & ADCE Context Resolution (016)](../caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md)** *(Active Production Architecture & Canonical Reference)*
+  * 🏛️ **[Foundational Plugin System & HUD Modularization (015)](../caster_hud/015_foundational_plugin_system_and_hud_modularization.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
+  * 📜 **[Status Update History](../../status-update-history.md)**
+
+---
+
+### 5. Active Production: Foundational Plugin Architecture, HUD Modularization, & User Content Separation
 - **Status (Active Production - Deployed & Verified)**: Built and deployed the foundational Caster Plugin Architecture (`PluginBase`, `PluginManager`), replacing hardcoded startup hooks in `_caster.py` and eliminating pseudo-rules disguised as voice grammars. Modularized the Heads-Up Display into discrete plugins (`standard_hud`, `themed_hud`, `taskbar_hud`), establishing clean separation between upstream legacy interfaces and custom setups. Relocated all official bridges into `castervoice/plugins/`, restoring `caster_user_content/` strictly to user voice rules and personal configurations.
 - **Core Engineering Breakthroughs**:
   - **Elimination of Pseudo-Rules and Splicing Anti-Patterns**: Diagnosed the architectural limitation of Caster's legacy grammar loader (`ContentLoader`), which recognized only `get_rule`, `get_transformer`, and `get_hook`. Prior to this architecture, non-grammar integrations were forced into dummy `MappingRule` instances (`taskbar_hud_rule.py`) or hardcoded imports in `_caster.py`. The new `PluginManager` discovers, initializes, and starts all optional subsystems cleanly via standard lifecycle phases.
@@ -27,7 +72,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 2. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
+### 6. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
 - **Status (Active Production - Deployed & Published)**: Following the adversarial audit and 5 failure modes in legacy `pyvda`, designed, built, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library. Deployed `winvda` across Caster production (`custom-setup` branch, commit `85feab8e`), completely replacing `pyvda` across all virtual desktop switching and window pinning workflows.
 - **Core Engineering Breakthroughs**:
   - **Zero-Cached-State COM Invocation**: Eliminated long-lived remote interface proxies. Every operation acquires fresh pointers directly from `explorer.exe` ALPC endpoints, executes via direct `ctypes` vtable offsets, and safely releases pointers inside `finally` blocks, guaranteeing immunity to Explorer crashes.
@@ -48,7 +93,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 3. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization
+### 7. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization
 - **Status (Active Production - Deployed & Verified)**: Completed the architectural transition from in-process Win32 window focus hooks to out-of-process desktop context observation driven by the Active Desktop Context Engine (ADCE). Deleted `window_tracker.py` from Caster core without leaving orphaned hooks or polling loops. Refactored `hud_support.py` to filter active CCR rules authoritatively against `_enabled_ordered` and `rules.toml`. Empirically verified end-to-end synchronization across both the Qt HUD overlay and the Windows 11 Taskbar HUD.
 - **Core Architecture & Breakthroughs**:
   - **Elimination of In-Process Win32 Window Hooks**: Diagnosed architectural redundancy between Caster's internal `window_tracker.py` and the standalone ADCE daemon. Removed `SetWinEventHook` (`EVENT_SYSTEM_FOREGROUND`, `EVENT_OBJECT_NAMECHANGE`), `GetForegroundWindow`, `GetWindowTextW`, and `QueryFullProcessImageNameW` from Caster. Caster core and HUD libraries now run with zero native window hooks or foreground inspection calls.
@@ -67,7 +112,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 4. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
+### 8. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
 - **Active Production Status**: We have refactored and deployed the **v3.1 production architecture** for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py).
 - **Core Engineering Breakthroughs**:
   - **4-Tier Progressive Focus Escalation**: Fast path operates on direct Win32 APIs (Tier 1 `SetForegroundWindow` in 0–10ms), escalating upon `ForegroundLockTimeout` to guarded `_alt_key_bypass()` (Tier 2 in 80–120ms), dual-thread input queue synchronization via `_attached_threads()` (Tier 3 in 120–200ms), and finally Tier 4 taskbar hotkeys (50–150ms).
@@ -85,7 +130,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 5. Wayfinder Session: App Switching & UIA Threading Investigation
+### 9. Wayfinder Session: App Switching & UIA Threading Investigation
 - **Condensed Summary**: Investigated perceived freezes in `app_switcher.py` and UIA/COM threading performance across speech stacks. Discovered through empirical telemetry (`ca5dc70`) that apparent hangs were caused by Windows PowerShell QuickEdit mode pausing standard output (`stdout`) during console logging.
 - **Key Docs & Code**:
   - Feature Guide: **[App Switcher Documentation](../features/app_switcher.md)**
@@ -94,13 +139,13 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 6. Historical Status & Archived Investigations
+### 10. Historical Status & Archived Investigations
 - Archive of past status updates with deep dives into Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, the Dragonfly BPC Fork Kaldi race condition fixes, and UIA threading synthesis:
   👉 **[Status Update History](../../status-update-history.md)**
 
 ---
 
-### 7. Git Evolution & Subsystem Timelines
+### 11. Git Evolution & Subsystem Timelines
 For complete historical retrospectives spanning our 27-month, 969-commit repository evolution:
 - 📜 **[App Switcher Evolution Timeline](app_switcher_timeline.md)**: 2-year journey across 6 eras of window switching.
 - 📜 **[Caster Printer & HUD Timeline](caster_printer_hud_timeline.md)**: Evolution of status messaging and async HUD overlays.

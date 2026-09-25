@@ -4,11 +4,11 @@
 
 > [!NOTE]
 > **Document Status**: *Active Production Architecture & Canonical Reference (NOT SUPERSEDED)*.  
-> Details the runtime architecture of the native Caster Heads-Up Display (HUD), comparing its legacy behavior with the current decoupled implementation using side-by-side code blocks, and specifying the boundaries required for a clean upstream branch.
+> Details the runtime architecture of the native Caster Heads-Up Display (HUD), comparing its legacy behavior with the current decoupled implementation using side-by-side code blocks, and specifying the cross-platform strategy pattern for Windows, Linux, and macOS.
 
 # 017: Native HUD Process Lifecycle Management and Plugin Decoupling
 
-This document specifies the architecture, runtime lifecycle, and inter-process communication (IPC) mechanics of Caster's traditional Heads-Up Display (`castervoice/asynch/hud.py`). It clarifies how the core HUD operates independently of the plugin system, contrasts its current capabilities with legacy upstream Caster through side-by-side code comparisons, and outlines the exact file boundaries needed to extract these enhancements into a standalone git branch.
+This document specifies the architecture, runtime lifecycle, and inter-process communication (IPC) mechanics of Caster's traditional Heads-Up Display (`castervoice/asynch/hud.py`). It clarifies how the core HUD operates independently of the plugin system, contrasts its current capabilities with legacy upstream Caster through side-by-side code comparisons, details the cross-platform process lifecycle strategy, and outlines the exact file boundaries needed to extract these enhancements into a standalone upstream git branch.
 
 ---
 
@@ -65,6 +65,7 @@ def start_hud():
 _HUD_PROCESS = None
 _CURRENT_HUD_PATH = None
 _IS_STARTING = False
+_PROCESS_STRATEGY = get_process_strategy()
 
 def start_hud(hud_path=None):
     global _HUD_PROCESS, _CURRENT_HUD_PATH, _IS_STARTING
@@ -103,9 +104,10 @@ def start_hud(hud_path=None):
         except Exception:
             pythonw = sys.executable
 
-        # Spawn and retain process handle; bind to Windows Job Object
-        _HUD_PROCESS = subprocess.Popen([pythonw, hud_path])
-        _bind_process_to_job(_HUD_PROCESS)
+        # Spawn via platform strategy kwargs and bind to OS lifecycle containment
+        popen_kwargs = _PROCESS_STRATEGY.get_popen_kwargs()
+        _HUD_PROCESS = subprocess.Popen([pythonw, hud_path], **popen_kwargs)
+        _PROCESS_STRATEGY.bind_process(_HUD_PROCESS)
     finally:
         _IS_STARTING = False
 ```
@@ -147,10 +149,7 @@ def stop_hud():
         try:
             _HUD_PROCESS.wait(timeout=1.5)
         except Exception:
-            try:
-                _HUD_PROCESS.kill()
-            except Exception:
-                pass
+            _PROCESS_STRATEGY.terminate_process(_HUD_PROCESS)
         _HUD_PROCESS = None
     _wait_for_port_release(8338, timeout=1.0)
 ```
@@ -283,152 +282,73 @@ class HudPrintMessageHandler(printer.BaseMessageHandler):
                 time.sleep(0.5)
 ```
 
-### 2.6. Kernel Process Containment (Windows Job Object)
+---
 
-In upstream Caster, the HUD ran as an unconstrained child process. If the parent Python process exited abnormally or was terminated via task management, the HUD window frequently stayed open as an orphaned process holding port 8338.
+## 3. Cross-Platform Process Strategy Pattern (`process_lifecycle.py`)
 
-#### Upstream Implementation:
-```python
-# Upstream Caster: castervoice/asynch/hud_support.py
-# NO OS Job Object binding existed. Process cleanup relied on cooperative shutdown.
+To eliminate operating-system-specific ctypes structs from `hud_support.py` and provide clean support for Windows, Linux, and macOS, process containment is abstracted through the **Strategy Pattern**:
+
+```
+                       +-----------------------------+
+                       |     BaseProcessStrategy     |
+                       |-----------------------------|
+                       | + get_popen_kwargs()        |
+                       | + bind_process(proc)        |
+                       | + terminate_process(proc)   |
+                       +-----------------------------+
+                                      ^
+                                      |
+         +----------------------------+----------------------------+
+         |                                                         |
++------------------------------+                         +----------------------------+
+|    WindowsProcessStrategy    |                         |    LinuxProcessStrategy    |
+|------------------------------|                         |----------------------------|
+| Uses Win32 Job Object with   |                         | Uses PR_SET_PDEATHSIG      |
+| KILL_ON_JOB_CLOSE via ctypes |                         | + setsid() process groups  |
++------------------------------+                         +----------------------------+
 ```
 
-#### Current Resilient Implementation:
-```python
-# Current Caster: castervoice/asynch/hud_support.py
-def _get_or_create_hud_job():
-    global _HUD_JOB_OBJECT
-    if sys.platform != "win32":
-        return None
-    if _HUD_JOB_OBJECT is not None:
-        return _HUD_JOB_OBJECT
-    try:
-        import ctypes
-        kernel32 = ctypes.windll.kernel32
-        job = kernel32.CreateJobObjectW(None, None)
-        # Configure JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE (0x2000)
-        info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION()
-        info.BasicLimitInformation.LimitFlags = 0x2000
-        kernel32.SetInformationJobObject(job, 9, ctypes.byref(info), ctypes.sizeof(info))
-        _HUD_JOB_OBJECT = job
-        return _HUD_JOB_OBJECT
-    except Exception:
-        return None
-
-def _bind_process_to_job(proc):
-    if sys.platform != "win32" or proc is None:
-        return
-    try:
-        job = _get_or_create_hud_job()
-        if job and hasattr(proc, "_handle") and proc._handle:
-            import ctypes
-            ctypes.windll.kernel32.AssignProcessToJobObject(job, int(proc._handle))
-    except Exception:
-        pass
-```
-
-### 2.7. Voice Command Surface (`caster_rule.py`)
-
-Upstream Caster provided only five fixed commands. The user could not start, stop, or restart the HUD using voice.
-
-#### Upstream Implementation:
-```python
-# Upstream Caster: castervoice/rules/core/utility_rules/caster_rule.py
-class CasterRule(MappingRule):
-    mapping = {
-        "reboot caster":
-            R(Function(utilities.reboot)),
-        "update dragonfly":
-            R(_DependencyUpdate([_PIP, "install", "--upgrade", "dragonfly2"])),
-        "enable (c c r|ccr)":
-            R(Function(lambda: control.nexus().set_ccr_active(True))),
-        "disable (c c r|ccr)":
-            R(Function(lambda: control.nexus().set_ccr_active(False))),
-
-        # Upstream had only these 5 commands; no start/stop/restart
-        "show caster hud":
-            R(Function(show_hud), rdescript="Show the HUD window"),
-        "hide caster hud":
-            R(Function(hide_hud), rdescript="Hide the HUD window"),
-        "show caster rules":
-            R(Function(show_rules), rdescript="Open HUD frame with the list of active rules"),
-        "hide caster rules":
-            R(Function(hide_rules), rdescript="Hide the list of active rules"),
-        "clear caster hud":
-            R(Function(clear_hud), rdescript="Clear output the HUD window"),
-    }
-```
-
-#### Current Resilient Implementation:
-```python
-# Current Caster: castervoice/rules/core/utility_rules/caster_rule.py
-class CasterRule(MappingRule):
-    mapping = {
-        "reboot caster":
-            R(Function(utilities.reboot)),
-        "update dragonfly":
-            R(_DependencyUpdate([_PIP, "install", "--upgrade", "dragonfly2"])),
-        "enable (c c r|ccr)":
-            R(Function(lambda: control.nexus().set_ccr_active(True))),
-        "disable (c c r|ccr)":
-            R(Function(lambda: control.nexus().set_ccr_active(False))),
-
-        # Full process lifecycle support with bidirectional grammar syntax
-        "(show caster hud | caster show hud)":
-            R(Function(show_hud), rdescript="Show the HUD window"),
-        "(hide caster hud | caster hide hud)":
-            R(Function(hide_hud), rdescript="Hide the HUD window"),
-        "(start caster hud | launch caster hud | caster (start | launch) hud)":
-            R(Function(start_hud), rdescript="Start the HUD process"),
-        "(stop caster hud | kill caster hud | close caster hud | caster (stop | kill | close) hud)":
-            R(Function(stop_hud), rdescript="Stop and close the HUD process"),
-        "(clear caster hud | caster clear hud)":
-            R(Function(clear_hud), rdescript="Clear output the HUD window"),
-        "(caster (restart | reset) hud | caster hud (restart | reset) | (restart | reset) caster hud)":
-            R(Function(restart_hud), rdescript="Restart the HUD process cleanly"),
-        "(show caster rules | caster show rules)":
-            R(Function(show_rules), rdescript="Open HUD frame with the list of active rules"),
-        "(hide caster rules | caster hide rules)":
-            R(Function(hide_rules), rdescript="Hide the list of active rules"),
-    }
-```
+### Strategy Implementations by Operating System:
+1. **Windows (`WindowsProcessStrategy`)**:
+   - Creates an anonymous Win32 Job Object using `kernel32.CreateJobObjectW`.
+   - Sets `LimitFlags = 0x2000` (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`).
+   - Assigns the spawned process handle using `AssignProcessToJobObject`.
+   - Result: If Caster exits normally or is terminated abruptly, the Windows kernel kills the HUD child process automatically.
+2. **Linux (`LinuxProcessStrategy`)**:
+   - Passes `preexec_fn` calling `libc.prctl(PR_SET_PDEATHSIG, signal.SIGTERM)` and `os.setsid()`.
+   - Result: As soon as the parent Python process terminates, the Linux kernel automatically delivers `SIGTERM` to the child process.
+   - For forced termination, it signals the entire process group via `os.killpg(os.getpgid(proc.pid), signal.SIGKILL)`.
+3. **macOS (`DarwinProcessStrategy`)**:
+   - Launches child processes with `start_new_session=True`.
+   - Handles clean forced termination across process groups via `os.killpg()`.
+4. **Generic Fallback (`BaseProcessStrategy`)**:
+   - Employs standard `proc.kill()` for any unrecognized Unix variants.
 
 ---
 
-## 3. High-Level Architecture Comparison Matrix
+## 4. Voice Command Surface (`caster_rule.py`)
 
-| Architectural Feature | Upstream Legacy Baseline | Current Resilient Implementation |
+Upstream Caster provided only five fixed commands. The user could not start, stop, or restart the HUD using voice. The current implementation adds full process controls with prefix and postfix flexibility:
+
+| Voice Command Spec | Bound Function | Operational Behavior |
 | :--- | :--- | :--- |
-| **Communication Protocol** | XML-RPC (`127.0.0.1:8338`). | XML-RPC (`127.0.0.1:8338`). |
-| **Subprocess Handle Tracking** | Discarded on spawn (`_HUD_PROCESS = None`). | Retained in module-level `_HUD_PROCESS`. |
-| **Windows Job Object Binding** | None; risk of orphaned background processes. | Configured with `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`. |
-| **Failure Recovery on Show** | Fatal exception; printed error and aborted. | Self-healing; automatically calls `start_hud()`. |
-| **Process Termination API** | None; manual window close only. | `stop_hud()` with XML-RPC signal and SIGKILL fallback. |
-| **Process Restart API** | None; required restarting speech engine. | `restart_hud()` with port release verification. |
-| **Logging Dispatch Queue** | Synchronous RPC; blocked Dragonfly recognition loop. | Asynchronous `queue.Queue` with background daemon worker. |
-| **Voice Commands Available** | 5 commands (show, hide, clear, show/hide rules). | 8 command families (adds start, stop, kill, restart). |
-| **Plugin Subsystem Coupling** | N/A (no plugin architecture existed). | Completely decoupled; zero HUD attributes in `PluginBase`. |
+| `"(show caster hud \| caster show hud)"` | `show_hud` | Brings HUD window to foreground; auto-starts process if stopped. |
+| `"(hide caster hud \| caster hide hud)"` | `hide_hud` | Minimizes HUD window to hidden state while keeping process alive. |
+| `"(start caster hud \| launch caster hud \| caster (start \| launch) hud)"` | `start_hud` | Spawns HUD process if absent; unhides window if already running. |
+| `"(stop caster hud \| kill caster hud \| close caster hud \| caster (stop \| kill \| close) hud)"` | `stop_hud` | Gracefully closes HUD process, releases socket, and kills on timeout. |
+| `"(clear caster hud \| caster clear hud)"` | `clear_hud` | Clears all text entries from the HUD output log. |
+| `"(caster (restart \| reset) hud \| caster hud (restart \| reset) \| (restart \| reset) caster hud)"` | `restart_hud` | Gracefully cycles HUD process teardown and respawn. |
+| `"(show caster rules \| caster show rules)"` | `show_rules` | Serializes loaded Dragonfly grammars and displays rules tree window. |
+| `"(hide caster rules \| caster hide rules)"` | `hide_rules` | Closes rules tree display frame. |
 
 ---
 
-## 4. Architectural Decoupling from the Plugin System
+## 5. Architectural Decoupling from the Plugin System
 
 The native HUD implementation has been decoupled from the generic plugin subsystem across three architectural boundaries:
 
 1. **`PluginBase` Purity**:
-   `castervoice/lib/plugin.py` defines only generic plugin lifecycle hooks:
-   ```python
-   class PluginBase(object):
-       name = "base_plugin"
-       version = "0.1.0"
-       description = "Base Caster Plugin"
-
-       def initialize(self, nexus, config): ...
-       def start(self): ...
-       def stop(self): ...
-       def get_rules(self): ...
-   ```
-   All references to `replaces_hud` have been removed from `PluginBase`.
+   `castervoice/lib/plugin.py` defines only generic plugin lifecycle hooks (`initialize`, `start`, `stop`, `get_rules`) with default `version = "0.1.0"`. All references to `replaces_hud` have been removed from `PluginBase`.
 2. **Dynamic Subclass Checking**:
    If an external plugin wishes to declare that it supersedes the standard HUD (such as `themed_hud`), the plugin author defines `replaces_hud = True` on their specific subclass. `PluginManager` checks this dynamically using `getattr(plugin, "replaces_hud", False)`. Standard plugins remain unaware of display subsystems.
 3. **No Automatic Display Revival on Unload**:
@@ -436,22 +356,24 @@ The native HUD implementation has been decoupled from the generic plugin subsyst
 
 ---
 
-## 5. Standalone Branch Preparation Manifest
+## 6. Standalone Branch Preparation Manifest
 
-To contribute these HUD process lifecycle enhancements back to upstream Caster in a clean, isolated git branch, only four files are modified. These changes have zero dependencies on the plugin architecture:
+To contribute these HUD process lifecycle enhancements back to upstream Caster in a clean, isolated git branch, only five files are modified. These changes have zero dependencies on the plugin architecture:
 
 ```
 castervoice/
+├── _caster.py                   # Clean atexit.register(hud_support.stop_hud)
 ├── asynch/
-│   ├── hud.py                   # Upstream PyQt4/5 HUD window implementation
-│   └── hud_support.py           # Process start/stop/restart, recovery, and job binding
+│   ├── hud.py                   # Upstream PyQt4/5 HUD window implementation (unmodified)
+│   ├── hud_support.py           # Process start/stop/restart, recovery, and async queue
+│   └── process_lifecycle.py     # Cross-platform strategy pattern (Win32, Linux, macOS)
 └── rules/
     └── core/
         └── utility_rules/
             └── caster_rule.py   # HUD process control voice command specs
 tests/
 └── asynch/
-    └── test_hud_lifecycle.py    # Unit tests for start, stop, kill, and auto-recovery
+    └── test_hud_lifecycle.py    # Unit tests for lifecycle, auto-recovery, and strategy selection
 ```
 
 ### Git Cherry-Pick and Isolation Instructions
@@ -461,7 +383,7 @@ When preparing the clean branch:
    git checkout master
    git checkout -b feature/native-hud-process-lifecycle
    ```
-2. Apply changes only to `hud_support.py`, `caster_rule.py`, and `test_hud_lifecycle.py`.
+2. Apply changes only to `process_lifecycle.py`, `hud_support.py`, `caster_rule.py`, `_caster.py`, and `test_hud_lifecycle.py`.
 3. Verify that no plugin imports (`plugin_manager`, `plugin_support`, `PluginBase`) exist in the staged diff:
    ```pwsh
    git diff master -- castervoice/asynch/hud_support.py castervoice/rules/core/utility_rules/caster_rule.py

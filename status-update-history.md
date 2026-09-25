@@ -1,4 +1,59 @@
-## Active Status Update: Automated Rule Catalog & Decoupled ADCE Context Resolution (September 2026)
+## Active Status Update: Cross-Platform HUD Process Lifecycle, Engine Mic Observer, Plugin Architecture, & Windhawk Mod Publication (September 2026)
+
+### 1. Cross-Platform Native HUD Process Hardening & Strategy Pattern (Active Production - Deployed & Verified)
+* **Status (Active Production - Deployed & Verified)**: Refactored and hardened Caster's native Heads-Up Display process lifecycle (`castervoice/asynch/hud_support.py`), eliminating orphaned background processes, startup race conditions, and unhandled socket errors. Encapsulated OS-specific process containment using the **Strategy Pattern** (`process_lifecycle.py`), implementing native Windows Job Objects (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation. Built self-healing auto-recovery on `show_hud()`, graceful termination `stop_hud()`, port-release verification, clean `restart_hud()`, and asynchronous queuing in `HudPrintMessageHandler`. Added comprehensive voice commands in `caster_rule.py` and prepared a standalone upstream branch (`feat/hud-process-hardening`, commits `08d6aae3`, `06355d4e`) decoupled from the plugin system.
+* **Empirical Validation & Breakthroughs**:
+  * **OS Containment via Strategy Pattern**: Replaced ad-hoc `subprocess.Popen` calls with a clean cross-platform strategy interface (`BaseProcessStrategy`, `WindowsProcessStrategy`, `LinuxProcessStrategy`, `DarwinProcessStrategy`). On Windows, child processes are bound to an anonymous Win32 Job Object with `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`. On Linux, children inherit parent death signals via `libc.prctl(PR_SET_PDEATHSIG, SIGTERM)` and distinct session groups. On all platforms, child HUD processes terminate automatically when Caster exits, eliminating orphaned background processes.
+  * **Self-Healing Display Auto-Recovery**: Upstream Caster aborted with an unhandled exception if `show_hud()` was called while the HUD was closed. The hardened implementation catches communication errors and automatically invokes `start_hud()`, recovering the display seamlessly without requiring a speech engine restart.
+  * **Clean Process Lifecycle & Port Sanitation**: Implemented `stop_hud()` (graceful XML-RPC `kill` followed by timeout-enforced process termination) and `_wait_for_port_release()`, verifying port 8338 is completely released before spawning new instances in `restart_hud()`.
+  * **Speech Recognition Loop Decoupling**: Replaced synchronous XML-RPC dispatches in `HudPrintMessageHandler` with an asynchronous `queue.Queue(maxsize=500)` and background daemon worker (`HudPrintWorker`). Speech recognition loops never stutter on transient network or UI latency.
+  * **Voice Command Expansion**: Expanded voice controls in `caster_rule.py` from 5 legacy commands to 8 versatile command families, supporting prefix and postfix syntax: `"(start caster hud | launch caster hud)"`, `"(stop caster hud | kill caster hud | close caster hud)"`, and `"(caster (restart | reset) hud | restart caster hud)"`.
+  * **Decoupled Upstream Isolation**: Isolated all native HUD lifecycle enhancements into 5 clean files (`process_lifecycle.py`, `hud_support.py`, `caster_rule.py`, `_caster.py`, and `test_hud_lifecycle.py`), verifying 100% independence from plugin system abstractions for straightforward upstream PR review.
+* **Key Documentation**:
+  * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](docs/caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)** *(Active Production Architecture & Canonical Reference)*
+  * 📋 **[Caster HUD Master Requirements & Specifications (005)](docs/caster_hud/005_caster_hud_requirements_and_specifications.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+  * 🏠 **[Main Caster User Hub](README.md)**
+
+### 2. Core Engine Microphone Listener Observer Pattern (Active Production - Deployed & Verified)
+* **Status (Active Production - Deployed & Verified)**: Implemented a first-class observer pattern in Caster core (`castervoice/lib/ctrl/mgr/engine_manager.py`, commit `698de89a`, branch `feat/engine-mic-listener`) for tracking microphone state transitions (`sleeping`, `listening`, `off`).
+* **Empirical Validation & Breakthroughs**:
+  * **Elimination of Polling & Monkey-Patching Anti-Patterns**: Upstream Caster provided no official event mechanism for external overlays, hardware bridges, or plugins to detect microphone state changes. Systems were historically forced to poll `engine_manager.get_mic_mode()` or monkey-patch `set_mic_mode()`. The new observer pattern provides clean `register_mic_mode_listener(callback)` and `unregister_mic_mode_listener(callback)` APIs on `EngineModesManager`.
+  * **Deterministic State Broadcast**: Synchronously notifies registered callbacks whenever `set_mic_mode(mode)` executes, delivering the new mode string with safe error isolation (a failing listener does not prevent microphone switching).
+  * **Immediate Ecosystem Integration**: Allows `taskbar_hud` (Windhawk mod), `themed_hud` (Qt overlay), and hardware foot pedal bridges to update mic indicator dots and status badges in real time (<0.1ms).
+  * **Comprehensive Regression Testing**: Added 4 unit tests in `tests/lib/ctrl/test_EngineModesManager.py` covering registration, notification, unregistration, and exception isolation. All tests pass with zero regressions.
+* **Key Documentation**:
+  * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](docs/caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+
+### 3. Extensible Plugin Architecture & Management System (Active Production - Deployed & Verified)
+* **Status (Active Production - Deployed & Verified)**: Built and deployed the foundational Caster Plugin Architecture (`PluginBase`, `PluginManager`, commit `32f99b7c`, branch `feat/core-plugin-architecture`), replacing hardcoded startup hooks in `_caster.py` and eliminating pseudo-rules disguised as voice grammars. Modularized the Heads-Up Display into discrete plugins (`standard_hud`, `themed_hud`, `taskbar_hud`), establishing clean separation between upstream legacy interfaces and custom setups. Relocated all official bridges into `castervoice/plugins/`, restoring `caster_user_content/` strictly to user voice rules and personal configurations.
+* **Empirical Validation & Breakthroughs**:
+  * **PluginBase Lifecycle Contract**: Implemented `PluginBase` in `castervoice/lib/plugin.py` with deterministic `initialize(nexus, config)`, `start()`, and `stop()` phases. Pre-engine registration hooks print message handlers and microphone listeners; post-engine startup launches background threads, Named Pipe workers, and GUI processes.
+  * **Failure Isolation & Non-Fatal Execution**: Hardened `PluginManager` against plugin initialization exceptions. If a third-party or optional plugin raises an unhandled error, `PluginManager` logs a traceback without interrupting Caster core startup or blocking speech recognition.
+  * **Elimination of Pseudo-Rules**: Excised dummy `MappingRule` instances (`taskbar_hud_rule.py`) previously used to keep background threads alive under Caster's grammar loader.
+  * **Centralized Configuration & CLI**: Added the `[plugins]` table to `settings.toml` and built a dedicated CLI tool (`castervoice/bin/plugin_cli.py`) for installing, listing, enabling, and disabling plugins.
+* **Key Documentation**:
+  * 🏛️ **[Foundational Plugin System & HUD Modularization (015)](docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** *(Active Production Architecture & Canonical Reference)*
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
+
+### 4. Windhawk Taskbar HUD Mod Published & Dedicated Repository (Active Production - Published)
+* **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) to the official `windhawk-mods` ecosystem (commit `b02f3654`) and established its standalone project repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
+* **Empirical Validation & Breakthroughs**:
+  * **In-Process Shell XAML Injection**: Hooks `taskbar.dll` (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) in `explorer.exe` to mount native WinRT XAML controls within `SystemTrayFrameGrid` across primary and secondary taskbars.
+  * **Overlapped Named Pipe IPC**: Listens on `\\.\pipe\CasterTaskbarHud`, ingesting JSON telemetry asynchronously with `<0.5ms` deserialization marshaled to the UI thread via `WH_CALLWNDPROC`.
+  * **Unified Single Command Strip Pivot**: Diagnosed horizontal button panel encroachment where multi-pill layouts clipped running application buttons in `TaskListButtonPanel`. Pivoted to a compact, unified command strip (~160px) displaying dynamic contextual telemetry strings (e.g., `Ready (VS Code)`, `Terminal | VS Code`).
+  * **In-Situ Context Menu & Registry Persistence**: Hooked XAML `RightTapped` on the taskbar container to render a native Win32 popup menu (`TrackPopupMenuEx`), enabling live mode toggling (single strip, rotating carousel, multi-box) persisted to `HKCU\Software\Caster\TaskbarHud`.
+* **Key Documentation**:
+  * 🌐 **[Caster Taskbar HUD Repository](https://github.com/amirf147/caster-taskbar-hud)** *(Dedicated Windhawk Mod Distribution)*
+  * 🖥️ **[Taskbar HUD Windhawk Injection & Telemetry Explainer (012)](docs/caster_hud/012_taskbar_hud_windhawk_mod_and_caster_bridge_explainer.md)** *(Subsystem Architecture & Unified Strip Pivot)*
+
+### 5. Standalone Plugin Distribution Repository (`caster-plugins`)
+* **Status (Active Production - Published)**: Established **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)** as the official standalone distribution catalog for modular Caster plugins (`taskbar_hud`, `themed_hud`), featuring universal AST rule cataloging, dynamic context resolution, automated GitHub Actions CI safety checks, and live telemetry showcase animations.
+
+---
+
+## Archived Status Update: Automated Rule Catalog & Decoupled ADCE Context Resolution (September 2026)
 
 ### Automated Rule Catalog & Dynamic Context Resolution (Active Production - Deployed & Verified)
 * **Status (Active Production - Deployed & Verified)**: Replaced static process lookup tables and fragile IDE terminal heuristics in `taskbar_hud/context_resolver.py` with an automated AST-based rule catalog. Automatically scans user and core rule directories on startup without initializing the speech engine or executing module code. Synchronizes active rule resolution with `rules.toml` via file modification monitoring, providing accurate contextual rule reporting on the Windows 11 Taskbar HUD.

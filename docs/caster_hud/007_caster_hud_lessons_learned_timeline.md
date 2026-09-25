@@ -280,12 +280,71 @@ This document provides a continuous, chronological timeline of architectural cha
   4. Deleted temporary pseudo-rule `taskbar_hud_rule.py` and removed redundant bridge files from `caster_user_content/util/`.
   5. Documented the full architecture in `docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md`.
 
+---
 
+### Milestone 19: Automated AST Rule Catalog, Dynamic rules.toml Synchronization, and Elimination of Static Dictionaries
+* **Encountered Issue**:
+  1. The Taskbar HUD displayed false negative or false positive active rules (e.g. omitting companion rules like `CustomMSWordRule` and `ExcelRule`, or ignoring custom rules in `caster_user_content/rules/`).
+  2. Rule resolution relied on a hand-typed dictionary (`PROCESS_RULES_MAP`) that fell out of sync whenever rules were added or renamed.
+  3. Modifying `rules.toml` required a full Caster restart to reflect in HUD telemetry.
+* **Root Cause**:
+  1. Static dictionaries cannot dynamically accommodate the full breadth of user and core rule configurations.
+  2. Inspecting rules via runtime module imports executes module-level code and risks initializing the speech engine prematurely.
+* **Lesson Learned**:
+  1. Voice rule definitions must be indexed statically via Python AST parsing (`get_rule()` AST nodes), extracting executable patterns, window titles, and CCR markers without importing modules.
+  2. The catalog must monitor `rules.toml` timestamps to refresh enabled/disabled states dynamically at runtime without process restarts.
+* **Solution**:
+  1. Implemented `RuleCatalog` in `taskbar_hud/context_resolver.py`, parsing AST trees across 164 rule modules in 98ms at startup, resolving contexts in 0.03ms from in-memory tables.
+  2. Added file modification timestamp checks (`refresh_enabled()`) to synchronize with `rules.toml` dynamically.
+  3. Documented in `docs/caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md`.
 
+---
 
+### Milestone 20: Cross-Platform Native HUD Process Strategy Pattern, Auto-Recovery, and Recognition Loop Decoupling
+* **Encountered Issue**:
+  1. Exiting Caster occasionally left orphaned background `pythonw.exe` HUD processes running, locking port 8338 and preventing subsequent HUD launches.
+  2. Invoking `show_hud()` when the HUD was offline crashed with an unhandled exception rather than recovering the display.
+  3. Network or socket latency in `HudPrintMessageHandler` caused Dragonfly speech recognition loops to stutter.
+* **Root Cause**:
+  1. Upstream `hud_support.py` discarded the child process handle on spawn (`subprocess.Popen`), maintaining no OS-level job containment.
+  2. Communication calls in `hud_support.py` lacked self-healing recovery logic.
+  3. `HudPrintMessageHandler` performed synchronous XML-RPC dispatches directly on the speech recognition thread.
+* **Lesson Learned**:
+  1. Child GUI processes must be bound to OS containment mechanisms (Windows Job Objects with `KILL_ON_JOB_CLOSE`, Linux `PR_SET_PDEATHSIG` process groups) using the Strategy Pattern (`process_lifecycle.py`).
+  2. `show_hud()` must be self-healing: if an RPC call fails, it must automatically invoke `start_hud()`.
+  3. Message logging to external HUDs must be strictly decoupled from the speech thread using an in-memory queue (`queue.Queue`) and a background daemon worker.
+* **Solution**:
+  1. Implemented `process_lifecycle.py` with `WindowsProcessStrategy`, `LinuxProcessStrategy`, and `DarwinProcessStrategy`.
+  2. Hardened `hud_support.py` with tracked process handles, `_wait_for_port_release()`, clean `stop_hud()`, and self-healing `show_hud()`.
+  3. Converted `HudPrintMessageHandler` to use an asynchronous worker thread.
+  4. Expanded voice commands in `caster_rule.py` and documented in `docs/caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md`.
 
+---
 
+### Milestone 21: Core Engine Microphone Listener Observer Pattern
+* **Encountered Issue**:
+  1. External visual overlays (`taskbar_hud`, `themed_hud`) and hardware accessories (foot pedal bridge) had no official event hook to update microphone indicator states in real time.
+  2. Integrations were forced to poll `engine_manager.get_mic_mode()` or monkey-patch `set_mic_mode()`.
+* **Root Cause**:
+  1. Upstream `EngineModesManager` in `castervoice/lib/ctrl/mgr/engine_manager.py` lacked an observer pattern for mic state events.
+* **Lesson Learned**:
+  1. Core engine mode transitions must be first-class observable events. External displays and accessories need synchronous, decoupled notifications without polling overhead.
+* **Solution**:
+  1. Added `register_mic_mode_listener(callback)` and `unregister_mic_mode_listener(callback)` to `EngineModesManager`.
+  2. Dispatched mode transitions synchronously with isolated exception boundaries.
+  3. Added full unit test suite in `tests/lib/ctrl/test_EngineModesManager.py`.
 
+---
 
-
-
+### Milestone 22: Windhawk Taskbar HUD Mod Publication, Standalone Distribution, and Modular Plugin Catalog
+* **Encountered Issue**:
+  1. Deploying the Taskbar HUD required manual compilation and local file injection, limiting accessibility for broader assistive technology users.
+  2. Packaging all HUD variants and context bridges inside Caster core bloated core pull requests and coupled core development with platform-specific shell modifications.
+* **Root Cause**:
+  1. Advanced visual overlays are optional components with distinct release cadences from Caster's core grammar engine.
+* **Lesson Learned**:
+  1. Windows shell modifications belong in specialized mod distribution platforms (Windhawk), while Caster plugins belong in a modular, versioned distribution repository.
+* **Solution**:
+  1. Published native C++ Windhawk mod `caster-taskbar-hud.wh.cpp` (1612 lines) to the official `windhawk-mods` repository.
+  2. Established dedicated standalone repository **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
+  3. Created **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)** as the independent distribution catalog with automated CI safety scanning.
