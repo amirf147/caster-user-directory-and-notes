@@ -3,6 +3,8 @@
 settings/.*
 data/.*
 sikuli/.*
+plugins/.*
+caster_user_content/plugins/.*
 environment_variables\.py
 window_aliases\.json
 \.var_positions\.json

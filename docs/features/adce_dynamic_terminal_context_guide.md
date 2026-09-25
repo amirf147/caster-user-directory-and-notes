@@ -52,7 +52,7 @@ All components live cleanly inside `caster_user_content`—**zero modifications 
 
 | Component | File Path | Purpose |
 | :--- | :--- | :--- |
-| **ADCE Plugin Client** | [`caster_user_content/plugins/adce/client.py`](../../caster_user_content/plugins/adce/client.py) | Background thread listening to ADCE's SSE endpoint (`http://127.0.0.1:8424/sse`), maintaining atomic in-memory state. |
+| **ADCE Plugin Client** | `caster_user_content/plugins/adce/client.py` *(pending publication)* | Background thread listening to ADCE's SSE endpoint (`http://127.0.0.1:8424/sse`), maintaining atomic in-memory state. |
 | **IDE Terminal Rule** | [`caster_user_content/rules/apps/vscode/ide_terminal.py`](../../caster_user_content/rules/apps/vscode/ide_terminal.py) | Dragonfly `MappingRule` gated with `function_context=is_ide_terminal_focused`. |
 | **Configuration** | `settings/rules.toml` | Whitelists and enables `IDETerminalRule = true`. |
 

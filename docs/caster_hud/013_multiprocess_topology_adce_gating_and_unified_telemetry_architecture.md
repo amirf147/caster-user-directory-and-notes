@@ -162,7 +162,7 @@ Core framework classes must never depend on user directory content. If user file
 ### Flaw 2: Redundant SSE Clients in the Same Python Process
 Two independent modules create separate HTTP connections to `http://127.0.0.1:8424/sse`:
 - `AdceTracker` in `castervoice/asynch/hud/core/adce_tracker.py`.
-- `AdceBridgeClient` in [`caster_user_content/plugins/adce/client.py`](../../caster_user_content/plugins/adce/client.py) (originally in `caster_user_content/util/adce_bridge.py`).
+- `AdceBridgeClient` in `caster_user_content/plugins/adce/client.py` *(pending publication)* (originally in `caster_user_content/util/adce_bridge.py`).
 
 This duplicates socket descriptors, background threads, and JSON decoding logic within the same Python process.
 
