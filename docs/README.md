@@ -113,6 +113,7 @@ Deep dive into Windows Virtual Desktop COM APIs, Explorer crash recovery, clean-
 * [005: Task View Pinning Internals & Windows Shell Reverse Engineering](pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)
 * [004: Adversarial Audit, Native Windows Shell Architecture, & Resilient Client Design](pyvda/004_adversarial_audit_and_hardened_com_architecture.md)
 * [003: Multi-Window & XAML Island Application Pinning Architecture](pyvda/003_pyvda_multi_window_xaml_island_pinning_architecture.md)
+* **[008: VirtualDesktopAccessor COM Heap Hardening, RAII Wrapper Architecture, & Upstream PR #115](pyvda/008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)** *(Upstream Hardening & Multi-Window Pinning - Active PR #115 & Branch `fix/xaml-island-multi-window-pinning`)*
 * [007: Virtual Desktop Closure Focus Deadzone & Native API Migration](pyvda/007_virtual_desktop_closure_focus_deadzone_and_native_api_migration.md) *(Backlog)*
 * [002: PyVDA Core Architecture & Threading Critique](pyvda/002_pyvda_core_architecture_and_threading_critique.md)
 * [001: RPC Server Unavailability & Stale Proxy Fix Analysis](pyvda/001_pyvda_rpc_and_com_lifecycle_analysis.md)

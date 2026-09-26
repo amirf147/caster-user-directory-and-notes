@@ -4,7 +4,7 @@
 
 > [!NOTE]
 > **Document Status**: *Active Production Specification (Taskbar HUD Subsystem; Published & Not Superseded)*.  
-> Defines the Windhawk XAML injection, named pipe IPC, and single command strip architecture for the Windows 11 Taskbar HUD. The mod has been officially published in the `windhawk-mods` catalog (commit `b02f3654`) and is maintained in the standalone repository **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
+> Defines the Windhawk XAML injection, named pipe IPC, and single command strip architecture for the Windows 11 Taskbar HUD. The mod has been officially maintained and distributed as a native Windhawk mod in the standalone repository **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
 
 # 012: Taskbar HUD Windhawk Mod Architecture, Telemetry Disconnects, & Unified Strip Pivot
 
@@ -17,7 +17,7 @@
 
 ## 1. Problem Statement & Operational Context
 
-The Caster Taskbar HUD is a published native Windhawk modification (`caster-taskbar-hud.wh.cpp`) designed to inject real-time voice telemetry directly into the Windows 11 taskbar adjacent to the system tray. During live testing, two primary defects occurred:
+The Caster Taskbar HUD is a native Windhawk modification (`caster-taskbar-hud.wh.cpp`) designed to inject real-time voice telemetry directly into the Windows 11 taskbar adjacent to the system tray. During live testing, two primary defects occurred:
 
 1. **Static Telemetry Display**: The UI rendered only fallback values (`Z: --`, `Rules: Global`, `Ready`). Spoken commands produced no visual updates, enabling the Active Desktop Context Engine (ADCE) produced no zone updates, and active contextual rules remained static.
 2. **Visual Overlap & Taskbar Encroachment**: The injected UI expanded horizontally into the running window buttons (`WorkerW` / `TaskListButtonPanel`), clipping the rightmost window title (`caster - File Exp...`).

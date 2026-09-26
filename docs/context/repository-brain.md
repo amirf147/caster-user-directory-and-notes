@@ -59,9 +59,10 @@ When resolving conflicting information within this repository, adhere to the fol
 | Subsystem | Integration Point in Caster | External Authority / Repository | Status / Relationship |
 | :--- | :--- | :--- | :--- |
 | **Active Desktop Context Engine (ADCE)** | `caster_user_content/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority & Single Source of Truth for Desktop Window Focus, Titles, Process Identity, and Sub-Window Semantic Interaction Zones |
-| **Taskbar HUD Windhawk Mod** | `caster_user_content/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | [`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud) & [`windhawk-mods`](https://github.com/ramensoftware/windhawk-mods) (`caster-taskbar-hud.wh.cpp`) | Published Native Taskbar XAML In-Process Shell Mod |
+| **Taskbar HUD Windhawk Mod** | `caster_user_content/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | [`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud) (`caster-taskbar-hud.wh.cpp`) | Published Native Taskbar XAML In-Process Shell Mod |
 | **Modular Plugin Distribution** | `caster_user_content/plugins/` | [`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins) | Standalone Plugin Distribution Catalog (`themed_hud`, `taskbar_hud`) |
 | **WinVDA Engine** | `winvda` package import in Caster Virtual Desktops | [`amirf147/winvda`](https://github.com/amirf147/winvda) | Upstream Clean-Room Engine |
+| **VirtualDesktopAccessor Hardening & Pinning Engine** | Underlying C-ABI DLL for Windows Virtual Desktop automation | [`Ciantic/VirtualDesktopAccessor`](https://github.com/Ciantic/VirtualDesktopAccessor) (PR [#115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115) & `fix/xaml-island-multi-window-pinning`) | Upstream COM Hardening & Modern Pinning Engine (`APPIDPWSTR` RAII wrapper, sub-AUMID normalization, Task View parity, `SyncPinnedApps`) |
 
 ### C. Evaluated Experiments & In-Flight Research
 
@@ -92,9 +93,13 @@ When resolving conflicting information within this repository, adhere to the fol
 - `win32gui.GetForegroundWindow()` is the preferred lightweight way to read the active HWND. Avoid heavy UIA active-window traversal when only the HWND is needed.
 - Browser tabs are not top-level windows; tab switching is handled via hotkey cycling (`Ctrl+Tab`, `Ctrl+PgDn`).
 
-### B. Virtual Desktop Subsystem (WinVDA Migration)
+### B. Virtual Desktop Subsystem (WinVDA Migration & Upstream Hardening)
 - Windows Virtual Desktop tracking and application pinning have been migrated to the clean-room native engine **[WinVDA](https://github.com/amirf147/winvda)** ([`docs/pyvda/006`](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)), resolving upstream PyVDA COM proxy invalidation and multi-window Sub-AUMID blind spots.
 - Caster provides voice grammars `([toggle] pin | unpin) window [all work [spaces]]` and `([toggle] pin | unpin) app [all work [spaces]]` in `window_mgmt_rule.py`, routing transitions through `printer.out` for HUD feedback.
+- **Upstream VirtualDesktopAccessor Hardening & RAII Architecture**:
+  - Diagnosed unmanaged COM heap leakage in `IApplicationView::GetAppUserModelId` within `Ciantic/VirtualDesktopAccessor` (PR [#115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115), [`docs/pyvda/008`](../pyvda/008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)).
+  - Refactored raw pointer aliasing into an idiomatic Rust RAII wrapper: `#[repr(transparent)] struct APPIDPWSTR(pub PWSTR)` with `impl Drop` calling `CoTaskMemFree`. Consuming `APPIDPWSTR` by value across the COM vtable guarantees zero-touch calling site preservation with deterministic cleanup on return and error unwinding.
+  - Resolved modern multi-window XAML Island pinning disparity (branch `fix/xaml-island-multi-window-pinning`) by correcting `IApplicationViewCollection::get_views` FFI signatures, normalizing synthetic sub-AUMIDs (`split_once("~Wh~")`), synchronizing sibling views via `pin_view` for Task View parity, implementing dynamic desktop switch reconciliation (`SyncPinnedApps`), and validating with `tests/test_pinning_suite.py`.
 
 ### C. Active Desktop Context Engine (ADCE) External Ingestion
 - Active engine architecture, C# background daemons, SQLite/DuckDB persistence, and MCP server streaming live in the standalone repository [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).

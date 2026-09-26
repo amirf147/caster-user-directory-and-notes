@@ -34,6 +34,9 @@ This directory houses deep architectural analyses, COM lifecycle investigations,
 
 * **[007: Virtual Desktop Closure Focus Deadzone & Native API Migration](007_virtual_desktop_closure_focus_deadzone_and_native_api_migration.md)** — *Issue & Proposed Solution (Backlog)*
   Investigation of synthetic Win + Ctrl + F4 keystroke failures when closing empty virtual desktops, analysis of GetForegroundWindow() focus deadzones in Windows Explorer, and the proposed native migration to winvda.remove_desktop().
+
+* **[008: VirtualDesktopAccessor COM Heap Hardening, RAII Wrapper Architecture, & Upstream PR #115](008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)** — *Upstream Hardening & Multi-Window Pinning (Active PR #115 & Branch `fix/xaml-island-multi-window-pinning`)*
+  Root-cause diagnosis of unmanaged `CoTaskMemAlloc` heap leakage in `IApplicationView::GetAppUserModelId` within `Ciantic/VirtualDesktopAccessor`. Details the anatomy of `APPIDPWSTR`, Jari Pennanen's RAII review critique, `#[repr(transparent)]` FFI layout guarantees, deterministic `Drop` destruction, zero-touch calling site preservation, and the active resolution of modern multi-window XAML Island pinning disparity via sub-AUMID normalization, Task View parity view-loop synchronization, and dynamic reconciliation (`SyncPinnedApps`).
 ---
 
 ## 🔄 Synergy with Active Desktop Context Engine (ADCE)

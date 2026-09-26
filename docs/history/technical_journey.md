@@ -25,7 +25,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 ---
 
 ### 3. Active Production: Native Taskbar HUD Windhawk Mod & Standalone Plugin Catalog (Published)
-- **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) to the official `windhawk-mods` ecosystem (commit `b02f3654`), established its standalone distribution repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**, and launched the modular plugin distribution repository at **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)**.
+- **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) in its dedicated standalone distribution repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**, and launched the modular plugin distribution repository at **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)**.
 - **Core Architecture & Breakthroughs**:
   - **In-Process Shell XAML Injection**: Hooks `taskbar.dll` symbols (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) in `explorer.exe` to mount native WinRT XAML controls within `SystemTrayFrameGrid` across primary and secondary taskbars.
   - **Asynchronous Overlapped Named Pipe IPC**: Listens on `\\.\pipe\CasterTaskbarHud`, ingesting JSON telemetry asynchronously with `<0.5ms` deserialization marshaled to the UI thread via `WH_CALLWNDPROC`.
@@ -93,7 +93,25 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 7. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization
+### 7. Active Production: Upstream VirtualDesktopAccessor COM Hardening, RAII Architecture, & Multi-Window Pinning Engine
+- **Status (Active Production - Upstream PR #115 & Branch `fix/xaml-island-multi-window-pinning`)**: Diagnosed and resolved two chronic architectural limitations in `Ciantic/VirtualDesktopAccessor` (`src/comobjects.rs`, `src/interfaces.rs`), the native C-ABI DLL underpinning virtual desktop switching and window pinning across Caster, AutoHotkey, and Windows automation utilities: (1) an unmanaged COM task memory leak in `GetAppUserModelId`, and (2) multi-window application pinning disparity in modern Windows Shell environments.
+- **Core Engineering Breakthroughs**:
+  - **COM Task Memory Leak Diagnosis & RAII Architecture (PR #115)**: Uncovered unmanaged heap leakage in `IApplicationView::GetAppUserModelId`. The Windows Shell allocates UTF-16 AUMID buffers on the process COM task heap via `CoTaskMemAlloc`. In the upstream library, `get_iapplication_id_for_view` discarded the returned pointer without calling `CoTaskMemFree`, leaking unmanaged memory on every pinning query or modification (`is_pinned_app`, `pin_app`, `unpin_app`). Following architectural alignment with upstream repository owner Jari Pennanen (`Ciantic`), refactored raw pointer aliasing into an idiomatic Rust RAII wrapper: `#[repr(transparent)] struct APPIDPWSTR(pub PWSTR)` with `impl Drop` calling `CoTaskMemFree`. Transferring `APPIDPWSTR` by value across the COM vtable boundary guarantees zero-touch calling site preservation with deterministic cleanup on return and error unwinding.
+  - **Multi-Window XAML Island Application Pinning (`fix/xaml-island-multi-window-pinning`)**: Modern packaged applications and WinUI 3 / XAML Island architectures (such as Windows Terminal and tabbed Windows Notepad) generate synthetic sub-AUMIDs suffixed with `~Wh~w<HEX_HWND>`. Naive `pin_app` calls passed these transient sub-AUMIDs directly to `IVirtualDesktopPinnedApps::PinAppID`, pinning only the single active window instance while leaving sibling windows unpinned on other desktops. Resolved by extracting the canonical base package identifier (`split_once("~Wh~")`), registering the base package in the registry, and iterating active shell views to synchronize sibling instances via `IVirtualDesktopPinnedApps::PinView` (achieving 100% parity with native Windows Task View).
+  - **FFI Signature Hardening**: Corrected a critical COM FFI signature bug in `IApplicationViewCollection::get_views` and related methods in `src/interfaces.rs` (`*mut IObjectArray` -> `*mut Option<IObjectArray>`), preventing invalid pointer initialization and potential access violations during shell enumeration.
+  - **Dynamic Transition Reconciliation (`SyncPinnedApps`)**: Added `sync_pinned_apps()` (exported via C-ABI and Rust wrapper `desktop::sync_pinned_apps`), which dynamically reconciles newly opened or desynchronized sibling windows across virtual desktop switches.
+  - **Automated Interactive & Headless Verification Suite**: Authored `tests/test_pinning_suite.py` to empirically validate the distinction between `PinWindow` (individual window isolation) and `PinApp` (application package propagation), testing multi-window propagation, dynamic desktop-switch reconciliation, and clean workspace teardown across live Windows Terminal and Notepad instances.
+- **Key Documentation**:
+  * 🪟 **[Upstream VirtualDesktopAccessor PR #115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115)**
+  * 🪟 **[VirtualDesktopAccessor COM Heap Hardening & RAII Architecture (008)](../pyvda/008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)** *(Active PR #115 & Multi-Window Breakdown)*
+  * 🪟 **[WinVDA Engine Realization & Caster Migration (006)](../pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)**
+  * 🪟 **[Task View Pinning Internals & Shell Reverse Engineering (005)](../pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)**
+  * 🪟 **[Adversarial Audit & Hardened COM Architecture (004)](../pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](../context/repository-brain.md)**
+
+---
+
+### 8. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization
 - **Status (Active Production - Deployed & Verified)**: Completed the architectural transition from in-process Win32 window focus hooks to out-of-process desktop context observation driven by the Active Desktop Context Engine (ADCE). Deleted `window_tracker.py` from Caster core without leaving orphaned hooks or polling loops. Refactored `hud_support.py` to filter active CCR rules authoritatively against `_enabled_ordered` and `rules.toml`. Empirically verified end-to-end synchronization across both the Qt HUD overlay and the Windows 11 Taskbar HUD.
 - **Core Architecture & Breakthroughs**:
   - **Elimination of In-Process Win32 Window Hooks**: Diagnosed architectural redundancy between Caster's internal `window_tracker.py` and the standalone ADCE daemon. Removed `SetWinEventHook` (`EVENT_SYSTEM_FOREGROUND`, `EVENT_OBJECT_NAMECHANGE`), `GetForegroundWindow`, `GetWindowTextW`, and `QueryFullProcessImageNameW` from Caster. Caster core and HUD libraries now run with zero native window hooks or foreground inspection calls.
@@ -112,7 +130,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 8. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
+### 9. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
 - **Active Production Status**: We have refactored and deployed the **v3.1 production architecture** for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py).
 - **Core Engineering Breakthroughs**:
   - **4-Tier Progressive Focus Escalation**: Fast path operates on direct Win32 APIs (Tier 1 `SetForegroundWindow` in 0–10ms), escalating upon `ForegroundLockTimeout` to guarded `_alt_key_bypass()` (Tier 2 in 80–120ms), dual-thread input queue synchronization via `_attached_threads()` (Tier 3 in 120–200ms), and finally Tier 4 taskbar hotkeys (50–150ms).
@@ -130,7 +148,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 9. Wayfinder Session: App Switching & UIA Threading Investigation
+### 10. Wayfinder Session: App Switching & UIA Threading Investigation
 - **Condensed Summary**: Investigated perceived freezes in `app_switcher.py` and UIA/COM threading performance across speech stacks. Discovered through empirical telemetry (`ca5dc70`) that apparent hangs were caused by Windows PowerShell QuickEdit mode pausing standard output (`stdout`) during console logging.
 - **Key Docs & Code**:
   - Feature Guide: **[App Switcher Documentation](../features/app_switcher.md)**
@@ -139,15 +157,16 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 10. Historical Status & Archived Investigations
+### 11. Historical Status & Archived Investigations
 - Archive of past status updates with deep dives into Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, the Dragonfly BPC Fork Kaldi race condition fixes, and UIA threading synthesis:
   👉 **[Status Update History](../../status-update-history.md)**
 
 ---
 
-### 11. Git Evolution & Subsystem Timelines
+### 12. Git Evolution & Subsystem Timelines
 For complete historical retrospectives spanning our 27-month, 969-commit repository evolution:
 - 📜 **[App Switcher Evolution Timeline](app_switcher_timeline.md)**: 2-year journey across 6 eras of window switching.
 - 📜 **[Caster Printer & HUD Timeline](caster_printer_hud_timeline.md)**: Evolution of status messaging and async HUD overlays.
 - 📜 **[Repository Master Timeline](repository_timeline.md)**: Comprehensive 4-era narrative covering 27 months of hands-free Voice OS engineering.
 - 🌐 **[Interactive Timeline Visualizer](timeline.html)**: Interactive web timeline application.
+

@@ -192,6 +192,10 @@ pub fn pin_app(&self, window: &HWND) -> Result<()> {
 * It does not normalize `base_app_id`, nor does it synchronize sibling windows.
 * For stale COM recovery, `VirtualDesktopAccessor` uses a 3-iteration retry macro (`retry_function`) that catches `RpcServerNotAvailable` and `ComObjectNotConnected`, drops internal COM services, and retries.
 
+> [!NOTE]
+> **Resolution & Upstream Hardening (September 2026)**:  
+> This shared blind spot and an accompanying COM task memory leak in `VirtualDesktopAccessor` have been actively diagnosed and resolved in upstream PR [#115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115) and branch `fix/xaml-island-multi-window-pinning`. See **[Document 008: VirtualDesktopAccessor COM Heap Hardening & RAII Architecture](008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)** for the complete breakdown covering `APPIDPWSTR` RAII memory management, sub-AUMID normalization, Task View parity view-loop synchronization, and dynamic desktop switch reconciliation (`SyncPinnedApps`).
+
 ---
 
 ## 5. Architectural Comparison: C# vs. Rust vs. Python on Windows

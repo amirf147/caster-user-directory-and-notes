@@ -137,7 +137,7 @@ The shell's failure to handle `~Wh~` sub-identifiers affects multiple independen
    Developers modifying Windows taskbar behavior encountered this identical mismatch. The author implemented a runtime hook on `CompareStringOrdinal` inside `explorer.exe` to explicitly strip `~Wh~%c%08X` suffixes, noting that the Windows Shell breaks grouping logic when these tokens are present.
 2. **Open-Source Virtual Desktop Implementations:**
    * `MScholtes/VirtualDesktop`: Invocations of `PinApplication` route directly to `PinAppID(view.GetAppUserModelId())`. Modern hosted applications fail to pin across sibling windows and generate transient registry values.
-   * `Ciantic/VirtualDesktopAccessor`: Maintains the same naive `PinAppID` implementation without sub-AUMID normalization.
+   * `Ciantic/VirtualDesktopAccessor`: Historically maintained the same naive `PinAppID` implementation without sub-AUMID normalization. *(Resolved in 2026 via upstream PR [#115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115) and branch `fix/xaml-island-multi-window-pinning` with `APPIDPWSTR` RAII wrapper, base AppUserModelID normalization, Task View parity view-loop synchronization, and `SyncPinnedApps`; see [Document 008](008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md))*
 
 ---
 

@@ -1,4 +1,4 @@
-## Active Status Update: Cross-Platform HUD Process Lifecycle, Engine Mic Observer, Plugin Architecture, & Windhawk Mod Publication (September 2026)
+## Active Status Update: Cross-Platform HUD Process Lifecycle, Engine Mic Observer, Plugin Architecture, Windhawk Mod, & Upstream VirtualDesktopAccessor COM Hardening (September 2026)
 
 ### 1. Cross-Platform Native HUD Process Hardening & Strategy Pattern (Active Production - Deployed & Verified)
 * **Status (Active Production - Deployed & Verified)**: Refactored and hardened Caster's native Heads-Up Display process lifecycle (`castervoice/asynch/hud_support.py`), eliminating orphaned background processes, startup race conditions, and unhandled socket errors. Encapsulated OS-specific process containment using the **Strategy Pattern** (`process_lifecycle.py`), implementing native Windows Job Objects (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation. Built self-healing auto-recovery on `show_hud()`, graceful termination `stop_hud()`, port-release verification, clean `restart_hud()`, and asynchronous queuing in `HudPrintMessageHandler`. Added comprehensive voice commands in `caster_rule.py` and prepared a standalone upstream branch (`feat/hud-process-hardening`, commits `08d6aae3`, `06355d4e`) decoupled from the plugin system.
@@ -37,8 +37,8 @@
   * 🏛️ **[Foundational Plugin System & HUD Modularization (015)](docs/caster_hud/015_foundational_plugin_system_and_hud_modularization.md)** *(Active Production Architecture & Canonical Reference)*
   * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
 
-### 4. Windhawk Taskbar HUD Mod Published & Dedicated Repository (Active Production - Published)
-* **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) to the official `windhawk-mods` ecosystem (commit `b02f3654`) and established its standalone project repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
+### 4. Native Taskbar HUD Windhawk Mod Standalone Repository (Active Production - Published)
+* **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) in its dedicated standalone project repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
 * **Empirical Validation & Breakthroughs**:
   * **In-Process Shell XAML Injection**: Hooks `taskbar.dll` (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) in `explorer.exe` to mount native WinRT XAML controls within `SystemTrayFrameGrid` across primary and secondary taskbars.
   * **Overlapped Named Pipe IPC**: Listens on `\\.\pipe\CasterTaskbarHud`, ingesting JSON telemetry asynchronously with `<0.5ms` deserialization marshaled to the UI thread via `WH_CALLWNDPROC`.
@@ -50,6 +50,22 @@
 
 ### 5. Standalone Plugin Distribution Repository (`caster-plugins`)
 * **Status (Active Production - Published)**: Established **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)** as the official standalone distribution catalog for modular Caster plugins (`taskbar_hud`, `themed_hud`), featuring universal AST rule cataloging, dynamic context resolution, automated GitHub Actions CI safety checks, and live telemetry showcase animations.
+
+### 6. Upstream VirtualDesktopAccessor COM Hardening, RAII Architecture, & Multi-Window Pinning Engine (Active Production - Upstream PR #115 & Feature Branch)
+* **Status (Active Production - Upstream PR #115 & Branch `fix/xaml-island-multi-window-pinning`)**: Diagnosed and resolved two chronic architectural limitations in `Ciantic/VirtualDesktopAccessor` (`src/comobjects.rs`, `src/interfaces.rs`), the native C-ABI DLL underpinning virtual desktop switching and window pinning across Caster, AutoHotkey, and Windows automation utilities: (1) an unmanaged COM task memory leak in `GetAppUserModelId`, and (2) multi-window application pinning disparity in modern Windows Shell environments.
+* **Empirical Validation & Breakthroughs**:
+  * **COM Task Memory Leak Diagnosis & RAII Architecture (PR #115)**: Uncovered unmanaged heap leakage in `IApplicationView::GetAppUserModelId`. The Windows Shell allocates UTF-16 AUMID buffers on the process COM task heap via `CoTaskMemAlloc`. In the upstream library, `get_iapplication_id_for_view` discarded the returned pointer without calling `CoTaskMemFree`, leaking unmanaged memory on every pinning query or modification (`is_pinned_app`, `pin_app`, `unpin_app`). Following architectural alignment with upstream repository owner Jari Pennanen (`Ciantic`), refactored raw pointer aliasing into an idiomatic Rust RAII wrapper: `#[repr(transparent)] struct APPIDPWSTR(pub PWSTR)` with `impl Drop` calling `CoTaskMemFree`. Transferring `APPIDPWSTR` by value across the COM vtable boundary guarantees zero-touch calling site preservation with deterministic cleanup on return and error unwinding.
+  * **Multi-Window XAML Island Application Pinning (`fix/xaml-island-multi-window-pinning`)**: Modern packaged applications and WinUI 3 / XAML Island architectures (such as Windows Terminal and tabbed Windows Notepad) generate synthetic sub-AUMIDs suffixed with `~Wh~w<HEX_HWND>`. Naive `pin_app` calls passed these transient sub-AUMIDs directly to `IVirtualDesktopPinnedApps::PinAppID`, pinning only the single active window instance while leaving sibling windows unpinned on other desktops. Resolved by extracting the canonical base package identifier (`split_once("~Wh~")`), registering the base package in the registry, and iterating active shell views to synchronize sibling instances via `IVirtualDesktopPinnedApps::PinView` (achieving 100% parity with native Windows Task View).
+  * **FFI Signature Hardening**: Corrected a critical COM FFI signature bug in `IApplicationViewCollection::get_views` and related methods in `src/interfaces.rs` (`*mut IObjectArray` -> `*mut Option<IObjectArray>`), preventing invalid pointer initialization and potential access violations during shell enumeration.
+  * **Dynamic Transition Reconciliation (`SyncPinnedApps`)**: Added `sync_pinned_apps()` (exported via C-ABI and Rust wrapper `desktop::sync_pinned_apps`), which dynamically reconciles newly opened or desynchronized sibling windows across virtual desktop switches.
+  * **Automated Interactive & Headless Verification Suite**: Authored `tests/test_pinning_suite.py` to empirically validate the distinction between `PinWindow` (individual window isolation) and `PinApp` (application package propagation), testing multi-window propagation, dynamic desktop-switch reconciliation, and clean workspace teardown across live Windows Terminal and Notepad instances.
+* **Key Documentation**:
+  * 🪟 **[Upstream VirtualDesktopAccessor PR #115](https://github.com/Ciantic/VirtualDesktopAccessor/pull/115)**
+  * 🪟 **[VirtualDesktopAccessor COM Heap Hardening & RAII Architecture (008)](docs/pyvda/008_virtual_desktop_accessor_com_heap_hardening_and_raii_breakdown.md)** *(Active PR #115 & Multi-Window Breakdown)*
+  * 🪟 **[WinVDA Engine Realization & Caster Migration (006)](docs/pyvda/006_winvda_clean_room_engine_realization_and_caster_migration.md)**
+  * 🪟 **[Task View Pinning Internals & Shell Reverse Engineering (005)](docs/pyvda/005_task_view_pinning_internals_and_shell_reverse_engineering.md)**
+  * 🪟 **[Adversarial Audit & Hardened COM Architecture (004)](docs/pyvda/004_adversarial_audit_and_hardened_com_architecture.md)**
+  * 🧠 **[Repository Brain (Canonical SSOT)](docs/context/repository-brain.md)**
 
 ---
 

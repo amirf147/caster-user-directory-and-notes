@@ -345,6 +345,6 @@ This document provides a continuous, chronological timeline of architectural cha
 * **Lesson Learned**:
   1. Windows shell modifications belong in specialized mod distribution platforms (Windhawk), while Caster plugins belong in a modular, versioned distribution repository.
 * **Solution**:
-  1. Published native C++ Windhawk mod `caster-taskbar-hud.wh.cpp` (1612 lines) to the official `windhawk-mods` repository.
+  1. Published native C++ Windhawk mod `caster-taskbar-hud.wh.cpp` (1612 lines) in the standalone repository `amirf147/caster-taskbar-hud`.
   2. Established dedicated standalone repository **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**.
   3. Created **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)** as the independent distribution catalog with automated CI safety scanning.
