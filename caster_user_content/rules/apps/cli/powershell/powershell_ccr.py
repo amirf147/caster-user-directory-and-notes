@@ -15,6 +15,7 @@ from castervoice.lib.merge.mergerule import MergeRule
 from castervoice.lib.merge.state.short import R
 
 from caster_user_content import environment_variables as ev
+from caster_user_content.util.powershell_context import is_powershell_active
 
 
 class PowershellCCRRule(MergeRule):
@@ -35,5 +36,21 @@ class PowershellCCRRule(MergeRule):
 
 
 def get_rule():
-    details = RuleDetails(executable="PowerShell", ccrtype=CCRType.APP)
+    details = RuleDetails(
+        name="PowerShell CCR",
+        executable=[
+            "powershell",
+            "pwsh",
+            "windowsterminal",
+            "wt",
+            "code",
+            "antigravity",
+            "antigravity ide",
+            "cursor",
+            "windsurf",
+            "vscodium",
+        ],
+        function_context=is_powershell_active,
+        ccrtype=CCRType.APP,
+    )
     return PowershellCCRRule, details

@@ -24,8 +24,17 @@ from castervoice.lib.merge.state.short import R
 from castervoice.lib import navigation
 from castervoice.rules.core.navigation_rules import navigation_support
 from datetime import datetime, timedelta
+import subprocess
 
-from caster_user_content.environment_variables import PATHS, PROGRAM_NAMES, INSERTABLE_TEXT, RUN_COMMANDS
+from caster_user_content.environment_variables import (
+    PATHS,
+    PROGRAM_NAMES,
+    INSERTABLE_TEXT,
+    RUN_COMMANDS,
+    GCAL_NOTIFIER_EXE,
+    GMAIL_READER_EXE,
+    READBACK_EXE,
+)
 from caster_user_content.util.display_scaling import (
     set_display_scale,
     scale_up,
@@ -64,6 +73,31 @@ def _window_split(direction="right", n=1):
     Key(sequence).execute()
 
 
+def _launch_google_calendar():
+    print(f"[Caster] Launching Google Calendar UI: {GCAL_NOTIFIER_EXE} --ui")
+    subprocess.Popen([GCAL_NOTIFIER_EXE, "--ui"])
+
+
+def _launch_gmail():
+    print(f"[Caster] Launching Gmail Reader UI: {GMAIL_READER_EXE}")
+    subprocess.Popen([GMAIL_READER_EXE])
+
+
+def _readback_clipboard():
+    print(f"[Caster] Narrating clipboard via ReadBack: {READBACK_EXE} --clip")
+    subprocess.Popen([READBACK_EXE, "--clip"])
+
+
+def _readback_turbo():
+    print(f"[Caster] Turbo narrating clipboard via ReadBack: {READBACK_EXE} --clip --turbo")
+    subprocess.Popen([READBACK_EXE, "--clip", "--turbo"])
+
+
+def _readback_stop():
+    print(f"[Caster] Stopping ReadBack narration: {READBACK_EXE} --stop")
+    subprocess.Popen([READBACK_EXE, "--stop"])
+
+
 class GlobalNonCCRExtendedRule(MappingRule):
     pronunciation = "global extended"
     mapping = {
@@ -90,7 +124,12 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "scale (down | smaller)": Function(scale_down),
         "scale bed": Function(scale_bed),
         "scale (day | normal | default)": Function(scale_default),
-        "show [me] calendar": R(Key("w-b, up:2, enter")),
+        "show tray calendar": R(Key("w-b, up:2, enter")),
+        "show [google] calendar": Function(_launch_google_calendar),
+        "show (gmail | g mail)": Function(_launch_gmail),
+        "read [back] clipboard": Function(_readback_clipboard),
+        "turbo read [clipboard]": Function(_readback_turbo),
+        "stop (reading | read back)": Function(_readback_stop),
         "show sounds": R(RunCommand("rundll32.exe shell32.dll,Control_RunDLL mmsys.cpl")),
         "show network connections":  # Opens the Windows Network Connections utility via run dialog
         R(Key("w-r/50") + Text("ncpa.cpl") + Key("enter")),

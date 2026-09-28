@@ -15,6 +15,7 @@ from castervoice.lib.merge.state.short import R
 from caster_user_content.environment_variables import PATHS, EXECUTABLES, POWERSHELL_COMMIT_PROMPT_BUILDER
 from caster_user_content.rules.apps.cli import cli_support
 from caster_user_content.util.generate_rdescript import generate_rdescript
+from caster_user_content.util.powershell_context import is_powershell_active
 from caster_user_content.util.text import text_to_clipboard
 
 PYTHON_12 = EXECUTABLES["pi twelve"]
@@ -233,4 +234,19 @@ class PowershellRule(MappingRule):
 
 
 def get_rule():
-    return PowershellRule, RuleDetails(name="Powershell", executable="powershell")
+    return PowershellRule, RuleDetails(
+        name="Powershell",
+        executable=[
+            "powershell",
+            "pwsh",
+            "windowsterminal",
+            "wt",
+            "code",
+            "antigravity",
+            "antigravity ide",
+            "cursor",
+            "windsurf",
+            "vscodium",
+        ],
+        function_context=is_powershell_active,
+    )
