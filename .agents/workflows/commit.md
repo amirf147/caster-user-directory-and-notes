@@ -6,33 +6,22 @@ description: Automated pre-flight validation and conventional commit message gen
 
 Follow this deterministic 5-step sequence whenever executing `/commit`:
 
-## Step 1: Pre-Flight Safety & Path Validation
-Run the automated repository validation checks:
-1. Execute the repository path and link audit:
-   ```pwsh
-   py -3.10 scripts/check_absolute_paths.py
-   ```
-2. If any Python rule files under `caster_user_content/rules/` were created or modified, execute the voice command uniqueness audit:
-   ```pwsh
-   py -3.10 scripts/check_command_uniqueness.py
-   ```
-3. **Gate**: If any check fails or reports absolute path leaks (`file:///`, `C:/Users/`, etc.), STOP immediately. Fix the violations and re-run until all checks pass with exit code 0.
+## Step 1: Pre-Flight Safety & Hook Delegation
+Safety, syntax, and path validation are fully delegated to the repository's Git pre-commit hooks (`.pre-commit-config.yaml`), which execute automatically upon commit:
+- `Check Hardcoded Absolute Paths` (`scripts/check_absolute_paths.py`)
+- `Check Voice Command Uniqueness` (`scripts/check_command_uniqueness.py`)
+- `ruff` & `ruff-format`
 
-## Step 2: Stage Verified Changes
-Stage only the verified repository files:
-```pwsh
-git add <modified_files>
-```
-*Note*: Never stage untracked personal settings (`settings/`, `data/`, or `environment_variables.py`).
+To avoid context token bloat and redundant execution cycles, **do not execute these scripts in the chat**. If a pre-commit hook aborts a commit, the terminal or IDE output will surface the exact violation to resolve.
 
-## Step 3: Inspect Staged Diff
+## Step 2: Inspect Staged Diff
 Inspect the staged changes to verify completeness:
 ```pwsh
 git status
 git diff --cached --stat
 ```
 
-## Step 4: Format Conventional Commit Message
+## Step 3: Format Conventional Commit Message
 Construct a conventional commit message following this format:
 - **Title Line**: `type(scope): imperative title`
   - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`.
@@ -42,6 +31,6 @@ Construct a conventional commit message following this format:
 - **Bulleted Changes**: An itemized list of concrete changes.
 - **Exclusions**: No diff metadata, line numbers, or section labels (e.g., "Summary:").
 
-## Step 5: Output Copy-Paste Ready Message
+## Step 4: Output Copy-Paste Ready Message
 - **NEVER execute `git commit` or `git push` autonomously.**
 - Output the final formatted message in a single markdown code block so it can be pasted directly into the IDE Source Control commit box.
