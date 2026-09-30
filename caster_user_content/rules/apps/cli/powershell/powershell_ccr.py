@@ -37,7 +37,6 @@ class PowershellCCRRule(MergeRule):
 
 def get_rule():
     details = RuleDetails(
-        name="PowerShell CCR",
         executable=[
             "powershell",
             "pwsh",

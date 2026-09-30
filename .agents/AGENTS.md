@@ -19,6 +19,10 @@
 ### Validation
 - Every behavior change to code or configuration must be followed by running the relevant validation command(s) to verify safety and correctness (e.g., custom validation scripts for absolute paths and duplicate phrases).
 
+### Rule Authoring & Grammar Registration
+- When authoring, modifying, or refactoring Caster voice rules, refer to skill `rule-generation` in [`skills/rule-generation/SKILL.md`](skills/rule-generation/SKILL.md) and workflow [`workflows/rule-generation.md`](workflows/rule-generation.md).
+- Critical constraint: Continuous Command Recognition (CCR) rules (`ccrtype` is not `None`) must never include `name` or `grammar_name` in `RuleDetails`. Caster's internal validator strictly rejects CCR rules that specify `name`, causing silent registration aborts.
+
 ### Status Updates & README Preservation
 - Whenever making changes to the master `README.md` at the repository root related to status updates or active engineering focus, any previous content being replaced or removed must be preserved and prepended to `status-update-history.md` exactly as it was, maintaining a continuous, accurate historical timeline.
 

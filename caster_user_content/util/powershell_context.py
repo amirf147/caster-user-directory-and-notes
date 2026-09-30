@@ -146,7 +146,10 @@ def is_ide_powershell_active(handle: Optional[int] = None) -> bool:
       via ADCE element telemetry and verified descendant process checks.
     """
     try:
-        from caster_user_content.plugins.adce import adce, is_ide_terminal_focused
+        try:
+            from adce import adce, is_ide_terminal_focused
+        except ImportError:
+            from caster_user_content.plugins.adce import adce, is_ide_terminal_focused
 
         if not adce.is_connected() or not is_ide_terminal_focused():
             return False
@@ -174,22 +177,40 @@ def is_ide_powershell_active(handle: Optional[int] = None) -> bool:
         return False
 
 
-def is_powershell_active(executable=None, title=None, handle=None, **kwargs) -> bool:
+def is_powershell_active(executable=None, title=None, handle=None, **kwargs):
     """
     Universal predicate for Dragonfly FuncContext.
     Returns True if current input focus is within any PowerShell environment.
     """
     exe_low = (executable or "").lower()
-    title_low = (title or "").lower()
 
     # 1. Native Standalone Windows PowerShell (5.1) or PowerShell 7 (pwsh)
     if "powershell" in exe_low or "pwsh" in exe_low:
         return True
 
-    # 2. Windows Terminal host (check tab / window title)
+    # 2. Windows Terminal host (strictly gated via ADCE telemetry)
     if any(host in exe_low for host in TERMINAL_HOST_NAMES):
-        if "powershell" in title_low or "pwsh" in title_low:
-            return True
+        try:
+            try:
+                from adce import adce
+            except ImportError:
+                from caster_user_content.plugins.adce import adce
+
+            if adce.is_connected() and adce.is_zone("terminal"):
+                shell = (adce.get_current_terminal_shell() or "").lower()
+                if not shell:
+                    shell = (adce.get_current_context().get("terminal_shell") or "").lower()
+                if shell:
+                    if any(other in shell for other in ("bash", "cmd.exe", "wsl", "zsh")):
+                        return False
+                    if "pwsh" in shell or "powershell" in shell:
+                        return True
+                pid = _get_window_pid(handle)
+                if pid and _has_powershell_descendant_process(pid):
+                    return True
+        except Exception:
+            pass
+        return False
 
     # 3. Integrated IDE Terminal (Antigravity IDE, VS Code, Cursor, Windsurf)
     if any(ide in exe_low or exe_low in ide for ide in IDE_PROCESS_NAMES):
