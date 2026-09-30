@@ -99,28 +99,26 @@ class PowershellRule(MappingRule):
         "file copy": R(Text("Copy-Item -Path  -Destination") + Key("left:13")),
         "folder copy": R(Text("Copy-Item -Path  -Destination -Recurse") + Key("left:22")),
         "file sure remove": R(Text("Remove-Item -Path") + Key("space")),
-        # Wrapping a file in XML and putting it into clipboard for LLM ingestion
-        "file xml [wrap]": R(
-            Text('$f=\'\'; "<document filename=`"$f`">`n`n$(Get-Content $f -Raw)`n</document>" | Set-Clipboard')
-            + Key("home, right:4")
-        ),
-        "folder xml see sharp [wrap]": R(
+        # Repository XML bundling for LLM context handoff
+        "wrap python": R(
             Text(
-                "$d='.'; Get-ChildItem $d -Recurse -File -Include *.cs,*.json,*.config,*.csproj | Where-Object { $_.DirectoryName -notmatch '\\\\(bin|obj)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard"
+                r"""$f = if (git rev-parse --is-inside-work-tree 2>$null) { git ls-files '*.py' '*.json' '*.toml' '*.yaml' '*.yml' } else { (Get-ChildItem -Recurse -File -Include *.py,*.json,*.toml,*.yaml,*.yml | Where-Object { $_.FullName -notmatch '\\(venv|\.venv|__pycache__|dist|build|\.git)\\' }).FullName }; $f | ForEach-Object { $r = Resolve-Path -Relative $_; "<document filename=`"$r`">`n`n$(Get-Content $_ -Raw)`n</document>" } | Set-Clipboard"""
             )
-            + Key("home, right:4")
         ),
-        "folder xml python [wrap]": R(
+        "wrap python docs": R(
             Text(
-                "$d='.'; Get-ChildItem $d -Recurse -File -Include *.py,*.json,*.yaml,*.yml,*.toml | Where-Object { $_.DirectoryName -notmatch '\\\\(venv|\\.venv|__pycache__)(\\\\|$)' } | ForEach-Object { \"<document filename=`\"$($_.FullName)`\">`n`n$(Get-Content $_.FullName -Raw)`n</document>\" } | Set-Clipboard"
+                r"""$f = if (git rev-parse --is-inside-work-tree 2>$null) { git ls-files '*.py' '*.json' '*.toml' '*.yaml' '*.yml' '*.md' '*.rst' '*.txt' } else { (Get-ChildItem -Recurse -File -Include *.py,*.json,*.toml,*.yaml,*.yml,*.md,*.rst,*.txt | Where-Object { $_.FullName -notmatch '\\(venv|\.venv|__pycache__|dist|build|\.git)\\' }).FullName }; $f | ForEach-Object { $r = Resolve-Path -Relative $_; "<document filename=`"$r`">`n`n$(Get-Content $_ -Raw)`n</document>" } | Set-Clipboard"""
             )
-            + Key("home, right:4")
         ),
-        "folder xml all [wrap]": R(
+        "wrap see sharp": R(
             Text(
-                '$d=\'.\'; Get-ChildItem $d -Recurse -File | ForEach-Object { "<document filename=`"$($_.FullName)`">`n`n$(Get-Content $_.FullName -Raw)`n</document>" } | Set-Clipboard'
+                r"""$f = if (git rev-parse --is-inside-work-tree 2>$null) { git ls-files '*.cs' '*.csproj' '*.sln' '*.config' '*.json' } else { (Get-ChildItem -Recurse -File -Include *.cs,*.csproj,*.sln,*.config,*.json | Where-Object { $_.FullName -notmatch '\\(bin|obj|\.vs|\.git)\\' }).FullName }; $f | ForEach-Object { $r = Resolve-Path -Relative $_; "<document filename=`"$r`">`n`n$(Get-Content $_ -Raw)`n</document>" } | Set-Clipboard"""
             )
-            + Key("home, right:4")
+        ),
+        "wrap see sharp docs": R(
+            Text(
+                r"""$f = if (git rev-parse --is-inside-work-tree 2>$null) { git ls-files '*.cs' '*.csproj' '*.sln' '*.config' '*.json' '*.md' '*.txt' } else { (Get-ChildItem -Recurse -File -Include *.cs,*.csproj,*.sln,*.config,*.json | Where-Object { $_.FullName -notmatch '\\(bin|obj|\.vs|\.git)\\' }).FullName }; $f | ForEach-Object { $r = Resolve-Path -Relative $_; "<document filename=`"$r`">`n`n$(Get-Content $_ -Raw)`n</document>" } | Set-Clipboard"""
+            )
         ),
         # Java uml reverse mapper
         "java uml": R(
