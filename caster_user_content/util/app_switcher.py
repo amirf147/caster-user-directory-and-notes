@@ -255,6 +255,8 @@ def extract_app_name(caption: str) -> str:
         return "Windows PowerShell"
     if cleaned.lower().startswith("copilot"):
         return "Copilot"
+    if cleaned.lower().startswith(("windows terminal", "terminal")):
+        return "Windows Terminal"
 
     for sep in _SEPARATORS:
         if sep in cleaned:
