@@ -7,6 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 
 import contextlib
 import ctypes
+from ctypes import wintypes
 import datetime
 import json
 import os
@@ -247,11 +248,13 @@ def extract_app_name(caption: str) -> str:
     if suffix_match:
         cleaned = cleaned[: suffix_match.start()].strip()
 
+    cleaned = re.sub(r"^administrator:\s*", "", cleaned, flags=re.IGNORECASE).strip()
+
     for name in sorted(WINDOWS_APP_NAMES, key=len, reverse=True):
         if name.lower() in cleaned.lower():
             return name
 
-    if cleaned.lower().startswith(("windows powershell", "powershell", "caster: status window")):
+    if cleaned.lower().startswith(("windows powershell", "powershell", "pwsh", "caster: status window")):
         return "Windows PowerShell"
     if cleaned.lower().startswith("copilot"):
         return "Copilot"
@@ -431,6 +434,54 @@ class WindowsOSAdapter:
             except Exception:
                 pass
         return None
+
+    def is_window_on_current_desktop(self, handle: int, current_desktop_id: Any) -> bool:
+        """
+        Determines if a window handle is present on the current virtual desktop.
+        Accounts for pinned windows/apps, matching desktop IDs, and fallback when virtual desktop APIs are unavailable.
+        """
+        if not PYVDA_AVAILABLE or not current_desktop_id:
+            return True
+        try:
+            start_t = time.perf_counter()
+            view = AppView(hwnd=handle)
+            # Pinned windows and pinned applications exist across all virtual desktops
+            if view.is_pinned() or view.is_app_pinned():
+                _log(
+                    "DEBUG",
+                    f"AppView for HWND {handle} is pinned to all desktops ({((time.perf_counter() - start_t) * 1000):.2f}ms)",
+                )
+                return True
+            d_id = view.desktop_id
+            elapsed = (time.perf_counter() - start_t) * 1000
+            _log("DEBUG", f"AppView for HWND {handle} returned {d_id} in {elapsed:.2f}ms")
+            return d_id == current_desktop_id or d_id is None
+        except Exception as e:
+            _log("DEBUG", f"AppView Exception for HWND {handle}: {e}")
+            return True
+
+    def get_window_exe_name(self, handle: int) -> str:
+        """Retrieves lowercase executable base name for a window handle."""
+        if not handle:
+            return ""
+        try:
+            pid = wintypes.DWORD()
+            res = ctypes.windll.user32.GetWindowThreadProcessId(handle, ctypes.byref(pid))
+            if not res or not pid.value:
+                return ""
+            h_proc = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid.value)
+            if not h_proc:
+                return ""
+            try:
+                buf = ctypes.create_unicode_buffer(1024)
+                size = wintypes.DWORD(1024)
+                if ctypes.windll.kernel32.QueryFullProcessImageNameW(h_proc, 0, buf, ctypes.byref(size)):
+                    return os.path.basename(buf.value).lower()
+            finally:
+                ctypes.windll.kernel32.CloseHandle(h_proc)
+        except Exception as e:
+            _log("DEBUG", f"get_window_exe_name exception for HWND {handle}: {e}")
+        return ""
 
     def get_window_desktop_id(self, handle: int):
         if PYVDA_AVAILABLE:
@@ -630,11 +681,22 @@ def switch_to_app(app_name, instance: int = 1) -> bool:
     matching_windows = []
 
     for hwnd, title_text in windows:
-        if extract_app_name(title_text).lower() in app_names_lc:
+        app_matched = extract_app_name(title_text).lower() in app_names_lc
+        if not app_matched:
+            exe_name = os_env.get_window_exe_name(hwnd)
+            if exe_name in ("windowsterminal.exe", "wt.exe") and any(
+                a in ("windows terminal", "terminal") for a in app_names_lc
+            ):
+                app_matched = True
+            elif exe_name in ("powershell.exe", "pwsh.exe") and any(
+                a in ("windows powershell", "powershell") for a in app_names_lc
+            ):
+                app_matched = True
+
+        if app_matched:
             _log("DEBUG", f"App matched for '{title_text}' (HWND {hwnd}). Checking desktop ID...")
             if current_desktop_id:
-                win_desktop_id = os_env.get_window_desktop_id(hwnd)
-                if win_desktop_id == current_desktop_id or win_desktop_id is None:
+                if os_env.is_window_on_current_desktop(hwnd, current_desktop_id):
                     _log("DEBUG", f"Window HWND {hwnd} is on current desktop.")
                     matching_windows.append((hwnd, title_text))
             else:

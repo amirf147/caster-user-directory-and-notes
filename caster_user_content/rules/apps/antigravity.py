@@ -14,7 +14,7 @@ from castervoice.lib.merge.state.short import R
 class AntigravityAppRule(MappingRule):
     pronunciation = "antigravity"
     mapping = {
-        "show chats": R(Key("c-b")),
+        "(show chats) | (hide left)": R(Key("c-b")),
         "hide right": R(Key("ca-b")),
         "zoom in [<n>]": R(Key("c-equal:%(n)d")),
         "zoom out [<n>]": R(Key("c-minus:%(n)d")),
