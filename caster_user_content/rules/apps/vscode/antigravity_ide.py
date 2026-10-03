@@ -27,6 +27,13 @@ class AntigravityIDERule(MappingRule):
         "voice chat here": R(Key("tab:4/50") + Mimic("caster sleep") + Key("enter")),
         "agent settings": R(Key("c-comma")),
         "agent manager": R(Key("c-e")),
+        # Model Selection UI Navigation (Enter omitted for visual confirmation)
+        "model 8 low": R(Key("c-slash/30, home/30, right/30, enter/30, s-tab:2")),
+        "model 8 medium": R(Key("c-slash/30, home/30, right/30, down/30, enter/30, s-tab:2")),
+        "model 8 high": R(Key("c-slash/30, home/30, right/30, down:2/30, enter/30, s-tab:2")),
+        "model 7 low": R(Key("c-slash/30, home/30, down/30, right/30, enter/30, s-tab:2")),
+        "model 7 medium": R(Key("c-slash/30, home/30, down/30, right/30, down/30, enter/30, s-tab:2")),
+        "model 7 high": R(Key("c-slash/30, home/30, down/30, right/30, down:2/30, enter/30, s-tab:2")),
         # Agent Hunk / Edits Navigation
         "change over": R(Key("a-k")),
         "change under": R(Key("a-j")),
