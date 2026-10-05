@@ -2,7 +2,7 @@
 
 ---
 
-# Active Desktop Context Engine (ADCE) & Accessibility MCP — Incubation Archive
+# Active Desktop Context Engine (ADCE) & Accessibility MCP: Incubation Archive
 
 > [!IMPORTANT]
 > **Standalone Engine Transition & Historical Archive Notice:**
@@ -11,7 +11,7 @@
 > Active engine development, production C# background daemons, SQLite/DuckDB persistence, and MCP server streaming have officially transitioned to the standalone repository:
 > 🚀 **[`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine)**
 > 
-> Within Caster, ADCE is treated strictly as an **external service** consumed via HTTP/SSE on port 8424 by the Caster HUD (`AdceTracker`). This directory is preserved as a historical record and architectural reference (e.g. the 4-Gate Epistemic Gating Protocol in [`015`](015_recalibration_and_adversarial_architecture_review.md)).
+> Within Caster, ADCE is currently consumed via HTTP/SSE on port 8424 by the Caster HUD (`AdceTracker`), but is actively transitioning to the pure Python **[In-Process UI Automation Accessibility Backend & Sub-Window Context Resolver](../history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)**. This directory is preserved as a historical record and architectural reference (such as the 4-Gate Epistemic Gating Protocol in [`015`](015_recalibration_and_adversarial_architecture_review.md)).
 
 ---
 

@@ -3,8 +3,8 @@
 ---
 
 > [!NOTE]
-> **Document Status**: *Active Production Architecture & Canonical Reference (NOT SUPERSEDED)*.  
-> Documents the automated AST-based rule catalog, dynamic context resolver, and the architectural separation between out-of-process OS context observation (ADCE) and in-process voice grammar resolution.
+> **Document Status**: *Active Production Architecture & Canonical Reference*.  
+> Documents the automated AST-based rule catalog and dynamic context resolver in `taskbar_hud`. While currently ingesting telemetry from the out-of-process ADCE daemon, the catalog architecture is fully decoupled and will ingest telemetry directly from the [In-Process Accessibility Backend](../history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver) upon deployment.
 
 # 016: Automated Rule Catalog, AST Inspection, and Decoupled ADCE Context Resolution
 

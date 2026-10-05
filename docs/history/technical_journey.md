@@ -6,7 +6,47 @@
 
 Our ongoing work focuses on real-time desktop context tracking, window switching, accessibility mechanics, and speech engine responsiveness. Below is a structured summary of our journey, ordered from active production focus back to foundational milestones:
 
-### 1. Active Production: Cross-Platform Native HUD Process Hardening & Strategy Pattern
+### 1. Active Focus & Incubation: In-Process UI Automation Accessibility Backend & Sub-Window Context Resolver
+- **Status (Active Empirical Incubation & Architecture Specification - Phase 0 Spikes)**: Designing and verifying a pure Python, in-process accessibility backend embedded directly within Dragonfly and Caster. Discards the out-of-process .NET 10 background service (ADCE on port 8424) and network transport in favor of zero-latency sub-window context resolution with zero external runtime dependencies.
+- **Core Architecture & Engineering Breakthroughs**:
+  - **Elimination of External Daemon Operational Overhead**: The out-of-process ADCE daemon required a dedicated .NET 10 runtime, background system tray process, port management (port 8424), and carried unused infrastructure (SQLite time-series logging, Model Context Protocol server, Virtual Desktop tracking). Crashes or local firewall port blocks resulted in silent context resolution failure. The in-process backend eliminates all inter-process network hops, running directly within the speech host environment.
+  - **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in Dragonfly's historical UIA implementation ([`dragonfly/accessibility/uia.py`](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py)):
+    1. Replaced the 100 Hz busy-polling loop in `Controller._start_blocking` (`timeout=0.01`), which stalled worker threads during foreground application delays, with an event-driven notification queue.
+    2. Eliminated apartment boundary crashes caused by `Controller.run_sync` returning unmarshaled COM interface pointers directly across thread boundaries.
+    3. Replaced the O(N) single-character text walking loop in `UiaAccessibleTextNode._get_offset`, which froze execution for 1.7 seconds on a 3,500-character document, with bounded range queries.
+  - **Dual-Apartment Model & Strict Apartment Isolation**:
+    1. *Event Plane (Dedicated STA Thread)*: Runs a Win32 message pump (`GetMessageW` / `DispatchMessageW`) servicing `SetWinEventHook` listening for `EVENT_SYSTEM_FOREGROUND` (0x0003) and `EVENT_OBJECT_FOCUS` (0x8005). Publishes lightweight `RawFocusSignal(hwnd, idObject, idChild)`.
+    2. *UIA Worker Apartment (Dedicated MTA Thread)*: Initialized with `ole32.CoInitializeEx(None, COINIT_MULTITHREADED)`. Owns the root `IUIAutomation2` (`CUIAutomation8`) instance configured with `TransactionTimeout = 500` ms to handle unresponsive target applications.
+  - **Bounded Upward Ancestor Climbing**: Replaced unbounded downward DOM crawling (which previously scanned 5,000+ nodes in Chromium/Electron, triggering 100% CPU thread exhaustion) with upward traversal from the focused element using `RawViewWalker.GetParentElementBuildCache`. Traversal is strictly bounded to an ancestor depth ceiling of 6 nodes or the root window handle.
+  - **Batched CacheRequests & Frozen Value Objects**: Configures `IUIAutomation::CreateCacheRequest` with `TreeScope_Element` to batch `AutomationId`, `ClassName`, `ControlType`, `Name`, `ProcessId`, and `NativeWindowHandle` into a single query. All cross-thread data is copied into immutable, frozen Python dataclasses (`RawFocusedSnapshot`, `AncestorNode`), completely eliminating `RPC_E_WRONG_THREAD` exceptions.
+  - **Zero-Latency FuncContext Evaluation**: Publishes the immutable `RawFocusedSnapshot` via atomic reference swap. Caster and Dragonfly `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) evaluate the snapshot directly from memory during `grammar.process_begin` in < 0.001 ms, ensuring zero audio pipeline stalls or recognition drops.
+  - **Direct Element-Directed Action Invocations**: Routes UI actions (`InvokePattern.Invoke`, `TogglePattern.Toggle`, `SelectionItemPattern.Select`) directly through remote element COM vtables via `TypedActionQueue`. Actions fail closed with `UIA_E_ELEMENTNOTAVAILABLE` if the target is gone, preventing input leakage to adjacent windows.
+- **Key Documentation & Target Code**:
+  * 🏛️ **[In-Process Accessibility Backend Specification](file:///c:/Users/Amir/Documents/Caster/.agents/skills/caster-env-dispatch/SKILL.md)**
+  * 🪟 **[Dragonfly UIA Module](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py)**
+  * 🎙️ **[Caster Sub-Window Contexts](file:///c:/Users/Amir/Documents/Caster/castervoice/lib/contexts.py)**
+  * 📜 **[Status Update History](../../status-update-history.md)**
+
+---
+
+### 2. Active Tooling: WinStasis (`winst`) Omniscient Window State Snapshot & Two-Pass Hybrid Restoration Engine
+- **Status (Active Production Tooling - Deployed & Verified)**: Built and deployed **WinStasis** (`winst`), a standalone C# CLI utility for deterministic multi-monitor window state snapshotting and restoration across Windows Virtual Desktops. Resolved window drift and matching ambiguities using Two-Pass Hybrid Matching.
+- **Core Architecture & Engineering Breakthroughs**:
+  - **Omniscient Workspace Tracking**: Orchestrates application window placement across all active Windows Virtual Desktops globally. Wraps undocumented Windows Shell COM interface `IVirtualDesktopManagerInternal` via `Slions.VirtualDesktop`, bypassing OS restrictions to detect and reapply desktop assignments and Task View pinned window flags ("Show this window on all desktops").
+  - **Two-Pass Hybrid Matching Resolution**: Diagnosed intra-session window drift where applications remain open but their runtime titles shift, causing single-attribute matching to fail or misbind. Implemented two-pass resolution:
+    1. *Pass 1 (Exact Match)*: Validates active `HWND`s and matches exact `Process Name` + `Window Title`.
+    2. *Pass 2 (Process Fallback)*: Matches unallocated candidate windows by `Process Name` alone. Enforces mandatory non-empty title filtering, preventing generic matches from claiming system surfaces such as `Shell_TrayWnd`.
+  - **Exclusive Window Allocation (`claimedHwnds`)**: Maintained an in-memory allocation registry during restoration passes. Once an active OS window handle is claimed by a profile record, it is marked unavailable, guaranteeing that multiple profile entries never fight for or move the same physical window.
+  - **Boundary Clamping & Display Salvage**: When restoring profiles across dynamic monitor disconnects or resolution changes, `winst` clamps coordinates to the nearest visible monitor boundary rather than abandoning the window off-screen. If a target Virtual Desktop GUID was destroyed, the window safely falls back to the active workspace.
+  - **UIPI Security Compliance**: Documents and enforces User Interface Privilege Isolation constraints. Standard unprivileged invocations manage Medium-Integrity applications; elevated administrator windows require running `winst` with administrative privileges.
+- **Key Documentation**:
+  * 🏛️ **[WinStasis Domain Context](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md)**
+  * 📋 **[Two-Pass Window Matching ADR 0009](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0009-two-pass-window-matching.md)**
+  * 📋 **[Hybrid Window Matching ADR 0001](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0001-hybrid-window-matching.md)**
+
+---
+
+### 3. Active Production: Cross-Platform Native HUD Process Hardening & Strategy Pattern
 - **Status (Active Production - Deployed & Verified)**: Refactored and hardened Caster's native Heads-Up Display process lifecycle (`castervoice/asynch/hud_support.py`), eliminating orphaned processes, process-launch race conditions, and unhandled socket errors. Encapsulated OS-specific process containment using the **Strategy Pattern** (`process_lifecycle.py`), implementing native Windows Job Objects (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation. Built self-healing auto-recovery on `show_hud()`, graceful termination `stop_hud()`, port-release verification, clean `restart_hud()`, and asynchronous queuing in `HudPrintMessageHandler`. Added comprehensive voice commands in `caster_rule.py` and prepared a standalone upstream branch (`feat/hud-process-hardening`, commits `08d6aae3`, `06355d4e`) decoupled from the plugin system.
 - **Key Documentation**:
   * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)** *(Active Production Architecture & Canonical Reference)*
@@ -16,7 +56,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 2. Active Production: Core Engine Microphone Listener Observer Pattern
+### 4. Active Production: Core Engine Microphone Listener Observer Pattern
 - **Status (Active Production - Deployed & Verified)**: Implemented a first-class observer pattern in Caster core (`castervoice/lib/ctrl/mgr/engine_manager.py`, commit `698de89a`, branch `feat/engine-mic-listener`) for tracking microphone state transitions (`sleeping`, `listening`, `off`). Eliminates polling and monkey-patching across UI overlays, foot pedal hardware bridges, and external telemetry streams. Synchronously and deterministically delivers state transitions to registered observers with isolated exception boundaries.
 - **Key Documentation**:
   * 🏛️ **[Native HUD Process Lifecycle & Plugin Decoupling (017)](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)**
@@ -24,7 +64,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 3. Active Production: Native Taskbar HUD Windhawk Mod & Standalone Plugin Catalog (Published)
+### 5. Active Production: Native Taskbar HUD Windhawk Mod & Standalone Plugin Catalog (Published)
 - **Status (Active Production - Published & Deployed)**: Implemented, verified, and published the native C++ Windhawk modification (`caster-taskbar-hud.wh.cpp`, 1612 lines) in its dedicated standalone distribution repository at **[`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud)**, and launched the modular plugin distribution repository at **[`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins)**.
 - **Core Architecture & Breakthroughs**:
   - **In-Process Shell XAML Injection**: Hooks `taskbar.dll` symbols (`CTaskBand::GetTaskbarHost`, `TaskbarHost::FrameHeight`, `TrayUI::StartTaskbar`) in `explorer.exe` to mount native WinRT XAML controls within `SystemTrayFrameGrid` across primary and secondary taskbars.
@@ -41,7 +81,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 4. Active Production: Automated Rule Catalog & Decoupled ADCE Context Resolution
+### 6. Active Production: Automated Rule Catalog & Decoupled ADCE Context Resolution
 - **Status (Active Production - Deployed & Verified)**: Replaced static process lookup tables and fragile IDE terminal heuristics in `taskbar_hud/context_resolver.py` with an automated AST-based rule catalog. Automatically scans user and core rule directories on startup without initializing the speech engine or executing module code. Synchronizes active rule resolution with `rules.toml` via file modification monitoring, providing accurate contextual rule reporting on the Windows 11 Taskbar HUD.
 - **Key Documentation**:
   * 🏛️ **[Automated Rule Catalog & ADCE Context Resolution (016)](../caster_hud/016_automated_rule_catalog_and_adce_context_resolution.md)** *(Active Production Architecture & Canonical Reference)*
@@ -51,7 +91,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 5. Active Production: Foundational Plugin Architecture, HUD Modularization, & User Content Separation
+### 7. Active Production: Foundational Plugin Architecture, HUD Modularization, & User Content Separation
 - **Status (Active Production - Deployed & Verified)**: Built and deployed the foundational Caster Plugin Architecture (`PluginBase`, `PluginManager`), replacing hardcoded startup hooks in `_caster.py` and eliminating pseudo-rules disguised as voice grammars. Modularized the Heads-Up Display into discrete plugins (`standard_hud`, `themed_hud`, `taskbar_hud`), establishing clean separation between upstream legacy interfaces and custom setups. Relocated all official bridges into `castervoice/plugins/`, restoring `caster_user_content/` strictly to user voice rules and personal configurations.
 - **Core Engineering Breakthroughs**:
   - **Elimination of Pseudo-Rules and Splicing Anti-Patterns**: Diagnosed the architectural limitation of Caster's legacy grammar loader (`ContentLoader`), which recognized only `get_rule`, `get_transformer`, and `get_hook`. Prior to this architecture, non-grammar integrations were forced into dummy `MappingRule` instances (`taskbar_hud_rule.py`) or hardcoded imports in `_caster.py`. The new `PluginManager` discovers, initializes, and starts all optional subsystems cleanly via standard lifecycle phases.
@@ -72,7 +112,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 6. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
+### 8. Active Production: WinVDA Zero-Cached-State Virtual Desktop Engine (Published & Caster Production Migration)
 - **Status (Active Production - Deployed & Published)**: Following the adversarial audit and 5 failure modes in legacy `pyvda`, designed, built, validated, and published **[WinVDA](https://github.com/amirf147/winvda)** (Apache-2.0) as an independent clean-room library. Deployed `winvda` across Caster production (`custom-setup` branch, commit `85feab8e`), completely replacing `pyvda` across all virtual desktop switching and window pinning workflows.
 - **Core Engineering Breakthroughs**:
   - **Zero-Cached-State COM Invocation**: Eliminated long-lived remote interface proxies. Every operation acquires fresh pointers directly from `explorer.exe` ALPC endpoints, executes via direct `ctypes` vtable offsets, and safely releases pointers inside `finally` blocks, guaranteeing immunity to Explorer crashes.
@@ -93,7 +133,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 7. Active Production: Upstream VirtualDesktopAccessor COM Hardening, RAII Architecture, & Multi-Window Pinning Engine
+### 9. Active Production: Upstream VirtualDesktopAccessor COM Hardening, RAII Architecture, & Multi-Window Pinning Engine
 - **Status (Active Production - Upstream PR #115 & Branch `fix/xaml-island-multi-window-pinning`)**: Diagnosed and resolved two chronic architectural limitations in `Ciantic/VirtualDesktopAccessor` (`src/comobjects.rs`, `src/interfaces.rs`), the native C-ABI DLL underpinning virtual desktop switching and window pinning across Caster, AutoHotkey, and Windows automation utilities: (1) an unmanaged COM task memory leak in `GetAppUserModelId`, and (2) multi-window application pinning disparity in modern Windows Shell environments.
 - **Core Engineering Breakthroughs**:
   - **COM Task Memory Leak Diagnosis & RAII Architecture (PR #115)**: Uncovered unmanaged heap leakage in `IApplicationView::GetAppUserModelId`. The Windows Shell allocates UTF-16 AUMID buffers on the process COM task heap via `CoTaskMemAlloc`. In the upstream library, `get_iapplication_id_for_view` discarded the returned pointer without calling `CoTaskMemFree`, leaking unmanaged memory on every pinning query or modification (`is_pinned_app`, `pin_app`, `unpin_app`). Following architectural alignment with upstream repository owner Jari Pennanen (`Ciantic`), refactored raw pointer aliasing into an idiomatic Rust RAII wrapper: `#[repr(transparent)] struct APPIDPWSTR(pub PWSTR)` with `impl Drop` calling `CoTaskMemFree`. Transferring `APPIDPWSTR` by value across the COM vtable boundary guarantees zero-touch calling site preservation with deterministic cleanup on return and error unwinding.
@@ -111,8 +151,8 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 8. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization
-- **Status (Active Production - Deployed & Verified)**: Completed the architectural transition from in-process Win32 window focus hooks to out-of-process desktop context observation driven by the Active Desktop Context Engine (ADCE). Deleted `window_tracker.py` from Caster core without leaving orphaned hooks or polling loops. Refactored `hud_support.py` to filter active CCR rules authoritatively against `_enabled_ordered` and `rules.toml`. Empirically verified end-to-end synchronization across both the Qt HUD overlay and the Windows 11 Taskbar HUD.
+### 10. Active Production: Out-of-Process Desktop Context Observation & ADCE HUD Realization (Transitioning to In-Process Backend)
+- **Status (Active Production - Deployed & Operational, Transitioning to In-Process Backend)**: The out-of-process ADCE .NET 10 service remains currently deployed as the operational context stream for Caster HUD and dynamic rules, but is formally marked as transitioning to the in-process accessibility backend (Section 1). Once Phase 1-3 implementation completes, Caster's context pipeline will ingest sub-window zones directly from the embedded Python engine, deprecating the external daemon and localhost port 8424 SSE transport. Deleted `window_tracker.py` from Caster core without leaving orphaned hooks or polling loops. Refactored `hud_support.py` to filter active CCR rules authoritatively against `_enabled_ordered` and `rules.toml`. Empirically verified end-to-end synchronization across both the Qt HUD overlay and the Windows 11 Taskbar HUD.
 - **Core Architecture & Breakthroughs**:
   - **Elimination of In-Process Win32 Window Hooks**: Diagnosed architectural redundancy between Caster's internal `window_tracker.py` and the standalone ADCE daemon. Removed `SetWinEventHook` (`EVENT_SYSTEM_FOREGROUND`, `EVENT_OBJECT_NAMECHANGE`), `GetForegroundWindow`, `GetWindowTextW`, and `QueryFullProcessImageNameW` from Caster. Caster core and HUD libraries now run with zero native window hooks or foreground inspection calls.
   - **Out-of-Process ADCE Authority**: Established the .NET 10 ADCE service as the single source of truth for desktop window context (HWND, window titles, process names, and sub-window semantic interaction zones). Context is ingested asynchronously via Server-Sent Events (`http://127.0.0.1:8424/sse`) by `AdceTracker` in the Qt HUD and forwarded across UI widgets via `SignalBridge`.
@@ -130,7 +170,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 9. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
+### 11. Sub-Millisecond Native Win32 App Switcher Refactor (Active Production v3.1)
 - **Active Production Status**: We have refactored and deployed the **v3.1 production architecture** for [`caster_user_content/util/app_switcher.py`](../../caster_user_content/util/app_switcher.py).
 - **Core Engineering Breakthroughs**:
   - **4-Tier Progressive Focus Escalation**: Fast path operates on direct Win32 APIs (Tier 1 `SetForegroundWindow` in 0–10ms), escalating upon `ForegroundLockTimeout` to guarded `_alt_key_bypass()` (Tier 2 in 80–120ms), dual-thread input queue synchronization via `_attached_threads()` (Tier 3 in 120–200ms), and finally Tier 4 taskbar hotkeys (50–150ms).
@@ -148,7 +188,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 10. Wayfinder Session: App Switching & UIA Threading Investigation
+### 12. Wayfinder Session: App Switching & UIA Threading Investigation
 - **Condensed Summary**: Investigated perceived freezes in `app_switcher.py` and UIA/COM threading performance across speech stacks. Discovered through empirical telemetry (`ca5dc70`) that apparent hangs were caused by Windows PowerShell QuickEdit mode pausing standard output (`stdout`) during console logging.
 - **Key Docs & Code**:
   - Feature Guide: **[App Switcher Documentation](../features/app_switcher.md)**
@@ -157,13 +197,13 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 
 ---
 
-### 11. Historical Status & Archived Investigations
+### 13. Historical Status & Archived Investigations
 - Archive of past status updates with deep dives into Dynamic Sub-Window Grammar Activation, LexiconCode PR #881 investigation, the Dragonfly BPC Fork Kaldi race condition fixes, and UIA threading synthesis:
   👉 **[Status Update History](../../status-update-history.md)**
 
 ---
 
-### 12. Git Evolution & Subsystem Timelines
+### 14. Git Evolution & Subsystem Timelines
 For complete historical retrospectives spanning our 27-month, 969-commit repository evolution:
 - 📜 **[App Switcher Evolution Timeline](app_switcher_timeline.md)**: 2-year journey across 6 eras of window switching.
 - 📜 **[Caster Printer & HUD Timeline](caster_printer_hud_timeline.md)**: Evolution of status messaging and async HUD overlays.

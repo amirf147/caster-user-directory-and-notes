@@ -3,8 +3,8 @@
 ---
 
 > [!NOTE]
-> **Document Status**: *Active Production Architecture & Living Canonical Reference (NOT SUPERSEDED)*.  
-> Defines the active production architecture for out-of-process desktop context observation, the complete retirement of in-process window hooks, and authoritative rule filtering across Caster HUD and Taskbar HUD.
+> **Document Status**: *Active Production Architecture (Transitioning to In-Process Accessibility Backend)*.  
+> Defines the production architecture for out-of-process desktop context observation via ADCE (port 8424 SSE). This subsystem is operational in production, but is actively transitioning to the pure Python [In-Process Accessibility Backend & Sub-Window Context Resolver](../history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver) to eliminate the external .NET daemon, port conflicts, and firewall vulnerabilities while maintaining dual-apartment thread isolation.
 
 # 014: Out-of-Process Desktop Observation, ADCE HUD Realization, & Window Tracker Retirement
 

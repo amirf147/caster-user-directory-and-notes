@@ -1,4 +1,38 @@
-## Active Status Update: Cross-Platform HUD Process Lifecycle, Engine Mic Observer, Plugin Architecture, Windhawk Mod, & Upstream VirtualDesktopAccessor COM Hardening (September 2026)
+## Active Status Update: In-Process UIA Accessibility Backend, WinStasis Two-Pass Window Restoration Engine, & ADCE Transition (October 2026)
+
+### 1. In-Process UI Automation Accessibility Backend & Sub-Window Context Resolver (Active Empirical Incubation & Phase 0 Spikes)
+* **Status (Active Empirical Incubation & Architecture Specification)**: Designing and validating a pure Python, in-process accessibility engine embedded directly within Dragonfly and Caster. Completely replaces the out-of-process .NET 10 background service (ADCE on port 8424) and network transport in favor of zero-latency sub-window context resolution with zero external dependencies.
+* **Empirical Validation & Breakthroughs**:
+  * **Dual-Apartment Model & Apartment Isolation**: Verified under `py -3.10` that `import comtypes` locks the calling thread into a Single-Threaded Apartment (STA). Implemented strict apartment boundaries: the Win32 hook event plane runs on a dedicated STA thread servicing `SetWinEventHook` with a standard message loop (`GetMessageW` / `DispatchMessageW`), while the UIA query worker runs on a dedicated Multi-Threaded Apartment (MTA) thread initialized via `ole32.CoInitializeEx(None, COINIT_MULTITHREADED)`.
+  * **IUIAutomation2 & TransactionTimeout Configuration**: Loaded `UIAutomationCore.dll` under 64-bit Python, instantiating `CUIAutomation8` / `IUIAutomation2` and setting `uia.TransactionTimeout = 500` ms. Bounded transaction timeouts guarantee deterministic failure signaling (`UIA_E_TIMEOUT` / `0x80131505`) against unresponsive external processes without wedging worker threads.
+  * **Bounded Upward Ancestor Climbing**: Tested `RawViewWalker.GetParentElementBuildCache` configured with `TreeScope_Element` and batched properties (`AutomationId`, `ClassName`, `ControlType`, `Name`, `ProcessId`, `NativeWindowHandle`). Cold focus fetch required 9.63 ms, while upward climb steps executed in < 0.05 ms per step, strictly bounded to a depth ceiling of 6 nodes or root HWND.
+  * **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in [`dragonfly/accessibility/uia.py`](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py):
+    1. Replaced the 100 Hz busy-polling loop in `Controller._start_blocking` (`timeout=0.01`), which stalled worker threads during foreground application delays, with an event-driven notification queue.
+    2. Eliminated apartment boundary crashes caused by `Controller.run_sync` returning unmarshaled COM interface pointers directly across thread boundaries.
+    3. Replaced the O(N) single-character text walking loop in `UiaAccessibleTextNode._get_offset`, which froze execution for 1.7 seconds on a 3,500-character document, with bounded range queries.
+  * **Zero-Latency FuncContext Evaluation**: Publishes immutable frozen dataclass snapshots (`RawFocusedSnapshot`) via atomic reference swap in RAM. Dragonfly `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) evaluate during speech onset (`grammar.process_begin`) in < 0.001 ms with zero COM round trips.
+* **Key Documentation**:
+  * 🏛️ **[Technical Journey & Architecture Log](docs/history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)**
+  * 🪟 **[Dragonfly UIA Module](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py)**
+  * 🎙️ **[Caster Sub-Window Contexts](file:///c:/Users/Amir/Documents/Caster/castervoice/lib/contexts.py)**
+
+### 2. WinStasis (`winst`) Omniscient Window State Snapshot & Two-Pass Hybrid Restoration Engine (Active Production Tooling)
+* **Status (Active Production Tooling - Deployed & Verified)**: Built and deployed **WinStasis** (`winst`), a standalone C# CLI utility for deterministic multi-monitor window state snapshotting and restoration across Windows Virtual Desktops. Resolved window drift and matching ambiguities using Two-Pass Hybrid Matching.
+* **Empirical Validation & Breakthroughs**:
+  * **Omniscient Workspace Tracking**: Orchestrates window placement across all active Windows Virtual Desktops globally. Wraps undocumented Windows Shell COM interface `IVirtualDesktopManagerInternal` via `Slions.VirtualDesktop`, bypassing OS restrictions to detect and reapply desktop assignments and Task View pinned window flags ("Show this window on all desktops").
+  * **Two-Pass Hybrid Matching Resolution**: Diagnosed intra-session window drift where applications remain open but their runtime titles shift, causing single-attribute matching to fail or misbind. Implemented two-pass resolution:
+    1. *Pass 1 (Exact Match)*: Validates active `HWND`s and matches exact `Process Name` + `Window Title`.
+    2. *Pass 2 (Process Fallback)*: Matches unallocated candidate windows by `Process Name` alone, with mandatory non-empty title filtering to safeguard Windows Shell surfaces (`Shell_TrayWnd`).
+  * **Exclusive Window Allocation (`claimedHwnds`)**: Maintained an in-memory allocation registry during restoration passes. Once an active OS window handle is claimed by a profile record, it is marked unavailable, guaranteeing that multiple profile entries never fight for or move the same physical window.
+  * **Boundary Clamping & Display Salvage**: When restoring profiles across dynamic monitor disconnects or resolution changes, `winst` clamps coordinates to the nearest visible monitor boundary rather than abandoning the window off-screen.
+* **Key Documentation**:
+  * 🏛️ **[WinStasis Domain Context](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md)**
+  * 📋 **[Two-Pass Window Matching ADR 0009](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0009-two-pass-window-matching.md)**
+  * 📋 **[Hybrid Window Matching ADR 0001](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0001-hybrid-window-matching.md)**
+
+---
+
+## Archived Status Update: Cross-Platform HUD Process Lifecycle, Engine Mic Observer, Plugin Architecture, Windhawk Mod, & Upstream VirtualDesktopAccessor COM Hardening (September 2026)
 
 ### 1. Cross-Platform Native HUD Process Hardening & Strategy Pattern (Active Production - Deployed & Verified)
 * **Status (Active Production - Deployed & Verified)**: Refactored and hardened Caster's native Heads-Up Display process lifecycle (`castervoice/asynch/hud_support.py`), eliminating orphaned background processes, startup race conditions, and unhandled socket errors. Encapsulated OS-specific process containment using the **Strategy Pattern** (`process_lifecycle.py`), implementing native Windows Job Objects (`JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`), Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation. Built self-healing auto-recovery on `show_hud()`, graceful termination `stop_hud()`, port-release verification, clean `restart_hud()`, and asynchronous queuing in `HudPrintMessageHandler`. Added comprehensive voice commands in `caster_rule.py` and prepared a standalone upstream branch (`feat/hud-process-hardening`, commits `08d6aae3`, `06355d4e`) decoupled from the plugin system.

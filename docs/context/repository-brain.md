@@ -1,6 +1,6 @@
 ---
 Status: Active
-Last verified: 2026-09-23
+Last verified: 2026-10-05
 Canonical/Related code: caster_user_content/
 Supersedes: docs/wayfinder-uia-threading/codex-context-extract.md, docs/legacy_notes/*
 ---
@@ -53,12 +53,14 @@ When resolving conflicting information within this repository, adhere to the fol
 | **Native HUD Process Lifecycle** | `castervoice/asynch/hud_support.py`, `castervoice/asynch/process_lifecycle.py` | [`docs/caster_hud/017`](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md) | Active / Production (`ProcessStrategy`, Win32 Job Objects, Auto-Recovery) |
 | **Engine Mic Observer Pattern** | `castervoice/lib/ctrl/mgr/engine_manager.py` | [`docs/caster_hud/017`](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md) | Active / Production (`register_mic_mode_listener` observer callbacks) |
 | **Foot Pedal Integration** | [`caster_user_content/rules/caster_toggle_mic_key.py`](../../caster_user_content/rules/caster_toggle_mic_key.py) | [`docs/features/foot_pedal.md`](../features/foot_pedal.md) | Active / Production |
+| **In-Process Accessibility Backend** | `dragonfly/accessibility/uia.py`, `castervoice/lib/contexts.py` | [`docs/history/technical_journey.md`](../history/technical_journey.md) | Active / Phase 0 Empirical Incubation (Dual-apartment STA/MTA, upward climbing, atomic RAM snapshots) |
 
 ### B. External Subsystem Integrations
 
 | Subsystem | Integration Point in Caster | External Authority / Repository | Status / Relationship |
 | :--- | :--- | :--- | :--- |
-| **Active Desktop Context Engine (ADCE)** | `caster_user_content/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority & Single Source of Truth for Desktop Window Focus, Titles, Process Identity, and Sub-Window Semantic Interaction Zones |
+| **Active Desktop Context Engine (ADCE)** | `caster_user_content/plugins/adce/` (`AdcePlugin`, SSE client on port 8424, atomic cache, `FuncContext` predicates) | [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine) | External Authority for Window Focus & Zones (Transitioning to In-Process Accessibility Backend) |
+| **WinStasis (`winst`)** | External CLI invocation / profiles in `%LOCALAPPDATA%\WinStasis\` | `WinStasis/` ([`CONTEXT.md`](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md), ADRs [0001](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0001-hybrid-window-matching.md), [0009](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0009-two-pass-window-matching.md)) | Active Production Companion Tool (Omniscient Window State Snapshot, Two-Pass Hybrid Matching, Virtual Desktop Tracking) |
 | **Taskbar HUD Windhawk Mod** | `caster_user_content/plugins/taskbar_hud/` (`TaskbarHudPlugin`, Named Pipe `\\.\pipe\CasterTaskbarHud`) | [`amirf147/caster-taskbar-hud`](https://github.com/amirf147/caster-taskbar-hud) (`caster-taskbar-hud.wh.cpp`) | Published Native Taskbar XAML In-Process Shell Mod |
 | **Modular Plugin Distribution** | `caster_user_content/plugins/` | [`amirf147/caster-plugins`](https://github.com/amirf147/caster-plugins) | Standalone Plugin Distribution Catalog (`themed_hud`, `taskbar_hud`) |
 | **WinVDA Engine** | `winvda` package import in Caster Virtual Desktops | [`amirf147/winvda`](https://github.com/amirf147/winvda) | Upstream Clean-Room Engine |
@@ -101,14 +103,23 @@ When resolving conflicting information within this repository, adhere to the fol
   - Refactored raw pointer aliasing into an idiomatic Rust RAII wrapper: `#[repr(transparent)] struct APPIDPWSTR(pub PWSTR)` with `impl Drop` calling `CoTaskMemFree`. Consuming `APPIDPWSTR` by value across the COM vtable guarantees zero-touch calling site preservation with deterministic cleanup on return and error unwinding.
   - Resolved modern multi-window XAML Island pinning disparity (branch `fix/xaml-island-multi-window-pinning`) by correcting `IApplicationViewCollection::get_views` FFI signatures, normalizing synthetic sub-AUMIDs (`split_once("~Wh~")`), synchronizing sibling views via `pin_view` for Task View parity, implementing dynamic desktop switch reconciliation (`SyncPinnedApps`), and validating with `tests/test_pinning_suite.py`.
 
-### C. Active Desktop Context Engine (ADCE) External Ingestion
-- Active engine architecture, C# background daemons, SQLite/DuckDB persistence, and MCP server streaming live in the standalone repository [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).
-- Caster functions strictly as an **external client consumer**: the standalone ADCE service is the single source of truth for desktop window context (HWND, window titles, process names, and sub-window semantic interaction zones).
-- The official ADCE plugin (`castervoice/plugins/adce/`) ingests window events directly from ADCE via SSE (port 8424), caching the state atomically in memory and exposing high-speed `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) to Dragonfly grammars.
-- All in-process Win32 window focus hooks (`SetWinEventHook`) and polling loops have been completely excised from Caster (`window_tracker.py` is deleted).
+### C. In-Process Accessibility Backend & Sub-Window Context Resolution (Active Incubation)
+- Designing and implementing a pure Python in-process accessibility engine embedded directly in Dragonfly and Caster, eliminating external daemon and HTTP SSE transport dependencies.
+- **Dual-Apartment Model & Strict Apartment Isolation**:
+  - *Event Plane (Dedicated STA Thread)*: Runs a Win32 message pump (`GetMessageW` / `DispatchMessageW`) servicing `SetWinEventHook` for `EVENT_SYSTEM_FOREGROUND` (0x0003) and `EVENT_OBJECT_FOCUS` (0x8005). Emits lightweight signals (`RawFocusSignal`).
+  - *UIA Worker Apartment (Dedicated MTA Thread)*: Initialized with `ole32.CoInitializeEx(None, COINIT_MULTITHREADED)`. Owns root `IUIAutomation2` (`CUIAutomation8`) with `TransactionTimeout = 500` ms.
+- **Bounded Upward Ancestor Climbing**: Traverses upward from the focused control using `RawViewWalker.GetParentElementBuildCache`, strictly bounded to a depth ceiling of 6 nodes or root HWND. Avoids downward DOM crawls that triggered CPU thread exhaustion in Chromium/Electron.
+- **Batched CacheRequests & Frozen Value Objects**: Configures `TreeScope_Element` to batch `AutomationId`, `ClassName`, `ControlType`, `Name`, `ProcessId`, and `NativeWindowHandle` into a single query. Returns immutable frozen dataclasses (`RawFocusedSnapshot`, `AncestorNode`), eliminating `RPC_E_WRONG_THREAD` hazards across threads.
+- **Zero-Latency Evaluation**: Atomically swaps `RawFocusedSnapshot` in memory. Caster/Dragonfly `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) evaluate during speech onset (`grammar.process_begin`) in < 0.001 ms with zero COM round trips.
+- **Direct Element Invocations**: Routes UI actions (`InvokePattern`, `TogglePattern`, `SelectionItemPattern`) directly to remote element vtables via `TypedActionQueue`, failing closed with `UIA_E_ELEMENTNOTAVAILABLE` rather than misdirecting keystrokes.
+
+### D. Active Desktop Context Engine (ADCE) Transition Status
+- Active engine architecture, C# background daemons, SQLite persistence, and MCP server streaming reside in [`amirf147/active-desktop-context-engine`](https://github.com/amirf147/active-desktop-context-engine).
+- ADCE currently serves as the production desktop context authority on port 8424, but is actively transitioning to the in-process accessibility backend (Section C).
+- This transition eliminates the .NET 10 runtime requirement, local port conflicts, firewall issues, and silent context failure upon daemon crashes, while retaining upward bounded traversal and zero-latency RAM evaluation.
 - Incubation research tickets (`001`–`018` in [`docs/accessibility_mcp/`](../accessibility_mcp/CONTEXT.md)) are preserved in Caster as historical research references.
 
-### D. Caster HUD Architecture & Ecosystem
+### E. Caster HUD Architecture & Ecosystem
 - Heads-Up Display interfaces are fully modularized as independent plugins managed by `PluginManager` and toggled via `settings.toml [plugins]`.
 - **Themed HUD (`themed_hud`)**: Runs as an isolated Qt process with a background `SimpleXMLRPCServer` daemon. Communicates with Caster core via XML-RPC (port 8338) and ndjson telemetry (port 8339). Avoids UI thread freezes by using thread-safe, non-blocking `QtCore.QCoreApplication.postEvent` calls. Features 10+ accessible themes, opacity controls, status header, sub-window ADCE context strip, active rules tag bar, and frameless drag mode ([`005`](../caster_hud/005_caster_hud_requirements_and_specifications.md), [`014`](../caster_hud/014_out_of_process_desktop_observation_and_adce_hud_realization.md)).
 - **Standard HUD (`standard_hud`)**: Encapsulates the upstream master monolithic HUD (`dictation-toolbox/Caster`) as an official plugin, retained for minimal resource environments.
@@ -117,7 +128,7 @@ When resolving conflicting information within this repository, adhere to the fol
 - **Native HUD Process Strategy & Containment**: The core HUD process lifecycle (`hud_support.py`) utilizes the cross-platform Strategy Pattern (`process_lifecycle.py`) to bind child processes to OS-level containment (Win32 Job Objects with `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`, Linux `prctl(PR_SET_PDEATHSIG)` process groups, and macOS session isolation), preventing orphaned background instances. `HudPrintMessageHandler` uses an asynchronous in-memory queue (`queue.Queue`) and background worker to decouple speech recognition from network latency ([`017`](../caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)).
 - **Engine Microphone Listener Observer Pattern**: `EngineModesManager` (`engine_manager.py`) exposes synchronous observer callbacks (`register_mic_mode_listener`, `unregister_mic_mode_listener`), eliminating polling and monkey-patching for mic status indicators.
 
-### E. Foundational Plugin Architecture & Repository Boundaries
+### F. Foundational Plugin Architecture & Repository Boundaries
 - Caster Core provides a first-class plugin system driven by `PluginBase` (`castervoice/lib/plugin.py`) and `PluginManager` (`castervoice/lib/ctrl/mgr/plugin_manager.py`).
 - **Lifecycle Phases**:
   1. `initialize(nexus, config)`: Pre-engine phase for registering print message handlers and microphone listeners.
@@ -127,7 +138,15 @@ When resolving conflicting information within this repository, adhere to the fol
 - **Elimination of Pseudo-Rules**: Background daemons and IPC bridges are no longer wrapped in dummy `MappingRule` instances (`taskbar_hud_rule.py` is deleted). All service lifecycles are governed by `PluginManager`.
 - **Repository Boundaries**: Official plugins reside in `castervoice/plugins/`. User space in `caster_user_content/` contains only personal voice grammars, custom macros, and private configurations.
 
-### F. Exploratory Research (Wayfinder Archive)
+### G. WinStasis (`winst`) Window State Snapshotting & Two-Pass Hybrid Restoration
+- Standalone C# CLI tool (`winst`) managing multi-monitor window layouts, geometry, and Virtual Desktop placement across all workspaces globally.
+- **Two-Pass Hybrid Matching Resolution**: Solves intra-session window drift where window titles alter dynamically during execution:
+  - *Pass 1 (Exact Match)*: Matches active `HWND`s and exact `Process Name` + `Window Title`.
+  - *Pass 2 (Process Fallback)*: Matches unallocated candidate windows by `Process Name` alone, enforcing non-empty title filtering to safeguard Windows Shell surfaces (`Shell_TrayWnd`).
+- **Exclusive Allocation (`claimedHwnds`)**: In-memory registry tracking claimed window handles during restore passes, preventing multiple profile records from binding to the same physical OS window.
+- **Boundary Clamping**: Shifting coordinates to nearest visible monitor edges if active displays disconnect or alter resolutions.
+
+### H. Exploratory Research (Wayfinder Archive)
 - Wayfinder was an AI agent research session investigating whether an out-of-process C#/.NET Micro MCP Server using FlaUI.UIA3 could offload accessibility and UIA queries.
 - The tickets and findings are archived in [`docs/wayfinder-uia-threading/`](../wayfinder-uia-threading/map.md).
 
@@ -136,7 +155,7 @@ When resolving conflicting information within this repository, adhere to the fol
 - **Python Version:** Always use `py -3.10`.
 - **Plugin Architecture Enforcement:** All background bridges, Named Pipe clients, external IPC listeners, and visual overlays must implement `PluginBase` and be managed by `PluginManager`. Do not create dummy `MappingRule` voice grammars or hardcode service initialization into `_caster.py`.
 - **User Content Isolation:** Do not place core infrastructure drivers or Caster library dependencies in `caster_user_content/util/`. Keep `caster_user_content/` strictly reserved for personal voice grammars, custom macros, and private settings.
-- **Zero In-Process Window Hooks in Caster:** Do not introduce in-process Win32 window focus hooks (`SetWinEventHook`), foreground window polling loops, or internal ctypes foreground inspection into Caster core or HUD libraries. All desktop window telemetry must originate from the out-of-process ADCE daemon.
+- **In-Process Accessibility Architecture & Isolation:** Do not execute synchronous Win32 window hooks, UIA queries, or COM interface calls directly on the speech recognition loop or engine thread. The in-process accessibility engine must run strictly on dedicated background apartments (STA message pump thread for WinEvent hooks, MTA worker thread for UIA queries). All state crossing into Caster and Dragonfly must be delivered as frozen, immutable dataclasses (`RawFocusedSnapshot`) via atomic reference swap, ensuring sub-microsecond RAM-only evaluation during speech onset.
 - **Authoritative Rule Resolution:** Do not determine active CCR rules based solely on executable regex matches or naive capitalized process names. Rule activity must be validated against `_enabled_ordered` and the user's `rules.toml`.
 - **Relative Markdown Links:** All documentation links must be relative to prevent local metadata leaks.
 - **Epistemic Discipline & Falsification Spikes:** Do not propose multi-file architectural rewrites or cross-runtime pivots based on theoretical advantages alone. Every major proposal must pass the 4-gate protocol (Telemetry → Adversarial Red-Team → <50-line Micro-Spike → Blueprint).

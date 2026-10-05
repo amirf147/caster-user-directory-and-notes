@@ -14,6 +14,9 @@
 
 ---
 
+> [!NOTE]
+> **Architectural Transition Notice:** This out-of-process ADCE daemon (.NET 10 background service streaming SSE over port 8424) is operational in production, but is actively transitioning to the pure Python **[In-Process UI Automation Accessibility Backend & Sub-Window Context Resolver](../history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)**. The in-process backend eliminates the external daemon runtime, port 8424 management, and firewall vulnerabilities while maintaining the sub-microsecond RAM `FuncContext` evaluation model.
+
 ## 1. Overview & Architecture
 
 This solution enables **fine-grained sub-window voice grammar activation** without stalling the Dragonfly speech recognition loop. 
