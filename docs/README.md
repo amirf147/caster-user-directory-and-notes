@@ -11,7 +11,7 @@ Start here to understand the core architecture, active features, and engineering
 1. **[Repository Brain](context/repository-brain.md)**: **Current Empirical Baseline & Constraints**. Verified facts, active component mappings, and architectural guardrails.
 2. **[Technical Journey](history/technical_journey.md)**: Complete engineering log detailing active focus, milestones, and architectural pivots.
 3. **[In-Process Accessibility Backend & Sub-Window Resolver](history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)**: Pure Python in-process UIA engine embedded in Dragonfly and Caster, featuring dual-apartment STA/MTA isolation, upward ancestor traversal, and atomic snapshot evaluation.
-4. **[WinStasis Two-Pass Window Restoration Engine](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md)**: Standalone C# CLI tool (`winst`) for multi-monitor window geometry snapshotting, Two-Pass Hybrid Matching, and Virtual Desktop placement.
+4. **[WinStasis Two-Pass Window Restoration Engine](https://github.com/amirf147/winstasis)**: Standalone C# CLI tool (`winst`) for multi-monitor window geometry snapshotting, Two-Pass Hybrid Matching, and Virtual Desktop placement.
 5. **[Native HUD Process Lifecycle & Plugin Decoupling](caster_hud/017_native_hud_process_lifecycle_and_plugin_decoupling.md)**: Strategy pattern for cross-platform process containment (Win32 Job Objects, Linux process groups), self-healing display auto-recovery, and engine mic listener observer pattern.
 6. **[Foundational Plugin System & HUD Modularization](caster_hud/015_foundational_plugin_system_and_hud_modularization.md)**: Architectural blueprint for Caster's Plugin Architecture (`PluginBase`, `PluginManager`), HUD taxonomy (`standard_hud`, `themed_hud`, `taskbar_hud`), and repository boundaries.
 7. **[App Switcher Architectural Blueprint (v3.1)](architecture/app_switcher_architectural_blueprint.md)**: Authoritative production blueprint for our sub-millisecond native Win32 window switcher.
@@ -100,7 +100,7 @@ Living repository memory and foundational state.
 ### 🚀 [Features](features/)
 Feature specifications, implementation notes, and voice workflows.
 * [In-Process Accessibility Backend](history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)
-* [WinStasis Window State Snapshotting & Restoration](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md)
+* [WinStasis Window State Snapshotting & Restoration](https://github.com/amirf147/winstasis)
 * [App Switcher](features/app_switcher.md)
 * [ADCE Dynamic IDE Terminal Context Guide](features/adce_dynamic_terminal_context_guide.md)
 * [Foot Pedal Configuration](features/foot_pedal.md)

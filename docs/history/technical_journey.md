@@ -10,7 +10,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 - **Status (Active Empirical Incubation & Architecture Specification - Phase 0 Spikes)**: Designing and verifying a pure Python, in-process accessibility backend embedded directly within Dragonfly and Caster. Discards the out-of-process .NET 10 background service (ADCE on port 8424) and network transport in favor of zero-latency sub-window context resolution with zero external runtime dependencies.
 - **Core Architecture & Engineering Breakthroughs**:
   - **Elimination of External Daemon Operational Overhead**: The out-of-process ADCE daemon required a dedicated .NET 10 runtime, background system tray process, port management (port 8424), and carried unused infrastructure (SQLite time-series logging, Model Context Protocol server, Virtual Desktop tracking). Crashes or local firewall port blocks resulted in silent context resolution failure. The in-process backend eliminates all inter-process network hops, running directly within the speech host environment.
-  - **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in Dragonfly's historical UIA implementation ([`dragonfly/accessibility/uia.py`](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py)):
+  - **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in Dragonfly's historical UIA implementation ([`dragonfly/accessibility/uia.py`](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py)):
     1. Replaced the 100 Hz busy-polling loop in `Controller._start_blocking` (`timeout=0.01`), which stalled worker threads during foreground application delays, with an event-driven notification queue.
     2. Eliminated apartment boundary crashes caused by `Controller.run_sync` returning unmarshaled COM interface pointers directly across thread boundaries.
     3. Replaced the O(N) single-character text walking loop in `UiaAccessibleTextNode._get_offset`, which froze execution for 1.7 seconds on a 3,500-character document, with bounded range queries.
@@ -22,9 +22,9 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   - **Zero-Latency FuncContext Evaluation**: Publishes the immutable `RawFocusedSnapshot` via atomic reference swap. Caster and Dragonfly `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) evaluate the snapshot directly from memory during `grammar.process_begin` in < 0.001 ms, ensuring zero audio pipeline stalls or recognition drops.
   - **Direct Element-Directed Action Invocations**: Routes UI actions (`InvokePattern.Invoke`, `TogglePattern.Toggle`, `SelectionItemPattern.Select`) directly through remote element COM vtables via `TypedActionQueue`. Actions fail closed with `UIA_E_ELEMENTNOTAVAILABLE` if the target is gone, preventing input leakage to adjacent windows.
 - **Key Documentation & Target Code**:
-  * 🏛️ **[In-Process Accessibility Backend Specification](file:///c:/Users/Amir/Documents/Caster/.agents/skills/caster-env-dispatch/SKILL.md)**
-  * 🪟 **[Dragonfly UIA Module](file:///c:/Users/Amir/Documents/repos/dragonfly-bpc-oss/dragonfly/accessibility/uia.py)**
-  * 🎙️ **[Caster Sub-Window Contexts](file:///c:/Users/Amir/Documents/Caster/castervoice/lib/contexts.py)**
+  * 🏛️ **In-Process Accessibility Backend Specification** (`.agents/skills/caster-env-dispatch/SKILL.md` in Caster core)
+  * 🪟 **[Dragonfly UIA Module](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py)**
+  * 🎙️ **[Caster Sub-Window Contexts](https://github.com/dictation-toolbox/Caster/blob/master/castervoice/lib/contexts.py)**
   * 📜 **[Status Update History](../../status-update-history.md)**
 
 ---
@@ -40,9 +40,9 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   - **Boundary Clamping & Display Salvage**: When restoring profiles across dynamic monitor disconnects or resolution changes, `winst` clamps coordinates to the nearest visible monitor boundary rather than abandoning the window off-screen. If a target Virtual Desktop GUID was destroyed, the window safely falls back to the active workspace.
   - **UIPI Security Compliance**: Documents and enforces User Interface Privilege Isolation constraints. Standard unprivileged invocations manage Medium-Integrity applications; elevated administrator windows require running `winst` with administrative privileges.
 - **Key Documentation**:
-  * 🏛️ **[WinStasis Domain Context](file:///c:/Users/Amir/Documents/WinStasis/CONTEXT.md)**
-  * 📋 **[Two-Pass Window Matching ADR 0009](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0009-two-pass-window-matching.md)**
-  * 📋 **[Hybrid Window Matching ADR 0001](file:///c:/Users/Amir/Documents/WinStasis/docs/adr/0001-hybrid-window-matching.md)**
+  * 🏛️ **[WinStasis Domain Context](https://github.com/amirf147/winstasis/blob/master/CONTEXT.md)**
+  * 📋 **[Two-Pass Window Matching ADR 0009](https://github.com/amirf147/winstasis/blob/master/docs/adr/0009-two-pass-window-matching.md)**
+  * 📋 **[Hybrid Window Matching ADR 0001](https://github.com/amirf147/winstasis/blob/master/docs/adr/0001-hybrid-window-matching.md)**
 
 ---
 
