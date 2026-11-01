@@ -10,7 +10,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
 - **Status (Active Empirical Incubation & Architecture Specification - Phase 0 Spikes)**: Designing and verifying a pure Python, in-process accessibility backend embedded directly within Dragonfly and Caster. Discards the out-of-process .NET 10 background service (ADCE on port 8424) and network transport in favor of zero-latency sub-window context resolution with zero external runtime dependencies.
 - **Core Architecture & Engineering Breakthroughs**:
   - **Elimination of External Daemon Operational Overhead**: The out-of-process ADCE daemon required a dedicated .NET 10 runtime, background system tray process, port management (port 8424), and carried unused infrastructure (SQLite time-series logging, Model Context Protocol server, Virtual Desktop tracking). Crashes or local firewall port blocks resulted in silent context resolution failure. The in-process backend eliminates all inter-process network hops, running directly within the speech host environment.
-  - **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in Dragonfly's historical UIA implementation ([`dragonfly/accessibility/uia.py`](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py)):
+  - **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in Dragonfly's historical UIA implementation ([`dragonfly/accessibility/uia.py`](https://github.com/bpc-oss/dragonfly/blob/feat/windows-uia-accessibility/dragonfly/accessibility/uia.py)):
     1. Replaced the 100 Hz busy-polling loop in `Controller._start_blocking` (`timeout=0.01`), which stalled worker threads during foreground application delays, with an event-driven notification queue.
     2. Eliminated apartment boundary crashes caused by `Controller.run_sync` returning unmarshaled COM interface pointers directly across thread boundaries.
     3. Replaced the O(N) single-character text walking loop in `UiaAccessibleTextNode._get_offset`, which froze execution for 1.7 seconds on a 3,500-character document, with bounded range queries.
@@ -23,7 +23,7 @@ Our ongoing work focuses on real-time desktop context tracking, window switching
   - **Direct Element-Directed Action Invocations**: Routes UI actions (`InvokePattern.Invoke`, `TogglePattern.Toggle`, `SelectionItemPattern.Select`) directly through remote element COM vtables via `TypedActionQueue`. Actions fail closed with `UIA_E_ELEMENTNOTAVAILABLE` if the target is gone, preventing input leakage to adjacent windows.
 - **Key Documentation & Target Code**:
   * 🏛️ **In-Process Accessibility Backend Specification** (`.agents/skills/caster-env-dispatch/SKILL.md` in Caster core)
-  * 🪟 **[Dragonfly UIA Module](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py)**
+  * 🪟 **[Dragonfly UIA Module](https://github.com/bpc-oss/dragonfly/blob/feat/windows-uia-accessibility/dragonfly/accessibility/uia.py)**
   * 🎙️ **[Caster Sub-Window Contexts](https://github.com/dictation-toolbox/Caster/blob/master/castervoice/lib/contexts.py)**
   * 📜 **[Status Update History](../../status-update-history.md)**
 

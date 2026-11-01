@@ -6,14 +6,14 @@
   * **Dual-Apartment Model & Apartment Isolation**: Verified under `py -3.10` that `import comtypes` locks the calling thread into a Single-Threaded Apartment (STA). Implemented strict apartment boundaries: the Win32 hook event plane runs on a dedicated STA thread servicing `SetWinEventHook` with a standard message loop (`GetMessageW` / `DispatchMessageW`), while the UIA query worker runs on a dedicated Multi-Threaded Apartment (MTA) thread initialized via `ole32.CoInitializeEx(None, COINIT_MULTITHREADED)`.
   * **IUIAutomation2 & TransactionTimeout Configuration**: Loaded `UIAutomationCore.dll` under 64-bit Python, instantiating `CUIAutomation8` / `IUIAutomation2` and setting `uia.TransactionTimeout = 500` ms. Bounded transaction timeouts guarantee deterministic failure signaling (`UIA_E_TIMEOUT` / `0x80131505`) against unresponsive external processes without wedging worker threads.
   * **Bounded Upward Ancestor Climbing**: Tested `RawViewWalker.GetParentElementBuildCache` configured with `TreeScope_Element` and batched properties (`AutomationId`, `ClassName`, `ControlType`, `Name`, `ProcessId`, `NativeWindowHandle`). Cold focus fetch required 9.63 ms, while upward climb steps executed in < 0.05 ms per step, strictly bounded to a depth ceiling of 6 nodes or root HWND.
-  * **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in [`dragonfly/accessibility/uia.py`](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py):
+  * **Correction of Legacy Dragonfly UIA Defects**: Audited and replaced three chronic flaws in [`dragonfly/accessibility/uia.py`](https://github.com/bpc-oss/dragonfly/blob/feat/windows-uia-accessibility/dragonfly/accessibility/uia.py):
     1. Replaced the 100 Hz busy-polling loop in `Controller._start_blocking` (`timeout=0.01`), which stalled worker threads during foreground application delays, with an event-driven notification queue.
     2. Eliminated apartment boundary crashes caused by `Controller.run_sync` returning unmarshaled COM interface pointers directly across thread boundaries.
     3. Replaced the O(N) single-character text walking loop in `UiaAccessibleTextNode._get_offset`, which froze execution for 1.7 seconds on a 3,500-character document, with bounded range queries.
   * **Zero-Latency FuncContext Evaluation**: Publishes immutable frozen dataclass snapshots (`RawFocusedSnapshot`) via atomic reference swap in RAM. Dragonfly `FuncContext` predicates (`is_ide_terminal_focused`, `is_ide_editor_focused`) evaluate during speech onset (`grammar.process_begin`) in < 0.001 ms with zero COM round trips.
 * **Key Documentation**:
   * 🏛️ **[Technical Journey & Architecture Log](docs/history/technical_journey.md#1-active-focus--incubation-in-process-ui-automation-accessibility-backend--sub-window-context-resolver)**
-  * 🪟 **[Dragonfly UIA Module](https://github.com/dictation-toolbox/dragonfly/blob/master/dragonfly/accessibility/uia.py)**
+  * 🪟 **[Dragonfly UIA Module](https://github.com/bpc-oss/dragonfly/blob/feat/windows-uia-accessibility/dragonfly/accessibility/uia.py)**
   * 🎙️ **[Caster Sub-Window Contexts](https://github.com/dictation-toolbox/Caster/blob/master/castervoice/lib/contexts.py)**
 
 ### 2. WinStasis (`winst`) Omniscient Window State Snapshot & Two-Pass Hybrid Restoration Engine (Active Production Tooling)
