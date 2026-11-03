@@ -22,6 +22,7 @@ class AntigravityAppRule(MappingRule):
         "zoom out [<n>]": R(Key("c-minus:%(n)d")),
         "keyboard shorts": R(Key("c-?")),
         "drips": R(Key("c-k, enter")),
+        "new chat": R(Key("c-n")),
         # Navigating to projects
         "go <project>": R(Key("cs-k/30") + Text("%(project)s") + Key("enter")),
     }
