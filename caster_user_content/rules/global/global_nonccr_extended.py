@@ -42,6 +42,7 @@ from caster_user_content.util.display_scaling import (
     scale_bed,
     scale_default,
 )
+from caster_user_content.util.text import type_clipboard
 
 
 def _generate_number_list(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10):
@@ -107,6 +108,7 @@ class GlobalNonCCRExtendedRule(MappingRule):
         "slide previous": R(Key("a-tab") + Pause("30") + Key("up/30, a-tab")),
         # Text insertion command - works in any text field
         "texter <text>": R(Text("%(text)s")),
+        "texter clipboard": Function(type_clipboard),
         # Windows key querying
         "win key <query>": R(Key("win") + Pause("30") + Text("%(query)s", pause=0.0)),
         # Quick Settings menu - Windows 11
